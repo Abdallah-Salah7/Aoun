@@ -39,7 +39,7 @@ class MainApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             home: child,
             onGenerateRoute: RouteGenerator.getRoute,
-            initialRoute: Routes.onBoard,
+            initialRoute: Routes.homePage,
           ),
     );
   }

@@ -1,9 +1,16 @@
 import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:flutter/material.dart';
 
+import '../../feature/presentation/screens/home_page.dart';
+
+
+
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings settings) {
     switch (settings.name) {
+      case Routes.homePage:
+      return MaterialPageRoute(builder: (_) => const HomePage());
+
       case Routes.signIn:
         // return MaterialPageRoute(builder: (_) => const SignInScreen());
       case Routes.onBoard:
