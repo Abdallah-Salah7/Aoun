@@ -26,17 +26,26 @@ class _HomePageState extends State<HomePage> {
     ImageAssets.profileTab
   ];
 
-  final List<Widget> pages = [
-    const MainTab(),
-    const DonationTab(),
-    const ZakatTab(),
-    const ProfileTab(),
-  ];
+
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final itemWidth = width / icons.length;
+    final List<Widget> pages = [
+      MainTab(
+
+        onSeeMorePressed: () {
+          setState(() {
+            currentIndex = 1;
+          });
+        },
+      ),
+      const DonationTab(),
+      const ZakatTab(),
+      const ProfileTab(),
+    ];
+
 
     return Scaffold(
       extendBody: true,

@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../../../core/routes_manager/routes.dart';
 import '../widget/case_item.dart';
 import '../widget/cradles_item.dart';
 import '../widget/donation_item.dart';
 import '../widget/title_item.dart';
 
 class MainTab extends StatelessWidget {
-  const MainTab({super.key});
+  final VoidCallback onSeeMorePressed;
+
+  const MainTab({super.key, required this.onSeeMorePressed});
 
   @override
   Widget build(BuildContext context) {
@@ -57,16 +60,26 @@ class MainTab extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Image.asset(
-                              ImageAssets.search,
-                              width: 30,
-                              height: 30,
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(context, Routes.searchScreen);
+                              },
+                              child: Image.asset(
+                                ImageAssets.search,
+                                width: 30,
+                                height: 30,
+                              ),
                             ),
                             const SizedBox(width: 12),
-                            Image.asset(
-                              ImageAssets.bell,
-                              width: 30,
-                              height: 30,
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(context, Routes.notificationScreen);
+                              },
+                              child: Image.asset(
+                                ImageAssets.bell,
+                                width: 30,
+                                height: 30,
+                              ),
                             ),
                           ],
                         ),
@@ -84,9 +97,14 @@ class MainTab extends StatelessWidget {
                             name: "مجالات التبرع",
                           ),
                           Spacer(),
-                          TitleItem(
-                            color: const Color(0xff757575),
-                            name: "عرض المزيد",
+                          InkWell(
+                            onTap: () {
+                              onSeeMorePressed();
+                            },
+                            child: TitleItem(
+                              color: const Color(0xff757575),
+                              name: "عرض المزيد",
+                            ),
                           ),
                         ],
                       ),
@@ -154,9 +172,14 @@ class MainTab extends StatelessWidget {
                             name: "الحملات الحالية",
                           ),
                           Spacer(),
-                          TitleItem(
-                            color: const Color(0xff757575),
-                            name: "عرض المزيد",
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, Routes.currentCampaignsScreen);
+                            },
+                            child: TitleItem(
+                              color: const Color(0xff757575),
+                              name: "عرض المزيد",
+                            ),
                           ),
                         ],
                       ),
