@@ -18,8 +18,13 @@ class DonationItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.donationFieldScreen);
+        Navigator.pushNamed(
+          context,
+          Routes.donationFieldScreen,
+          arguments: name,
+        );
       },
+
       child: Expanded(
         child: Column(
           children: [

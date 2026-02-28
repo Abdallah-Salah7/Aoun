@@ -225,6 +225,7 @@ class MainTab extends StatelessWidget {
                       rateValue: 0.6,
                       collectedValue:"٨٩٠٠",
                       allValue: "١٨,٠٠٠",
+                      status: "عاجلة",
                     ),
                     SizedBox(height: 30),
 
@@ -235,6 +236,8 @@ class MainTab extends StatelessWidget {
                       rateValue: 0.6,
                       collectedValue:"٨٩٠٠",
                       allValue: "١٨,٠٠٠",
+                      status: "عاجلة جداً",
+
                     ),
                     SizedBox(height: 30),
 
@@ -245,6 +248,7 @@ class MainTab extends StatelessWidget {
                       rateValue: 0.6,
                       collectedValue:"٨٩٠٠",
                       allValue: "١٨,٠٠٠",
+                      status: "عاجلة",
                     ),
                     SizedBox(height: 30),
 

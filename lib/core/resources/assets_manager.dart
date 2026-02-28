@@ -25,6 +25,7 @@ abstract class ImageAssets {
   static const String debt = "$imagePath/Debt.png";
   static const String ghaith = "$imagePath/Ghaith.png";
   static const String vector = "$imagePath/Vector.png";
+  static const String icon = "$imagePath/icon.png";
 }
 
 class SvgAssets {}

@@ -18,6 +18,7 @@ class Assets {
   static const String imagesGhaith = 'assets/images/Ghaith.png';
   static const String imagesHealthCheck = 'assets/images/Health_check.png';
   static const String imagesHome = 'assets/images/home.png';
+  static const String imagesIcon = 'assets/images/icon.png';
   static const String imagesLogo = 'assets/images/logo.png';
   static const String imagesPeople = 'assets/images/People.png';
   static const String imagesProfile = 'assets/images/profile.png';

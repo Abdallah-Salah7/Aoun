@@ -19,10 +19,11 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
   Widget build(BuildContext context) {
     final image = widget.args["image"];
     final title = widget.args["title"];
-    final description = widget.args["description"];
     final rateValue = widget.args["rateValue"];
     final collectedValue = widget.args["collectedValue"];
     final allValue = widget.args["allValue"];
+    final status = widget.args["status"];
+
     return Scaffold(
       backgroundColor: Color(0xffE5EBE9),
       appBar: AppBar(toolbarHeight: 15),
@@ -118,10 +119,22 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 18.0,
+                          status == "مكتملة"
+                              ? Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                            child: Align(
+                              alignment:  Alignment.topRight,
+                              child: Text("تم جمع 100%",
+                                style: GoogleFonts.manrope(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff757575),
+                                ),
+                              ),
                             ),
+                          )
+                              : Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 18.0),
                             child: Row(
                               children: [
                                 Text(
@@ -252,27 +265,54 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                   Padding(
                     padding: const EdgeInsets.all(18.0),
                     child: Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xff2F674D),
-                          foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 120,
-                            vertical: 9,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
+                      child: status == "مكتملة"
+                          ? Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Color(0xff8FAF9A),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, Routes.paymentScreen);
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "اكتملت",
+                              style: GoogleFonts.manrope(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(width: 4),
+                            Icon(Icons.check_circle_outline,
+                                color: Colors.white, size: 36),
 
-                        },
-                        child: Text(
-                          "تبرع الآن",
-                          style: GoogleFonts.manrope(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
+
+                          ],
+                        ),
+                      )
+                          : SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xff2F674D),
+                            foregroundColor: Colors.white,
+                            padding: EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, Routes.paymentScreen);
+                          },
+                          child: Text(
+                            "تبرع الآن",
+                            style: GoogleFonts.manrope(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),

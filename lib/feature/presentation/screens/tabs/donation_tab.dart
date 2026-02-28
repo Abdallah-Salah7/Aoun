@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
+import '../donation_field_screen.dart';
 import '../widget/field_item.dart';
 
 class DonationTab extends StatefulWidget {
@@ -117,6 +118,16 @@ class _DonationTabState extends State<DonationTab> {
                 return FieldItem(
                   title: filteredFields[index]["title"]!,
                   image: filteredFields[index]["image"]!,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DonationFieldScreen(
+                          fieldName: filteredFields[index]["title"]!,
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
             ),

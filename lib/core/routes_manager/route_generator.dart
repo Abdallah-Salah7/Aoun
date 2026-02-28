@@ -41,7 +41,11 @@ class RouteGenerator {
           builder: (_) => CaseDetailsScreen(args: args),
         );
       case Routes.donationFieldScreen:
-        return MaterialPageRoute(builder: (_) => const DonationFieldScreen());
+        final fieldName = settings.arguments as String;
+
+        return MaterialPageRoute(
+          builder: (_) => DonationFieldScreen(fieldName: fieldName),
+        );
       case Routes.campaignDetails:
         return MaterialPageRoute(builder: (_) => const CampaignDetails());
       case Routes.paymentScreen:
