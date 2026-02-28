@@ -25,7 +25,18 @@ class CaseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.caseDetailsScreen);
+        Navigator.pushNamed(
+          context,
+          Routes.caseDetailsScreen,
+          arguments: {
+            "image": image,
+            "title": title,
+            "description": description,
+            "rateValue": rateValue,
+            "collectedValue": collectedValue,
+            "allValue": allValue,
+          },
+        );
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

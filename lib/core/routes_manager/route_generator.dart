@@ -2,6 +2,7 @@ import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:flutter/material.dart';
 
 import '../../feature/presentation/screens/campaign_details.dart';
+import '../../feature/presentation/screens/charity_profile_screen.dart';
 import '../../feature/presentation/screens/current_campaigns_screen.dart';
 import '../../feature/presentation/screens/Search_screen.dart';
 import '../../feature/presentation/screens/case_details_screen.dart';
@@ -33,13 +34,21 @@ class RouteGenerator {
           builder: (_) => const CurrentCampaignsScreen(),
         );
       case Routes.caseDetailsScreen:
-        return MaterialPageRoute(builder: (_) => const CaseDetailsScreen());
+        final args = settings.arguments as Map<String, dynamic>;
+
+        return MaterialPageRoute(
+
+          builder: (_) => CaseDetailsScreen(args: args),
+        );
       case Routes.donationFieldScreen:
         return MaterialPageRoute(builder: (_) => const DonationFieldScreen());
       case Routes.campaignDetails:
         return MaterialPageRoute(builder: (_) => const CampaignDetails());
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
+      case Routes.charityProfileScreen:
+
+        return MaterialPageRoute(builder: (_) => const CharityProfileScreen());
 
       case Routes.signIn:
       // return MaterialPageRoute(builder: (_) => const SignInScreen());

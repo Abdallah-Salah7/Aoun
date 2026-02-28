@@ -23,6 +23,8 @@ abstract class ImageAssets {
   static const String caseRec = "$imagePath/case.png";
   static const String people = "$imagePath/People.png";
   static const String debt = "$imagePath/Debt.png";
+  static const String ghaith = "$imagePath/Ghaith.png";
+  static const String vector = "$imagePath/Vector.png";
 }
 
 class SvgAssets {}
