@@ -13,11 +13,10 @@ class FieldItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10),
         child: InkWell(
           onTap: () {
             Navigator.pushNamed(context, Routes.donationFieldScreen);
-
           },
           child: Container(
             alignment: Alignment.center,

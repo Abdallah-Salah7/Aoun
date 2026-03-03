@@ -22,9 +22,8 @@ class LightTheme extends BaseTheme {
     appBarTheme: AppBarTheme(
       backgroundColor: background,
       centerTitle: true,
-      iconTheme: IconThemeData(
-        color: primaryColor,
-      ),),
+      iconTheme: IconThemeData(color: primaryColor),
+    ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: primaryColor,
       selectedItemColor: Colors.white,

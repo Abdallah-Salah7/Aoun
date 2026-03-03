@@ -13,7 +13,6 @@ class DonationTab extends StatefulWidget {
 }
 
 class _DonationTabState extends State<DonationTab> {
-
   List<Map<String, String>> allFields = [
     {"title": "الصحة", "image": ImageAssets.healthCheck},
     {"title": "الإغاثة", "image": ImageAssets.siren},
@@ -43,13 +42,15 @@ class _DonationTabState extends State<DonationTab> {
       appBar: AppBar(
         title: Text(
           "مجالات التبرع",
-          style: GoogleFonts.manrope(
-              fontWeight: FontWeight.bold, fontSize: 23),
+          style: GoogleFonts.manrope(fontWeight: FontWeight.bold, fontSize: 23),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.arrow_forward_ios,
-                color: Colors.black, size: 30),
+            icon: const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.black,
+              size: 30,
+            ),
             onPressed: () {
               Navigator.pushNamed(context, Routes.homePage);
             },
@@ -60,17 +61,17 @@ class _DonationTabState extends State<DonationTab> {
       body: ListView(
         padding: const EdgeInsets.all(8),
         children: [
-
           Padding(
             padding: const EdgeInsets.all(12),
             child: TextField(
               onChanged: (value) {
                 setState(() {
-                  filteredFields = allFields.where((field) {
-                    return field["title"]!
-                        .toLowerCase()
-                        .contains(value.toLowerCase());
-                  }).toList();
+                  filteredFields =
+                      allFields.where((field) {
+                        return field["title"]!.toLowerCase().contains(
+                          value.toLowerCase(),
+                        );
+                      }).toList();
                 });
               },
               textDirection: TextDirection.rtl,
@@ -85,18 +86,21 @@ class _DonationTabState extends State<DonationTab> {
                   fontWeight: FontWeight.w600,
                 ),
                 contentPadding: const EdgeInsets.symmetric(
-                    vertical: 18, horizontal: 20),
-                suffixIcon: const Icon(Icons.search,
-                    color: Color(0xff2F674D), size: 26),
+                  vertical: 18,
+                  horizontal: 20,
+                ),
+                suffixIcon: const Icon(
+                  Icons.search,
+                  color: Color(0xff2F674D),
+                  size: 26,
+                ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(18),
-                  borderSide:
-                  const BorderSide(color: Color(0xffE0E0E0)),
+                  borderSide: const BorderSide(color: Color(0xffE0E0E0)),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(18),
-                  borderSide:
-                  const BorderSide(color: Color(0xffE0E0E0)),
+                  borderSide: const BorderSide(color: Color(0xffE0E0E0)),
                 ),
               ),
             ),
@@ -108,8 +112,7 @@ class _DonationTabState extends State<DonationTab> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: filteredFields.length,
-              gridDelegate:
-              const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 1.1,
               ),
@@ -138,9 +141,10 @@ class _DonationTabState extends State<DonationTab> {
                   child: Text(
                     "﴿إِن تُقۡرِضُوا۟ ٱللَّهَ قَرۡضًا حَسَنࣰا یُضَـٰعِفۡهُ لَكُمۡ \n وَیَغۡفِرۡ لَكُمۡۚ وَٱللَّهُ شَكُورٌ حَلِیمٌ﴾ 🌿",
                     style: TextStyle(
-                        color: Color(0xff2F5142),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                      color: Color(0xff2F5142),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),

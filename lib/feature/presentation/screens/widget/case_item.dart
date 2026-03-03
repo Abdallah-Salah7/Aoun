@@ -113,7 +113,6 @@ class CaseItem extends StatelessWidget {
                     ),
                     onPressed: () {
                       Navigator.pushNamed(context, Routes.paymentScreen);
-
                     },
                     child: Text(
                       "تبرع الآن",

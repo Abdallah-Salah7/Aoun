@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({super.key});
+class CharityLoginScreen extends StatelessWidget {
+  const CharityLoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class NotificationScreen extends StatelessWidget {
 
       body: Center(
         child: Text(
-          "صفحة الاشعارات ",
+          "Charity Login Screen ",
           style: GoogleFonts.manrope(
             fontSize: 22,
             fontWeight: FontWeight.w900, // SemiBold

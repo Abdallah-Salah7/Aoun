@@ -62,7 +62,10 @@ class MainTab extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: () {
-                                Navigator.pushNamed(context, Routes.searchScreen);
+                                Navigator.pushNamed(
+                                  context,
+                                  Routes.searchScreen,
+                                );
                               },
                               child: Image.asset(
                                 ImageAssets.search,
@@ -73,7 +76,10 @@ class MainTab extends StatelessWidget {
                             const SizedBox(width: 12),
                             InkWell(
                               onTap: () {
-                                Navigator.pushNamed(context, Routes.notificationScreen);
+                                Navigator.pushNamed(
+                                  context,
+                                  Routes.notificationScreen,
+                                );
                               },
                               child: Image.asset(
                                 ImageAssets.bell,
@@ -174,7 +180,10 @@ class MainTab extends StatelessWidget {
                           Spacer(),
                           InkWell(
                             onTap: () {
-                              Navigator.pushNamed(context, Routes.currentCampaignsScreen);
+                              Navigator.pushNamed(
+                                context,
+                                Routes.currentCampaignsScreen,
+                              );
                             },
                             child: TitleItem(
                               color: const Color(0xff757575),
@@ -219,35 +228,37 @@ class MainTab extends StatelessWidget {
                     SizedBox(height: 26),
 
                     CaseItem(
-                      image:ImageAssets.caseRec,
+                      image: ImageAssets.caseRec,
                       title: "أحمد يحتاج عملية زراعة قوقعة عاجلة",
-                      description: "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
+                      description:
+                          "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
                       rateValue: 0.6,
-                      collectedValue:"٨٩٠٠",
+                      collectedValue: "٨٩٠٠",
                       allValue: "١٨,٠٠٠",
                     ),
                     SizedBox(height: 30),
 
                     CaseItem(
-                      image:ImageAssets.caseRec,
+                      image: ImageAssets.caseRec,
                       title: "أحمد يحتاج عملية زراعة قوقعة عاجلة",
-                      description: "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
+                      description:
+                          "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
                       rateValue: 0.6,
-                      collectedValue:"٨٩٠٠",
+                      collectedValue: "٨٩٠٠",
                       allValue: "١٨,٠٠٠",
                     ),
                     SizedBox(height: 30),
 
                     CaseItem(
-                      image:ImageAssets.caseRec,
+                      image: ImageAssets.caseRec,
                       title: "أحمد يحتاج عملية زراعة قوقعة عاجلة",
-                      description: "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
+                      description:
+                          "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
                       rateValue: 0.6,
-                      collectedValue:"٨٩٠٠",
+                      collectedValue: "٨٩٠٠",
                       allValue: "١٨,٠٠٠",
                     ),
                     SizedBox(height: 30),
-
                   ],
                 ),
               ),
