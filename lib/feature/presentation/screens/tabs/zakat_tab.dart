@@ -6,7 +6,7 @@ class ZakatTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffE5EBE9),
       body: Center(child: Text("حاسبة الزكاة")),
     );
   }
