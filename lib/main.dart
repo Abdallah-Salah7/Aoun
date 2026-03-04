@@ -10,12 +10,10 @@ import 'feature/presentation/state_management/provider/my_provider.dart';
 
 void main() {
   runApp(
-
     ChangeNotifierProvider(
       create: (context) => MyProvider(),
       child: const MainApp(),
     ),
-
   );
 }
 
@@ -39,7 +37,7 @@ class MainApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             home: child,
             onGenerateRoute: RouteGenerator.getRoute,
-            initialRoute: Routes.homePage,
+            initialRoute: Routes.splashScreen,
           ),
     );
   }

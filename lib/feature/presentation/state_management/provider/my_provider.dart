@@ -7,8 +7,10 @@ class MyProvider extends ChangeNotifier {
     _themeMode = themeMode;
     notifyListeners();
   }
+
   changeTheme() {
-    _themeMode = (_themeMode == ThemeMode.light) ? ThemeMode.dark : ThemeMode.light;
+    _themeMode =
+        (_themeMode == ThemeMode.light) ? ThemeMode.dark : ThemeMode.light;
     notifyListeners();
   }
 }

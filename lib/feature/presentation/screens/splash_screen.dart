@@ -1,8 +1,9 @@
+import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({super.key});
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,16 +12,16 @@ class NotificationScreen extends StatelessWidget {
 
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_forward, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, Routes.onBoard1);
           },
         ),
       ),
 
       body: Center(
         child: Text(
-          "صفحة الاشعارات ",
+          "splash screen",
           style: GoogleFonts.manrope(
             fontSize: 22,
             fontWeight: FontWeight.w900, // SemiBold

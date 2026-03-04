@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import '../../../core/resources/assets_manager.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -23,10 +22,8 @@ class _HomePageState extends State<HomePage> {
     ImageAssets.mainTab,
     ImageAssets.donationTab,
     ImageAssets.zakatTab,
-    ImageAssets.profileTab
+    ImageAssets.profileTab,
   ];
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,6 @@ class _HomePageState extends State<HomePage> {
     final itemWidth = width / icons.length;
     final List<Widget> pages = [
       MainTab(
-
         onSeeMorePressed: () {
           setState(() {
             currentIndex = 1;
@@ -45,7 +41,6 @@ class _HomePageState extends State<HomePage> {
       const ZakatTab(),
       const ProfileTab(),
     ];
-
 
     return Scaffold(
       extendBody: true,
@@ -62,15 +57,22 @@ class _HomePageState extends State<HomePage> {
               color: const Color(0xff2C5240),
               buttonBackgroundColor: const Color(0xff2C5240),
               animationDuration: const Duration(milliseconds: 300),
-              items: icons
-                  .map((e) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Image.asset(e, width: 28, color: Colors.white),
-                ),
-              ))
-                  .toList(),
+              items:
+                  icons
+                      .map(
+                        (e) => Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Image.asset(
+                              e,
+                              width: 28,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
               onTap: (index) => setState(() => currentIndex = index),
             ),
           ),
@@ -83,13 +85,12 @@ class _HomePageState extends State<HomePage> {
             child: SizedBox(
               width: 70,
               child: Center(
-
                 child: Text(
                   labels[currentIndex],
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 21,
-                     fontWeight: FontWeight.bold
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

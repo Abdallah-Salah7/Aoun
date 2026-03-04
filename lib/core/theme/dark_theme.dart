@@ -20,9 +20,8 @@ class DarkTheme extends BaseTheme {
     appBarTheme: AppBarTheme(
       backgroundColor: background,
       centerTitle: true,
-      iconTheme: IconThemeData(
-        color: primaryColor,
-      ),),
+      iconTheme: IconThemeData(color: primaryColor),
+    ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: primaryColor,
       selectedItemColor: Colors.white,
@@ -34,24 +33,15 @@ class DarkTheme extends BaseTheme {
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-            width: 2,
-            color: primaryColor
-        ),
+        borderSide: BorderSide(width: 2, color: primaryColor),
       ),
-      focusedBorder:  OutlineInputBorder(
+      focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-            width: 2,
-            color: primaryColor
-        ),
+        borderSide: BorderSide(width: 2, color: primaryColor),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-            width: 2,
-            color: primaryColor
-        ),
+        borderSide: BorderSide(width: 2, color: primaryColor),
       ),
     ),
     textTheme: TextTheme(
