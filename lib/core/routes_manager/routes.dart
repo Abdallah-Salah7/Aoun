@@ -24,4 +24,9 @@ class Routes {
   static const String charityRegisteScreen = "/charityRegisteScreen";
   static const String forgetPasswordScreen = "/forgetPasswordScreen";
   static const String charityProfileScreen = "/charityProfileScreen";
+  static const String donationRecord = "/donationRecord";
+  static const String privacyAndSecurity = "/privacyAndSecurity";
+  static const String settings = "/settings";
+  static const String savedCases = "/savedCases";
+  static const String customerService = "/customerService";
 }

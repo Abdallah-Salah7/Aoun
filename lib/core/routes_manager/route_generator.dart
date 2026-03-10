@@ -17,10 +17,15 @@ import '../../feature/presentation/screens/charity_profile_screen.dart';
 import '../../feature/presentation/screens/current_campaigns_screen.dart';
 import '../../feature/presentation/screens/Search_screen.dart';
 import '../../feature/presentation/screens/case_details_screen.dart';
+import '../../feature/presentation/screens/customer_service.dart';
 import '../../feature/presentation/screens/donation_field_screen.dart';
+import '../../feature/presentation/screens/donation_record.dart';
 import '../../feature/presentation/screens/home_page.dart';
 import '../../feature/presentation/screens/notification_screen.dart';
 import '../../feature/presentation/screens/payment_screen.dart';
+import '../../feature/presentation/screens/privacy_and_security.dart';
+import '../../feature/presentation/screens/saved_cases.dart';
+import '../../feature/presentation/screens/settings.dart';
 import '../../feature/presentation/screens/tabs/donation_tab.dart';
 import '../../feature/presentation/screens/tabs/profile_tab.dart';
 import '../../feature/presentation/screens/tabs/zakat_tab.dart';
@@ -48,10 +53,7 @@ class RouteGenerator {
       case Routes.caseDetailsScreen:
         final args = settings.arguments as Map<String, dynamic>;
 
-        return MaterialPageRoute(
-
-          builder: (_) => CaseDetailsScreen(args: args),
-        );
+        return MaterialPageRoute(builder: (_) => CaseDetailsScreen(args: args));
       case Routes.donationFieldScreen:
         final fieldName = settings.arguments as String;
 
@@ -63,7 +65,6 @@ class RouteGenerator {
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
       case Routes.charityProfileScreen:
-
         return MaterialPageRoute(builder: (_) => const CharityProfileScreen());
 
       case Routes.signIn:
@@ -95,6 +96,16 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const CharityRegisterScreen());
       case Routes.forgetPasswordScreen:
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
+      case Routes.donationRecord:
+        return MaterialPageRoute(builder: (_) => const DonationRecord());
+      case Routes.privacyAndSecurity:
+        return MaterialPageRoute(builder: (_) => const PrivacyAndSecurity());
+      case Routes.settings:
+        return MaterialPageRoute(builder: (_) => const Settings());
+      case Routes.savedCases:
+        return MaterialPageRoute(builder: (_) => const SavedCases());
+      case Routes.customerService:
+        return MaterialPageRoute(builder: (_) => const CustomerService());
       default:
         return unDefinedRoute();
     }

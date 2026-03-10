@@ -27,6 +27,13 @@ abstract class ImageAssets {
   static const String vector = "$imagePath/Vector.png";
   static const String icon = "$imagePath/icon.png";
   static const String more = "$imagePath/more.png";
+  static const String profile = "$imagePath/profile.jpg";
+  static const String fav = "$imagePath/fav.png";
+  static const String history = "$imagePath/history.png";
+  static const String security = "$imagePath/security.png";
+  static const String setting = "$imagePath/setting.png";
+  static const String service = "$imagePath/service.png";
+  static const String out = "$imagePath/out.png";
 }
 
 class SvgAssets {}

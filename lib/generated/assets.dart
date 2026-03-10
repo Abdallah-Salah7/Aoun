@@ -4,9 +4,20 @@ class Assets {
 
   static const String apiApiManager = 'lib/core/api/api_manager.dart';
   static const String apiEndPoints = 'lib/core/api/end_points.dart';
+  static const String assetsImagesProfile = 'assets/images/profile.png';
+  static const String authenticationAuthBotton = 'lib/feature/presentation/screens/widget/authentication/auth_botton.dart';
+  static const String authenticationLogoWidget = 'lib/feature/presentation/screens/widget/authentication/logo_widget.dart';
+  static const String authenticationUserTypeContent = 'lib/feature/presentation/screens/widget/authentication/user_type_content.dart';
+  static const String charityLoginScreen = 'lib/feature/presentation/screens/charity/login_screen.dart';
+  static const String charityRegisterScreen = 'lib/feature/presentation/screens/charity/register_screen.dart';
+  static const String colorManagerPrimaryColors = 'lib/core/color_manager/primary_colors.dart';
+  static const String donorForgetPassword = 'lib/feature/presentation/screens/donor/forget_password.dart';
+  static const String donorLoginScreen = 'lib/feature/presentation/screens/donor/login_screen.dart';
+  static const String donorRegisterScreen = 'lib/feature/presentation/screens/donor/register_screen.dart';
   static const String generatedAssets = 'lib/generated/assets.dart';
   static const String imagesBell = 'assets/images/Bell.png';
   static const String imagesBrickWall = 'assets/images/BrickWall.png';
+  static const String imagesBsa = 'assets/images/bsa.jpg';
   static const String imagesCalc = 'assets/images/calc.png';
   static const String imagesCase = 'assets/images/case.png';
   static const String imagesCategories = 'assets/images/categories.png';
@@ -14,66 +25,74 @@ class Assets {
   static const String imagesDebt = 'assets/images/Debt.png';
   static const String imagesDeliveryMan = 'assets/images/delivery-man.png';
   static const String imagesElderly = 'assets/images/elderly.png';
+  static const String imagesFacebook = 'assets/images/facebook.png';
+  static const String imagesFav = 'assets/images/fav.png';
+  static const String imagesFlowbiteClockArrowOutline = 'assets/images/flowbite_clock-arrow-outline.png';
   static const String imagesGaza = 'assets/images/gaza.png';
+  static const String imagesGhaith = 'assets/images/Ghaith.png';
+  static const String imagesGoogle = 'assets/images/google.png';
   static const String imagesHealthCheck = 'assets/images/Health_check.png';
+  static const String imagesHistory = 'assets/images/history.png';
   static const String imagesHome = 'assets/images/home.png';
+  static const String imagesIcon = 'assets/images/icon.png';
   static const String imagesLogo = 'assets/images/logo.png';
+  static const String imagesMore = 'assets/images/more.png';
+  static const String imagesOut = 'assets/images/out.png';
   static const String imagesPeople = 'assets/images/People.png';
-  static const String imagesProfile = 'assets/images/profile.png';
+  static const String imagesProfile = 'assets/images/profile.jpg';
   static const String imagesSearch = 'assets/images/search.png';
+  static const String imagesSecurity = 'assets/images/security.png';
+  static const String imagesService = 'assets/images/service.png';
+  static const String imagesSetting = 'assets/images/setting.png';
   static const String imagesSiren = 'assets/images/Siren.png';
   static const String imagesSocialCare = 'assets/images/SocialCare.png';
+  static const String imagesVector = 'assets/images/Vector.png';
   static const String imagesWater = 'assets/images/water.png';
   static const String libMain = 'lib/main.dart';
-  static const String providerMyProvider =
-      'lib/feature/presentation/state_management/provider/my_provider.dart';
-  static const String resourcesAssetsManager =
-      'lib/core/resources/assets_manager.dart';
-  static const String resourcesColorsManager =
-      'lib/core/resources/colors_manager.dart';
-  static const String resourcesConstantsManager =
-      'lib/core/resources/constants_manager.dart';
-  static const String resourcesFontsManager =
-      'lib/core/resources/fonts_manager.dart';
-  static const String routesManagerRouteGenerator =
-      'lib/core/routes_manager/route_generator.dart';
-  static const String routesManagerRoutes =
-      'lib/core/routes_manager/routes.dart';
-  static const String screensCampaignDetails =
-      'lib/feature/presentation/screens/campaign_details.dart';
-  static const String screensCaseDetailsScreen =
-      'lib/feature/presentation/screens/case_details_screen.dart';
-  static const String screensCurrentCampaignsScreen =
-      'lib/feature/presentation/screens/current_campaigns_screen.dart';
-  static const String screensDonationFieldScreen =
-      'lib/feature/presentation/screens/donation_field_screen.dart';
-  static const String screensHomePage =
-      'lib/feature/presentation/screens/home_page.dart';
-  static const String screensNotificationScreen =
-      'lib/feature/presentation/screens/notification_screen.dart';
-  static const String screensPaymentScreen =
-      'lib/feature/presentation/screens/payment_screen.dart';
-  static const String screensSearchScreen =
-      'lib/feature/presentation/screens/Search_screen.dart';
-  static const String tabsDonationTab =
-      'lib/feature/presentation/screens/tabs/donation_tab.dart';
-  static const String tabsMainTab =
-      'lib/feature/presentation/screens/tabs/main_tab.dart';
-  static const String tabsProfileTab =
-      'lib/feature/presentation/screens/tabs/profile_tab.dart';
-  static const String tabsZakatTab =
-      'lib/feature/presentation/screens/tabs/zakat_tab.dart';
+  static const String loginFormField = 'lib/feature/presentation/screens/widget/authentication/login/form_field.dart';
+  static const String loginLoginForm = 'lib/feature/presentation/screens/widget/authentication/login/login_form.dart';
+  static const String loginSocialLogin = 'lib/feature/presentation/screens/widget/authentication/login/social_login.dart';
+  static const String onboardScreensOnboardScreen1 = 'lib/feature/presentation/screens/onboard_screens/onboard_screen1.dart';
+  static const String onboardScreensOnboardScreen2 = 'lib/feature/presentation/screens/onboard_screens/onboard_screen2.dart';
+  static const String onboardScreensOnboardScreen3 = 'lib/feature/presentation/screens/onboard_screens/onboard_screen3.dart';
+  static const String onboardingOnboardBackground = 'lib/feature/presentation/screens/widget/onboarding/onboard_background.dart';
+  static const String onboardingOnboardBottomControls = 'lib/feature/presentation/screens/widget/onboarding/onboard_bottom_controls.dart';
+  static const String onboardingOnboardContent = 'lib/feature/presentation/screens/widget/onboarding/onboard_content.dart';
+  static const String providerMyProvider = 'lib/feature/presentation/state_management/provider/my_provider.dart';
+  static const String resourcesAssetsManager = 'lib/core/resources/assets_manager.dart';
+  static const String resourcesColorsManager = 'lib/core/resources/colors_manager.dart';
+  static const String resourcesConstantsManager = 'lib/core/resources/constants_manager.dart';
+  static const String resourcesFontsManager = 'lib/core/resources/fonts_manager.dart';
+  static const String routesManagerRouteGenerator = 'lib/core/routes_manager/route_generator.dart';
+  static const String routesManagerRoutes = 'lib/core/routes_manager/routes.dart';
+  static const String screensCampaignDetails = 'lib/feature/presentation/screens/campaign_details.dart';
+  static const String screensCaseDetailsScreen = 'lib/feature/presentation/screens/case_details_screen.dart';
+  static const String screensCharityProfileScreen = 'lib/feature/presentation/screens/charity_profile_screen.dart';
+  static const String screensCurrentCampaignsScreen = 'lib/feature/presentation/screens/current_campaigns_screen.dart';
+  static const String screensCustomerService = 'lib/feature/presentation/screens/customer_service.dart';
+  static const String screensDonationFieldScreen = 'lib/feature/presentation/screens/donation_field_screen.dart';
+  static const String screensDonationRecord = 'lib/feature/presentation/screens/donation_record.dart';
+  static const String screensHomePage = 'lib/feature/presentation/screens/home_page.dart';
+  static const String screensLoginChoiceScreen = 'lib/feature/presentation/screens/login_choice_screen.dart';
+  static const String screensNotificationScreen = 'lib/feature/presentation/screens/notification_screen.dart';
+  static const String screensPaymentScreen = 'lib/feature/presentation/screens/payment_screen.dart';
+  static const String screensPrivacyAndSecurity = 'lib/feature/presentation/screens/privacy_and_security.dart';
+  static const String screensSavedCases = 'lib/feature/presentation/screens/saved_cases.dart';
+  static const String screensSearchScreen = 'lib/feature/presentation/screens/Search_screen.dart';
+  static const String screensSettings = 'lib/feature/presentation/screens/settings.dart';
+  static const String screensSplashScreen = 'lib/feature/presentation/screens/splash_screen.dart';
+  static const String screensUserTypeScreen = 'lib/feature/presentation/screens/user_type_screen.dart';
+  static const String tabsDonationTab = 'lib/feature/presentation/screens/tabs/donation_tab.dart';
+  static const String tabsMainTab = 'lib/feature/presentation/screens/tabs/main_tab.dart';
+  static const String tabsProfileTab = 'lib/feature/presentation/screens/tabs/profile_tab.dart';
+  static const String tabsZakatTab = 'lib/feature/presentation/screens/tabs/zakat_tab.dart';
   static const String themeBaseTheme = 'lib/core/theme/base_theme.dart';
   static const String themeDarkTheme = 'lib/core/theme/dark_theme.dart';
   static const String themeLightTheme = 'lib/core/theme/light_theme.dart';
-  static const String widgetCaseItem =
-      'lib/feature/presentation/screens/widget/case_item.dart';
-  static const String widgetCradlesItem =
-      'lib/feature/presentation/screens/widget/cradles_item.dart';
-  static const String widgetDonationItem =
-      'lib/feature/presentation/screens/widget/donation_item.dart';
-  static const String widgetFieldItem =
-      'lib/feature/presentation/screens/widget/field_item.dart';
-  static const String widgetTitleItem =
-      'lib/feature/presentation/screens/widget/title_item.dart';
+  static const String widgetCaseItem = 'lib/feature/presentation/screens/widget/case_item.dart';
+  static const String widgetCradlesItem = 'lib/feature/presentation/screens/widget/cradles_item.dart';
+  static const String widgetDonationItem = 'lib/feature/presentation/screens/widget/donation_item.dart';
+  static const String widgetFieldItem = 'lib/feature/presentation/screens/widget/field_item.dart';
+  static const String widgetTitleItem = 'lib/feature/presentation/screens/widget/title_item.dart';
+
 }
