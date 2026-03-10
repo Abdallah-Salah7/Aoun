@@ -1,6 +1,11 @@
 import 'package:aoun/core/routes_manager/routes.dart';
+import 'package:aoun/feature/presentation/screens/charity/account_state.dart';
+import 'package:aoun/feature/presentation/screens/charity/charity_data.dart';
+import 'package:aoun/feature/presentation/screens/charity/charity_files.dart';
 import 'package:aoun/feature/presentation/screens/charity/login_screen.dart';
 import 'package:aoun/feature/presentation/screens/charity/register_screen.dart';
+import 'package:aoun/feature/presentation/screens/donor/change_password.dart';
+import 'package:aoun/feature/presentation/screens/donor/email_verfication.dart';
 import 'package:aoun/feature/presentation/screens/donor/forget_password.dart';
 import 'package:aoun/feature/presentation/screens/donor/login_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor/register_screen.dart';
@@ -82,6 +87,18 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const CharityRegisterScreen());
       case Routes.forgetPasswordScreen:
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
+      case Routes.emailVerficationScreen:
+        return MaterialPageRoute(
+          builder: (_) => EmailVerfication(email: argument as String),
+        );
+      case Routes.changePasswordScreen:
+        return MaterialPageRoute(builder: (_) => const ChangePassword());
+      case Routes.charityDataScreen:
+        return MaterialPageRoute(builder: (_) => const CharityData());
+      case Routes.charityFilesScreen:
+        return MaterialPageRoute(builder: (_) => const CharityFiles());
+      case Routes.accountStateScreen:
+        return MaterialPageRoute(builder: (_) => const AccountState());
       default:
         return unDefinedRoute();
     }

@@ -22,4 +22,9 @@ class Routes {
   static const String charityLoginScreen = "/charityLoginScreen";
   static const String charityRegisteScreen = "/charityRegisteScreen";
   static const String forgetPasswordScreen = "/forgetPasswordScreen";
+  static const String emailVerficationScreen = "/emailVerficationScreen";
+  static const String changePasswordScreen = "/changePasswordScreen";
+  static const String charityDataScreen = "/charityDataScreen";
+  static const String charityFilesScreen = "/charityFilesScreen";
+  static const String accountStateScreen = "/accountStateScreen";
 }

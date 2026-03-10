@@ -30,6 +30,12 @@ class _LoginFormState extends State<LoginForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              (!widget.isLogin)
+                  ? const CustomFormField(
+                    label: "اسم المستخدم",
+                    hint: "أعد إدخال اسم المستخدم",
+                  )
+                  : SizedBox(),
               const CustomFormField(
                 label: "البريد الإلكترونى",
                 hint: "ex.email@gmail.com",
@@ -40,6 +46,13 @@ class _LoginFormState extends State<LoginForm> {
                 hint: "أدخل كلمة المرور",
                 isPassword: true,
               ),
+              (!widget.isLogin)
+                  ? const CustomFormField(
+                    label: "تأكيد كلمة المرور",
+                    hint: "أعد إدخال كلمة المرور",
+                    isPassword: true,
+                  )
+                  : SizedBox(),
               SizedBox(height: spacing * 0.6),
               (widget.isLogin)
                   ? InkWell(
