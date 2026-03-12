@@ -15,7 +15,18 @@ class CradlesItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.campaignDetails);
+
+        Navigator.pushNamed(
+          context,
+          Routes.campaignDetails,
+          arguments: {
+            "image": image,
+            "title": name,
+            "rateValue": 0.6,
+            "collectedValue": "٨٩٠٠",
+            "allValue": "١٨,٠٠٠",
+          },
+        );
 
       },
       child: Stack(
@@ -30,7 +41,10 @@ class CradlesItem extends StatelessWidget {
 
               child:ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                  child: Image.asset(image))
+                  child: Image.asset(image,
+                  height: 252,
+                  width: 220,
+                  fit: BoxFit.cover,))
             ),
           ),
           Padding(

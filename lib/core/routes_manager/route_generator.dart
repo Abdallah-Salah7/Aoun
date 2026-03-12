@@ -13,6 +13,9 @@ import 'package:aoun/feature/presentation/screens/user_type_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../feature/presentation/screens/campaign_details.dart';
+import '../../feature/presentation/screens/charity/account_state.dart';
+import '../../feature/presentation/screens/charity/charity_data.dart';
+import '../../feature/presentation/screens/charity/charity_files.dart';
 import '../../feature/presentation/screens/charity_profile_screen.dart';
 import '../../feature/presentation/screens/current_campaigns_screen.dart';
 import '../../feature/presentation/screens/Search_screen.dart';
@@ -20,6 +23,8 @@ import '../../feature/presentation/screens/case_details_screen.dart';
 import '../../feature/presentation/screens/customer_service.dart';
 import '../../feature/presentation/screens/donation_field_screen.dart';
 import '../../feature/presentation/screens/donation_record.dart';
+import '../../feature/presentation/screens/donor/change_password.dart';
+import '../../feature/presentation/screens/donor/email_verfication.dart';
 import '../../feature/presentation/screens/home_page.dart';
 import '../../feature/presentation/screens/notification_screen.dart';
 import '../../feature/presentation/screens/payment_screen.dart';
@@ -46,10 +51,14 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const SearchScreen());
       case Routes.notificationScreen:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
+
       case Routes.currentCampaignsScreen:
+        final fieldName = settings.arguments as String;
+
         return MaterialPageRoute(
-          builder: (_) => const CurrentCampaignsScreen(),
+          builder: (_) => CurrentCampaignsScreen(fieldName: fieldName),
         );
+
       case Routes.caseDetailsScreen:
         final args = settings.arguments as Map<String, dynamic>;
 
@@ -61,7 +70,9 @@ class RouteGenerator {
           builder: (_) => DonationFieldScreen(fieldName: fieldName),
         );
       case Routes.campaignDetails:
-        return MaterialPageRoute(builder: (_) => const CampaignDetails());
+        final args = settings.arguments as Map<String, dynamic>;
+
+        return MaterialPageRoute(builder: (_) => CampaignDetails(args: args));
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
       case Routes.charityProfileScreen:
@@ -106,6 +117,18 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const SavedCases());
       case Routes.customerService:
         return MaterialPageRoute(builder: (_) => const CustomerService());
+      case Routes.emailVerficationScreen:
+        return MaterialPageRoute(
+          builder: (_) => EmailVerfication(email: argument as String),
+        );
+      case Routes.changePasswordScreen:
+        return MaterialPageRoute(builder: (_) => const ChangePassword());
+      case Routes.charityDataScreen:
+        return MaterialPageRoute(builder: (_) => const CharityData());
+      case Routes.charityFilesScreen:
+        return MaterialPageRoute(builder: (_) => const CharityFiles());
+      case Routes.accountStateScreen:
+        return MaterialPageRoute(builder: (_) => const AccountState());
       default:
         return unDefinedRoute();
     }

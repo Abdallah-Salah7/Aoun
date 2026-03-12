@@ -142,7 +142,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                                   style: GoogleFonts.manrope(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xff757575),
+                                    color: Color(0xff255A41),
                                   ),
                                 ),
                                 Spacer(),

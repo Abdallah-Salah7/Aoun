@@ -1,18 +1,25 @@
 import 'package:aoun/core/color_manager/primary_colors.dart';
+import 'package:aoun/core/resources/assets_manager.dart';
 import 'package:flutter/material.dart';
 
 class CustomFormField extends StatefulWidget {
   final String label;
   final String hint;
+  final String? imagePath;
   final bool isPassword;
   final FontWeight labelFontWeight;
+  final bool downloadIcon;
+  final TextEditingController? emailController;
 
   const CustomFormField({
     super.key,
     required this.label,
     required this.hint,
     this.isPassword = false,
+    this.downloadIcon = false,
     this.labelFontWeight = FontWeight.normal,
+    this.emailController,
+    this.imagePath,
   });
 
   @override
@@ -40,7 +47,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
               widget.label,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: fontSize * 1.2,
+                fontSize: fontSize * 1.3,
                 fontWeight: widget.labelFontWeight,
               ),
             ),
@@ -49,18 +56,23 @@ class _CustomFormFieldState extends State<CustomFormField> {
           SizedBox(
             height: fieldHeight * 0.8,
             child: TextField(
+              controller: widget.emailController,
               obscureText: widget.isPassword ? obscure : false,
               style: TextStyle(fontSize: fontSize),
               decoration: InputDecoration(
                 hintText: widget.hint,
-                hintStyle: const TextStyle(color: Color(0xffC4C4C4)),
-
+                hintStyle: TextStyle(
+                  color: Color(0xffC4C4C4),
+                  fontSize: fontSize * 1.1,
+                ),
+                prefixIcon:
+                    widget.downloadIcon ? Image.asset(widget.imagePath!) : null,
                 suffixIcon:
                     widget.isPassword
                         ? IconButton(
                           icon: Icon(
                             obscure ? Icons.visibility_off : Icons.visibility,
-                            color: PrimaryColors.secondaryColor,
+                            color: Colors.grey,
                           ),
                           onPressed: () {
                             setState(() {
@@ -68,15 +80,21 @@ class _CustomFormFieldState extends State<CustomFormField> {
                             });
                           },
                         )
+                        : widget.downloadIcon
+                        ? IconButton(
+                          icon: Image.asset("assets/images/upload.png"),
+                          onPressed: () {},
+                        )
                         : null,
                 filled: true,
                 fillColor: Color(0xffFFFFFF),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(6),
-                  borderSide: BorderSide(
-                    color: PrimaryColors.secondaryColor,
-                    width: 1,
-                  ),
+                  borderSide: BorderSide(color: Colors.grey.withAlpha(100)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(6),
+                  borderSide: BorderSide(color: Colors.grey.withAlpha(100)),
                 ),
               ),
             ),

@@ -462,9 +462,63 @@ class _ProfileTabState extends State<ProfileTab> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  Routes.donorLoginScreen,
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 30,
+                                            backgroundColor: Color(0xffF7D7D7),
+                                            child: Icon(Icons.logout, color: Colors.red, size: 30),
+                                          ),
+                                          SizedBox(height: 20),
+                                          Text(
+                                            "هل أنت متأكد من تسجيل الخروج؟",
+                                            style: GoogleFonts.saira(fontWeight: FontWeight.w400, fontSize: 22),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          SizedBox(height: 30),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors.red,
+                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                                                  ),
+                                                  child: Text("موافق", style: GoogleFonts.saira(fontSize: 22,fontWeight: FontWeight.w400,color: Colors.white)),
+                                                  onPressed: () {
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      Routes.donorLoginScreen,
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                              SizedBox(width: 10),
+                                              Expanded(
+                                                child: OutlinedButton(
+                                                  style: OutlinedButton.styleFrom(
+                                                    side: BorderSide(color: Colors.grey,
+                                                    width: 2),
+                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25))
+                                                  ),
+                                                  child:Text("إلغاء", style: GoogleFonts.saira(fontSize: 22,fontWeight: FontWeight.w400,color: Colors.black)),
+                                                  onPressed: () => Navigator.of(context).pop(),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
                                 );
                               },
                               child: Container(

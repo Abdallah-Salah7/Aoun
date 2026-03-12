@@ -183,6 +183,7 @@ class MainTab extends StatelessWidget {
                               Navigator.pushNamed(
                                 context,
                                 Routes.currentCampaignsScreen,
+                                arguments: "حملة"
                               );
                             },
                             child: TitleItem(
@@ -207,20 +208,16 @@ class MainTab extends StatelessWidget {
                             image: ImageAssets.water,
                           ),
                           CradlesItem(
-                            name: "إغاثة غزة",
-                            image: ImageAssets.gaza,
+                            name: "دفء الشتاء",
+                            image: ImageAssets.camp1,
                           ),
                           CradlesItem(
-                            name: "سقيا الماء",
-                            image: ImageAssets.water,
+                            name: "بناء وتعمير ",
+                            image: ImageAssets.camp2,
                           ),
                           CradlesItem(
-                            name: "إغاثة غزة",
-                            image: ImageAssets.gaza,
-                          ),
-                          CradlesItem(
-                            name: "سقيا الماء",
-                            image: ImageAssets.water,
+                            name: " دعم مرضى السرطان",
+                            image: ImageAssets.camp3,
                           ),
                         ],
                       ),

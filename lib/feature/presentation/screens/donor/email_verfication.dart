@@ -1,15 +1,17 @@
 import 'package:aoun/core/color_manager/primary_colors.dart';
 import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/auth_botton.dart';
-import 'package:aoun/feature/presentation/screens/widget/authentication/login/form_field.dart';
+import 'package:aoun/feature/presentation/screens/widget/authentication/login/otp_boxes.dart';
 import 'package:flutter/material.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
-  const ForgotPasswordScreen({super.key});
+class EmailVerfication extends StatelessWidget {
+  final String email;
+  const EmailVerfication({required this.email, super.key});
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController emailController = TextEditingController();
+    final size = MediaQuery.of(context).size;
+    final bool isTablet = size.width >= 600;
     return Scaffold(
       backgroundColor: const Color(0xFFD9DDDA),
       body: SafeArea(
@@ -52,7 +54,7 @@ class ForgotPasswordScreen extends StatelessWidget {
 
                         Center(
                           child: Image.asset(
-                            "assets/images/flowbite_clock-arrow-outline.png",
+                            "assets/images/email_verify.png",
                             height: constraints.maxWidth * 0.3,
                             width: constraints.maxWidth * 0.3,
                             fit: BoxFit.contain,
@@ -62,7 +64,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         SizedBox(height: constraints.maxHeight * 0.03),
 
                         Text(
-                          "نسيت كلمة المرور",
+                          "تحقق من بريدك الإلكترونى",
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             fontSize: constraints.maxWidth * 0.045,
@@ -73,7 +75,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         const SizedBox(height: 10),
 
                         Text(
-                          "من فضلك أدخل البريد الإلكترونى الخاص بك\n لإعادة تعيين كلمة المرور",
+                          "لقد أرسلنا رابط إعادة تعيين كلمة المرور إلى $email ، أدخل رمز التحقق المكوّن من 5 أرقام الذي تم إرساله إليك.",
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             color: PrimaryColors.secondaryColor,
@@ -84,25 +86,36 @@ class ForgotPasswordScreen extends StatelessWidget {
                         ),
 
                         const SizedBox(height: 30),
-
-                        CustomFormField(
-                          label: 'البريد الإلكترونى',
-                          hint: 'ex.email@gmail.com',
-                          labelFontWeight: FontWeight.w700,
-                          emailController: emailController,
-                        ),
-
+                        OtpBoxes(),
                         const SizedBox(height: 30),
-
                         AuthButton(
-                          text: "إرسال رمز",
+                          text: "تحقق",
                           onTap: () {
                             Navigator.pushNamed(
                               context,
-                              Routes.emailVerficationScreen,
-                              arguments: emailController.text,
+                              Routes.changePasswordScreen,
                             );
                           },
+                        ),
+                        const SizedBox(height: 30),
+                        Center(
+                          child: RichText(
+                            text: TextSpan(
+                              style: TextStyle(
+                                fontSize: isTablet ? 20 : 18,
+                                color: PrimaryColors.secondaryColor,
+                              ),
+                              children: [
+                                TextSpan(text: "لم تتلقَّ رمز التحقق بعد؟."),
+                                TextSpan(
+                                  text: "إعادة الإرسال.",
+                                  style: TextStyle(
+                                    color: PrimaryColors.primaryColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),

@@ -34,6 +34,10 @@ abstract class ImageAssets {
   static const String setting = "$imagePath/setting.png";
   static const String service = "$imagePath/service.png";
   static const String out = "$imagePath/out.png";
+  static const String camp1 = "$imagePath/camp1.jpg";
+  static const String camp2 = "$imagePath/camp2.jpg";
+  static const String camp3 = "$imagePath/camp3.jpg";
+  static const String iconDate = "$imagePath/iconDate.png";
 }
 
 class SvgAssets {}

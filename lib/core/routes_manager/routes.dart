@@ -29,4 +29,11 @@ class Routes {
   static const String settings = "/settings";
   static const String savedCases = "/savedCases";
   static const String customerService = "/customerService";
+  static const String charityFilesScreen = "/charityFilesScreen";
+  static const String charityDataScreen = "/charityFilesScreen";
+  static const String emailVerficationScreen = "/emailVerficationScreen";
+  static const String changePasswordScreen = "/changePasswordScreen";
+  static const String accountStateScreen = "/accountStateScreen";
+  static const String campRec = "/campRec";
+
 }
