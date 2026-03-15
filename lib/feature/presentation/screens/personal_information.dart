@@ -80,7 +80,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
           body: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 68.0,bottom: 18),
+                padding: const EdgeInsets.only(top: 91.0,bottom: 18),
                 child: InkWell(
                   onTap: _pickImage,
                   child: Container(
@@ -124,7 +124,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                   ),),
                 ),
               ),
-              SizedBox(height: 40,),
+              SizedBox(height: 45,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 38.0),
                 child: Align(
@@ -139,7 +139,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 28,
-                vertical: 18),
+                ),
                 child: TextField(
                   textDirection: TextDirection.rtl,
                   textAlign: TextAlign.right,
@@ -162,7 +162,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 28.0,vertical: 48),
+                padding: const EdgeInsets.symmetric(horizontal: 28.0,vertical: 90),
                 child: Center(
                   child: SizedBox(
                     width: double.infinity,

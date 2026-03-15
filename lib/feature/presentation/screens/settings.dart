@@ -211,43 +211,35 @@ class _SettingsState extends State<Settings> {
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            Routes.privacyAndSecurity,
-                          );
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 26,
-                          ),
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 38.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "إصدار التطبيق",
-                                    style: GoogleFonts.saira(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18,
-                                      color: Color(0xff342821),
-                                    ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 26,
+                        ),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 38.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "إصدار التطبيق",
+                                  style: GoogleFonts.saira(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    color: Color(0xff342821),
                                   ),
-                                  Text(
-                                    "1.0",
-                                    style: GoogleFonts.saira(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18,
-                                      color: Color(0xff6A6969),
-                                    ),
+                                ),
+                                Text(
+                                  "1.0",
+                                  style: GoogleFonts.saira(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    color: Color(0xff6A6969),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),

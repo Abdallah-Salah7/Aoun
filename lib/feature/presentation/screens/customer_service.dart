@@ -341,6 +341,12 @@ class _CustomerServiceState extends State<CustomerService> {
                       ),
                       Checkbox(
                         value: dontAskAgain,
+                        fillColor: MaterialStateProperty.resolveWith((states) {
+                          if (states.contains(MaterialState.selected)) {
+                            return Color(0xff2C5240);
+                          }
+                          return Colors.white;
+                        }),
                         onChanged: (v) {
                           setState(() {
                             dontAskAgain = v!;

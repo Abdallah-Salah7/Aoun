@@ -60,7 +60,9 @@ class CradlesItem extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                       color: Colors.white
-                  ),)),
+                  ),
+                )
+            ),
           )
         ],
       ),

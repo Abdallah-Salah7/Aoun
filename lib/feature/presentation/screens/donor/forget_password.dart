@@ -88,7 +88,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                         CustomFormField(
                           label: 'البريد الإلكترونى',
                           hint: 'ex.email@gmail.com',
-                          labelFontWeight: FontWeight.w700,
+                          labelStyle: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                          ),
                           emailController: emailController,
                         ),
 

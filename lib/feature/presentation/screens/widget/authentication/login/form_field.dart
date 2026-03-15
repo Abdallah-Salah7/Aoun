@@ -7,7 +7,7 @@ class CustomFormField extends StatefulWidget {
   final String hint;
   final String? imagePath;
   final bool isPassword;
-  final FontWeight labelFontWeight;
+  final TextStyle? labelStyle;
   final bool downloadIcon;
   final TextEditingController? emailController;
 
@@ -17,7 +17,7 @@ class CustomFormField extends StatefulWidget {
     required this.hint,
     this.isPassword = false,
     this.downloadIcon = false,
-    this.labelFontWeight = FontWeight.normal,
+    this.labelStyle,
     this.emailController,
     this.imagePath,
   });
@@ -42,14 +42,15 @@ class _CustomFormFieldState extends State<CustomFormField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(right: width * 0.03),
+            padding: EdgeInsets.only(right: width * 0.01),
             child: Text(
               widget.label,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: fontSize * 1.3,
-                fontWeight: widget.labelFontWeight,
-              ),
+              style: widget.labelStyle ??
+                  TextStyle(
+                    color: Colors.black,
+                    fontSize: fontSize * 1.3,
+                    fontWeight: FontWeight.normal,
+                  ),
             ),
           ),
           const SizedBox(height: 6),

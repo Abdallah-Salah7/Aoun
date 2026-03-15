@@ -17,7 +17,7 @@ class Assets {
   static const String charityRegisterProgressBar = 'lib/feature/presentation/screens/widget/charity_register/progress_bar.dart';
   static const String charityRegisterScreen = 'lib/feature/presentation/screens/charity/register_screen.dart';
   static const String colorManagerPrimaryColors = 'lib/core/color_manager/primary_colors.dart';
-  static const String donorChangePassword = 'lib/feature/presentation/screens/donor/edit_password.dart';
+  static const String donorChangePassword = 'lib/feature/presentation/screens/donor/change_password.dart';
   static const String donorEmailVerfication = 'lib/feature/presentation/screens/donor/email_verfication.dart';
   static const String donorForgetPassword = 'lib/feature/presentation/screens/donor/forget_password.dart';
   static const String donorLoginScreen = 'lib/feature/presentation/screens/donor/login_screen.dart';
@@ -43,6 +43,7 @@ class Assets {
   static const String imagesDeliveryMan = 'assets/images/delivery-man.png';
   static const String imagesElderly = 'assets/images/elderly.png';
   static const String imagesEmailVerify = 'assets/images/email_verify.png';
+  static const String imagesEmergency = 'assets/images/Emergency.png';
   static const String imagesFacebook = 'assets/images/facebook.png';
   static const String imagesFav = 'assets/images/fav.png';
   static const String imagesFlowbiteClockArrowOutline = 'assets/images/flowbite_clock-arrow-outline.png';
@@ -94,13 +95,13 @@ class Assets {
   static const String routesManagerRoutes = 'lib/core/routes_manager/routes.dart';
   static const String screensCampaignDetails = 'lib/feature/presentation/screens/campaign_details.dart';
   static const String screensCaseDetailsScreen = 'lib/feature/presentation/screens/case_details_screen.dart';
-  static const String screensChangeEmail = 'lib/feature/presentation/screens/edit_email.dart';
-  static const String screensChangePassword = 'lib/feature/presentation/screens/edit_password.dart';
   static const String screensCharityProfileScreen = 'lib/feature/presentation/screens/charity_profile_screen.dart';
   static const String screensCurrentCampaignsScreen = 'lib/feature/presentation/screens/current_campaigns_screen.dart';
   static const String screensCustomerService = 'lib/feature/presentation/screens/customer_service.dart';
   static const String screensDonationFieldScreen = 'lib/feature/presentation/screens/donation_field_screen.dart';
   static const String screensDonationRecord = 'lib/feature/presentation/screens/donation_record.dart';
+  static const String screensEditEmail = 'lib/feature/presentation/screens/edit_email.dart';
+  static const String screensEditPassword = 'lib/feature/presentation/screens/edit_password.dart';
   static const String screensHomePage = 'lib/feature/presentation/screens/home_page.dart';
   static const String screensLoginChoiceScreen = 'lib/feature/presentation/screens/login_choice_screen.dart';
   static const String screensNotificationScreen = 'lib/feature/presentation/screens/notification_screen.dart';

@@ -44,6 +44,8 @@ abstract class ImageAssets {
   static const String personInfo = "$imagePath/personInfo.png";
   static const String changeEmaill = "$imagePath/changeEmaill.png";
   static const String changePass = "$imagePath/changePass.png";
+  static const String emailVerify = "$imagePath/email_verify.png";
+  static const String emergency = "$imagePath/Emergency.png";
 }
 
 class SvgAssets {}

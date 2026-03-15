@@ -74,6 +74,8 @@ class CampaignItem extends StatelessWidget {
                         fontSize: 20,
                       ),
 
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Spacer(),
                     Row(
