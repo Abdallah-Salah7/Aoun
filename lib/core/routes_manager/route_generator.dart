@@ -25,9 +25,12 @@ import '../../feature/presentation/screens/donation_field_screen.dart';
 import '../../feature/presentation/screens/donation_record.dart';
 import '../../feature/presentation/screens/donor/change_password.dart';
 import '../../feature/presentation/screens/donor/email_verfication.dart';
+import '../../feature/presentation/screens/edit_email.dart';
+import '../../feature/presentation/screens/edit_password.dart';
 import '../../feature/presentation/screens/home_page.dart';
 import '../../feature/presentation/screens/notification_screen.dart';
 import '../../feature/presentation/screens/payment_screen.dart';
+import '../../feature/presentation/screens/personal_information.dart';
 import '../../feature/presentation/screens/privacy_and_security.dart';
 import '../../feature/presentation/screens/saved_cases.dart';
 import '../../feature/presentation/screens/settings.dart';
@@ -38,97 +41,134 @@ import '../../feature/presentation/screens/tabs/zakat_tab.dart';
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings settings) {
     final argument = settings.arguments;
+
     switch (settings.name) {
+      /// HOME
       case Routes.homePage:
         return MaterialPageRoute(builder: (_) => const HomePage());
+
       case Routes.donationTab:
         return MaterialPageRoute(builder: (_) => const DonationTab());
+
       case Routes.zakatTab:
         return MaterialPageRoute(builder: (_) => const ZakatTab());
+
       case Routes.profileTab:
         return MaterialPageRoute(builder: (_) => const ProfileTab());
+
       case Routes.searchScreen:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
+
       case Routes.notificationScreen:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
 
+      /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
-        final fieldName = settings.arguments as String;
-
+        final fieldName = argument as String;
         return MaterialPageRoute(
           builder: (_) => CurrentCampaignsScreen(fieldName: fieldName),
         );
 
       case Routes.caseDetailsScreen:
-        final args = settings.arguments as Map<String, dynamic>;
-
+        final args = argument as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) => CaseDetailsScreen(args: args));
-      case Routes.donationFieldScreen:
-        final fieldName = settings.arguments as String;
 
+      case Routes.donationFieldScreen:
+        final fieldName = argument as String;
         return MaterialPageRoute(
           builder: (_) => DonationFieldScreen(fieldName: fieldName),
         );
-      case Routes.campaignDetails:
-        final args = settings.arguments as Map<String, dynamic>;
 
+      case Routes.campaignDetails:
+        final args = argument as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) => CampaignDetails(args: args));
+
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
+
+      /// CHARITY
       case Routes.charityProfileScreen:
         return MaterialPageRoute(builder: (_) => const CharityProfileScreen());
 
-      case Routes.signIn:
-      // return MaterialPageRoute(builder: (_) => const SignInScreen());
+      case Routes.charityDataScreen:
+        return MaterialPageRoute(builder: (_) => const CharityData());
 
-      case Routes.onBoard1:
-        return MaterialPageRoute(builder: (_) => const OnboardingScreen1());
-      case Routes.onBoard2:
-        return MaterialPageRoute(builder: (_) => const OnboardingScreen2());
-      case Routes.onBoard3:
-        return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
-      case Routes.splashScreen:
-        return MaterialPageRoute(builder: (_) => const SplashScreen());
+      case Routes.charityFilesScreen:
+        return MaterialPageRoute(builder: (_) => const CharityFiles());
+
+      case Routes.accountStateScreen:
+        return MaterialPageRoute(builder: (_) => const AccountState());
+
+      /// SETTINGS
+      case Routes.settings:
+        return MaterialPageRoute(builder: (_) => const Settings());
+
+      case Routes.savedCases:
+        return MaterialPageRoute(builder: (_) => const SavedCases());
+
+      case Routes.privacyAndSecurity:
+        return MaterialPageRoute(builder: (_) => const PrivacyAndSecurity());
+
+      case Routes.customerService:
+        return MaterialPageRoute(builder: (_) => const CustomerService());
+
+      case Routes.donationRecord:
+        return MaterialPageRoute(builder: (_) => const DonationRecord());
+      case Routes.editEmail:
+        return MaterialPageRoute(builder: (_) => const EditEmail());
+      case Routes.editPassword:
+        return MaterialPageRoute(builder: (_) => const EditPassword());
+      case Routes.personalInformation:
+        return MaterialPageRoute(builder: (_) => const PersonalInformation());
+
+      /// AUTH
       case Routes.userTypeScreen:
         return MaterialPageRoute(
           builder: (_) => const GeneralLoginChoicePage(),
         );
+
       case Routes.loginChoiceScreen:
         return MaterialPageRoute(
           builder: (_) => LoginChoiceScreen(userType: argument as String),
         );
+
       case Routes.donorLoginScreen:
         return MaterialPageRoute(builder: (_) => const DonorLoginScreen());
+
       case Routes.donorRegisteScreen:
         return MaterialPageRoute(builder: (_) => const DonorRegisterScreen());
+
       case Routes.charityLoginScreen:
         return MaterialPageRoute(builder: (_) => const CharityLoginScreen());
+
       case Routes.charityRegisteScreen:
         return MaterialPageRoute(builder: (_) => const CharityRegisterScreen());
+
       case Routes.forgetPasswordScreen:
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
-      case Routes.donationRecord:
-        return MaterialPageRoute(builder: (_) => const DonationRecord());
-      case Routes.privacyAndSecurity:
-        return MaterialPageRoute(builder: (_) => const PrivacyAndSecurity());
-      case Routes.settings:
-        return MaterialPageRoute(builder: (_) => const Settings());
-      case Routes.savedCases:
-        return MaterialPageRoute(builder: (_) => const SavedCases());
-      case Routes.customerService:
-        return MaterialPageRoute(builder: (_) => const CustomerService());
+
       case Routes.emailVerficationScreen:
         return MaterialPageRoute(
           builder: (_) => EmailVerfication(email: argument as String),
         );
+
       case Routes.changePasswordScreen:
         return MaterialPageRoute(builder: (_) => const ChangePassword());
-      case Routes.charityDataScreen:
-        return MaterialPageRoute(builder: (_) => const CharityData());
-      case Routes.charityFilesScreen:
-        return MaterialPageRoute(builder: (_) => const CharityFiles());
-      case Routes.accountStateScreen:
-        return MaterialPageRoute(builder: (_) => const AccountState());
+
+      /// ONBOARDING
+      case Routes.onBoard1:
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen1());
+
+      case Routes.onBoard2:
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen2());
+
+      case Routes.onBoard3:
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
+
+      /// SPLASH
+      case Routes.splashScreen:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
+
       default:
         return unDefinedRoute();
     }

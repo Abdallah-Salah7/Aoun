@@ -38,6 +38,12 @@ abstract class ImageAssets {
   static const String camp2 = "$imagePath/camp2.jpg";
   static const String camp3 = "$imagePath/camp3.jpg";
   static const String iconDate = "$imagePath/iconDate.png";
+  static const String phone = "$imagePath/phone.png";
+  static const String whatsApp = "$imagePath/whatsApp.png";
+  static const String truecaller = "$imagePath/Truecaller.png";
+  static const String personInfo = "$imagePath/personInfo.png";
+  static const String changeEmaill = "$imagePath/changeEmaill.png";
+  static const String changePass = "$imagePath/changePass.png";
 }
 
 class SvgAssets {}
