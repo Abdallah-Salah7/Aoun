@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../core/routes_manager/routes.dart';
 
 class PersonalInformation extends StatefulWidget {
   const PersonalInformation({super.key});

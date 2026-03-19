@@ -4,7 +4,7 @@ import 'package:aoun/feature/presentation/screens/tabs/profile_tab.dart';
 import 'package:aoun/feature/presentation/screens/tabs/zakat_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import '../../../core/resources/assets_manager.dart';
+import '../../../../core/resources/assets_manager.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -2,7 +2,7 @@ import 'package:aoun/feature/presentation/screens/widget/authentication/login/fo
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/resources/assets_manager.dart';
+import '../../../../core/resources/assets_manager.dart';
 
 class EditEmail extends StatelessWidget {
   const EditEmail({super.key});

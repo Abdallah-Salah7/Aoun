@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
-import '../donation_field_screen.dart';
+import '../donor_system/donation_field_screen.dart';
 import '../widget/field_item.dart';
 
 class DonationTab extends StatefulWidget {
