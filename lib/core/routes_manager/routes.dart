@@ -38,5 +38,5 @@ class Routes {
   static const String editEmail = "/editEmail";
   static const String editPassword = "/editPassword";
   static const String personalInformation = "/personalInformation";
-
+  static const String creditDetailsScreen = "/creditDetailsScreen";
 }

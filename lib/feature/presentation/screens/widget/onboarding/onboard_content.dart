@@ -49,20 +49,23 @@ class OnboardingContent extends StatelessWidget {
                 /// Paragraph
                 Expanded(
                   child: SingleChildScrollView(
-                    child: Text(
-                      paragraphText,
-                      textDirection: TextDirection.rtl,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: isTablet ? 18 : size.width * 0.045,
-                        color: PrimaryColors.secondaryColor,
-                        height: 1.6,
+                    child: SizedBox(
+                      width: size.width*0.6,
+                      child: Text(
+                        paragraphText,
+                        textDirection: TextDirection.rtl,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: isTablet ? 18 : size.width * 0.045,
+                          color: PrimaryColors.secondaryColor,
+                          height: 1.6,
+                        ),
                       ),
                     ),
                   ),
                 ),
 
-                SizedBox(height: size.height * 0.03),
+                SizedBox(height: size.height * 0.01),
 
                 /// Bottom Controls
                 BottomControls(skipFunction: skipFunction),

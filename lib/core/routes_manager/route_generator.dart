@@ -4,6 +4,7 @@ import 'package:aoun/feature/presentation/screens/charity/register_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor/forget_password.dart';
 import 'package:aoun/feature/presentation/screens/donor/login_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor/register_screen.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/credit_details.dart';
 import 'package:aoun/feature/presentation/screens/onboard_screens/onboard_screen1.dart';
 import 'package:aoun/feature/presentation/screens/onboard_screens/onboard_screen2.dart';
 import 'package:aoun/feature/presentation/screens/onboard_screens/onboard_screen3.dart';
@@ -57,10 +58,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ProfileTab());
 
       case Routes.searchScreen:
-        return MaterialPageRoute(builder: (_) => const SearchScreen());
+        return MaterialPageRoute(builder: (_) =>  SearchScreen());
 
       case Routes.notificationScreen:
-        return MaterialPageRoute(builder: (_) => const NotificationScreen());
+        return MaterialPageRoute(builder: (_) =>  NotificationScreen());
 
       /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
@@ -85,6 +86,8 @@ class RouteGenerator {
 
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
+      case Routes.creditDetailsScreen:
+        return MaterialPageRoute(builder: (_) => const CreditDetails());
 
       /// CHARITY
       case Routes.charityProfileScreen:
