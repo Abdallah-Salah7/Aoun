@@ -12,8 +12,7 @@ class CampaignDetails extends StatefulWidget {
   State<CampaignDetails> createState() => _CampaignDetailsState();
 }
 
-class _CampaignDetailsState extends State<CampaignDetails>
-{
+class _CampaignDetailsState extends State<CampaignDetails> {
   bool isSaved = false;
   @override
   Widget build(BuildContext context) {
@@ -37,10 +36,12 @@ class _CampaignDetailsState extends State<CampaignDetails>
                 children: [
                   Stack(
                     children: [
-                      Image.asset(image,
-                      width: double.infinity,
-                      height: 292,
-                      fit: BoxFit.cover,),
+                      Image.asset(
+                        image,
+                        width: double.infinity,
+                        height: 292,
+                        fit: BoxFit.cover,
+                      ),
                       Row(
                         children: [
                           Container(
@@ -91,7 +92,10 @@ class _CampaignDetailsState extends State<CampaignDetails>
                   Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18.0,
+                          vertical: 8,
+                        ),
                         child: Text(
                           title,
                           textAlign: TextAlign.right,
@@ -114,24 +118,27 @@ class _CampaignDetailsState extends State<CampaignDetails>
                       padding: EdgeInsets.all(8),
                       child: Column(
                         children: [
-
                           Row(
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(right: 18.0),
-                                child: Image(image: AssetImage(ImageAssets.iconDate),
+                                child: Image(
+                                  image: AssetImage(ImageAssets.iconDate),
                                   height: 34,
-                                  width: 34,),
+                                  width: 34,
+                                ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text("30 يوم متبقى",
+                                child: Text(
+                                  "30 يوم متبقى",
                                   style: GoogleFonts.manrope(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black45,
-                                  ),),
-                              )
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                           Padding(
@@ -147,8 +154,10 @@ class _CampaignDetailsState extends State<CampaignDetails>
                               ),
                             ),
                           ),
-                     Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18.0,
+                            ),
                             child: Row(
                               children: [
                                 Text(
@@ -215,13 +224,13 @@ class _CampaignDetailsState extends State<CampaignDetails>
                             color: Colors.black,
                           ),
                         ),
-                      Text(
-                        "تهدف هذه الحملة إلى تقديم الدعم\n الإنساني العاجل للأسر المتضررة في غزة،\n من خلال توفير الاحتياجات الأساسية مثل\n الغذاء، والدواء، والمياه، والمستلزمات\n الضرورية للحياة اليومية.\n نسعى من خلال تبرعاتكم الكريمة إلى\n تخفيف معاناة العائلات المتضررة\n ومساعدتهم على تجاوز هذه الظروف\n الصعبة.\n مساهمتكم، مهما كانت بسيطة، يمكن أن\n تصنع فرقًا حقيقيًا في حياة الكثير من\n الأشخاص المحتاجين.",
-                        style: GoogleFonts.manrope(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff757575),
-                        ),
+                        Text(
+                          "تهدف هذه الحملة إلى تقديم الدعم\n الإنساني العاجل للأسر المتضررة في غزة،\n من خلال توفير الاحتياجات الأساسية مثل\n الغذاء، والدواء، والمياه، والمستلزمات\n الضرورية للحياة اليومية.\n نسعى من خلال تبرعاتكم الكريمة إلى\n تخفيف معاناة العائلات المتضررة\n ومساعدتهم على تجاوز هذه الظروف\n الصعبة.\n مساهمتكم، مهما كانت بسيطة، يمكن أن\n تصنع فرقًا حقيقيًا في حياة الكثير من\n الأشخاص المحتاجين.",
+                          style: GoogleFonts.manrope(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff757575),
+                          ),
                         ),
                       ],
                     ),
@@ -230,7 +239,6 @@ class _CampaignDetailsState extends State<CampaignDetails>
                   InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, Routes.charityProfileScreen);
-
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -243,7 +251,9 @@ class _CampaignDetailsState extends State<CampaignDetails>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                            ),
                             child: Text(
                               "مقدمة من ",
                               style: GoogleFonts.manrope(
@@ -262,14 +272,15 @@ class _CampaignDetailsState extends State<CampaignDetails>
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                              SizedBox(width: 8,),
+                              SizedBox(width: 8),
                               Text(
                                 "غيث للتنمية المجتمعية",
                                 style: GoogleFonts.manrope(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xff757575),
-                                ),)
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -279,7 +290,7 @@ class _CampaignDetailsState extends State<CampaignDetails>
                   Padding(
                     padding: const EdgeInsets.all(18.0),
                     child: Center(
-                      child:SizedBox(
+                      child: SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -291,8 +302,7 @@ class _CampaignDetailsState extends State<CampaignDetails>
                             ),
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(
-                                context, Routes.paymentScreen);
+                            Navigator.pushNamed(context, Routes.paymentScreen);
                           },
                           child: Text(
                             "تبرع الآن",

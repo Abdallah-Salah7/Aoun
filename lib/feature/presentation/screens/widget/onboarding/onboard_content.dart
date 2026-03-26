@@ -50,7 +50,7 @@ class OnboardingContent extends StatelessWidget {
                 Expanded(
                   child: SingleChildScrollView(
                     child: SizedBox(
-                      width: size.width*0.6,
+                      width: size.width * 0.6,
                       child: Text(
                         paragraphText,
                         textDirection: TextDirection.rtl,

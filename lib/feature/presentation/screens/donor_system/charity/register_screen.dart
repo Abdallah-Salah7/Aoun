@@ -12,7 +12,7 @@ class CharityRegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffD9DDDA),
+      backgroundColor: const Color(0xffE5EBE9),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {

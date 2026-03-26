@@ -28,25 +28,29 @@ class EditEmail extends StatelessWidget {
           ),
           title: Padding(
             padding: const EdgeInsets.only(top: 10.0),
-            child: Text("تغيير البريد الإلكترونى",
+            child: Text(
+              "تغيير البريد الإلكترونى",
               style: GoogleFonts.saira(
                 fontWeight: FontWeight.w800,
                 fontSize: 30,
                 color: const Color(0xff255A41),
-              ),),
+              ),
+            ),
           ),
         ),
 
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 90.0,horizontal: 33),
+            padding: const EdgeInsets.symmetric(vertical: 90.0, horizontal: 33),
             child: Align(
               alignment: Alignment.centerRight,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(child: Image(image: AssetImage(ImageAssets.emailVerify))),
-                  SizedBox(height: 57,),
+                  Center(
+                    child: Image(image: AssetImage(ImageAssets.emailVerify)),
+                  ),
+                  SizedBox(height: 57),
                   CustomFormField(
                     label: "البريد الإلكترونى",
                     hint: "ex.email@gmail.com",
@@ -56,8 +60,8 @@ class EditEmail extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(height: 57,),
-          
+                  SizedBox(height: 57),
+
                   Center(
                     child: SizedBox(
                       width: double.infinity,
@@ -70,8 +74,7 @@ class EditEmail extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        onPressed: () {
-                        },
+                        onPressed: () {},
                         child: Text(
                           "تأكيد",
                           style: GoogleFonts.manrope(
@@ -83,16 +86,16 @@ class EditEmail extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 28.0,right: 8),
-                    child: Text("تنبيه :\n عند تغيير بريدك الإلكتروني، سيكون البريد\n الإلكتروني الجديد هو بريدك الإلكتروني\n الافتراضي. وسوف نرسل كل رسالتنا إلى\n الجديد.",
+                    padding: const EdgeInsets.only(top: 28.0, right: 8),
+                    child: Text(
+                      "تنبيه :\n عند تغيير بريدك الإلكتروني، سيكون البريد\n الإلكتروني الجديد هو بريدك الإلكتروني\n الافتراضي. وسوف نرسل كل رسالتنا إلى\n الجديد.",
                       style: GoogleFonts.manrope(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff757575),
                       ),
                     ),
-                  )
-          
+                  ),
                 ],
               ),
             ),

@@ -183,7 +183,7 @@ class MainTab extends StatelessWidget {
                               Navigator.pushNamed(
                                 context,
                                 Routes.currentCampaignsScreen,
-                                arguments: "حملة"
+                                arguments: "حملة",
                               );
                             },
                             child: TitleItem(
@@ -245,7 +245,6 @@ class MainTab extends StatelessWidget {
                       collectedValue: "٨٩٠٠",
                       allValue: "١٨,٠٠٠",
                       status: "عاجلة جداً",
-
                     ),
                     SizedBox(height: 30),
 

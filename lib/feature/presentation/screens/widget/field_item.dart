@@ -8,16 +8,18 @@ class FieldItem extends StatelessWidget {
   final String image;
   final String title;
   final VoidCallback onTap;
-  FieldItem({super.key, required this.image,
+  FieldItem({
+    super.key,
+    required this.image,
     required this.title,
-    required this.onTap
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10),
         child: InkWell(
           onTap: onTap,
           child: Container(

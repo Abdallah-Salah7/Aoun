@@ -11,7 +11,7 @@ class CreditDetails extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: const Color(0xffEDEDED),
+        backgroundColor: const Color(0xffE5EBE9),
         appBar: AppBar(
           title: const Text(
             'معلومات بطاقة الإئتمان',

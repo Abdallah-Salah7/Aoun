@@ -40,5 +40,5 @@ class Routes {
   static const String personalInformation = "/personalInformation";
   static const String homeCharity = "/homeCharity";
   static const String creditDetailsScreen = "/creditDetailsScreen";
-
+  static const String fatwasOnZakatScreen = "/fatwasOnZakatScreen";
 }

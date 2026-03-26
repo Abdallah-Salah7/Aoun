@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -8,11 +7,7 @@ class DonationItem extends StatelessWidget {
   final String image;
   final String name;
 
-  const DonationItem({
-    super.key,
-    required this.image,
-    required this.name,
-  });
+  const DonationItem({super.key, required this.image, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +29,7 @@ class DonationItem extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Image.asset(image,
-              width: 37,
-              height: 37,),
+              child: Image.asset(image, width: 37, height: 37),
             ),
           ),
           Padding(
@@ -49,8 +42,7 @@ class DonationItem extends StatelessWidget {
                 color: const Color(0xff323131),
               ),
             ),
-          )
-
+          ),
         ],
       ),
     );

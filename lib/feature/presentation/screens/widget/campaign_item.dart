@@ -10,14 +10,14 @@ class CampaignItem extends StatelessWidget {
   final double rateValue;
   final String collectedValue;
   final String allValue;
-   CampaignItem({
-     super.key,
-     required this.image,
-     required this.title,
-     required this.rateValue,
-     required this.collectedValue,
-     required this.allValue,
-     });
+  CampaignItem({
+    super.key,
+    required this.image,
+    required this.title,
+    required this.rateValue,
+    required this.collectedValue,
+    required this.allValue,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +58,13 @@ class CampaignItem extends StatelessWidget {
                       fit: BoxFit.fill,
                     ),
                   ),
-
-
-
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18.0,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     Text(
@@ -82,19 +82,23 @@ class CampaignItem extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(right: 18.0),
-                          child: Image(image: AssetImage(ImageAssets.iconDate),
+                          child: Image(
+                            image: AssetImage(ImageAssets.iconDate),
                             height: 34,
-                            width: 34,),
+                            width: 34,
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text("30 يوم متبقى",
+                          child: Text(
+                            "30 يوم متبقى",
                             style: GoogleFonts.manrope(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
                               color: Colors.black45,
-                            ),),
-                        )
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -114,7 +118,7 @@ class CampaignItem extends StatelessWidget {
                   ),
                 ),
               ),
-            Padding(
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: Row(
                   children: [
@@ -142,8 +146,7 @@ class CampaignItem extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: Center(
-                  child:
-                     SizedBox(
+                  child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -155,8 +158,7 @@ class CampaignItem extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(
-                            context, Routes.paymentScreen);
+                        Navigator.pushNamed(context, Routes.paymentScreen);
                       },
                       child: Text(
                         "تبرع الآن",

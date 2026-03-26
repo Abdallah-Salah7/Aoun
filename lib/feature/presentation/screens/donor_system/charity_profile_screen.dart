@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 
-
 class CharityProfileScreen extends StatefulWidget {
   const CharityProfileScreen({super.key});
 

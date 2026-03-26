@@ -12,7 +12,7 @@ class LoginChoiceScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Color(0xFFD9DDDA),
+      backgroundColor: Color(0xffE5EBE9),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
