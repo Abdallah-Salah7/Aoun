@@ -106,7 +106,7 @@ class EmailVerfication extends StatelessWidget {
                                 color: PrimaryColors.secondaryColor,
                               ),
                               children: [
-                                TextSpan(text: "لم تتلقَّ رمز التحقق بعد؟."),
+                                TextSpan(text: "لم تتلقَّ رمز التحقق بعد؟"),
                                 TextSpan(
                                   text: "إعادة الإرسال.",
                                   style: TextStyle(

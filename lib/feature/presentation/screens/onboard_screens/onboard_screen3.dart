@@ -17,9 +17,7 @@ class OnboardingScreen3 extends StatelessWidget {
           Positioned.fill(
             child: OnboardingContent(
               titleText: "طُرق دفع آمنة وسهلة",
-              paragraphText:
-                  "عَبر خياراتٍ متعددة تُسهل\n"
-                  "عملية التبرع والعطاء.",
+              paragraphText: "عَبر خياراتٍ متعددة تُسهل عملية التبرع والعطاء.",
             ),
           ),
         ],

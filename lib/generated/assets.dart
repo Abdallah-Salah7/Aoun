@@ -16,7 +16,6 @@ class Assets {
   static const String charityRegisterHeaderWidget = 'lib/feature/presentation/screens/widget/charity_register/header_widget.dart';
   static const String charityRegisterProgressBar = 'lib/feature/presentation/screens/widget/charity_register/progress_bar.dart';
   static const String charityRegisterScreen = 'lib/feature/presentation/screens/charity/register_screen.dart';
-  static const String charitySystemHomeCharity = 'lib/feature/presentation/screens/charity_system/home_charity.dart';
   static const String colorManagerPrimaryColors = 'lib/core/color_manager/primary_colors.dart';
   static const String donorChangePassword = 'lib/feature/presentation/screens/donor/change_password.dart';
   static const String donorEmailVerfication = 'lib/feature/presentation/screens/donor/email_verfication.dart';
@@ -58,7 +57,6 @@ class Assets {
   static const String imagesCertificate = 'assets/images/certificate.png';
   static const String imagesChangeEmaill = 'assets/images/changeEmaill.png';
   static const String imagesChangePass = 'assets/images/changePass.png';
-  static const String imagesCharityIcon = 'assets/images/charityIcon.png';
   static const String imagesClassroom = 'assets/images/Classroom.png';
   static const String imagesCreditCard = 'assets/images/credit-card.png';
   static const String imagesDebt = 'assets/images/Debt.png';
@@ -80,9 +78,6 @@ class Assets {
   static const String imagesId = 'assets/images/id.png';
   static const String imagesLogo = 'assets/images/logo.png';
   static const String imagesMore = 'assets/images/more.png';
-  static const String imagesNumCamps = 'assets/images/numCamps.png';
-  static const String imagesNumCases = 'assets/images/numCases.png';
-  static const String imagesNumDonors = 'assets/images/numDonors.png';
   static const String imagesOut = 'assets/images/out.png';
   static const String imagesPeople = 'assets/images/People.png';
   static const String imagesPersonInfo = 'assets/images/personInfo.png';
@@ -94,7 +89,6 @@ class Assets {
   static const String imagesSetting = 'assets/images/setting.png';
   static const String imagesSiren = 'assets/images/Siren.png';
   static const String imagesSocialCare = 'assets/images/SocialCare.png';
-  static const String imagesTotalDonation = 'assets/images/totalDonation.png';
   static const String imagesTruecaller = 'assets/images/Truecaller.png';
   static const String imagesUpload = 'assets/images/upload.png';
   static const String imagesVector = 'assets/images/Vector.png';
@@ -129,10 +123,8 @@ class Assets {
   static const String widgetCampaignItem = 'lib/feature/presentation/screens/widget/campaign_item.dart';
   static const String widgetCaseItem = 'lib/feature/presentation/screens/widget/case_item.dart';
   static const String widgetCradlesItem = 'lib/feature/presentation/screens/widget/cradles_item.dart';
-  static const String widgetDonationChart = 'lib/feature/presentation/screens/widget/donation_chart.dart';
   static const String widgetDonationItem = 'lib/feature/presentation/screens/widget/donation_item.dart';
   static const String widgetFieldItem = 'lib/feature/presentation/screens/widget/field_item.dart';
   static const String widgetTitleItem = 'lib/feature/presentation/screens/widget/title_item.dart';
-  static const String widgetWeeklyChart = 'lib/feature/presentation/screens/widget/weekly_chart.dart';
 
 }

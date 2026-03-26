@@ -20,6 +20,7 @@ import '../../feature/presentation/screens/donor_system/case_details_screen.dart
 import '../../feature/presentation/screens/donor/change_password.dart';
 import '../../feature/presentation/screens/donor/email_verfication.dart';
 import '../../feature/presentation/screens/donor_system/charity_profile_screen.dart';
+import '../../feature/presentation/screens/donor_system/credit_details.dart';
 import '../../feature/presentation/screens/donor_system/current_campaigns_screen.dart';
 import '../../feature/presentation/screens/donor_system/customer_service.dart';
 import '../../feature/presentation/screens/donor_system/donation_field_screen.dart';
@@ -44,7 +45,7 @@ class RouteGenerator {
     final argument = settings.arguments;
 
     switch (settings.name) {
-      /// HOME
+    /// HOME
       case Routes.homePage:
         return MaterialPageRoute(builder: (_) => const HomePage());
 
@@ -58,12 +59,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ProfileTab());
 
       case Routes.searchScreen:
-        return MaterialPageRoute(builder: (_) => const SearchScreen());
+        return MaterialPageRoute(builder: (_) =>  SearchScreen());
 
       case Routes.notificationScreen:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
 
-      /// CAMPAIGNS
+    /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
         final fieldName = argument as String;
         return MaterialPageRoute(
@@ -87,7 +88,7 @@ class RouteGenerator {
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
 
-      /// CHARITY
+    /// CHARITY
       case Routes.charityProfileScreen:
         return MaterialPageRoute(builder: (_) => const CharityProfileScreen());
 
@@ -102,7 +103,7 @@ class RouteGenerator {
       case Routes.homeCharity:
         return MaterialPageRoute(builder: (_) => const HomeCharity());
 
-      /// SETTINGS
+    /// SETTINGS
       case Routes.settings:
         return MaterialPageRoute(builder: (_) => const Settings());
 
@@ -123,8 +124,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const EditPassword());
       case Routes.personalInformation:
         return MaterialPageRoute(builder: (_) => const PersonalInformation());
+        case Routes.creditDetailsScreen:
+        return MaterialPageRoute(builder: (_) => const CreditDetails());
 
-      /// AUTH
+    /// AUTH
       case Routes.userTypeScreen:
         return MaterialPageRoute(
           builder: (_) => const GeneralLoginChoicePage(),
@@ -158,7 +161,7 @@ class RouteGenerator {
       case Routes.changePasswordScreen:
         return MaterialPageRoute(builder: (_) => const ChangePassword());
 
-      /// ONBOARDING
+    /// ONBOARDING
       case Routes.onBoard1:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen1());
 
@@ -168,7 +171,7 @@ class RouteGenerator {
       case Routes.onBoard3:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
 
-      /// SPLASH
+    /// SPLASH
       case Routes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
 
@@ -181,9 +184,9 @@ class RouteGenerator {
     return MaterialPageRoute(
       builder:
           (_) => Scaffold(
-            appBar: AppBar(title: const Text('No Route Found')),
-            body: const Center(child: Text('No Route Found')),
-          ),
+        appBar: AppBar(title: const Text('No Route Found')),
+        body: const Center(child: Text('No Route Found')),
+      ),
     );
   }
 }

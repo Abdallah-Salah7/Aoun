@@ -1,5 +1,4 @@
-import 'package:aoun/core/color_manager/primary_colors.dart';
-import 'package:aoun/core/resources/assets_manager.dart';
+
 import 'package:flutter/material.dart';
 
 class CustomFormField extends StatefulWidget {
@@ -9,6 +8,7 @@ class CustomFormField extends StatefulWidget {
   final bool isPassword;
   final TextStyle? labelStyle;
   final bool downloadIcon;
+  final bool ?filled;
   final TextEditingController? emailController;
 
   const CustomFormField({
@@ -19,7 +19,7 @@ class CustomFormField extends StatefulWidget {
     this.downloadIcon = false,
     this.labelStyle,
     this.emailController,
-    this.imagePath,
+    this.imagePath,  this.filled=true,
   });
 
   @override
@@ -87,7 +87,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
                           onPressed: () {},
                         )
                         : null,
-                filled: true,
+                filled: widget.filled,
                 fillColor: Color(0xffFFFFFF),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(6),

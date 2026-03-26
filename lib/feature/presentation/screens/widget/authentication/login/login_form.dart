@@ -75,7 +75,7 @@ class _LoginFormState extends State<LoginForm> {
                 children: [
                   Expanded(
                     child: Text(
-                      "باستمرارك، فإنك توافق على شروط الاستخدام\n وسياسة الخصوصية الخاصة بنا.",
+                      "باستمرارك، فإنك توافق على شروط الاستخدام وسياسة الخصوصية الخاصة بنا.",
                       style: TextStyle(
                         color: PrimaryColors.secondaryColor,
                         fontSize: fontSize,

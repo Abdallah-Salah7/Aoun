@@ -2,7 +2,6 @@ const String imagePath = "assets/images";
 const String jsonPath = "assets/json";
 const String iconsPath = "assets/icons";
 const String svgPath = "assets/svg_images";
-
 abstract class ImageAssets {
   static const String logo = "$imagePath/logo.png";
   static const String mainTab = "$imagePath/home.png";
@@ -47,10 +46,10 @@ abstract class ImageAssets {
   static const String emailVerify = "$imagePath/email_verify.png";
   static const String emergency = "$imagePath/Emergency.png";
   static const String charityIcon = "$imagePath/charityIcon.png";
-  static const String numCamps = "$imagePath/numCamps.png";
-  static const String numCases = "$imagePath/numCases.png";
-  static const String numDonors = "$imagePath/numDonors.png";
   static const String totalDonation = "$imagePath/totalDonation.png";
+  static const String numCamps = "$imagePath/numCamps.png";
+  static const String numDonors = "$imagePath/numDonors.png";
+  static const String numCases = "$imagePath/numCases.png";
 }
 
 class SvgAssets {}
