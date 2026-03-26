@@ -6,6 +6,7 @@ import 'core/routes_manager/route_generator.dart';
 import 'core/theme/base_theme.dart';
 import 'core/theme/dark_theme.dart';
 import 'core/theme/light_theme.dart';
+import 'feature/presentation/screens/charity_system/home_charity.dart';
 import 'feature/presentation/state_management/provider/my_provider.dart';
 
 void main() {

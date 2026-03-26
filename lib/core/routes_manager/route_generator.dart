@@ -10,6 +10,7 @@ import 'package:aoun/feature/presentation/screens/onboard_screens/onboard_screen
 import 'package:aoun/feature/presentation/screens/donor_system/splash_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../feature/presentation/screens/charity_system/home_charity.dart';
 import '../../feature/presentation/screens/donor_system/Search_screen.dart';
 import '../../feature/presentation/screens/donor_system/campaign_details.dart';
 import '../../feature/presentation/screens/charity/account_state.dart';
@@ -98,6 +99,8 @@ class RouteGenerator {
 
       case Routes.accountStateScreen:
         return MaterialPageRoute(builder: (_) => const AccountState());
+      case Routes.homeCharity:
+        return MaterialPageRoute(builder: (_) => const HomeCharity());
 
       /// SETTINGS
       case Routes.settings:
