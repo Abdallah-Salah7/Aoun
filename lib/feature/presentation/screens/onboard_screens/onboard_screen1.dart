@@ -19,9 +19,7 @@ class OnboardingScreen1 extends StatelessWidget {
             child: OnboardingContent(
               titleText: "عَطاؤك....يُغير مصيراً",
               paragraphText:
-                  "خُطوة مِنك تُنقذ حَياة وتفتح باب\n"
-                  "أمل،\n"
-                  "لتترك أثراً لا يُنسى.",
+                  "خُطوة مِنك تُنقذ حَياة وتفتح باب أمل ،\nلتترك أثراً لا يُينسى.",
               skipFunction: () {
                 Navigator.pushReplacementNamed(context, Routes.onBoard2);
               },

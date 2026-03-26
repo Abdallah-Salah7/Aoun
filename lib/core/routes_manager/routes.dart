@@ -1,8 +1,4 @@
 class Routes {
-  static const String signIn = "/signIn";
-  static const String onBoard1 = "/onBoard1";
-  static const String onBoard2 = "/onBoard2";
-  static const String onBoard3 = "/onBoard3";
   static const String homePage = "/homePage";
   static const String donationTab = "/donationTab";
   static const String zakatTab = "/ZakatTab";
@@ -14,6 +10,11 @@ class Routes {
   static const String donationFieldScreen = "/donationFieldScreen";
   static const String campaignDetails = "/campaignDetails";
   static const String paymentScreen = "/paymentScreen";
+  static const String signIn = "/signIn";
+  static const String onBoard = "/onBoard";
+  static const String onBoard1 = "/onBoard1";
+  static const String onBoard2 = "/onBoard2";
+  static const String onBoard3 = "/onBoard3";
   static const String splashScreen = "/splashScreen";
   static const String userTypeScreen = "/userTypeScreen";
   static const String loginChoiceScreen = "/loginChoiceScreen";
@@ -22,9 +23,20 @@ class Routes {
   static const String charityLoginScreen = "/charityLoginScreen";
   static const String charityRegisteScreen = "/charityRegisteScreen";
   static const String forgetPasswordScreen = "/forgetPasswordScreen";
+  static const String charityProfileScreen = "/charityProfileScreen";
+  static const String donationRecord = "/donationRecord";
+  static const String privacyAndSecurity = "/privacyAndSecurity";
+  static const String settings = "/settings";
+  static const String savedCases = "/savedCases";
+  static const String customerService = "/customerService";
   static const String emailVerficationScreen = "/emailVerficationScreen";
   static const String changePasswordScreen = "/changePasswordScreen";
-  static const String charityDataScreen = "/charityDataScreen";
-  static const String charityFilesScreen = "/charityFilesScreen";
   static const String accountStateScreen = "/accountStateScreen";
+  static const String campRec = "/campRec";
+  static const String charityFilesScreen = "/charityFilesScreen";
+  static const String charityDataScreen = "/charityDataScreen";
+  static const String editEmail = "/editEmail";
+  static const String editPassword = "/editPassword";
+  static const String personalInformation = "/personalInformation";
+  static const String creditDetailsScreen = "/creditDetailsScreen";
 }

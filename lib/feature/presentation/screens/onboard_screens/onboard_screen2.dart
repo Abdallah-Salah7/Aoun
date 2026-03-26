@@ -19,10 +19,7 @@ class OnboardingScreen2 extends StatelessWidget {
             child: OnboardingContent(
               titleText: "فُرص تَبرع مُتنوعة",
               paragraphText:
-                  "تُغطي جميع مجالات الخير وتصل إلى\n"
-                  "من يستحقها من الفئات الأكثر\n"
-                  "حاجة، لتمنحهم فرصة جديدة للحياة\n"
-                  "وتمدّ لهم يد العون.",
+                  "تُغطي جميع مجالات الخير وتصل إلى من يستحقها من الفئات الأكثر حاجة،لتمنحهم فرصة جديدة للحياة وتمدّ لهم يد العون.",
               skipFunction: () {
                 Navigator.pushReplacementNamed(context, Routes.onBoard3);
               },

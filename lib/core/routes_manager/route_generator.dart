@@ -1,30 +1,40 @@
 import 'package:aoun/core/routes_manager/routes.dart';
-import 'package:aoun/feature/presentation/screens/charity/account_state.dart';
-import 'package:aoun/feature/presentation/screens/charity/charity_data.dart';
-import 'package:aoun/feature/presentation/screens/charity/charity_files.dart';
 import 'package:aoun/feature/presentation/screens/charity/login_screen.dart';
 import 'package:aoun/feature/presentation/screens/charity/register_screen.dart';
-import 'package:aoun/feature/presentation/screens/donor/change_password.dart';
-import 'package:aoun/feature/presentation/screens/donor/email_verfication.dart';
 import 'package:aoun/feature/presentation/screens/donor/forget_password.dart';
 import 'package:aoun/feature/presentation/screens/donor/login_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor/register_screen.dart';
-import 'package:aoun/feature/presentation/screens/login_choice_screen.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/credit_details.dart';
 import 'package:aoun/feature/presentation/screens/onboard_screens/onboard_screen1.dart';
 import 'package:aoun/feature/presentation/screens/onboard_screens/onboard_screen2.dart';
 import 'package:aoun/feature/presentation/screens/onboard_screens/onboard_screen3.dart';
-import 'package:aoun/feature/presentation/screens/splash_screen.dart';
-import 'package:aoun/feature/presentation/screens/user_type_screen.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/splash_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../feature/presentation/screens/campaign_details.dart';
-import '../../feature/presentation/screens/current_campaigns_screen.dart';
-import '../../feature/presentation/screens/Search_screen.dart';
-import '../../feature/presentation/screens/case_details_screen.dart';
-import '../../feature/presentation/screens/donation_field_screen.dart';
-import '../../feature/presentation/screens/home_page.dart';
-import '../../feature/presentation/screens/notification_screen.dart';
-import '../../feature/presentation/screens/payment_screen.dart';
+import '../../feature/presentation/screens/donor_system/Search_screen.dart';
+import '../../feature/presentation/screens/donor_system/campaign_details.dart';
+import '../../feature/presentation/screens/charity/account_state.dart';
+import '../../feature/presentation/screens/charity/charity_data.dart';
+import '../../feature/presentation/screens/charity/charity_files.dart';
+import '../../feature/presentation/screens/donor_system/case_details_screen.dart';
+import '../../feature/presentation/screens/donor/change_password.dart';
+import '../../feature/presentation/screens/donor/email_verfication.dart';
+import '../../feature/presentation/screens/donor_system/charity_profile_screen.dart';
+import '../../feature/presentation/screens/donor_system/current_campaigns_screen.dart';
+import '../../feature/presentation/screens/donor_system/customer_service.dart';
+import '../../feature/presentation/screens/donor_system/donation_field_screen.dart';
+import '../../feature/presentation/screens/donor_system/donation_record.dart';
+import '../../feature/presentation/screens/donor_system/edit_email.dart';
+import '../../feature/presentation/screens/donor_system/edit_password.dart';
+import '../../feature/presentation/screens/donor_system/home_page.dart';
+import '../../feature/presentation/screens/donor_system/login_choice_screen.dart';
+import '../../feature/presentation/screens/donor_system/notification_screen.dart';
+import '../../feature/presentation/screens/donor_system/payment_screen.dart';
+import '../../feature/presentation/screens/donor_system/personal_information.dart';
+import '../../feature/presentation/screens/donor_system/privacy_and_security.dart';
+import '../../feature/presentation/screens/donor_system/saved_cases.dart';
+import '../../feature/presentation/screens/donor_system/settings.dart';
+import '../../feature/presentation/screens/donor_system/user_type_screen.dart';
 import '../../feature/presentation/screens/tabs/donation_tab.dart';
 import '../../feature/presentation/screens/tabs/profile_tab.dart';
 import '../../feature/presentation/screens/tabs/zakat_tab.dart';
@@ -32,73 +42,136 @@ import '../../feature/presentation/screens/tabs/zakat_tab.dart';
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings settings) {
     final argument = settings.arguments;
+
     switch (settings.name) {
+      /// HOME
       case Routes.homePage:
         return MaterialPageRoute(builder: (_) => const HomePage());
+
       case Routes.donationTab:
         return MaterialPageRoute(builder: (_) => const DonationTab());
+
       case Routes.zakatTab:
         return MaterialPageRoute(builder: (_) => const ZakatTab());
+
       case Routes.profileTab:
         return MaterialPageRoute(builder: (_) => const ProfileTab());
+
       case Routes.searchScreen:
-        return MaterialPageRoute(builder: (_) => const SearchScreen());
+        return MaterialPageRoute(builder: (_) =>  SearchScreen());
+
       case Routes.notificationScreen:
-        return MaterialPageRoute(builder: (_) => const NotificationScreen());
+        return MaterialPageRoute(builder: (_) =>  NotificationScreen());
+
+      /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
+        final fieldName = argument as String;
         return MaterialPageRoute(
-          builder: (_) => const CurrentCampaignsScreen(),
+          builder: (_) => CurrentCampaignsScreen(fieldName: fieldName),
         );
+
       case Routes.caseDetailsScreen:
-        return MaterialPageRoute(builder: (_) => const CaseDetailsScreen());
+        final args = argument as Map<String, dynamic>;
+        return MaterialPageRoute(builder: (_) => CaseDetailsScreen(args: args));
+
       case Routes.donationFieldScreen:
-        return MaterialPageRoute(builder: (_) => const DonationFieldScreen());
+        final fieldName = argument as String;
+        return MaterialPageRoute(
+          builder: (_) => DonationFieldScreen(fieldName: fieldName),
+        );
+
       case Routes.campaignDetails:
-        return MaterialPageRoute(builder: (_) => const CampaignDetails());
+        final args = argument as Map<String, dynamic>;
+        return MaterialPageRoute(builder: (_) => CampaignDetails(args: args));
+
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
+      case Routes.creditDetailsScreen:
+        return MaterialPageRoute(builder: (_) => const CreditDetails());
 
-      case Routes.signIn:
-      // return MaterialPageRoute(builder: (_) => const SignInScreen());
+      /// CHARITY
+      case Routes.charityProfileScreen:
+        return MaterialPageRoute(builder: (_) => const CharityProfileScreen());
 
-      case Routes.onBoard1:
-        return MaterialPageRoute(builder: (_) => const OnboardingScreen1());
-      case Routes.onBoard2:
-        return MaterialPageRoute(builder: (_) => const OnboardingScreen2());
-      case Routes.onBoard3:
-        return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
-      case Routes.splashScreen:
-        return MaterialPageRoute(builder: (_) => const SplashScreen());
+      case Routes.charityDataScreen:
+        return MaterialPageRoute(builder: (_) => const CharityData());
+
+      case Routes.charityFilesScreen:
+        return MaterialPageRoute(builder: (_) => const CharityFiles());
+
+      case Routes.accountStateScreen:
+        return MaterialPageRoute(builder: (_) => const AccountState());
+
+      /// SETTINGS
+      case Routes.settings:
+        return MaterialPageRoute(builder: (_) => const Settings());
+
+      case Routes.savedCases:
+        return MaterialPageRoute(builder: (_) => const SavedCases());
+
+      case Routes.privacyAndSecurity:
+        return MaterialPageRoute(builder: (_) => const PrivacyAndSecurity());
+
+      case Routes.customerService:
+        return MaterialPageRoute(builder: (_) => const CustomerService());
+
+      case Routes.donationRecord:
+        return MaterialPageRoute(builder: (_) => const DonationRecord());
+      case Routes.editEmail:
+        return MaterialPageRoute(builder: (_) => const EditEmail());
+      case Routes.editPassword:
+        return MaterialPageRoute(builder: (_) => const EditPassword());
+      case Routes.personalInformation:
+        return MaterialPageRoute(builder: (_) => const PersonalInformation());
+
+      /// AUTH
       case Routes.userTypeScreen:
         return MaterialPageRoute(
           builder: (_) => const GeneralLoginChoicePage(),
         );
+
       case Routes.loginChoiceScreen:
         return MaterialPageRoute(
           builder: (_) => LoginChoiceScreen(userType: argument as String),
         );
+
       case Routes.donorLoginScreen:
         return MaterialPageRoute(builder: (_) => const DonorLoginScreen());
+
       case Routes.donorRegisteScreen:
         return MaterialPageRoute(builder: (_) => const DonorRegisterScreen());
+
       case Routes.charityLoginScreen:
         return MaterialPageRoute(builder: (_) => const CharityLoginScreen());
+
       case Routes.charityRegisteScreen:
         return MaterialPageRoute(builder: (_) => const CharityRegisterScreen());
+
       case Routes.forgetPasswordScreen:
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
+
       case Routes.emailVerficationScreen:
         return MaterialPageRoute(
           builder: (_) => EmailVerfication(email: argument as String),
         );
+
       case Routes.changePasswordScreen:
         return MaterialPageRoute(builder: (_) => const ChangePassword());
-      case Routes.charityDataScreen:
-        return MaterialPageRoute(builder: (_) => const CharityData());
-      case Routes.charityFilesScreen:
-        return MaterialPageRoute(builder: (_) => const CharityFiles());
-      case Routes.accountStateScreen:
-        return MaterialPageRoute(builder: (_) => const AccountState());
+
+      /// ONBOARDING
+      case Routes.onBoard1:
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen1());
+
+      case Routes.onBoard2:
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen2());
+
+      case Routes.onBoard3:
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
+
+      /// SPLASH
+      case Routes.splashScreen:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
+
       default:
         return unDefinedRoute();
     }

@@ -23,6 +23,29 @@ abstract class ImageAssets {
   static const String caseRec = "$imagePath/case.png";
   static const String people = "$imagePath/People.png";
   static const String debt = "$imagePath/Debt.png";
+  static const String ghaith = "$imagePath/Ghaith.png";
+  static const String vector = "$imagePath/Vector.png";
+  static const String icon = "$imagePath/icon.png";
+  static const String more = "$imagePath/more.png";
+  static const String profile = "$imagePath/profile.jpg";
+  static const String fav = "$imagePath/fav.png";
+  static const String history = "$imagePath/history.png";
+  static const String security = "$imagePath/security.png";
+  static const String setting = "$imagePath/setting.png";
+  static const String service = "$imagePath/service.png";
+  static const String out = "$imagePath/out.png";
+  static const String camp1 = "$imagePath/camp1.jpg";
+  static const String camp2 = "$imagePath/camp2.jpg";
+  static const String camp3 = "$imagePath/camp3.jpg";
+  static const String iconDate = "$imagePath/iconDate.png";
+  static const String phone = "$imagePath/phone.png";
+  static const String whatsApp = "$imagePath/whatsApp.png";
+  static const String truecaller = "$imagePath/Truecaller.png";
+  static const String personInfo = "$imagePath/personInfo.png";
+  static const String changeEmaill = "$imagePath/changeEmaill.png";
+  static const String changePass = "$imagePath/changePass.png";
+  static const String emailVerify = "$imagePath/email_verify.png";
+  static const String emergency = "$imagePath/Emergency.png";
 }
 
 class SvgAssets {}
