@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 
 import '../../feature/presentation/screens/charity_system/home_charity.dart';
 import '../../feature/presentation/screens/donor_system/Search_screen.dart';
+import '../../feature/presentation/screens/donor_system/calc_zakat.dart';
 import '../../feature/presentation/screens/donor_system/campaign_details.dart';
 import '../../feature/presentation/screens/charity/account_state.dart';
 import '../../feature/presentation/screens/charity/charity_data.dart';
@@ -36,6 +37,9 @@ import '../../feature/presentation/screens/donor_system/privacy_and_security.dar
 import '../../feature/presentation/screens/donor_system/saved_cases.dart';
 import '../../feature/presentation/screens/donor_system/settings.dart';
 import '../../feature/presentation/screens/donor_system/user_type_screen.dart';
+import '../../feature/presentation/screens/donor_system/zakat_gold.dart';
+import '../../feature/presentation/screens/donor_system/zakat_money.dart';
+import '../../feature/presentation/screens/donor_system/zakat_sliver.dart';
 import '../../feature/presentation/screens/tabs/donation_tab.dart';
 import '../../feature/presentation/screens/tabs/profile_tab.dart';
 import '../../feature/presentation/screens/tabs/zakat_tab.dart';
@@ -45,7 +49,7 @@ class RouteGenerator {
     final argument = settings.arguments;
 
     switch (settings.name) {
-    /// HOME
+      /// HOME
       case Routes.homePage:
         return MaterialPageRoute(builder: (_) => const HomePage());
 
@@ -59,12 +63,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ProfileTab());
 
       case Routes.searchScreen:
-        return MaterialPageRoute(builder: (_) =>  SearchScreen());
+        return MaterialPageRoute(builder: (_) => SearchScreen());
 
       case Routes.notificationScreen:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
 
-    /// CAMPAIGNS
+      /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
         final fieldName = argument as String;
         return MaterialPageRoute(
@@ -88,7 +92,7 @@ class RouteGenerator {
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
 
-    /// CHARITY
+      /// CHARITY
       case Routes.charityProfileScreen:
         return MaterialPageRoute(builder: (_) => const CharityProfileScreen());
 
@@ -103,7 +107,7 @@ class RouteGenerator {
       case Routes.homeCharity:
         return MaterialPageRoute(builder: (_) => const HomeCharity());
 
-    /// SETTINGS
+      /// SETTINGS
       case Routes.settings:
         return MaterialPageRoute(builder: (_) => const Settings());
 
@@ -124,10 +128,18 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const EditPassword());
       case Routes.personalInformation:
         return MaterialPageRoute(builder: (_) => const PersonalInformation());
-        case Routes.creditDetailsScreen:
+      case Routes.creditDetailsScreen:
         return MaterialPageRoute(builder: (_) => const CreditDetails());
+      case Routes.calcZakat:
+        return MaterialPageRoute(builder: (_) => const CalcZakat());
+        case Routes.zakatMoney:
+        return MaterialPageRoute(builder: (_) => const ZakatMoney());
+        case Routes.zakatGold:
+        return MaterialPageRoute(builder: (_) => const ZakatGold());
+        case Routes.zakatSliver:
+        return MaterialPageRoute(builder: (_) => const ZakatSliver());
 
-    /// AUTH
+      /// AUTH
       case Routes.userTypeScreen:
         return MaterialPageRoute(
           builder: (_) => const GeneralLoginChoicePage(),
@@ -161,7 +173,7 @@ class RouteGenerator {
       case Routes.changePasswordScreen:
         return MaterialPageRoute(builder: (_) => const ChangePassword());
 
-    /// ONBOARDING
+      /// ONBOARDING
       case Routes.onBoard1:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen1());
 
@@ -171,7 +183,7 @@ class RouteGenerator {
       case Routes.onBoard3:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
 
-    /// SPLASH
+      /// SPLASH
       case Routes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
 
@@ -184,9 +196,9 @@ class RouteGenerator {
     return MaterialPageRoute(
       builder:
           (_) => Scaffold(
-        appBar: AppBar(title: const Text('No Route Found')),
-        body: const Center(child: Text('No Route Found')),
-      ),
+            appBar: AppBar(title: const Text('No Route Found')),
+            body: const Center(child: Text('No Route Found')),
+          ),
     );
   }
 }
