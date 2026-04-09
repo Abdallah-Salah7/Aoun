@@ -120,6 +120,10 @@ class ZakatTab extends StatelessWidget {
                     InkWell(
                       onTap: (){
 
+                        Navigator.pushNamed(
+                          context,
+                          Routes.fatwasOnZakatScreen,
+                        );
                       },
                       child: Expanded(
                         child: Container(

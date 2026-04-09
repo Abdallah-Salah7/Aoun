@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../donor_system/app_drawer.dart';
 import '../widget/donation_chart.dart';
 import '../widget/weekly_chart.dart';
 
@@ -13,6 +14,7 @@ class HomeCharity extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        drawer: const AppDrawer(),
         appBar: AppBar(backgroundColor: Color(0xff2F674D), toolbarHeight: 0),
         backgroundColor: Color(0xffC7CDCD),
         body: ListView(
@@ -39,8 +41,17 @@ class HomeCharity extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 28.0, top: 18),
-                          child: Image(
-                            image: AssetImage(ImageAssets.charityIcon),
+                          child: Builder( // مهم عشان ياخد context صح
+                            builder: (context) {
+                              return InkWell(
+                                onTap: () {
+                                  Scaffold.of(context).openDrawer();
+                                },
+                                child: Image(
+                                  image: AssetImage(ImageAssets.charityIcon),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         Padding(
@@ -347,6 +358,158 @@ class HomeCharity extends StatelessWidget {
                       WeeklyChart(),
                       SizedBox(height: 18),
                       DonationChart(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 35.0,
+                          horizontal: 7,
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.all(20.0),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF1E5631),
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Row(
+                                children: [
+                                  Icon(
+                                    Icons.info_outline,
+                                    color: Colors.white,
+                                    size: 40,
+                                  ),
+                                  SizedBox(width: 12),
+
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "صندوق الطوارئ",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        "الرصيد المتاح: 4500 ج.م",
+                                        style: TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+
+                              const Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    Icons.north_west,
+                                    color: Colors.white,
+                                    size: 24,
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    "عرض التفاصيل",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Row(
+                           children: [
+                             Text("النشاط الأخير",
+                             style: TextStyle(
+                               fontSize: 22,
+                               fontWeight: FontWeight.w800
+                             ),),
+                             Spacer(),
+                             Text("عرض المزيد",
+                               style: TextStyle(
+                                   fontSize: 22,
+                                   fontWeight: FontWeight.w800,
+                                 color: Color(0xff248457)
+                               ),)
+                           ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        margin: EdgeInsets.symmetric(vertical: 18),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(color: Colors.black12, blurRadius: 10),
+                          ],
+                        ),
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: 6,
+                          separatorBuilder: (context, index) => const Divider(),
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              leading: CircleAvatar(
+                                backgroundColor: Color(0xffC7CDCD),
+                                child: const Text(
+                                  "م",
+                                  style: TextStyle(
+                                    color: Color(0xFF1E5631),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              title: const Text(
+                                "محمد أحمد",
+                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
+                              ),
+                              subtitle: const Text("علاج طفل مريض",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400
+                              ),),
+                              trailing: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "500 ج.م",
+                                    style: TextStyle(
+                                      color: Color(0xff255A41),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16
+                                    ),
+                                  ),
+                                  Text(
+                                    "منذ 5 دقائق",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -59,6 +59,8 @@ abstract class ImageAssets {
   static const String sliver = "$imagePath/silver.png";
   static const String caliber = "$imagePath/caliber.png";
   static const String hint = "$imagePath/hint.png";
+  static const String homee = "$imagePath/homee.png";
+  static const String logout = "$imagePath/logout.png";
 }
 
 class SvgAssets {}
