@@ -45,4 +45,8 @@ class Routes {
   static const String zakatGold = "/zakatGold";
   static const String zakatSliver = "/zakatSliver";
   static const String zakatMoney = "/zakatMoney";
+  static const String caseManagement = "/caseManagement";
+  static const String charityCaseDetails = "/charityCaseDetails";
+  static const String addCase = "/addCase";
+  static const String editCase = "/editCase";
 }

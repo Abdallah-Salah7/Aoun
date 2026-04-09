@@ -11,6 +11,10 @@ import 'package:aoun/feature/presentation/screens/donor_system/onboard_screens/o
 import 'package:aoun/feature/presentation/screens/donor_system/splash_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../feature/presentation/screens/charity_system/add_case.dart';
+import '../../feature/presentation/screens/charity_system/case_management.dart';
+import '../../feature/presentation/screens/charity_system/charity_case_details.dart';
+import '../../feature/presentation/screens/charity_system/edit_case.dart';
 import '../../feature/presentation/screens/charity_system/home_charity.dart';
 import '../../feature/presentation/screens/donor_system/Search_screen.dart';
 import '../../feature/presentation/screens/donor_system/calc_zakat.dart';
@@ -107,6 +111,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const AccountState());
       case Routes.homeCharity:
         return MaterialPageRoute(builder: (_) => const HomeCharity());
+      case Routes.charityCaseDetails:
+        return MaterialPageRoute(builder: (_) => const CharityCaseDetails());
+      case Routes.addCase:
+        return MaterialPageRoute(builder: (_) => const AddCase());
+      case Routes.editCase:
+        return MaterialPageRoute(builder: (_) => const EditCase());
 
       /// SETTINGS
       case Routes.settings:
@@ -139,6 +149,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ZakatSliver());
       case Routes.zakatMoney:
         return MaterialPageRoute(builder: (_) => const ZakatMoney());
+      case Routes.caseManagement:
+        return MaterialPageRoute(builder: (_) => const CaseManagement());
 
       /// AUTH
       case Routes.userTypeScreen:

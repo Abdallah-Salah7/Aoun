@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
-import '../donor_system/app_drawer.dart';
 import '../widget/donation_chart.dart';
 import '../widget/weekly_chart.dart';
+import 'app_drawer.dart';
+
 
 class HomeCharity extends StatelessWidget {
   const HomeCharity({super.key});
@@ -41,7 +42,7 @@ class HomeCharity extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 28.0, top: 18),
-                          child: Builder( // مهم عشان ياخد context صح
+                          child: Builder(
                             builder: (context) {
                               return InkWell(
                                 onTap: () {
@@ -145,6 +146,7 @@ class HomeCharity extends StatelessWidget {
                                     child: Container(
                                       decoration: BoxDecoration(
                                         color: Color(0xffE3F0EA),
+
                                         borderRadius: BorderRadius.circular(45),
                                       ),
                                       padding: EdgeInsets.all(8),
@@ -438,12 +440,17 @@ class HomeCharity extends StatelessWidget {
                                fontWeight: FontWeight.w800
                              ),),
                              Spacer(),
-                             Text("عرض المزيد",
-                               style: TextStyle(
-                                   fontSize: 22,
-                                   fontWeight: FontWeight.w800,
-                                 color: Color(0xff248457)
-                               ),)
+                             InkWell(
+                               onTap: (){
+
+                               },
+                               child: Text("عرض المزيد",
+                                 style: TextStyle(
+                                     fontSize: 22,
+                                     fontWeight: FontWeight.w800,
+                                   color: Color(0xff248457)
+                                 ),),
+                             )
                            ],
                         ),
                       ),

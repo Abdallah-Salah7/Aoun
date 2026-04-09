@@ -20,6 +20,7 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
       "rateValue": 0.6,
       "collectedValue": "٨٩٠٠",
       "allValue": "١٨,٠٠٠",
+
     },
     {
       "image": ImageAssets.water,

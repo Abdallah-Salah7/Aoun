@@ -44,25 +44,33 @@ class AppDrawer extends StatelessWidget {
                   context,
                   ImageAssets.homee,
                   "الرئيسية",
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.homeCharity);
+                  },
                 ),
-                _buildDrawerItem(context, ImageAssets.homee, "الحالات"),
+                _buildDrawerItem(
+                  context,
+                  ImageAssets.homee,
+                  "الحالات",
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.caseManagement);
+                  },
+                ),
                 _buildDrawerItem(context, ImageAssets.homee, "الحملات"),
                 _buildDrawerItem(context, ImageAssets.homee, "عرض التقارير"),
                 _buildDrawerItem(context, ImageAssets.homee, "مساعد عون"),
                 _buildDrawerItem(context, ImageAssets.homee, "المتبرعين"),
                 _buildDrawerItem(context, ImageAssets.homee, "الاعدادات"),
 
-                SizedBox(height: 30,),
+                SizedBox(height: 30),
                 _buildDrawerItem(
                   context,
                   ImageAssets.logout,
                   "تسجيل الخروج",
                   color: Colors.redAccent,
                   onTap: () {
-                    Navigator.pushNamed(
-                        context,
-                        Routes.donorLoginScreen);
-                  }
+                    Navigator.pushNamed(context, Routes.donorLoginScreen);
+                  },
                 ),
               ],
             ),
@@ -71,19 +79,16 @@ class AppDrawer extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildDrawerItem(
-      BuildContext context,
-      String imagePath,
-      String title, {
-        Color color = Colors.black87,
-        VoidCallback? onTap,
-      }) {
+    BuildContext context,
+    String imagePath,
+    String title, {
+    Color color = Colors.black87,
+    VoidCallback? onTap,
+  }) {
     return ListTile(
-      leading: Image.asset(
-        imagePath,
-        width: 24,
-        height: 24,
-      ),
+      leading: Image.asset(imagePath, width: 24, height: 24),
 
       title: Text(
         title,
