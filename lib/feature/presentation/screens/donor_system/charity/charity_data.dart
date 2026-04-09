@@ -20,7 +20,7 @@ class CharityData extends StatelessWidget {
     final cardWidth = width > 600 ? 500.0 : width * 0.92;
 
     return Scaffold(
-      backgroundColor: const Color(0xffD9DDDA),
+      backgroundColor: const Color(0xffE5EBE9),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(

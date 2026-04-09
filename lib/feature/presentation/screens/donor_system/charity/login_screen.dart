@@ -14,7 +14,7 @@ class CharityLoginScreen extends StatelessWidget {
     final bool isTablet = size.width >= 600;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFD9DDDA),
+      backgroundColor: const Color(0xffE5EBE9),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

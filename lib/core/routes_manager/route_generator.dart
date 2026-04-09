@@ -1,26 +1,28 @@
 import 'package:aoun/core/routes_manager/routes.dart';
-import 'package:aoun/feature/presentation/screens/charity/login_screen.dart';
-import 'package:aoun/feature/presentation/screens/charity/register_screen.dart';
-import 'package:aoun/feature/presentation/screens/donor/forget_password.dart';
-import 'package:aoun/feature/presentation/screens/donor/login_screen.dart';
-import 'package:aoun/feature/presentation/screens/donor/register_screen.dart';
-import 'package:aoun/feature/presentation/screens/donor_system/credit_details.dart';
-import 'package:aoun/feature/presentation/screens/onboard_screens/onboard_screen1.dart';
-import 'package:aoun/feature/presentation/screens/onboard_screens/onboard_screen2.dart';
-import 'package:aoun/feature/presentation/screens/onboard_screens/onboard_screen3.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/charity/login_screen.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/charity/register_screen.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/donor/forget_password.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/donor/login_screen.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/donor/register_screen.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/fataws_on_zakat.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/onboard_screens/onboard_screen1.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/onboard_screens/onboard_screen2.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/onboard_screens/onboard_screen3.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/splash_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../feature/presentation/screens/charity_system/home_charity.dart';
 import '../../feature/presentation/screens/donor_system/Search_screen.dart';
 import '../../feature/presentation/screens/donor_system/calc_zakat.dart';
 import '../../feature/presentation/screens/donor_system/campaign_details.dart';
-import '../../feature/presentation/screens/charity/account_state.dart';
-import '../../feature/presentation/screens/charity/charity_data.dart';
-import '../../feature/presentation/screens/charity/charity_files.dart';
+import '../../feature/presentation/screens/donor_system/charity/account_state.dart';
+import '../../feature/presentation/screens/donor_system/charity/charity_data.dart';
+import '../../feature/presentation/screens/donor_system/charity/charity_files.dart';
 import '../../feature/presentation/screens/donor_system/case_details_screen.dart';
-import '../../feature/presentation/screens/donor/change_password.dart';
-import '../../feature/presentation/screens/donor/email_verfication.dart';
+import '../../feature/presentation/screens/donor_system/donor/change_password.dart';
+import '../../feature/presentation/screens/donor_system/donor/email_verfication.dart';
 import '../../feature/presentation/screens/donor_system/charity_profile_screen.dart';
+import '../../feature/presentation/screens/donor_system/credit_details.dart';
 import '../../feature/presentation/screens/donor_system/current_campaigns_screen.dart';
 import '../../feature/presentation/screens/donor_system/customer_service.dart';
 import '../../feature/presentation/screens/donor_system/donation_field_screen.dart';
@@ -65,7 +67,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SearchScreen());
 
       case Routes.notificationScreen:
-        return MaterialPageRoute(builder: (_) => NotificationScreen());
+        return MaterialPageRoute(builder: (_) => const NotificationScreen());
 
       /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
@@ -90,8 +92,6 @@ class RouteGenerator {
 
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
-      case Routes.creditDetailsScreen:
-        return MaterialPageRoute(builder: (_) => const CreditDetails());
 
       /// CHARITY
       case Routes.charityProfileScreen:
@@ -105,6 +105,8 @@ class RouteGenerator {
 
       case Routes.accountStateScreen:
         return MaterialPageRoute(builder: (_) => const AccountState());
+      case Routes.homeCharity:
+        return MaterialPageRoute(builder: (_) => const HomeCharity());
 
       /// SETTINGS
       case Routes.settings:
@@ -127,14 +129,16 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const EditPassword());
       case Routes.personalInformation:
         return MaterialPageRoute(builder: (_) => const PersonalInformation());
+      case Routes.creditDetailsScreen:
+        return MaterialPageRoute(builder: (_) => const CreditDetails());
       case Routes.calcZakat:
         return MaterialPageRoute(builder: (_) => const CalcZakat());
+      case Routes.zakatGold:
+        return MaterialPageRoute(builder: (_) => const ZakatGold());
       case Routes.zakatSliver:
         return MaterialPageRoute(builder: (_) => const ZakatSliver());
       case Routes.zakatMoney:
         return MaterialPageRoute(builder: (_) => const ZakatMoney());
-      case Routes.zakatGold:
-        return MaterialPageRoute(builder: (_) => const ZakatGold());
 
       /// AUTH
       case Routes.userTypeScreen:
@@ -183,6 +187,10 @@ class RouteGenerator {
       /// SPLASH
       case Routes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
+
+      /// Services
+      case Routes.fatwasOnZakatScreen:
+        return MaterialPageRoute(builder: (_) => const FatawsOnZakat());
 
       default:
         return unDefinedRoute();

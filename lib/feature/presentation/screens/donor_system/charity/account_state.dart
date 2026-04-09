@@ -19,7 +19,7 @@ class AccountState extends StatelessWidget {
     double hSpace(double fraction) => width * fraction;
 
     return Scaffold(
-      backgroundColor: const Color(0xffD9DDDA),
+      backgroundColor: const Color(0xffE5EBE9),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {

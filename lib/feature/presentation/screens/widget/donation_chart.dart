@@ -10,17 +10,16 @@ class DonationChart extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       elevation: 5,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 6,),
+        padding: EdgeInsets.symmetric(vertical: 6),
         child: Row(
           children: [
             Column(
               children: [
-                Text("التبرعات حسب الفئة",
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 20
-                ),),
-                SizedBox(height: 20,),
+                Text(
+                  "التبرعات حسب الفئة",
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                ),
+                SizedBox(height: 20),
                 SizedBox(
                   width: 199,
                   height: 164,
@@ -85,14 +84,14 @@ class DonationChart extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(width: 30,),
+            SizedBox(width: 30),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   ChartItem(color: Color(0xff3A7E55), text: "الصحة"),
                   ChartItem(color: Color(0xff94D097), text: "التعليم"),
-                  ChartItem(color:Color(0xff22A668), text: "الإغاثة"),
+                  ChartItem(color: Color(0xff22A668), text: "الإغاثة"),
                   ChartItem(color: Color(0xff93B3A4), text: "مشاريع بناء"),
                   ChartItem(color: Color(0xff5A9C7D), text: "الإطعام"),
                   ChartItem(color: Color(0xff1D4532), text: "أخرى"),
@@ -120,11 +119,10 @@ class ChartItem extends StatelessWidget {
         children: [
           CircleAvatar(radius: 4, backgroundColor: color),
           const SizedBox(width: 8),
-          Text(text,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),),
+          Text(
+            text,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );

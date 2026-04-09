@@ -46,12 +46,7 @@ class _WeeklyChartState extends State<WeeklyChart> {
       decoration: BoxDecoration(
         color: const Color(0xffF7F7F7),
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 10,
-          ),
-        ],
+        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,9 +56,7 @@ class _WeeklyChartState extends State<WeeklyChart> {
             children: [
               const Text(
                 "التبرعات خلال الفترة",
-                style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                ),
+                style: TextStyle(fontWeight: FontWeight.w900),
               ),
               Row(
                 children: [
@@ -71,7 +64,7 @@ class _WeeklyChartState extends State<WeeklyChart> {
                   const SizedBox(width: 8),
                   _buildTab("شهري", false),
                 ],
-              )
+              ),
             ],
           ),
 
@@ -122,8 +115,17 @@ class _WeeklyChartState extends State<WeeklyChart> {
                       showTitles: true,
                       getTitlesWidget: (value, meta) {
                         if (isWeekly) {
-                          const days = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
-                          if (value.toInt() >= 0 && value.toInt() < days.length) {
+                          const days = [
+                            "Sat",
+                            "Sun",
+                            "Mon",
+                            "Tue",
+                            "Wed",
+                            "Thu",
+                            "Fri",
+                          ];
+                          if (value.toInt() >= 0 &&
+                              value.toInt() < days.length) {
                             return Text(days[value.toInt()]);
                           }
                         } else {
@@ -133,8 +135,12 @@ class _WeeklyChartState extends State<WeeklyChart> {
                       },
                     ),
                   ),
-                  rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                 ),
 
                 lineBarsData: [
@@ -180,9 +186,7 @@ class _WeeklyChartState extends State<WeeklyChart> {
         ),
         child: Text(
           text,
-          style: TextStyle(
-            color: isSelected ? Colors.white : Colors.black,
-          ),
+          style: TextStyle(color: isSelected ? Colors.white : Colors.black),
         ),
       ),
     );

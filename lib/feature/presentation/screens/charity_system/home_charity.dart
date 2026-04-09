@@ -13,10 +13,7 @@ class HomeCharity extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor:  Color(0xff2F674D),
-          toolbarHeight: 0,
-        ),
+        appBar: AppBar(backgroundColor: Color(0xff2F674D), toolbarHeight: 0),
         backgroundColor: Color(0xffC7CDCD),
         body: ListView(
           children: [
@@ -42,7 +39,9 @@ class HomeCharity extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 28.0, top: 18),
-                          child: Image(image: AssetImage(ImageAssets.charityIcon)),
+                          child: Image(
+                            image: AssetImage(ImageAssets.charityIcon),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 18.0),
@@ -107,22 +106,27 @@ class HomeCharity extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
-                        child: Text("الإحصائيات",
-                            style: GoogleFonts.manrope(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w800, // SemiBold
-                            )),
+                        child: Text(
+                          "الإحصائيات",
+                          style: GoogleFonts.manrope(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w800, // SemiBold
+                          ),
+                        ),
                       ),
-                      SizedBox(height: 18,),
+                      SizedBox(height: 18),
                       Row(
                         children: [
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.white
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.white,
                               ),
-                              padding: EdgeInsets.symmetric(horizontal: 28,vertical: 8),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 28,
+                                vertical: 8,
+                              ),
                               child: Column(
                                 children: [
                                   Padding(
@@ -134,7 +138,9 @@ class HomeCharity extends StatelessWidget {
                                       ),
                                       padding: EdgeInsets.all(8),
                                       child: Image(
-                                        image: AssetImage(ImageAssets.totalDonation),
+                                        image: AssetImage(
+                                          ImageAssets.totalDonation,
+                                        ),
                                         height: 36,
                                         width: 36,
                                       ),
@@ -142,7 +148,8 @@ class HomeCharity extends StatelessWidget {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Text("إجمالى التبرعات",
+                                    child: Text(
+                                      "إجمالى التبرعات",
                                       style: GoogleFonts.manrope(
                                         fontSize: 19,
                                         fontWeight: FontWeight.w800, // SemiBold
@@ -162,14 +169,17 @@ class HomeCharity extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(width: 28,),
+                          SizedBox(width: 28),
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.white
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.white,
                               ),
-                              padding: EdgeInsets.symmetric(horizontal: 28,vertical: 8),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 28,
+                                vertical: 8,
+                              ),
                               child: Column(
                                 children: [
                                   Padding(
@@ -181,7 +191,9 @@ class HomeCharity extends StatelessWidget {
                                       ),
                                       padding: EdgeInsets.all(8),
                                       child: Image(
-                                        image: AssetImage(ImageAssets.numDonors),
+                                        image: AssetImage(
+                                          ImageAssets.numDonors,
+                                        ),
                                         height: 36,
                                         width: 36,
                                       ),
@@ -189,7 +201,8 @@ class HomeCharity extends StatelessWidget {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Text("عدد المتبرعين",
+                                    child: Text(
+                                      "عدد المتبرعين",
                                       style: GoogleFonts.manrope(
                                         fontSize: 19,
                                         fontWeight: FontWeight.w800, // SemiBold
@@ -209,20 +222,21 @@ class HomeCharity extends StatelessWidget {
                               ),
                             ),
                           ),
-
-
                         ],
                       ),
-                      SizedBox(height: 22,),
+                      SizedBox(height: 22),
                       Row(
                         children: [
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.white
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.white,
                               ),
-                              padding: EdgeInsets.symmetric(horizontal: 28,vertical: 8),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 28,
+                                vertical: 8,
+                              ),
                               child: Column(
                                 children: [
                                   Padding(
@@ -242,7 +256,8 @@ class HomeCharity extends StatelessWidget {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Text("عدد الحالات",
+                                    child: Text(
+                                      "عدد الحالات",
                                       style: GoogleFonts.manrope(
                                         fontSize: 19,
                                         fontWeight: FontWeight.w800, // SemiBold
@@ -262,14 +277,17 @@ class HomeCharity extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(width: 28,),
+                          SizedBox(width: 28),
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.white
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.white,
                               ),
-                              padding: EdgeInsets.symmetric(horizontal: 28,vertical: 8),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 28,
+                                vertical: 8,
+                              ),
                               child: Column(
                                 children: [
                                   Padding(
@@ -289,7 +307,8 @@ class HomeCharity extends StatelessWidget {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Text("عدد الحملات",
+                                    child: Text(
+                                      "عدد الحملات",
                                       style: GoogleFonts.manrope(
                                         fontSize: 19,
                                         fontWeight: FontWeight.w800, // SemiBold
@@ -309,29 +328,31 @@ class HomeCharity extends StatelessWidget {
                               ),
                             ),
                           ),
-
-
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 8.0,top: 18,bottom: 18),
-                        child: Text("التحليلات",
-                            style: GoogleFonts.manrope(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w800, // SemiBold
-                            )),
+                        padding: const EdgeInsets.only(
+                          right: 8.0,
+                          top: 18,
+                          bottom: 18,
+                        ),
+                        child: Text(
+                          "التحليلات",
+                          style: GoogleFonts.manrope(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w800, // SemiBold
+                          ),
+                        ),
                       ),
                       WeeklyChart(),
-                      SizedBox(height: 18,),
+                      SizedBox(height: 18),
                       DonationChart(),
                     ],
                   ),
                 ),
-
               ],
             ),
           ],
-
         ),
       ),
     );

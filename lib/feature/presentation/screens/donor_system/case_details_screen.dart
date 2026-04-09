@@ -121,42 +121,47 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                           ),
                           status == "مكتملة"
                               ? Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                            child: Align(
-                              alignment:  Alignment.topRight,
-                              child: Text("تم جمع 100%",
-                                style: GoogleFonts.manrope(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xff757575),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 18.0,
+                                ),
+                                child: Align(
+                                  alignment: Alignment.topRight,
+                                  child: Text(
+                                    "تم جمع 100%",
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xff757575),
+                                    ),
+                                  ),
+                                ),
+                              )
+                              : Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 18.0,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "تم جمع $collectedValue ج.م",
+                                      style: GoogleFonts.manrope(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff255A41),
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Text(
+                                      "من $allValue",
+                                      style: GoogleFonts.manrope(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff757575),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
-                          )
-                              : Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "تم جمع $collectedValue ج.م",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xff255A41),
-                                  ),
-                                ),
-                                Spacer(),
-                                Text(
-                                  "من $allValue",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xff757575),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -216,7 +221,6 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                   InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, Routes.charityProfileScreen);
-
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -229,7 +233,9 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                            ),
                             child: Text(
                               "مقدمة من ",
                               style: GoogleFonts.manrope(
@@ -248,14 +254,15 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                              SizedBox(width: 8,),
+                              SizedBox(width: 8),
                               Text(
                                 "غيث للتنمية المجتمعية",
                                 style: GoogleFonts.manrope(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xff757575),
-                                ),)
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -265,57 +272,61 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                   Padding(
                     padding: const EdgeInsets.all(18.0),
                     child: Center(
-                      child: status == "مكتملة"
-                          ? Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        decoration: BoxDecoration(
-                          color: Color(0xff8FAF9A),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "اكتملت",
-                              style: GoogleFonts.manrope(
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                      child:
+                          status == "مكتملة"
+                              ? Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: Color(0xff8FAF9A),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "اكتملت",
+                                      style: GoogleFonts.manrope(
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(width: 4),
+                                    Icon(
+                                      Icons.check_circle_outline,
+                                      color: Colors.white,
+                                      size: 36,
+                                    ),
+                                  ],
+                                ),
+                              )
+                              : SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xff2F674D),
+                                    foregroundColor: Colors.white,
+                                    padding: EdgeInsets.symmetric(vertical: 14),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      Routes.paymentScreen,
+                                    );
+                                  },
+                                  child: Text(
+                                    "تبرع الآن",
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 4),
-                            Icon(Icons.check_circle_outline,
-                                color: Colors.white, size: 36),
-
-
-                          ],
-                        ),
-                      )
-                          : SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xff2F674D),
-                            foregroundColor: Colors.white,
-                            padding: EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, Routes.paymentScreen);
-                          },
-                          child: Text(
-                            "تبرع الآن",
-                            style: GoogleFonts.manrope(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
                     ),
                   ),
                 ],

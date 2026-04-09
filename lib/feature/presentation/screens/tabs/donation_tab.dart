@@ -125,9 +125,10 @@ class _DonationTabState extends State<DonationTab> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DonationFieldScreen(
-                          fieldName: filteredFields[index]["title"]!,
-                        ),
+                        builder:
+                            (context) => DonationFieldScreen(
+                              fieldName: filteredFields[index]["title"]!,
+                            ),
                       ),
                     );
                   },

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
 
-
 class Settings extends StatefulWidget {
   const Settings({super.key});
 
@@ -17,7 +16,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
-      
+
       child: Scaffold(
         backgroundColor: Color(0xffE5EBE9),
 
@@ -34,19 +33,24 @@ class _SettingsState extends State<Settings> {
           ),
           title: Padding(
             padding: const EdgeInsets.only(top: 20.0),
-            child: Text("الإعدادات",
+            child: Text(
+              "الإعدادات",
               style: GoogleFonts.saira(
                 fontWeight: FontWeight.w800,
                 fontSize: 35,
                 color: const Color(0xff255A41),
-              ),),
+              ),
+            ),
           ),
         ),
 
-        body:Column(
+        body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 78),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 78,
+              ),
               child: Directionality(
                 textDirection: TextDirection.rtl,
                 child: Container(
@@ -63,10 +67,7 @@ class _SettingsState extends State<Settings> {
                       ),
                     ],
                   ),
-                  margin: EdgeInsets.symmetric(
-                    vertical: 30,
-                    horizontal: 12,
-                  ),
+                  margin: EdgeInsets.symmetric(vertical: 30, horizontal: 12),
 
                   child: Column(
                     children: [
@@ -84,10 +85,7 @@ class _SettingsState extends State<Settings> {
                           ),
                           decoration: BoxDecoration(
                             border: Border(
-                              bottom: BorderSide(
-                                color: Colors.grey,
-                                width: 1,
-                              ),
+                              bottom: BorderSide(color: Colors.grey, width: 1),
                             ),
                           ),
                           child: Row(
@@ -130,10 +128,7 @@ class _SettingsState extends State<Settings> {
                           ),
                           decoration: BoxDecoration(
                             border: Border(
-                              bottom: BorderSide(
-                                color: Colors.grey,
-                                width: 1,
-                              ),
+                              bottom: BorderSide(color: Colors.grey, width: 1),
                             ),
                           ),
                           child: Row(
@@ -176,10 +171,7 @@ class _SettingsState extends State<Settings> {
                           ),
                           decoration: BoxDecoration(
                             border: Border(
-                              bottom: BorderSide(
-                                color: Colors.grey,
-                                width: 2,
-                              ),
+                              bottom: BorderSide(color: Colors.grey, width: 2),
                             ),
                           ),
                           child: Row(
@@ -219,7 +211,9 @@ class _SettingsState extends State<Settings> {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 38.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 38.0,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -250,7 +244,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
           ],
-        )
+        ),
       ),
     );
   }

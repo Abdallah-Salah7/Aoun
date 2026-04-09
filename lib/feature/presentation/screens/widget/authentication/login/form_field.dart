@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class CustomFormField extends StatefulWidget {
@@ -8,7 +7,7 @@ class CustomFormField extends StatefulWidget {
   final bool isPassword;
   final TextStyle? labelStyle;
   final bool downloadIcon;
-  final bool ?filled;
+  final bool? filled;
   final TextEditingController? emailController;
 
   const CustomFormField({
@@ -19,7 +18,8 @@ class CustomFormField extends StatefulWidget {
     this.downloadIcon = false,
     this.labelStyle,
     this.emailController,
-    this.imagePath,  this.filled=true,
+    this.imagePath,
+    this.filled = true,
   });
 
   @override
@@ -45,7 +45,8 @@ class _CustomFormFieldState extends State<CustomFormField> {
             padding: EdgeInsets.only(right: width * 0.01),
             child: Text(
               widget.label,
-              style: widget.labelStyle ??
+              style:
+                  widget.labelStyle ??
                   TextStyle(
                     color: Colors.black,
                     fontSize: fontSize * 1.3,

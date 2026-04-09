@@ -26,20 +26,21 @@ class EditPassword extends StatelessWidget {
           ),
           title: Padding(
             padding: const EdgeInsets.only(top: 10.0),
-            child: Text("تغيير كلمة المرور",
+            child: Text(
+              "تغيير كلمة المرور",
               style: GoogleFonts.saira(
                 fontWeight: FontWeight.w800,
                 fontSize: 30,
                 color: const Color(0xff255A41),
-              ),),
+              ),
+            ),
           ),
         ),
-
 
         body: Align(
           alignment: Alignment.centerRight,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 96.0,horizontal: 40),
+            padding: const EdgeInsets.symmetric(vertical: 96.0, horizontal: 40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -53,7 +54,7 @@ class EditPassword extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 25,),
+                SizedBox(height: 25),
                 CustomFormField(
                   label: "كلمة المرور",
                   hint: "أدخل كلمة المرور",
@@ -64,7 +65,7 @@ class EditPassword extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 25,),
+                SizedBox(height: 25),
                 CustomFormField(
                   label: "تأكيد كلمة المرور",
                   hint: "أعد إدخال كلمة المرور",
@@ -75,7 +76,7 @@ class EditPassword extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 120,),
+                SizedBox(height: 120),
 
                 Center(
                   child: SizedBox(
@@ -89,8 +90,7 @@ class EditPassword extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       child: Text(
                         "تغيير كلمة المرور",
                         style: GoogleFonts.manrope(
@@ -101,7 +101,6 @@ class EditPassword extends StatelessWidget {
                     ),
                   ),
                 ),
-
               ],
             ),
           ),

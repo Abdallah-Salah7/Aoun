@@ -4,7 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 
-
 class CustomerService extends StatefulWidget {
   const CustomerService({super.key});
 
@@ -34,7 +33,8 @@ class _CustomerServiceState extends State<CustomerService> {
   Future<void> openTruecaller() async {
     final Uri truecallerUrl = Uri.parse("truecaller://");
     final Uri playStoreUrl = Uri.parse(
-        "https://play.google.com/store/apps/details?id=com.truecaller");
+      "https://play.google.com/store/apps/details?id=com.truecaller",
+    );
 
     if (await canLaunchUrl(truecallerUrl)) {
       await launchUrl(truecallerUrl, mode: LaunchMode.externalApplication);
@@ -78,7 +78,10 @@ class _CustomerServiceState extends State<CustomerService> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 58.0, horizontal: 8),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 58.0,
+                  horizontal: 8,
+                ),
                 child: Text(
                   "يمكنك التواصل معنا عبر خدمة الواتس آب، أو\nالتواصل بنا عبر خدمة الرد الآلي لتحصل على الرد\nالمناسب لكل استفساراتك وتقديم شكواك.",
                   style: GoogleFonts.saira(

@@ -37,7 +37,7 @@ class _CharityFilesState extends State<CharityFiles> {
     double scale(double value) => value * (width / 390);
 
     return Scaffold(
-      backgroundColor: const Color(0xffD9DDDA),
+      backgroundColor: const Color(0xffE5EBE9),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
