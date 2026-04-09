@@ -12,6 +12,7 @@ import 'package:aoun/feature/presentation/screens/donor_system/splash_screen.dar
 import 'package:flutter/material.dart';
 
 import '../../feature/presentation/screens/donor_system/Search_screen.dart';
+import '../../feature/presentation/screens/donor_system/calc_zakat.dart';
 import '../../feature/presentation/screens/donor_system/campaign_details.dart';
 import '../../feature/presentation/screens/charity/account_state.dart';
 import '../../feature/presentation/screens/charity/charity_data.dart';
@@ -35,6 +36,9 @@ import '../../feature/presentation/screens/donor_system/privacy_and_security.dar
 import '../../feature/presentation/screens/donor_system/saved_cases.dart';
 import '../../feature/presentation/screens/donor_system/settings.dart';
 import '../../feature/presentation/screens/donor_system/user_type_screen.dart';
+import '../../feature/presentation/screens/donor_system/zakat_gold.dart';
+import '../../feature/presentation/screens/donor_system/zakat_money.dart';
+import '../../feature/presentation/screens/donor_system/zakat_sliver.dart';
 import '../../feature/presentation/screens/tabs/donation_tab.dart';
 import '../../feature/presentation/screens/tabs/profile_tab.dart';
 import '../../feature/presentation/screens/tabs/zakat_tab.dart';
@@ -58,10 +62,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ProfileTab());
 
       case Routes.searchScreen:
-        return MaterialPageRoute(builder: (_) =>  SearchScreen());
+        return MaterialPageRoute(builder: (_) => SearchScreen());
 
       case Routes.notificationScreen:
-        return MaterialPageRoute(builder: (_) =>  NotificationScreen());
+        return MaterialPageRoute(builder: (_) => NotificationScreen());
 
       /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
@@ -125,6 +129,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const PersonalInformation());
       case Routes.calcZakat:
         return MaterialPageRoute(builder: (_) => const CalcZakat());
+      case Routes.zakatSliver:
+        return MaterialPageRoute(builder: (_) => const ZakatSliver());
+      case Routes.zakatMoney:
+        return MaterialPageRoute(builder: (_) => const ZakatMoney());
+      case Routes.zakatGold:
+        return MaterialPageRoute(builder: (_) => const ZakatGold());
 
       /// AUTH
       case Routes.userTypeScreen:
