@@ -38,11 +38,6 @@ class Routes {
   static const String editEmail = "/editEmail";
   static const String editPassword = "/editPassword";
   static const String personalInformation = "/personalInformation";
-  static const String homeCharity = "/homeCharity";
   static const String creditDetailsScreen = "/creditDetailsScreen";
   static const String calcZakat = "/calcZakat";
-  static const String zakatMoney = "/zakatMoney";
-  static const String zakatGold = "/zakatGold";
-  static const String zakatSliver = "/zakatSliver";
-
 }

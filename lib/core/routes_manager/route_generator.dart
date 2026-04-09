@@ -4,15 +4,14 @@ import 'package:aoun/feature/presentation/screens/charity/register_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor/forget_password.dart';
 import 'package:aoun/feature/presentation/screens/donor/login_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor/register_screen.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/credit_details.dart';
 import 'package:aoun/feature/presentation/screens/onboard_screens/onboard_screen1.dart';
 import 'package:aoun/feature/presentation/screens/onboard_screens/onboard_screen2.dart';
 import 'package:aoun/feature/presentation/screens/onboard_screens/onboard_screen3.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/splash_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../feature/presentation/screens/charity_system/home_charity.dart';
 import '../../feature/presentation/screens/donor_system/Search_screen.dart';
-import '../../feature/presentation/screens/donor_system/calc_zakat.dart';
 import '../../feature/presentation/screens/donor_system/campaign_details.dart';
 import '../../feature/presentation/screens/charity/account_state.dart';
 import '../../feature/presentation/screens/charity/charity_data.dart';
@@ -21,7 +20,6 @@ import '../../feature/presentation/screens/donor_system/case_details_screen.dart
 import '../../feature/presentation/screens/donor/change_password.dart';
 import '../../feature/presentation/screens/donor/email_verfication.dart';
 import '../../feature/presentation/screens/donor_system/charity_profile_screen.dart';
-import '../../feature/presentation/screens/donor_system/credit_details.dart';
 import '../../feature/presentation/screens/donor_system/current_campaigns_screen.dart';
 import '../../feature/presentation/screens/donor_system/customer_service.dart';
 import '../../feature/presentation/screens/donor_system/donation_field_screen.dart';
@@ -37,9 +35,6 @@ import '../../feature/presentation/screens/donor_system/privacy_and_security.dar
 import '../../feature/presentation/screens/donor_system/saved_cases.dart';
 import '../../feature/presentation/screens/donor_system/settings.dart';
 import '../../feature/presentation/screens/donor_system/user_type_screen.dart';
-import '../../feature/presentation/screens/donor_system/zakat_gold.dart';
-import '../../feature/presentation/screens/donor_system/zakat_money.dart';
-import '../../feature/presentation/screens/donor_system/zakat_sliver.dart';
 import '../../feature/presentation/screens/tabs/donation_tab.dart';
 import '../../feature/presentation/screens/tabs/profile_tab.dart';
 import '../../feature/presentation/screens/tabs/zakat_tab.dart';
@@ -63,10 +58,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ProfileTab());
 
       case Routes.searchScreen:
-        return MaterialPageRoute(builder: (_) => SearchScreen());
+        return MaterialPageRoute(builder: (_) =>  SearchScreen());
 
       case Routes.notificationScreen:
-        return MaterialPageRoute(builder: (_) => const NotificationScreen());
+        return MaterialPageRoute(builder: (_) =>  NotificationScreen());
 
       /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
@@ -91,6 +86,8 @@ class RouteGenerator {
 
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
+      case Routes.creditDetailsScreen:
+        return MaterialPageRoute(builder: (_) => const CreditDetails());
 
       /// CHARITY
       case Routes.charityProfileScreen:
@@ -104,8 +101,6 @@ class RouteGenerator {
 
       case Routes.accountStateScreen:
         return MaterialPageRoute(builder: (_) => const AccountState());
-      case Routes.homeCharity:
-        return MaterialPageRoute(builder: (_) => const HomeCharity());
 
       /// SETTINGS
       case Routes.settings:
@@ -128,16 +123,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const EditPassword());
       case Routes.personalInformation:
         return MaterialPageRoute(builder: (_) => const PersonalInformation());
-      case Routes.creditDetailsScreen:
-        return MaterialPageRoute(builder: (_) => const CreditDetails());
       case Routes.calcZakat:
         return MaterialPageRoute(builder: (_) => const CalcZakat());
-        case Routes.zakatMoney:
-        return MaterialPageRoute(builder: (_) => const ZakatMoney());
-        case Routes.zakatGold:
-        return MaterialPageRoute(builder: (_) => const ZakatGold());
-        case Routes.zakatSliver:
-        return MaterialPageRoute(builder: (_) => const ZakatSliver());
 
       /// AUTH
       case Routes.userTypeScreen:
