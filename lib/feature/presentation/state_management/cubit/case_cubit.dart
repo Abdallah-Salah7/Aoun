@@ -5,10 +5,11 @@ import 'case_state.dart';
 class CaseCubit extends Cubit<CaseState> {
   CaseCubit() : super(CaseInitial());
 
-  List<CaseEntity> _cases = [];
+  final List<CaseEntity> _cases = [];
 
   void loadInitialCases(List<CaseEntity> initial) {
-    _cases = initial;
+    _cases.clear();
+    _cases.addAll(initial);
     emit(CaseLoaded(List.from(_cases)));
   }
 
@@ -16,6 +17,7 @@ class CaseCubit extends Cubit<CaseState> {
     _cases.insert(0, newCase);
     emit(CaseLoaded(List.from(_cases)));
   }
+
   void updateCase(CaseEntity updatedCase) {
     final index = _cases.indexWhere((c) => c.id == updatedCase.id);
 
@@ -24,8 +26,13 @@ class CaseCubit extends Cubit<CaseState> {
       emit(CaseLoaded(List.from(_cases)));
     }
   }
+
   void deleteCase(String id) {
     _cases.removeWhere((c) => c.id == id);
     emit(CaseLoaded(List.from(_cases)));
+  }
+
+  List<CaseEntity> getCasesByCategory(String category) {
+    return _cases.where((c) => c.category == category).toList();
   }
 }

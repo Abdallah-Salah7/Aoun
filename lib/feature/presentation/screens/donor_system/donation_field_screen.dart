@@ -86,7 +86,10 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
               return const Center(child: CircularProgressIndicator());
             }
 
-            final filteredCases = _applyFilter(state.cases);
+            final categoryCases =
+            context.read<CaseCubit>().getCasesByCategory(widget.fieldName);
+
+            final filteredCases = _applyFilter(categoryCases);
 
             return ListView(
               children: [

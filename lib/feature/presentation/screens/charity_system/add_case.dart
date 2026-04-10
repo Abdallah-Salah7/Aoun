@@ -53,7 +53,6 @@ class _AddCaseState extends State<AddCase> {
       );
       return;
     }
-
     final newCase = CaseEntity(
       id: "",
       image: _image?.path ?? ImageAssets.upload,
