@@ -23,6 +23,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
     final collectedValue = widget.args["collectedValue"];
     final allValue = widget.args["allValue"];
     final status = widget.args["status"];
+    final description = widget.args["description"];
 
     return Scaffold(
       backgroundColor: Color(0xffE5EBE9),
@@ -86,13 +87,16 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                     ],
                   ),
 
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      title,
-                      style: GoogleFonts.cairo(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 8),
+                      child: Text(
+                        title,
+                        style: GoogleFonts.cairo(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
@@ -207,7 +211,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                           ),
                         ),
                         Text(
-                          "أحمد طفل يعاني من فقدان سمع شديد\n ويحتاج بشكل عاجل إلى عملية زراعة\n قوقعة ليستطيع السمع والتواصل مع من\n حوله.  أكد الأطباء أن إجراء العملية في أقرب\n وقت ضروري لتحسين قدرته على النطق\n والتعلم.  تكلفة العملية والعلاج تفوق إمكانيات\n أسرته، وتبرعك يساهم في منح أحمد فرصة\n حقيقية لحياة أفضل ومستقبل مليء\n بالأمل.",
+                          description,
                           style: GoogleFonts.manrope(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,

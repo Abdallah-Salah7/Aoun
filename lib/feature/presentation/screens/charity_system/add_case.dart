@@ -246,7 +246,6 @@ class _AddCaseState extends State<AddCase> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // العنوان مع زر الذكاء الاصطناعي
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Row(
