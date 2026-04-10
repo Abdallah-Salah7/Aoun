@@ -90,7 +90,6 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
             context.read<CaseCubit>().getCasesByCategory(widget.fieldName);
 
             final filteredCases = _applyFilter(categoryCases);
-
             return ListView(
               children: [
                 Column(

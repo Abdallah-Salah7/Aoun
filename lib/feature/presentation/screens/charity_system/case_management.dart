@@ -67,7 +67,6 @@ class _CaseManagementState extends State<CaseManagement> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                /// HEADER
                 Container(
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(

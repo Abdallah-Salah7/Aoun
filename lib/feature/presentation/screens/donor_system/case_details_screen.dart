@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -39,7 +41,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                 children: [
                   Stack(
                     children: [
-                      Image.asset(image),
+                      buildCaseImage(image),
                       Row(
                         children: [
                           Container(
@@ -340,5 +342,14 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
         ],
       ),
     );
+  }
+  Widget buildCaseImage(String image) {
+    if (image.startsWith('http')) {
+      return Image.network(image, fit: BoxFit.cover, width: double.infinity, height: 292);
+    } else if (image.startsWith('/') || image.contains('file://')) {
+      return Image.file(File(image), fit: BoxFit.cover, width: double.infinity, height: 292);
+    } else {
+      return Image.asset(image, fit: BoxFit.cover, width: double.infinity, height: 292);
+    }
   }
 }
