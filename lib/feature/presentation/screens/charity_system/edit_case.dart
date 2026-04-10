@@ -1,19 +1,27 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../../domain/entities/case_entity.dart';
+import '../../state_management/cubit/case_cubit.dart';
 import '../widget/field_dropdown.dart';
 
 class EditCase extends StatefulWidget {
-  const EditCase({super.key});
+  final CaseEntity caseEntity;
+
+  const EditCase({super.key, required this.caseEntity});
 
   @override
   State<EditCase> createState() => _EditCaseState();
 }
 
 class _EditCaseState extends State<EditCase> {
+  late TextEditingController titleController;
+  late TextEditingController amountController;
+  late TextEditingController descriptionController;
   File? _image;
   final ImagePicker _picker = ImagePicker();
 
@@ -28,10 +36,22 @@ class _EditCaseState extends State<EditCase> {
       });
     }
   }
-
   @override
   void initState() {
     super.initState();
+
+
+    titleController = TextEditingController(text: widget.caseEntity.title);
+    amountController = TextEditingController(text: widget.caseEntity.allValue);
+    descriptionController = TextEditingController(text: widget.caseEntity.description);
+
+    selectedCategory = widget.caseEntity.category;
+    isUrgent = widget.caseEntity.status == "عاجلة جداً";
+
+    // 🔥 أهم سطر
+    if (widget.caseEntity.image.isNotEmpty) {
+      _image = File(widget.caseEntity.image);
+    }
   }
 
   bool isUrgent = false;
@@ -131,7 +151,7 @@ class _EditCaseState extends State<EditCase> {
               ),
 
               const SizedBox(height: 20),
-              _buildField("عنوان الحالة", "مثال: علاج طفل مريض "),
+              _buildField("عنوان الحالة", "مثال: علاج طفل مريض ",titleController),
               const SizedBox(height: 15),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 18.0),
@@ -144,7 +164,7 @@ class _EditCaseState extends State<EditCase> {
                 ),
               ),
               const SizedBox(height: 15),
-              _buildField("المبلغ المستهدف", "20000 ج.م"),
+              _buildField("المبلغ المستهدف", "20000 ج.م",amountController),
               const SizedBox(height: 25),
               Container(
                 padding: const EdgeInsets.all(16.0),
@@ -260,6 +280,7 @@ class _EditCaseState extends State<EditCase> {
                       border: Border.all(color: Color(0xffC4C4C4), width: 1.5),
                     ),
                     child: TextField(
+                      controller: descriptionController,
                       maxLines: null,
                       expands: true,
                       textAlign: TextAlign.right,
@@ -282,7 +303,20 @@ class _EditCaseState extends State<EditCase> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    final updated = widget.caseEntity.copyWith(
+                      title: titleController.text,
+                      description: descriptionController.text,
+                      allValue: amountController.text,
+                      category: selectedCategory,
+                      status: isUrgent ? "عاجلة جداً" : "عادية",
+                      image: _image?.path ?? widget.caseEntity.image,
+                    );
+
+                    context.read<CaseCubit>().updateCase(updated);
+
+                    Navigator.pop(context);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff2F674D),
                     padding: const EdgeInsets.symmetric(vertical: 15),
@@ -304,7 +338,10 @@ class _EditCaseState extends State<EditCase> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<CaseCubit>().deleteCase(widget.caseEntity.id);
+                    Navigator.pop(context);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xffFCDEDE),
                     padding: const EdgeInsets.symmetric(vertical: 15),
@@ -328,8 +365,11 @@ class _EditCaseState extends State<EditCase> {
       ),
     );
   }
-
-  Widget _buildField(String title, String hint) {
+  Widget _buildField(
+      String title,
+      String hint,
+      TextEditingController controller,
+      ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -348,10 +388,10 @@ class _EditCaseState extends State<EditCase> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: Color(0xffC4C4C4), width: 1.5),
-
+            border: Border.all(color: const Color(0xffC4C4C4), width: 1.5),
           ),
           child: TextField(
+            controller: controller,   // ⭐ أهم سطر
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: GoogleFonts.manrope(

@@ -1,27 +1,30 @@
+
 import '../../domain/entities/case_entity.dart';
 
 class CaseModel extends CaseEntity {
   CaseModel({
-    required super.image,
+    required super.id,
     required super.title,
     required super.description,
+    required super.image,
+    required super.category,
+    required super.status,
     required super.rateValue,
     required super.collectedValue,
     required super.allValue,
-    required super.status,
-    required super.category,
   });
 
-  factory CaseModel.fromMap(Map<String, dynamic> map) {
+  factory CaseModel.fromJson(Map<String, dynamic> json) {
     return CaseModel(
-      image: map["image"],
-      title: map["title"],
-      description: map["description"],
-      rateValue: map["rateValue"],
-      collectedValue: map["collectedValue"],
-      allValue: map["allValue"],
-      status: map["status"],
-      category: map["category"],
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      image: json['image'],
+      category: json['category'],
+      status: json['status'],
+      rateValue: json['rateValue'],
+      collectedValue: json['collectedValue'],
+      allValue: json['allValue'],
     );
   }
 }

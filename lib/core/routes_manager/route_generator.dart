@@ -120,7 +120,11 @@ class RouteGenerator {
       case Routes.addCase:
         return MaterialPageRoute(builder: (_) => const AddCase());
       case Routes.editCase:
-        return MaterialPageRoute(builder: (_) => const EditCase());
+        final caseItem = argument as CaseEntity;
+
+        return MaterialPageRoute(
+          builder: (_) => EditCase(caseEntity: caseItem),
+        );
 
       /// SETTINGS
       case Routes.settings:

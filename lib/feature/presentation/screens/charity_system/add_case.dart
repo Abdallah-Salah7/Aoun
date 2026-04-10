@@ -55,6 +55,7 @@ class _AddCaseState extends State<AddCase> {
     }
 
     final newCase = CaseEntity(
+      id: "",
       image: _image?.path ?? ImageAssets.upload,
       title: titleController.text,
       description: descController.text,
@@ -242,13 +243,52 @@ class _AddCaseState extends State<AddCase> {
 
               const SizedBox(height: 25),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Text(
-                  "وصف الحالة",
-                  style: GoogleFonts.manrope(
-                      fontWeight: FontWeight.w500, fontSize: 22),
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // العنوان مع زر الذكاء الاصطناعي
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "وصف الحالة",
+                          style: GoogleFonts.manrope(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 22,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                          },
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.auto_awesome_outlined,
+                                size: 25,
+                                color: Color(0xff2F674D),
+                              ),
+                              const SizedBox(width: 5),
+
+                              Text(
+                                "توليد بالذكاء الاصطناعي",
+                                style: GoogleFonts.manrope(
+                                  fontSize: 16,
+                                  color: const Color(0xff2F674D),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+
+                  // حقل النص (TextField)
+                ],
               ),
 
               const SizedBox(height: 10),

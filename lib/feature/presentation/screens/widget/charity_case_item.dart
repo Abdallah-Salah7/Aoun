@@ -4,8 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
+import '../../../domain/entities/case_entity.dart';
 
 class CharityCaseItem extends StatelessWidget {
+
   final String image;
   final String title;
   final String description;
@@ -53,7 +55,7 @@ class CharityCaseItem extends StatelessWidget {
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(20),
                   ),
-                  child: image.startsWith('/')
+                  child: (image.startsWith('/') || image.contains('file://'))
                       ? Image.file(
                     File(image),
                     height: 220,
@@ -61,7 +63,7 @@ class CharityCaseItem extends StatelessWidget {
                     fit: BoxFit.cover,
                   )
                       : Image.asset(
-                    image,
+                    image.isNotEmpty ? image : ImageAssets.upload,
                     height: 220,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -252,6 +254,17 @@ class CharityCaseItem extends StatelessWidget {
                     Navigator.pushNamed(
                       context,
                       Routes.editCase,
+                      arguments: CaseEntity(
+                        id: "",
+                        title: title,
+                        description: description,
+                        image: image,
+                        category: category,
+                        status: status,
+                        rateValue: rateValue,
+                        collectedValue: collectedValue,
+                        allValue: allValue,
+                      ),
                     );
                   },
                   icon: Text(
