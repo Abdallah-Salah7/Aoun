@@ -38,12 +38,15 @@ class _FieldDropdownState extends State<FieldDropdown> {
             menuMaxHeight: 300,
             alignment: AlignmentDirectional.bottomStart,
             borderRadius: BorderRadius.circular(16),
-            hint: Text(
-              "اختر الفئة",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
+            hint: Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text(
+                "اختر الفئة",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
             value: selectedCategory,

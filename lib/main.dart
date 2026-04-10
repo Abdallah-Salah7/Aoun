@@ -1,19 +1,27 @@
 import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'core/routes_manager/route_generator.dart';
 import 'core/theme/base_theme.dart';
 import 'core/theme/dark_theme.dart';
 import 'core/theme/light_theme.dart';
-import 'feature/presentation/screens/charity_system/home_charity.dart';
+import 'feature/presentation/state_management/cubit/case_cubit.dart';
 import 'feature/presentation/state_management/provider/my_provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => MyProvider(),
-      child: const MainApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => MyProvider()),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => CaseCubit()),
+        ],
+        child: const MainApp(),
+      ),
     ),
   );
 }

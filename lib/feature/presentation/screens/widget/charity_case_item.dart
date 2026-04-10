@@ -1,10 +1,10 @@
-
-import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
+
 class CharityCaseItem extends StatelessWidget {
   final String image;
   final String title;
@@ -46,14 +46,21 @@ class CharityCaseItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// IMAGE + BADGES
+
             Stack(
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(20),
                   ),
-                  child: Image.asset(
+                  child: image.startsWith('/')
+                      ? Image.file(
+                    File(image),
+                    height: 220,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  )
+                      : Image.asset(
                     image,
                     height: 220,
                     width: double.infinity,
@@ -112,8 +119,10 @@ class CharityCaseItem extends StatelessWidget {
               ],
             ),
 
+            /// TITLE
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 18,vertical: 25),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 18, vertical: 25),
               child: Text(
                 title,
                 style: GoogleFonts.cairo(
@@ -124,8 +133,10 @@ class CharityCaseItem extends StatelessWidget {
               ),
             ),
 
+            /// PROGRESS
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+              padding:
+              const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: LinearProgressIndicator(
@@ -137,6 +148,7 @@ class CharityCaseItem extends StatelessWidget {
               ),
             ),
 
+            /// VALUES
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
@@ -149,7 +161,7 @@ class CharityCaseItem extends StatelessWidget {
                         style: GoogleFonts.manrope(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xff255A41),
+                          color: const Color(0xff255A41),
                         ),
                       ),
                       Text(
@@ -157,7 +169,7 @@ class CharityCaseItem extends StatelessWidget {
                         style: GoogleFonts.manrope(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xff757575),
+                          color: const Color(0xff757575),
                         ),
                       ),
                     ],
@@ -166,8 +178,10 @@ class CharityCaseItem extends StatelessWidget {
 
                   Column(
                     children: [
-                    Image( image: AssetImage(ImageAssets.vector),),
-                      const SizedBox(width: 5),
+                      Image(
+                        image: AssetImage(ImageAssets.vector),
+                      ),
+                      const SizedBox(height: 5),
                       Text(
                         "125 متبرع",
                         style: GoogleFonts.cairo(
@@ -178,9 +192,6 @@ class CharityCaseItem extends StatelessWidget {
                       ),
                     ],
                   ),
-
-
-
                 ],
               ),
             ),
@@ -188,18 +199,20 @@ class CharityCaseItem extends StatelessWidget {
             const SizedBox(height: 10),
 
             status == "مكتملة"
-
                 ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Container(
-                                width: double.infinity,
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                decoration: BoxDecoration(
-                  color: Color(0xff8FAF9A),
+              padding:
+              const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Container(
+                width: double.infinity,
+                padding:
+                const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: const Color(0xff8FAF9A),
                   borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                ),
+                child: Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.center,
                   children: [
                     Text(
                       "اكتملت",
@@ -209,26 +222,30 @@ class CharityCaseItem extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(width: 4),
-                    Icon(
+                    const SizedBox(width: 4),
+                    const Icon(
                       Icons.check_circle_outline,
                       color: Colors.white,
                       size: 36,
                     ),
                   ],
-                                ),
-                              ),
-                )
+                ),
+              ),
+            )
                 : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding:
+              const EdgeInsets.symmetric(horizontal: 12),
               child: SizedBox(
                 width: double.infinity,
                 child: OutlinedButton.icon(
                   style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    side: const BorderSide(color: Color(0xff737373),width: 2),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12),
+                    side: const BorderSide(
+                        color: Color(0xff737373), width: 2),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius:
+                      BorderRadius.circular(20),
                     ),
                   ),
                   onPressed: () {
@@ -237,14 +254,19 @@ class CharityCaseItem extends StatelessWidget {
                       Routes.editCase,
                     );
                   },
-                  label: Icon(Icons.mode_edit_outline_outlined, color: Color(0xff737373),size: 24,),
-                  icon:Text(
+                  icon: Text(
                     "تعديل الحالة",
                     style: GoogleFonts.cairo(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xff737373),
                     ),
+                  ),
+
+                  label:   const Icon(
+                    Icons.mode_edit_outline_outlined,
+                    color: Color(0xff737373),
+                    size: 30,
                   ),
                 ),
               ),
