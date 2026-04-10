@@ -357,7 +357,7 @@ class HomeCharity extends StatelessWidget {
                           ),
                         ),
                       ),
-                      WeeklyChart(),
+                      WeeklyChart(title: "التبرعات خلال الفترة",),
                       SizedBox(height: 18),
                       DonationChart(),
                       Padding(

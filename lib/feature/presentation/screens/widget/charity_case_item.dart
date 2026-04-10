@@ -7,7 +7,6 @@ import '../../../../core/routes_manager/routes.dart';
 import '../../../domain/entities/case_entity.dart';
 
 class CharityCaseItem extends StatelessWidget {
-
   final String image;
   final String title;
   final String description;
@@ -37,8 +36,20 @@ class CharityCaseItem extends StatelessWidget {
         Navigator.pushNamed(
           context,
           Routes.charityCaseDetails,
+          arguments: CaseEntity(
+            id: "",
+            title: title,
+            description: description,
+            image: image,
+            category: category,
+            status: status,
+            rateValue: rateValue,
+            collectedValue: collectedValue,
+            allValue: allValue,
+          ),
         );
       },
+
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
@@ -49,6 +60,7 @@ class CharityCaseItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
+            /// IMAGE
             Stack(
               children: [
                 ClipRRect(
@@ -103,8 +115,8 @@ class CharityCaseItem extends StatelessWidget {
                   top: 10,
                   right: 10,
                   child: Container(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
@@ -137,8 +149,8 @@ class CharityCaseItem extends StatelessWidget {
 
             /// PROGRESS
             Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 18, vertical: 8),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: LinearProgressIndicator(
@@ -177,19 +189,16 @@ class CharityCaseItem extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-
                   Column(
                     children: [
-                      Image(
-                        image: AssetImage(ImageAssets.vector),
-                      ),
+                      Image(image: AssetImage(ImageAssets.vector)),
                       const SizedBox(height: 5),
                       Text(
                         "125 متبرع",
                         style: GoogleFonts.cairo(
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
-                          color: Colors.grey[700],
+                          color: Colors.grey,
                         ),
                       ),
                     ],
@@ -200,6 +209,7 @@ class CharityCaseItem extends StatelessWidget {
 
             const SizedBox(height: 10),
 
+            /// BUTTON
             status == "مكتملة"
                 ? Padding(
               padding:
@@ -213,8 +223,7 @@ class CharityCaseItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "اكتملت",
@@ -246,8 +255,7 @@ class CharityCaseItem extends StatelessWidget {
                     side: const BorderSide(
                         color: Color(0xff737373), width: 2),
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                   onPressed: () {
@@ -275,8 +283,7 @@ class CharityCaseItem extends StatelessWidget {
                       color: const Color(0xff737373),
                     ),
                   ),
-
-                  label:   const Icon(
+                  label: const Icon(
                     Icons.mode_edit_outline_outlined,
                     color: Color(0xff737373),
                     size: 30,

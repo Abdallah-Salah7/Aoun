@@ -65,7 +65,7 @@ class _EditCaseState extends State<EditCase> {
         backgroundColor: const Color(0xffE5EBE9),
         appBar: AppBar(
           title: Text(
-            "إضافة حالة جديدة",
+            "تعديل بيانات الحالة ",
             style: GoogleFonts.manrope(
               fontSize: 23,
               fontWeight: FontWeight.bold,

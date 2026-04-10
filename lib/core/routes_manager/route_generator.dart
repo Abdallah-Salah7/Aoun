@@ -116,7 +116,11 @@ class RouteGenerator {
       case Routes.homeCharity:
         return MaterialPageRoute(builder: (_) => const HomeCharity());
       case Routes.charityCaseDetails:
-        return MaterialPageRoute(builder: (_) => const CharityCaseDetails());
+        final caseData = argument as CaseEntity;
+
+        return MaterialPageRoute(
+          builder: (_) => CharityCaseDetails(caseData: caseData),
+        );
       case Routes.addCase:
         return MaterialPageRoute(builder: (_) => const AddCase());
       case Routes.editCase:
@@ -158,9 +162,7 @@ class RouteGenerator {
       case Routes.zakatMoney:
         return MaterialPageRoute(builder: (_) => const ZakatMoney());
       case Routes.caseManagement:
-        return MaterialPageRoute(
-          builder: (_) => const CaseManagement(),
-        );
+        return MaterialPageRoute(builder: (_) => const CaseManagement());
 
       /// AUTH
       case Routes.userTypeScreen:
