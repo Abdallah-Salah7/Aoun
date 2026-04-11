@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
+import '../../state_management/cubit/case_cubit.dart';
+import 'charity_profile_screen.dart';
 
 class CaseDetailsScreen extends StatefulWidget {
   final Map<String, dynamic> args;
@@ -226,7 +229,15 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
 
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.charityProfileScreen);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BlocProvider.value(
+                            value: context.read<CaseCubit>(),
+                            child: CharityProfileScreen(),
+                          ),
+                        ),
+                      );
                     },
                     child: Container(
                       decoration: BoxDecoration(

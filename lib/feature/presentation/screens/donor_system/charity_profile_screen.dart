@@ -1,9 +1,12 @@
 import 'package:aoun/feature/presentation/screens/widget/campaign_item.dart';
 import 'package:aoun/feature/presentation/screens/widget/case_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../state_management/cubit/case_cubit.dart';
+import '../../state_management/cubit/case_state.dart' show CaseLoaded, CaseState;
 
 class CharityProfileScreen extends StatefulWidget {
   const CharityProfileScreen({super.key});
@@ -59,75 +62,6 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
     },
   ];
 
-  final List<Map<String, dynamic>> cases = [
-    {
-      "image": ImageAssets.caseRec,
-      "title": "أحمد يحتاج عملية زراعة قوقعة عاجلة",
-      "description":
-          "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-      "status": "عاجلة",
-    },
-    {
-      "image": ImageAssets.caseRec,
-      "title": "أحمد يحتاج عملية زراعة قوقعة عاجلة",
-      "description":
-          "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
-      "rateValue": 0.2,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-      "status": "عاجلة جداً",
-    },
-    {
-      "image": ImageAssets.caseRec,
-      "title": "أحمد يحتاج عملية زراعة قوقعة عاجلة",
-      "description":
-          "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
-      "rateValue": 0.2,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-      "status": "عاجلة جداً",
-    },
-
-    {
-      "image": ImageAssets.caseRec,
-      "title": "أحمد يحتاج عملية زراعة قوقعة عاجلة",
-      "description":
-          "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
-      "rateValue": 1.0,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-      "status": "مكتملة",
-    },
-    {
-      "image": ImageAssets.caseRec,
-      "title": "أحمد يحتاج عملية زراعة قوقعة عاجلة",
-      "description":
-          "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-      "status": "عاجلة",
-    },
-    {
-      "image": ImageAssets.caseRec,
-      "title": "أحمد يحتاج عملية زراعة قوقعة عاجلة",
-      "description":
-          "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
-      "rateValue": 1.0,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-      "status": "مكتملة",
-    },
-  ];
-  List<Map<String, dynamic>> get filteredCases {
-    if (selectedFilter == "الحالات") {
-      return cases.where((c) => c["status"] != "مكتملة").toList();
-    }
-    return [];
-  }
 
   String selectedFilter = "الحالات";
   @override
@@ -466,24 +400,37 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                   SizedBox(height: 20),
 
                   selectedFilter == "الحالات"
-                      ? ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: filteredCases.length,
-                        itemBuilder: (context, index) {
-                          final caseItem = filteredCases[index];
+                      ?BlocBuilder<CaseCubit, CaseState>(
+                    builder: (context, state) {
+                      if (state is CaseLoaded) {
 
-                          return CaseItem(
-                            image: caseItem["image"],
-                            title: caseItem["title"],
-                            description: caseItem["description"],
-                            rateValue: caseItem["rateValue"],
-                            collectedValue: caseItem["collectedValue"],
-                            allValue: caseItem["allValue"],
-                            status: caseItem["status"],
-                          );
-                        },
-                      )
+                        final cases = state.cases.where((c) {
+                          return c.status != "مكتملة";
+                        }).toList();
+
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: cases.length,
+                          itemBuilder: (context, index) {
+                            final caseItem = cases[index];
+
+                            return CaseItem(
+                              image: caseItem.image,
+                              title: caseItem.title,
+                              description: caseItem.description,
+                              rateValue: caseItem.rateValue,
+                              collectedValue: caseItem.collectedValue,
+                              allValue: caseItem.allValue,
+                              status: caseItem.status,
+                            );
+                          },
+                        );
+                      }
+
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                  )
                       : ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),

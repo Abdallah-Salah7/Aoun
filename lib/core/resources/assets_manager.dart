@@ -54,9 +54,9 @@ abstract class ImageAssets {
   static const String fundsZakat = "$imagePath/fundsZakat.png";
   static const String rulingsZakat = "$imagePath/rulingsZakat.png";
   static const String calcZakat = "$imagePath/calcZakat.png";
-  static const String money = "$imagePath/money.png";
+  static const String money = "$imagePath/Money.png";
   static const String gold = "$imagePath/gold.png";
-  static const String sliver = "$imagePath/silver.png";
+  static const String sliver = "$imagePath/Silver.png";
   static const String caliber = "$imagePath/caliber.png";
   static const String hint = "$imagePath/hint.png";
   static const String homee = "$imagePath/homee.png";
