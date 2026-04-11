@@ -9,3 +9,4 @@ class CaseLoaded extends CaseState {
 
   CaseLoaded(this.cases);
 }
+

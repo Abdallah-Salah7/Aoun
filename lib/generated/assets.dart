@@ -27,6 +27,8 @@
 //   static const String charitySystemEditCase = 'lib/feature/presentation/screens/charity_system/edit_case.dart';
 //   static const String charitySystemHomeCharity = 'lib/feature/presentation/screens/charity_system/home_charity.dart';
 //   static const String colorManagerPrimaryColors = 'lib/core/color_manager/primary_colors.dart';
+//   static const String cubitCampaignCubit = 'lib/feature/presentation/state_management/cubit/campaign_cubit.dart';
+//   static const String cubitCampaignState = 'lib/feature/presentation/state_management/cubit/campaign_state.dart';
 //   static const String cubitCaseCubit = 'lib/feature/presentation/state_management/cubit/case_cubit.dart';
 //   static const String cubitCaseState = 'lib/feature/presentation/state_management/cubit/case_state.dart';
 //   static const String donorChangePassword = 'lib/feature/presentation/screens/donor_system/donor/change_password.dart';
@@ -68,6 +70,7 @@
 //   static const String donorSystemZakatGold = 'lib/feature/presentation/screens/donor_system/zakat_gold.dart';
 //   static const String donorSystemZakatMoney = 'lib/feature/presentation/screens/donor_system/zakat_money.dart';
 //   static const String donorSystemZakatSliver = 'lib/feature/presentation/screens/donor_system/zakat_sliver.dart';
+//   static const String entitiesCampaignEntity = 'lib/feature/domain/entities/campaign_entity.dart';
 //   static const String entitiesCaseEntity = 'lib/feature/domain/entities/case_entity.dart';
 //   static const String generatedAssets = 'lib/generated/assets.dart';
 //   static const String imagesAccountRevision = 'assets/images/account_revision.png';
@@ -161,6 +164,7 @@
 //   static const String loginLoginForm = 'lib/feature/presentation/screens/widget/authentication/login/login_form.dart';
 //   static const String loginOtpBoxes = 'lib/feature/presentation/screens/widget/authentication/login/otp_boxes.dart';
 //   static const String loginSocialLogin = 'lib/feature/presentation/screens/widget/authentication/login/social_login.dart';
+//   static const String modelsCampaignModel = 'lib/feature/data/models/campaign_model.dart';
 //   static const String modelsCaseModel = 'lib/feature/data/models/case_model.dart';
 //   static const String onboardScreensOnboardScreen1 = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboard_screen1.dart';
 //   static const String onboardScreensOnboardScreen2 = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboard_screen2.dart';
@@ -185,6 +189,7 @@
 //   static const String themeLightTheme = 'lib/core/theme/light_theme.dart';
 //   static const String widgetCampaignItem = 'lib/feature/presentation/screens/widget/campaign_item.dart';
 //   static const String widgetCaseItem = 'lib/feature/presentation/screens/widget/case_item.dart';
+//   static const String widgetCharityCampaignItem = 'lib/feature/presentation/screens/widget/charity_campaign_item.dart';
 //   static const String widgetCharityCaseItem = 'lib/feature/presentation/screens/widget/charity_case_item.dart';
 //   static const String widgetCradlesItem = 'lib/feature/presentation/screens/widget/cradles_item.dart';
 //   static const String widgetDonationChart = 'lib/feature/presentation/screens/widget/donation_chart.dart';

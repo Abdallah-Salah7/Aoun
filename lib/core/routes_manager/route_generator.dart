@@ -12,6 +12,7 @@ import 'package:aoun/feature/presentation/screens/donor_system/splash_screen.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../feature/domain/entities/campaign_entity.dart';
 import '../../feature/domain/entities/case_entity.dart';
 import '../../feature/presentation/screens/charity_system/add_campaign.dart';
 import '../../feature/presentation/screens/charity_system/add_case.dart';
@@ -54,6 +55,8 @@ import '../../feature/presentation/screens/donor_system/zakat_sliver.dart';
 import '../../feature/presentation/screens/tabs/donation_tab.dart';
 import '../../feature/presentation/screens/tabs/profile_tab.dart';
 import '../../feature/presentation/screens/tabs/zakat_tab.dart';
+import '../../feature/presentation/screens/widget/charity_campaign_item.dart';
+import '../../feature/presentation/state_management/cubit/campaign_cubit.dart';
 import '../../feature/presentation/state_management/cubit/case_cubit.dart';
 import '../resources/assets_manager.dart';
 
@@ -134,14 +137,20 @@ class RouteGenerator {
           builder: (_) => EditCase(caseEntity: caseItem),
         );
       case Routes.campaignManagement:
-        return MaterialPageRoute(builder: (_) => const CampaignManagement());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => CampaignCubit(),
+            child: const CampaignManagement(),
+          ),
+        );
       case Routes.addCampaign:
         return MaterialPageRoute(builder: (_) => const AddCampaign());
       case Routes.editCampaign:
         return MaterialPageRoute(builder: (_) => const EditCampaign());
       case Routes.charityCampaignDetails:
+        final campaignData = argument as CampaignEntity;
         return MaterialPageRoute(
-          builder: (_) => const CharityCampaignDetails(),
+          builder: (_) =>  CharityCampaignDetails(campaignData:campaignData),
         );
 
       /// SETTINGS

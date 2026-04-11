@@ -211,7 +211,117 @@ class _CaseManagementState extends State<CaseManagement> {
                   ),
                 ),
 
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white,
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 28,
+                            vertical: 8,
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffE3F0EA),
+                                    borderRadius: BorderRadius.circular(45),
+                                  ),
+                                  padding: EdgeInsets.all(8),
+                                  child: Image(
+                                    image: AssetImage(ImageAssets.numCases),
+                                    height: 36,
+                                    width: 36,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Text(
+                                  "عدد الحالات",
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w800, // SemiBold
+                                    color: Color(0xff6A6969),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "235 حالة\n",
+                                style: GoogleFonts.manrope(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 28),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white,
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 28,
+                            vertical: 8,
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffE3F0EA),
+                                    borderRadius: BorderRadius.circular(45),
+                                  ),
+                                  padding: EdgeInsets.all(8),
+                                  child: Image(
+                                    image: AssetImage(ImageAssets.numDonors),
+                                    height: 36,
+                                    width: 36,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Text(
+                                  "عدد المتبرعين",
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w800, // SemiBold
+                                    color: Color(0xff6A6969),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                " 3250 متبرع \n",
+                                style: GoogleFonts.manrope(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 30),
+
 
                 BlocBuilder<CaseCubit, CaseState>(
                   builder: (context, state) {
