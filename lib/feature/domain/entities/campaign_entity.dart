@@ -8,6 +8,8 @@ class CampaignEntity {
   final double rateValue;
   final String collectedValue;
   final String allValue;
+  final DateTime startDate;
+  final DateTime endDate;
 
   CampaignEntity({
     required this.id,
@@ -19,6 +21,9 @@ class CampaignEntity {
     required this.rateValue,
     required this.collectedValue,
     required this.allValue,
+    required this.startDate,
+    required this.endDate,
+
   });
 
   CampaignEntity copyWith({
@@ -31,6 +36,9 @@ class CampaignEntity {
     double? rateValue,
     String? collectedValue,
     String? allValue,
+    DateTime? startDate,
+    DateTime? endDate,
+
   }) {
     return CampaignEntity(
       id: id ?? this.id,
@@ -42,6 +50,8 @@ class CampaignEntity {
       rateValue: rateValue ?? this.rateValue,
       collectedValue: collectedValue ?? this.collectedValue,
       allValue: allValue ?? this.allValue,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
     );
   }
 }

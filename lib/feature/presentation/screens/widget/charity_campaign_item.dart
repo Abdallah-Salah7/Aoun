@@ -17,6 +17,8 @@ class CharityCampaignItem extends StatelessWidget {
   final String allValue;
   final String status;
   final String category;
+  final DateTime startDate;
+  final DateTime endDate;
 
   const CharityCampaignItem({
     super.key,
@@ -28,6 +30,8 @@ class CharityCampaignItem extends StatelessWidget {
     required this.allValue,
     required this.status,
     required this.category,
+    required this.startDate,
+    required this.endDate,
   });
 
   @override
@@ -48,6 +52,8 @@ class CharityCampaignItem extends StatelessWidget {
             rateValue: rateValue,
             collectedValue: collectedValue,
             allValue: allValue,
+            startDate: startDate,
+            endDate: endDate,
           ),
         );
       },
@@ -102,7 +108,7 @@ class CharityCampaignItem extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "30 يوم متبقى",
+                        "${getRemainingDays()} يوم متبقى",
                         style: GoogleFonts.manrope(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
@@ -113,16 +119,19 @@ class CharityCampaignItem extends StatelessWidget {
                   ],
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 18, vertical: 25),
-                  child: Text(
-                    title,
-                    style: GoogleFonts.cairo(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 18, vertical: 25),
+                    child: Text(
+                      title,
+                      style: GoogleFonts.cairo(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.right,
                     ),
-                    textAlign: TextAlign.right,
                   ),
                 ),
               ],
@@ -253,6 +262,8 @@ class CharityCampaignItem extends StatelessWidget {
                         rateValue: rateValue,
                         collectedValue: collectedValue,
                         allValue: allValue,
+                        startDate: startDate,
+                        endDate: endDate,
                       ),
                     );
                   },
@@ -278,5 +289,10 @@ class CharityCampaignItem extends StatelessWidget {
         ),
       ),
     );
+  }
+  int getRemainingDays() {
+    final now = DateTime.now();
+    final difference = endDate.difference(now).inDays;
+    return difference < 0 ? 0 : difference;
   }
 }

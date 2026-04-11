@@ -13,6 +13,8 @@ class CampaignModel extends CampaignEntity {
     required super.rateValue,
     required super.collectedValue,
     required super.allValue,
+    required super.startDate,
+    required super.endDate,
   });
 
   factory CampaignModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,8 @@ class CampaignModel extends CampaignEntity {
       rateValue: json['rateValue'],
       collectedValue: json['collectedValue'],
       allValue: json['allValue'],
+      startDate: json['startDate'],
+      endDate: json['endDate'],
     );
   }
 }

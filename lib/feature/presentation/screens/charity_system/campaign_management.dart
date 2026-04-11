@@ -349,6 +349,8 @@ class _CampaignManagementState extends State<CampaignManagement> {
                             allValue: campaignItem.allValue,
                             status: campaignItem.status,
                             category: campaignItem.category,
+                            startDate: campaignItem.startDate,
+                            endDate: campaignItem.endDate,
                           );
                         },
                       );
