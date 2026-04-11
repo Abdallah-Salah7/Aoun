@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../../../core/routes_manager/routes.dart';
 import '../../../domain/entities/case_entity.dart';
 import '../../state_management/cubit/case_cubit.dart';
 import '../widget/field_dropdown.dart';
@@ -339,9 +340,84 @@ class _EditCaseState extends State<EditCase> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<CaseCubit>().deleteCase(widget.caseEntity.id);
-                    Navigator.pop(context);
+                    final caseCubit = context.read<CaseCubit>();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "هل أنت متأكد من حذف هذه الحالة ؟",
+                                style: GoogleFonts.saira(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                              SizedBox(height: 12),
+                              Text(
+                                "سيتم حذف جميع البيانات المرتبطة بها \n نهائيًا ولا يمكن استرجاعها ",
+                                style: GoogleFonts.saira(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                              SizedBox(height: 30),
+
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        caseCubit.deleteCase(widget.caseEntity.id);
+                                        Navigator.pop(dialogContext);
+                                        Navigator.pop(dialogContext);
+                                        },
+                                      child: Text(
+                                        "حذف الحالة",
+                                        style: GoogleFonts.saira(
+                                          fontSize: 23,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xffB73131),
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+
+                                  SizedBox(width: 10),
+
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.pop(dialogContext);
+                                        },
+                                      child: Text(
+                                        "إلغاء",
+                                        style: GoogleFonts.saira(
+                                          fontSize: 23,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
                   },
+
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xffFCDEDE),
                     padding: const EdgeInsets.symmetric(vertical: 15),
@@ -349,6 +425,7 @@ class _EditCaseState extends State<EditCase> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
+
                   child: Text(
                     "حذف الحالة",
                     style: GoogleFonts.manrope(

@@ -21,7 +21,7 @@ class CaseManagement extends StatefulWidget {
 class _CaseManagementState extends State<CaseManagement> {
 
   String selectedFilter = "الكل";
-  String selectedCategory = "الصحة";
+  String selectedCategory = "الكل";
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +220,7 @@ class _CaseManagementState extends State<CaseManagement> {
 
                         bool statusMatch;
                         if (selectedFilter == "الكل") {
-                          statusMatch = c.status != "مكتملة";
+                          statusMatch = true;
                         } else {
                           statusMatch = c.status == selectedFilter;
                         }

@@ -41,7 +41,7 @@ class _FieldDropdownState extends State<FieldDropdown> {
             hint: Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
-                selectedCategory ?? "اختر الفئة",
+                selectedCategory ?? "الكل",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
