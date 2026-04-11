@@ -268,7 +268,7 @@ class CharityCampaignItem extends StatelessWidget {
                     );
                   },
                   icon: Text(
-                    "تعديل الحالة",
+                    "تعديل الحملة",
                     style: GoogleFonts.cairo(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

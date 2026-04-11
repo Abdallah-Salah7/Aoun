@@ -210,7 +210,7 @@ class _CharityCaseDetailsState extends State<CharityCaseDetails> {
                       padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 8),
                       child: Row(
                         children: [
-                          Text("النشاط الأخير",
+                          Text("آخر التبرعات",
                             style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w800
@@ -219,7 +219,7 @@ class _CharityCaseDetailsState extends State<CharityCaseDetails> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all( 10.0),
+                      padding: const EdgeInsets.all( 18.0),
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         margin: EdgeInsets.symmetric(vertical: 18),

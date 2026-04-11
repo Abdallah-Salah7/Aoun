@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/resources/assets_manager.dart';
 import '../../../domain/entities/campaign_entity.dart';
 import '../widget/weekly_chart.dart';
 
@@ -28,6 +29,7 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
     final allValue = widget.campaignData.allValue;
     final status = widget.campaignData.status;
     final description = widget.campaignData.description;
+    final endDate = widget.campaignData.endDate;
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -35,7 +37,7 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
         backgroundColor: Color(0xffE5EBE9),
         appBar: AppBar(
           title: Text(
-            "  تفاصيل الحالة ",
+            "  تفاصيل الحملة ",
             style: GoogleFonts.manrope(
               fontSize: 23,
               fontWeight: FontWeight.bold,
@@ -105,6 +107,46 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Image(
+                                    image: AssetImage(ImageAssets.iconDate),
+                                    height: 34,
+                                    width: 34,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "${getRemainingDays()} يوم متبقى",
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black45,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom:8,right:  8.0),
+                                child: Text(
+                                  title,
+                                  style: GoogleFonts.cairo(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ),
+
 
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
@@ -169,7 +211,7 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                       child: Align(
                         alignment: Alignment.topRight,
                         child: Text(
-                          "وصف الحالة",
+                          "وصف الحملة",
                           style: GoogleFonts.manrope(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -202,6 +244,22 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                       ),
                     ),
                     Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildDateBox(
+                            title: "بداية الحملة",
+                            date: widget.campaignData.startDate,
+                          ),
+                          _buildDateBox(
+                            title: "نهاية الحملة",
+                            date: widget.campaignData.endDate,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 18),
                       child: WeeklyChart(title: "نمو التبرعات",),
                     ),
@@ -209,7 +267,7 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                       padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 8),
                       child: Row(
                         children: [
-                          Text("النشاط الأخير",
+                          Text("آخر التبرعات",
                             style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w800
@@ -218,7 +276,7 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all( 10.0),
+                      padding: const EdgeInsets.all( 18.0),
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         margin: EdgeInsets.symmetric(vertical: 18),
@@ -281,6 +339,57 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
           ],
         ),
       ),
+    );
+  }
+  int getRemainingDays() {
+    final now = DateTime.now();
+    final difference = widget.campaignData.endDate.difference(now).inDays;
+
+    return difference < 0 ? 0 : difference;
+  }
+  Widget _buildDateBox({
+    required String title,
+    required DateTime? date,
+  }) {
+    String formattedDate = date == null
+        ? "--/--/----"
+        : "${date.day}/${date.month}/${date.year}";
+
+    return Column(
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 41, vertical: 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Color(0xffC4C4C4), width: 1.5),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 5,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Text(
+            formattedDate,
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.grey.shade700,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
