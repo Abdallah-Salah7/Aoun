@@ -13,9 +13,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../feature/domain/entities/case_entity.dart';
+import '../../feature/presentation/screens/charity_system/add_campaign.dart';
 import '../../feature/presentation/screens/charity_system/add_case.dart';
+import '../../feature/presentation/screens/charity_system/campaign_management.dart';
 import '../../feature/presentation/screens/charity_system/case_management.dart';
+import '../../feature/presentation/screens/charity_system/charity_campaign_details.dart';
 import '../../feature/presentation/screens/charity_system/charity_case_details.dart';
+import '../../feature/presentation/screens/charity_system/edit_campaign.dart';
 import '../../feature/presentation/screens/charity_system/edit_case.dart';
 import '../../feature/presentation/screens/charity_system/home_charity.dart';
 import '../../feature/presentation/screens/donor_system/Search_screen.dart';
@@ -128,6 +132,16 @@ class RouteGenerator {
 
         return MaterialPageRoute(
           builder: (_) => EditCase(caseEntity: caseItem),
+        );
+      case Routes.campaignManagement:
+        return MaterialPageRoute(builder: (_) => const CampaignManagement());
+      case Routes.addCampaign:
+        return MaterialPageRoute(builder: (_) => const AddCampaign());
+      case Routes.editCampaign:
+        return MaterialPageRoute(builder: (_) => const EditCampaign());
+      case Routes.charityCampaignDetails:
+        return MaterialPageRoute(
+          builder: (_) => const CharityCampaignDetails(),
         );
 
       /// SETTINGS

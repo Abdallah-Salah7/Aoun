@@ -49,4 +49,8 @@ class Routes {
   static const String charityCaseDetails = "/charityCaseDetails";
   static const String addCase = "/addCase";
   static const String editCase = "/editCase";
+  static const String campaignManagement = "/campaignManagement";
+  static const String addCampaign = "/addCampaign";
+  static const String editCampaign = "/editCampaign";
+  static const String charityCampaignDetails = "/charityCampaignDetails";
 }
