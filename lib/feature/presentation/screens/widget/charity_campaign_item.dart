@@ -2,11 +2,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
 import '../../../domain/entities/campaign_entity.dart';
+import '../../state_management/cubit/campaign_cubit.dart';
+import '../charity_system/edit_campaign.dart';
 
 class CharityCampaignItem extends StatelessWidget {
   final String image;
@@ -19,6 +22,7 @@ class CharityCampaignItem extends StatelessWidget {
   final String category;
   final DateTime startDate;
   final DateTime endDate;
+  final String id;
 
   const CharityCampaignItem({
     super.key,
@@ -32,6 +36,7 @@ class CharityCampaignItem extends StatelessWidget {
     required this.category,
     required this.startDate,
     required this.endDate,
+    required this.id,
   });
 
   @override
@@ -249,21 +254,26 @@ class CharityCampaignItem extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(
+                    final campaign = CampaignEntity(
+                      id: id,
+                      title: title,
+                      description: description,
+                      image: image,
+                      category: category,
+                      status: status,
+                      rateValue: rateValue,
+                      collectedValue: collectedValue,
+                      allValue: allValue,
+                      startDate: startDate,
+                      endDate: endDate,
+                    );
+                    Navigator.push(
                       context,
-                      Routes.editCase,
-                      arguments: CampaignEntity(
-                        id: "",
-                        title: title,
-                        description: description,
-                        image: image,
-                        category: category,
-                        status: status,
-                        rateValue: rateValue,
-                        collectedValue: collectedValue,
-                        allValue: allValue,
-                        startDate: startDate,
-                        endDate: endDate,
+                      MaterialPageRoute(
+                        builder: (_) => BlocProvider.value(
+                          value: context.read<CampaignCubit>(),
+                          child: EditCampaign(campaignEntity: campaign,),
+                        ),
                       ),
                     );
                   },

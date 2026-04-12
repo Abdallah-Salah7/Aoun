@@ -146,7 +146,11 @@ class RouteGenerator {
       case Routes.addCampaign:
         return MaterialPageRoute(builder: (_) => const AddCampaign());
       case Routes.editCampaign:
-        return MaterialPageRoute(builder: (_) => const EditCampaign());
+        final campaign = settings.arguments as CampaignEntity;
+
+        return MaterialPageRoute(
+          builder: (_) => EditCampaign(campaignEntity: campaign),
+        );
       case Routes.charityCampaignDetails:
         final campaignData = argument as CampaignEntity;
         return MaterialPageRoute(

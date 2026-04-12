@@ -40,7 +40,7 @@ class _CampaignManagementState extends State<CampaignManagement> {
               );
 
               if (result != null && result is CampaignEntity) {
-                context.read<CampaignCubit>().addCase(result);
+                context.read<CampaignCubit>().addCampaign(result);
               }
             },
             backgroundColor: const Color(0xff2F674D),
@@ -341,6 +341,7 @@ class _CampaignManagementState extends State<CampaignManagement> {
                           final campaignItem = filteredCampaign[index];
 
                           return CharityCampaignItem(
+                            id: campaignItem.id,
                             image: campaignItem.image,
                             title: campaignItem.title,
                             description: campaignItem.description,

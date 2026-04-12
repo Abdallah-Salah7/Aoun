@@ -204,7 +204,7 @@ class _AddCampaignState extends State<AddCampaign> {
               const SizedBox(height: 20),
               _buildField(
                 "عنوان الحملة",
-                "مثال: حملة غزة",
+                "مثال: حملة اغاثة غزة",
                 controller: titleController,
               ),
 
