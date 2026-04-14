@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../state_management/cubit/campaign_cubit.dart';
+import '../../state_management/cubit/campaign_state.dart';
 import '../../state_management/cubit/case_cubit.dart';
 import '../../state_management/cubit/case_state.dart' show CaseLoaded, CaseState;
 
@@ -431,22 +433,37 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                       return const Center(child: CircularProgressIndicator());
                     },
                   )
-                      : ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: camps.length,
-                        itemBuilder: (context, index) {
-                          final campItem = camps[index];
+                      : BlocBuilder<CampaignCubit, CampaignState>(
+                    builder: (context, state) {
+                      if (state is CampaignLoaded) {
 
-                          return CampaignItem(
-                            image: campItem["image"],
-                            title: campItem["title"],
-                            rateValue: campItem["rateValue"],
-                            collectedValue: campItem["collectedValue"],
-                            allValue: campItem["allValue"],
-                          );
-                        },
-                      ),
+                        final campaigns = state.campaigns;
+
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: campaigns.length,
+                          itemBuilder: (context, index) {
+                            final campaign = campaigns[index];
+
+                            return CampaignItem(
+                              image: campaign.image,
+                              title: campaign.title,
+                              rateValue: campaign.rateValue,
+                              collectedValue: campaign.collectedValue,
+                              allValue: campaign.allValue,
+                              description: campaign.description,
+                              status: campaign.status,
+                              startDate: campaign.startDate,
+                              endDate: campaign.endDate,
+                            );
+                          },
+                        );
+                      }
+
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                  ),
                 ],
               ),
             ),

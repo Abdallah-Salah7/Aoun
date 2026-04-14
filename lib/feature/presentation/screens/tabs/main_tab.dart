@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
+import '../../state_management/cubit/campaign_cubit.dart';
+import '../../state_management/cubit/campaign_state.dart';
+import '../donor_system/current_campaigns_screen.dart';
 import '../widget/case_item.dart';
 import '../widget/cradles_item.dart';
 import '../widget/donation_item.dart';
@@ -180,10 +184,14 @@ class MainTab extends StatelessWidget {
                           Spacer(),
                           InkWell(
                             onTap: () {
-                              Navigator.pushNamed(
+                              Navigator.push(
                                 context,
-                                Routes.currentCampaignsScreen,
-                                arguments: "حملة",
+                                MaterialPageRoute(
+                                  builder: (_) => BlocProvider.value(
+                                    value: context.read<CampaignCubit>(),
+                                    child: CurrentCampaignsScreen(),
+                                  ),
+                                ),
                               );
                             },
                             child: TitleItem(
@@ -196,30 +204,37 @@ class MainTab extends StatelessWidget {
                     ),
                     SizedBox(
                       height: 250,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          CradlesItem(
-                            name: "إغاثة غزة",
-                            image: ImageAssets.gaza,
-                          ),
-                          CradlesItem(
-                            name: "سقيا الماء",
-                            image: ImageAssets.water,
-                          ),
-                          CradlesItem(
-                            name: "دفء الشتاء",
-                            image: ImageAssets.camp1,
-                          ),
-                          CradlesItem(
-                            name: "بناء وتعمير ",
-                            image: ImageAssets.camp2,
-                          ),
-                          CradlesItem(
-                            name: " دعم مرضى السرطان",
-                            image: ImageAssets.camp3,
-                          ),
-                        ],
+                      child: BlocBuilder<CampaignCubit, CampaignState>(
+                        builder: (context, state) {
+                          if (state is CampaignLoaded) {
+                            final campaigns = state.campaigns;
+
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: campaigns.length,
+                              itemBuilder: (context, index) {
+                                final campaign = campaigns[index];
+
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                                  child:CradlesItem(
+                                    image: campaign.image,
+                                    title: campaign.title,
+                                    description: campaign.description,
+                                    rateValue: campaign.rateValue,
+                                    collectedValue: campaign.collectedValue,
+                                    allValue: campaign.allValue,
+                                    status: campaign.status,
+                                    startDate: campaign.startDate,
+                                    endDate: campaign.endDate,
+                                  ),
+                                );
+                              },
+                            );
+                          }
+
+                          return Center(child: CircularProgressIndicator());
+                        },
                       ),
                     ),
                     SizedBox(height: 26),

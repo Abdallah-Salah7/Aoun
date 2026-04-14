@@ -1,69 +1,19 @@
 import 'package:aoun/feature/presentation/screens/widget/campaign_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../core/resources/assets_manager.dart';
+import '../../state_management/cubit/campaign_cubit.dart';
+import '../../state_management/cubit/campaign_state.dart';
 
 class CurrentCampaignsScreen extends StatefulWidget {
-  final String fieldName;
-  CurrentCampaignsScreen({super.key, required this.fieldName});
+  CurrentCampaignsScreen({super.key});
 
   @override
   State<CurrentCampaignsScreen> createState() => _CurrentCampaignsScreenState();
 }
 
 class _CurrentCampaignsScreenState extends State<CurrentCampaignsScreen> {
-  final List<Map<String, dynamic>> camps = [
-    {
-      "image": ImageAssets.gaza,
-      "title": "حملة إغاثة غزة",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-    },
-    {
-      "image": ImageAssets.water,
-      "title": "حملة إغاثة غزة",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-    },
-    {
-      "image": ImageAssets.camp1,
-      "title": "حملة دفء الشتاء",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-    },
-    {
-      "image": ImageAssets.water,
-      "title": "حملة سقيا الماء ",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-    },
-    {
-      "image": ImageAssets.camp2,
-      "title": "حملة بناء وتعمير",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-    },
-    {
-      "image": ImageAssets.camp3,
-      "title": "حملة دعم مرضى السرطان",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-    },
-    {
-      "image": ImageAssets.gaza,
-      "title": "حملة إغاثة غزة",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-    },
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -120,22 +70,39 @@ class _CurrentCampaignsScreenState extends State<CurrentCampaignsScreen> {
               children: [
                 SizedBox(height: 10),
 
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: camps.length,
-                  itemBuilder: (context, index) {
-                    final caseItem = camps[index];
+                BlocBuilder<CampaignCubit, CampaignState>(
+                  builder: (context, state) {
+                    if (state is CampaignLoaded) {
+                      final campaigns = state.campaigns;
 
-                    return CampaignItem(
-                      image: caseItem["image"],
-                      title: caseItem["title"],
-                      rateValue: caseItem["rateValue"],
-                      collectedValue: caseItem["collectedValue"],
-                      allValue: caseItem["allValue"],
-                    );
+                      final filteredCampaigns = campaigns;
+
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: filteredCampaigns.length,
+                        itemBuilder: (context, index) {
+                          final campaign = filteredCampaigns[index];
+
+                          return CampaignItem(
+                            image: campaign.image,
+                            title: campaign.title,
+                            rateValue: campaign.rateValue,
+                            collectedValue: campaign.collectedValue,
+                            allValue: campaign.allValue,
+                            description: campaign.description,
+                            status: campaign.status,
+                            startDate: campaign.startDate,
+                            endDate: campaign.endDate,
+
+                          );
+                        },
+                      );
+                    }
+
+                    return Center(child: CircularProgressIndicator());
                   },
-                ),
+                )
               ],
             ),
           ],

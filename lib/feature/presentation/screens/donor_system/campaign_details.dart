@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,6 +23,7 @@ class _CampaignDetailsState extends State<CampaignDetails> {
     final rateValue = widget.args["rateValue"];
     final collectedValue = widget.args["collectedValue"];
     final allValue = widget.args["allValue"];
+    final description = widget.args["description"];
 
     return Scaffold(
       backgroundColor: Color(0xffE5EBE9),
@@ -36,12 +39,20 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                 children: [
                   Stack(
                     children: [
-                      Image.asset(
-                        image,
-                        width: double.infinity,
-                        height: 292,
-                        fit: BoxFit.cover,
-                      ),
+                      image.startsWith('/')
+                          ? Image.file(
+                            File(image),
+                            width: double.infinity,
+                            height: 292,
+                            fit: BoxFit.cover,
+                          )
+                          : Image.asset(
+                            image,
+                            width: double.infinity,
+                            height: 292,
+                            fit: BoxFit.cover,
+                          ),
+
                       Row(
                         children: [
                           Container(
@@ -131,7 +142,7 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "30 يوم متبقى",
+                                  "${getRemainingDays()} يوم متبقى",
                                   style: GoogleFonts.manrope(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
@@ -225,7 +236,7 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                           ),
                         ),
                         Text(
-                          "تهدف هذه الحملة إلى تقديم الدعم\n الإنساني العاجل للأسر المتضررة في غزة،\n من خلال توفير الاحتياجات الأساسية مثل\n الغذاء، والدواء، والمياه، والمستلزمات\n الضرورية للحياة اليومية.\n نسعى من خلال تبرعاتكم الكريمة إلى\n تخفيف معاناة العائلات المتضررة\n ومساعدتهم على تجاوز هذه الظروف\n الصعبة.\n مساهمتكم، مهما كانت بسيطة، يمكن أن\n تصنع فرقًا حقيقيًا في حياة الكثير من\n الأشخاص المحتاجين.",
+                          description,
                           style: GoogleFonts.manrope(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
@@ -322,5 +333,15 @@ class _CampaignDetailsState extends State<CampaignDetails> {
         ],
       ),
     );
+  }
+
+  int getRemainingDays() {
+    final now = DateTime.now();
+
+    final DateTime endDate = widget.args["endDate"];
+
+    final difference = endDate.difference(now).inDays;
+
+    return difference < 0 ? 0 : difference;
   }
 }

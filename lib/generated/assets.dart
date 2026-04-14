@@ -23,6 +23,7 @@
 //   static const String charitySystemCaseManagement = 'lib/feature/presentation/screens/charity_system/case_management.dart';
 //   static const String charitySystemCharityCampaignDetails = 'lib/feature/presentation/screens/charity_system/charity_campaign_details.dart';
 //   static const String charitySystemCharityCaseDetails = 'lib/feature/presentation/screens/charity_system/charity_case_details.dart';
+//   static const String charitySystemDonersScreen = 'lib/feature/presentation/screens/charity_system/donors_screen.dart';
 //   static const String charitySystemEditCampaign = 'lib/feature/presentation/screens/charity_system/edit_campaign.dart';
 //   static const String charitySystemEditCase = 'lib/feature/presentation/screens/charity_system/edit_case.dart';
 //   static const String charitySystemHomeCharity = 'lib/feature/presentation/screens/charity_system/home_charity.dart';

@@ -20,6 +20,7 @@ import '../../feature/presentation/screens/charity_system/campaign_management.da
 import '../../feature/presentation/screens/charity_system/case_management.dart';
 import '../../feature/presentation/screens/charity_system/charity_campaign_details.dart';
 import '../../feature/presentation/screens/charity_system/charity_case_details.dart';
+import '../../feature/presentation/screens/charity_system/donors_screen.dart';
 import '../../feature/presentation/screens/charity_system/edit_campaign.dart';
 import '../../feature/presentation/screens/charity_system/edit_case.dart';
 import '../../feature/presentation/screens/charity_system/home_charity.dart';
@@ -86,9 +87,8 @@ class RouteGenerator {
 
       /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
-        final fieldName = argument as String;
         return MaterialPageRoute(
-          builder: (_) => CurrentCampaignsScreen(fieldName: fieldName),
+          builder: (_) => CurrentCampaignsScreen(),
         );
 
       case Routes.caseDetailsScreen:
@@ -138,10 +138,7 @@ class RouteGenerator {
         );
       case Routes.campaignManagement:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => CampaignCubit(),
-            child: const CampaignManagement(),
-          ),
+          builder: (_) => const CampaignManagement(),
         );
       case Routes.addCampaign:
         return MaterialPageRoute(builder: (_) => const AddCampaign());
@@ -154,8 +151,10 @@ class RouteGenerator {
       case Routes.charityCampaignDetails:
         final campaignData = argument as CampaignEntity;
         return MaterialPageRoute(
-          builder: (_) =>  CharityCampaignDetails(campaignData:campaignData),
+          builder: (_) => CharityCampaignDetails(campaignData: campaignData),
         );
+      case Routes.donorsScreen:
+        return MaterialPageRoute(builder: (_) => DonorsScreen());
 
       /// SETTINGS
       case Routes.settings:

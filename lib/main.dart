@@ -7,6 +7,7 @@ import 'core/routes_manager/route_generator.dart';
 import 'core/theme/base_theme.dart';
 import 'core/theme/dark_theme.dart';
 import 'core/theme/light_theme.dart';
+import 'feature/presentation/state_management/cubit/campaign_cubit.dart';
 import 'feature/presentation/state_management/cubit/case_cubit.dart';
 import 'feature/presentation/state_management/provider/my_provider.dart';
 
@@ -19,6 +20,7 @@ void main() {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => CaseCubit()),
+          BlocProvider(create: (_) => CampaignCubit()),
         ],
         child: const MainApp(),
       ),

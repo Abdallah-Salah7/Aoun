@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,18 +9,30 @@ import '../../../../core/routes_manager/routes.dart';
 class CampaignItem extends StatelessWidget {
   final String image;
   final String title;
+  final String description;
   final double rateValue;
   final String collectedValue;
   final String allValue;
-  CampaignItem({
+  final String status;
+  final DateTime startDate;
+  final DateTime endDate;
+
+  const CampaignItem({
     super.key,
     required this.image,
     required this.title,
+    required this.description,
     required this.rateValue,
     required this.collectedValue,
     required this.allValue,
+    required this.status,
+    required this.startDate,
+    required this.endDate,
+
   });
 
+  bool get isFileImage =>
+      image.startsWith('/') || image.startsWith('file://');
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -29,9 +43,13 @@ class CampaignItem extends StatelessWidget {
           arguments: {
             "image": image,
             "title": title,
+            "description": description,
             "rateValue": rateValue,
             "collectedValue": collectedValue,
             "allValue": allValue,
+            "status": status,
+            "startDate": startDate,
+            "endDate": endDate,
           },
         );
       },
@@ -45,21 +63,27 @@ class CampaignItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(15),
-                    ),
-                    child: Image.asset(
-                      image,
-                      width: double.infinity,
-                      height: 220,
-                      fit: BoxFit.fill,
-                    ),
+
+                          Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(15),
                   ),
-                ],
-              ),
+                  child: isFileImage
+                      ? Image.file(
+                    File(image),
+                    width: double.infinity,
+                    height: 220,
+                    fit: BoxFit.fill,
+                  )
+                      : Image.asset(
+                    image,
+                    width: double.infinity,
+                    height: 180,
+                    fit: BoxFit.cover,
+                  ),
+                ), ]),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 18.0,
@@ -91,7 +115,7 @@ class CampaignItem extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            "30 يوم متبقى",
+                            "${getRemainingDays()} يوم متبقى",
                             style: GoogleFonts.manrope(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
@@ -173,8 +197,19 @@ class CampaignItem extends StatelessWidget {
               ),
             ],
           ),
-        ),
+       ),
       ),
     );
   }
+  int getRemainingDays() {
+    final now = DateTime.now();
+    final difference = endDate.difference(now).inDays;
+    return difference < 0 ? 0 : difference;
+  }
 }
+
+
+
+
+
+

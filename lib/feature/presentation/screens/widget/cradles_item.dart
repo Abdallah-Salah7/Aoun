@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -6,8 +8,31 @@ import '../../../../core/routes_manager/routes.dart';
 
 class CradlesItem extends StatelessWidget {
   final String image;
-  final String name;
-  CradlesItem({super.key, required this.image, required this.name});
+  final String title;
+  final String description;
+  final double rateValue;
+  final String collectedValue;
+  final String allValue;
+  final String status;
+  final DateTime startDate;
+  final DateTime endDate;
+
+  const CradlesItem({
+    super.key,
+    required this.image,
+    required this.title,
+    required this.description,
+    required this.rateValue,
+    required this.collectedValue,
+    required this.allValue,
+    required this.status,
+    required this.startDate,
+    required this.endDate,
+
+  });
+
+  bool get isFileImage =>
+      image.startsWith('/') || image.startsWith('file://');
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +43,14 @@ class CradlesItem extends StatelessWidget {
           Routes.campaignDetails,
           arguments: {
             "image": image,
-            "title": name,
-            "rateValue": 0.6,
-            "collectedValue": "٨٩٠٠",
-            "allValue": "١٨,٠٠٠",
+            "title": title,
+            "description": description,
+            "rateValue": rateValue,
+            "collectedValue": collectedValue,
+            "allValue": allValue,
+            "status": status,
+            "startDate": startDate,
+            "endDate": endDate,
           },
         );
       },
@@ -37,7 +66,15 @@ class CradlesItem extends StatelessWidget {
 
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: Image.asset(
+                child:
+                isFileImage
+                    ? Image.file(
+                  File(image),
+                  height: 252,
+                  width: 220,
+                  fit: BoxFit.cover,
+                )
+                    : Image.asset(
                   image,
                   height: 252,
                   width: 220,
@@ -55,7 +92,7 @@ class CradlesItem extends StatelessWidget {
               ),
               padding: EdgeInsets.symmetric(vertical: 3, horizontal: 40),
               child: Text(
-                name,
+                title,
                 style: GoogleFonts.abrilFatface(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
