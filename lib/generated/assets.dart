@@ -27,6 +27,7 @@
 //   static const String charitySystemEditCampaign = 'lib/feature/presentation/screens/charity_system/edit_campaign.dart';
 //   static const String charitySystemEditCase = 'lib/feature/presentation/screens/charity_system/edit_case.dart';
 //   static const String charitySystemHomeCharity = 'lib/feature/presentation/screens/charity_system/home_charity.dart';
+//   static const String charitySystemProfileDonor = 'lib/feature/presentation/screens/charity_system/profile_donor.dart';
 //   static const String charitySystemTopDonorsScreen = 'lib/feature/presentation/screens/charity_system/top_donors_screen.dart';
 //   static const String colorManagerPrimaryColors = 'lib/core/color_manager/primary_colors.dart';
 //   static const String cubitCampaignCubit = 'lib/feature/presentation/state_management/cubit/campaign_cubit.dart';

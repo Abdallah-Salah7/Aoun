@@ -1,3 +1,4 @@
+import 'package:aoun/feature/presentation/screens/charity_system/profile_donor.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/top_donors_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,9 +7,20 @@ import '../../../../core/resources/assets_manager.dart';
 import '../widget/weekly_chart.dart';
 import 'app_drawer.dart';
 
-class DonorsScreen extends StatelessWidget {
+class DonorsScreen extends StatefulWidget {
   const DonorsScreen({super.key});
 
+  @override
+  State<DonorsScreen> createState() => _DonorsScreenState();
+}
+
+class _DonorsScreenState extends State<DonorsScreen> {
+  final List<Map<String, String>> donors = [
+    {"name": "محمد أحمد", "time": "منذ 5 دقائق", "amount": "500 ج.م"},
+    {"name": "أحمد علي", "time": "منذ 10 دقائق", "amount": "300 ج.م"},
+    {"name": "سارة خالد", "time": "منذ ساعة", "amount": "1000 ج.م"},
+
+  ];
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -300,47 +312,71 @@ class DonorsScreen extends StatelessWidget {
                  ),
                  child: ListView.separated(
                    shrinkWrap: true,
-                   itemCount: 6,
+                   physics: const NeverScrollableScrollPhysics(),
+                   itemCount: donors.length,
                    separatorBuilder: (context, index) => const Divider(),
                    itemBuilder: (context, index) {
-                     return ListTile(
-                       contentPadding: EdgeInsets.zero,
-                       leading: CircleAvatar(
-                         backgroundColor: Color(0xffC7CDCD),
-                         child: const Text(
-                           "م",
-                           style: TextStyle(
-                             color: Color(0xFF1E5631),
-                             fontWeight: FontWeight.bold,
-                           ),
-                         ),
-                       ),
-                       title: const Text(
-                         "محمد أحمد",
-                         style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
-                       ),
-                       subtitle: const Text("منذ 5 دقائق",
-                         style: TextStyle(
-                             fontSize: 15,
-                             fontWeight: FontWeight.w400
-                         ),),
-                       trailing: const Column(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         crossAxisAlignment: CrossAxisAlignment.end,
-                         children: [
-                           Text(
-                             "500 ج.م",
-                             style: TextStyle(
-                                 color: Color(0xff255A41),
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 16
+                     final donor = donors[index];
+
+                     return InkWell(
+                       onTap: () {
+                         Navigator.push(
+                           context,
+                           MaterialPageRoute(
+                             builder: (context) => ProfileDonor(
+                               name: donor["name"]!,
                              ),
                            ),
-                         ],
+                         );
+                       },
+                       child: ListTile(
+                         contentPadding: EdgeInsets.zero,
+
+                         leading: CircleAvatar(
+                           backgroundColor: const Color(0xffC7CDCD),
+                           child: Text(
+                             donor["name"]![0], // أول حرف من الاسم
+                             style: const TextStyle(
+                               color: Color(0xFF1E5631),
+                               fontWeight: FontWeight.bold,
+                             ),
+                           ),
+                         ),
+
+                         title: Text(
+                           donor["name"]!,
+                           style: const TextStyle(
+                             fontWeight: FontWeight.bold,
+                             fontSize: 20,
+                           ),
+                         ),
+
+                         subtitle: Text(
+                           donor["time"]!,
+                           style: const TextStyle(
+                             fontSize: 15,
+                             fontWeight: FontWeight.w400,
+                           ),
+                         ),
+
+                         trailing: Column(
+                           mainAxisAlignment: MainAxisAlignment.center,
+                           crossAxisAlignment: CrossAxisAlignment.end,
+                           children: [
+                             Text(
+                               donor["amount"]!,
+                               style: const TextStyle(
+                                 color: Color(0xff255A41),
+                                 fontWeight: FontWeight.bold,
+                                 fontSize: 16,
+                               ),
+                             ),
+                           ],
+                         ),
                        ),
                      );
                    },
-                 ),
+                 )
                ),
 
 
