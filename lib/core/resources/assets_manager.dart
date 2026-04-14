@@ -62,6 +62,7 @@ abstract class ImageAssets {
   static const String homee = "$imagePath/homee.png";
   static const String logout = "$imagePath/logout.png";
   static const String upload = "$imagePath/upload.png";
+  static const String newDonors = "$imagePath/newDonors.png";
 }
 
 class SvgAssets {}

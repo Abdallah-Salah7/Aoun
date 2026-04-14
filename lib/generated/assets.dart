@@ -23,10 +23,11 @@
 //   static const String charitySystemCaseManagement = 'lib/feature/presentation/screens/charity_system/case_management.dart';
 //   static const String charitySystemCharityCampaignDetails = 'lib/feature/presentation/screens/charity_system/charity_campaign_details.dart';
 //   static const String charitySystemCharityCaseDetails = 'lib/feature/presentation/screens/charity_system/charity_case_details.dart';
-//   static const String charitySystemDonersScreen = 'lib/feature/presentation/screens/charity_system/donors_screen.dart';
+//   static const String charitySystemDonorsScreen = 'lib/feature/presentation/screens/charity_system/donors_screen.dart';
 //   static const String charitySystemEditCampaign = 'lib/feature/presentation/screens/charity_system/edit_campaign.dart';
 //   static const String charitySystemEditCase = 'lib/feature/presentation/screens/charity_system/edit_case.dart';
 //   static const String charitySystemHomeCharity = 'lib/feature/presentation/screens/charity_system/home_charity.dart';
+//   static const String charitySystemTopDonorsScreen = 'lib/feature/presentation/screens/charity_system/top_donors_screen.dart';
 //   static const String colorManagerPrimaryColors = 'lib/core/color_manager/primary_colors.dart';
 //   static const String cubitCampaignCubit = 'lib/feature/presentation/state_management/cubit/campaign_cubit.dart';
 //   static const String cubitCampaignState = 'lib/feature/presentation/state_management/cubit/campaign_state.dart';
@@ -129,6 +130,7 @@
 //   static const String imagesMaterialSymbolsCampaignRounded = 'assets/images/material-symbols_campaign-rounded.png';
 //   static const String imagesMoney = 'assets/images/Money.png';
 //   static const String imagesMore = 'assets/images/more.png';
+//   static const String imagesNewDonors = 'assets/images/newDonors.png';
 //   static const String imagesNumCamps = 'assets/images/numCamps.png';
 //   static const String imagesNumCases = 'assets/images/numCases.png';
 //   static const String imagesNumDonors = 'assets/images/numDonors.png';
