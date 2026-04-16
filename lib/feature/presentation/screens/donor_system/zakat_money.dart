@@ -5,7 +5,9 @@ import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
 
 class ZakatMoney extends StatelessWidget {
-  const ZakatMoney({super.key});
+  final VoidCallback onSeeMorePressed;
+
+   ZakatMoney({super.key,required this.onSeeMorePressed});
 
   @override
   Widget build(BuildContext context) {
@@ -365,10 +367,7 @@ class ZakatMoney extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                            context, Routes.paymentScreen);
-                      },
+                      onPressed: onSeeMorePressed ?? () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF2F6B4F),
                         padding: EdgeInsets.symmetric(vertical: 8),

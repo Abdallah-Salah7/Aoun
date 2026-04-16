@@ -116,7 +116,7 @@ class ZakatTab extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 18,),
+                    SizedBox(width: 51,),
                     InkWell(
                       onTap: (){
 
@@ -182,7 +182,7 @@ class ZakatTab extends StatelessWidget {
 
                   ],
                 ),
-                SizedBox(height: 28,),
+                SizedBox(height: 44,),
                 Row(
                   children: [
                     InkWell(
@@ -241,7 +241,7 @@ class ZakatTab extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 18,),
+                    SizedBox(width: 51,),
                     InkWell(
                       onTap: (){
 

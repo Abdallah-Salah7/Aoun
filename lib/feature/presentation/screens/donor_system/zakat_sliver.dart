@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
 class ZakatSliver extends StatelessWidget {
-  const ZakatSliver({super.key});
+  final VoidCallback onSeeMorePressed;
+   ZakatSliver({super.key,required this.onSeeMorePressed});
 
   @override
   Widget build(BuildContext context) {
@@ -272,10 +273,7 @@ class ZakatSliver extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                            context, Routes.paymentScreen);
-                      },
+                      onPressed: onSeeMorePressed ?? () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF2F6B4F),
                         padding: EdgeInsets.symmetric(vertical: 8),

@@ -10,8 +10,6 @@ import 'package:aoun/feature/presentation/screens/donor_system/onboard_screens/o
 import 'package:aoun/feature/presentation/screens/donor_system/onboard_screens/onboard_screen3.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../feature/domain/entities/campaign_entity.dart';
 import '../../feature/domain/entities/case_entity.dart';
 import '../../feature/presentation/screens/charity_system/add_campaign.dart';
@@ -56,10 +54,6 @@ import '../../feature/presentation/screens/donor_system/zakat_sliver.dart';
 import '../../feature/presentation/screens/tabs/donation_tab.dart';
 import '../../feature/presentation/screens/tabs/profile_tab.dart';
 import '../../feature/presentation/screens/tabs/zakat_tab.dart';
-import '../../feature/presentation/screens/widget/charity_campaign_item.dart';
-import '../../feature/presentation/state_management/cubit/campaign_cubit.dart';
-import '../../feature/presentation/state_management/cubit/case_cubit.dart';
-import '../resources/assets_manager.dart';
 
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings settings) {
@@ -68,7 +62,10 @@ class RouteGenerator {
     switch (settings.name) {
       /// HOME
       case Routes.homePage:
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        final index = settings.arguments as int?;
+        return MaterialPageRoute(
+          builder: (_) => HomePage(initialIndex: index),
+        );
 
       case Routes.donationTab:
         return MaterialPageRoute(builder: (_) => const DonationTab());
@@ -182,11 +179,44 @@ class RouteGenerator {
       case Routes.calcZakat:
         return MaterialPageRoute(builder: (_) => const CalcZakat());
       case Routes.zakatGold:
-        return MaterialPageRoute(builder: (_) => const ZakatGold());
+        return MaterialPageRoute(
+          builder: (context) => ZakatGold(
+            onSeeMorePressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.homePage,
+                    (route) => false,
+                arguments: 1,
+              );
+            },
+          ),
+        );
       case Routes.zakatSliver:
-        return MaterialPageRoute(builder: (_) => const ZakatSliver());
+        return MaterialPageRoute(
+          builder: (context) => ZakatSliver(
+            onSeeMorePressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.homePage,
+                    (route) => false,
+                arguments: 1,
+              );
+            },
+          ),
+        );
       case Routes.zakatMoney:
-        return MaterialPageRoute(builder: (_) => const ZakatMoney());
+        return MaterialPageRoute(
+          builder: (context) => ZakatMoney(
+              onSeeMorePressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Routes.homePage,
+                      (route) => false,
+                  arguments: 1,
+                );
+              },
+          ),
+        );
       case Routes.caseManagement:
         return MaterialPageRoute(builder: (_) => const CaseManagement());
 

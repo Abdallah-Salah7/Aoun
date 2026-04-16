@@ -6,7 +6,8 @@ import '../../../../core/routes_manager/routes.dart';
 
 
 class ZakatGold extends StatefulWidget {
-  const ZakatGold({super.key});
+  final VoidCallback onSeeMorePressed;
+  ZakatGold({super.key,required this.onSeeMorePressed});
 
   @override
   State<ZakatGold> createState() => _ZakatGoldState();
@@ -613,10 +614,7 @@ class _ZakatGoldState extends State<ZakatGold> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                            context, Routes.paymentScreen);
-                      },
+                      onPressed: widget.onSeeMorePressed ?? () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF2F6B4F),
                         padding: EdgeInsets.symmetric(vertical: 8),

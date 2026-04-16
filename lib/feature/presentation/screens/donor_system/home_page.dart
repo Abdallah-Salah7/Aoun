@@ -7,7 +7,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import '../../../../core/resources/assets_manager.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final int? initialIndex;
+  const HomePage({super.key,this.initialIndex});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -15,6 +16,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.initialIndex ?? 0;
+  }
 
   final labels = ["الرئيسية", " التبرعات", "الزكاة", "حسابي"];
 
