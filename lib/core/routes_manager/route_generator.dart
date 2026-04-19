@@ -1,4 +1,7 @@
 import 'package:aoun/core/routes_manager/routes.dart';
+import 'package:aoun/feature/presentation/screens/charity_system/charity_reports.dart';
+import 'package:aoun/feature/presentation/screens/charity_system/chatbot/ask_screen.dart';
+import 'package:aoun/feature/presentation/screens/charity_system/chatbot/welcome_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/charity/login_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/charity/register_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/donor/forget_password.dart';
@@ -152,7 +155,13 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) =>  CharityCampaignDetails(campaignData:campaignData),
         );
-
+      case Routes.charityReportsScreen:
+        return MaterialPageRoute(builder: (_) => const CharityReports());
+      case Routes.chatbotWelcomeScreen:
+        return MaterialPageRoute(builder: (_) => const WelcomeScreen());
+      case Routes.chatbotAskScreen:
+      final question=argument as String;
+        return MaterialPageRoute(builder: (_) =>  AskScreen(question: question,));
       /// SETTINGS
       case Routes.settings:
         return MaterialPageRoute(builder: (_) => const Settings());

@@ -4,8 +4,9 @@ const String iconsPath = "assets/icons";
 const String svgPath = "assets/svg_images";
 
 abstract class ImageAssets {
-  static const String logo = "$imagePath/logo.png";
   static const String mainTab = "$imagePath/home.png";
+  static const String compImg = "$imagePath/comp_img.png";
+  static const String logo = "$imagePath/logo.png";
   static const String donationTab = "$imagePath/categories.png";
   static const String zakatTab = "$imagePath/calc.png";
   static const String profileTab = "$imagePath/profile.png";

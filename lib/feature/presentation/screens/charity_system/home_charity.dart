@@ -15,6 +15,7 @@ class HomeCharity extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        
         drawer: const AppDrawer(),
         appBar: AppBar(backgroundColor: Color(0xff2F674D), toolbarHeight: 0),
         backgroundColor: Color(0xffC7CDCD),
