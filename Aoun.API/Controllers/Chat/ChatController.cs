@@ -3,6 +3,7 @@ using Aoun.BLL.DTOs.Auth;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Aoun.BLL.Services.Chat;
 
 namespace Aoun.API.Controllers;
 [ApiController]

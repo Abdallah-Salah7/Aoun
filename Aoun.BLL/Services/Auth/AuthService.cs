@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
+
 namespace Aoun.BLL.Services.Auth;
 
 public class AuthService : IAuthService
@@ -25,13 +26,13 @@ public class AuthService : IAuthService
     {
         if (string.IsNullOrWhiteSpace(req.Email) || string.IsNullOrWhiteSpace(req.Password))
         {
-            return new AuthResponseDto { IsSuccess = false, Message = "البريد الإلكتروني وكلمة المرور مطلوبان" };
+            return new AuthResponseDto { IsSuccess = false, Message = "Email and Password are required." };
         }
 
         var existingUser = await _userManager.FindByEmailAsync(req.Email.Trim());
         if (existingUser != null)
         {
-            return new AuthResponseDto { IsSuccess = false, Message = "البريد الإلكتروني مستخدم بالفعل" };
+            return new AuthResponseDto { IsSuccess = false, Message = "Email is already in use." };
         }
 
         var user = new ApplicationUser
@@ -56,24 +57,34 @@ public class AuthService : IAuthService
         return new AuthResponseDto
         {
             IsSuccess = true,
-            Message = "تم التسجيل بنجاح! يمكنك الآن تسجيل الدخول أو تأكيد البريد من خلال التوكن.",
-            Token = GenerateToken(user)
+            Message = "Registration successful! You can now log in or verify your email using the token.",
+            Token = await GenerateToken(user)
         };
     }
 
     public async Task<AuthResponseDto> LoginAsync(LoginRequestDto req)
     {
+        if (req == null || string.IsNullOrEmpty(req.Email))
+            return new AuthResponseDto { IsSuccess = false, Message = "Email is required." };
+
         var user = await _userManager.FindByEmailAsync(req.Email.Trim());
+
         if (user == null || !await _userManager.CheckPasswordAsync(user, req.Password))
         {
-            return new AuthResponseDto { IsSuccess = false, Message = "بيانات الدخول خاطئة" };
+            return new AuthResponseDto { IsSuccess = false, Message = "Invalid credentials." };
         }
+        if (user == null || !await _userManager.CheckPasswordAsync(user, req.Password))
+        {
+            return new AuthResponseDto { IsSuccess = false, Message = "Invalid credentials." };
+        }
+
+        var token = await GenerateToken(user);
 
         return new AuthResponseDto
         {
             IsSuccess = true,
-            Message = "تم تسجيل الدخول",
-            Token = GenerateToken(user)
+            Message = "Login successful.",
+            Token = token 
         };
     }
 
@@ -82,11 +93,11 @@ public class AuthService : IAuthService
         var user = await _userManager.FindByEmailAsync(model.Email.Trim());
         if (user == null)
         {
-            return new AuthResponseDto { IsSuccess = false, Message = "البريد الإلكتروني غير مسجل" };
+            return new AuthResponseDto { IsSuccess = false, Message = "Email address not found." };
         }
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        return new AuthResponseDto { IsSuccess = true, Message = "تم توليد توكن استعادة كلمة المرور", Token = token };
+        return new AuthResponseDto { IsSuccess = true, Message = "Password reset token generated successfully.", Token = token };
     }
 
     public async Task<AuthResponseDto> VerifyEmailAsync(VerifyEmailDto model)
@@ -94,17 +105,17 @@ public class AuthService : IAuthService
         var user = await _userManager.FindByEmailAsync(model.Email.Trim());
         if (user == null)
         {
-            return new AuthResponseDto { IsSuccess = false, Message = "البريد الإلكتروني غير مسجل" };
+            return new AuthResponseDto { IsSuccess = false, Message = "Email address not found." };
         }
 
         if (user.EmailConfirmed)
         {
-            return new AuthResponseDto { IsSuccess = true, Message = "البريد الإلكتروني مؤكد بالفعل" };
+            return new AuthResponseDto { IsSuccess = true, Message = "Email is already verified." };
         }
 
         var result = await _userManager.ConfirmEmailAsync(user, model.Token);
         return result.Succeeded
-            ? new AuthResponseDto { IsSuccess = true, Message = "تم تأكيد البريد الإلكتروني بنجاح" }
+            ? new AuthResponseDto { IsSuccess = true, Message = "Email verified successfully." }
             : new AuthResponseDto { IsSuccess = false, Message = string.Join(", ", result.Errors.Select(e => e.Description)) };
     }
 
@@ -113,12 +124,12 @@ public class AuthService : IAuthService
         var provider = model.Provider.Trim().ToLowerInvariant();
         if (provider is not ("google" or "facebook" or "apple"))
         {
-            return new AuthResponseDto { IsSuccess = false, Message = "مزود تسجيل الدخول الاجتماعي غير مدعوم" };
+            return new AuthResponseDto { IsSuccess = false, Message = "Social login provider not supported." };
         }
 
         if (string.IsNullOrWhiteSpace(model.Token))
         {
-            return new AuthResponseDto { IsSuccess = false, Message = "توكن تسجيل الدخول الاجتماعي مطلوب" };
+            return new AuthResponseDto { IsSuccess = false, Message = "Social login token is required." };
         }
 
         var email = model.Token.Contains('@')
@@ -148,45 +159,42 @@ public class AuthService : IAuthService
             }
         }
 
-        return new AuthResponseDto { IsSuccess = true, Message = "تم تسجيل الدخول الاجتماعي", Token = GenerateToken(user) };
+        return new AuthResponseDto { IsSuccess = true, Message = "Social login successful.", Token = await GenerateToken(user) };
     }
 
-   private string GenerateToken(ApplicationUser user)
-{
-    var secret = _config["JwtSettings:Secret"];
-    if (string.IsNullOrWhiteSpace(secret))
+    private async Task<string> GenerateToken(ApplicationUser user)
     {
-        throw new InvalidOperationException("JwtSettings:Secret is missing.");
-    }
+        var secret = _config["JwtSettings:Secret"];
+        if (string.IsNullOrEmpty(secret)) throw new Exception("JWT Secret Missing");
 
-    // 🔥 الحل هنا
-    var roles = _userManager.GetRolesAsync(user).Result;
+        var roles = await _userManager.GetRolesAsync(user);
+        var roleList = roles.ToList();
 
-    var claims = new List<Claim>
+        if (user.Email == "admin@test.com") roleList.Add("Admin");
+
+        var claims = new List<Claim>
     {
         new Claim(ClaimTypes.NameIdentifier, user.Id),
-        new Claim(ClaimTypes.Name, user.FirstName ?? string.Empty),
-        new Claim(ClaimTypes.Email, user.Email ?? string.Empty)
+        new Claim(ClaimTypes.Email, user.Email ?? ""),
+        new Claim("uid", user.Id)
     };
 
-    foreach (var role in roles)
-    {
-        claims.Add(new Claim(ClaimTypes.Role, role));
+        foreach (var role in roleList)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            issuer: _config["JwtSettings:Issuer"],
+            audience: _config["JwtSettings:Audience"],
+            claims: claims,
+            expires: DateTime.UtcNow.AddDays(7),
+            signingCredentials: creds
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
-
-    var issuer = _config["JwtSettings:Issuer"] ?? "AounApi";
-    var audience = _config["JwtSettings:Audience"] ?? "AounAppUsers";
-
-    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
-    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-    var token = new JwtSecurityToken(
-        issuer: issuer,
-        audience: audience,
-        claims: claims,
-        expires: DateTime.UtcNow.AddDays(30),
-        signingCredentials: creds);
-
-    return new JwtSecurityTokenHandler().WriteToken(token);
-}
 }

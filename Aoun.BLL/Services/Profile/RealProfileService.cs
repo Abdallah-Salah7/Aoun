@@ -4,7 +4,6 @@ using Aoun.DAL.Data;
 using Aoun.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
 namespace Aoun.BLL.Services.Profile;
 
 public class RealProfileService : IProfileService
