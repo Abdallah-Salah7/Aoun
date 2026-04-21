@@ -57,7 +57,8 @@ class _WeeklyChartState extends State<WeeklyChart> {
             children: [
                Text(
                 widget.title,
-                style: TextStyle(fontWeight: FontWeight.w900),
+
+                style: TextStyle(fontWeight: FontWeight.w600,fontSize: MediaQuery.of(context).size.width * 0.038),
               ),
               Row(
                 children: [

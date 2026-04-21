@@ -1,4 +1,7 @@
 import 'package:aoun/core/routes_manager/routes.dart';
+import 'package:aoun/feature/presentation/screens/charity_system/charity_reports.dart';
+import 'package:aoun/feature/presentation/screens/charity_system/chatbot/ask_screen.dart';
+import 'package:aoun/feature/presentation/screens/charity_system/chatbot/welcome_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/charity/login_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/charity/register_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/donor/forget_password.dart';
@@ -60,7 +63,7 @@ class RouteGenerator {
     final argument = settings.arguments;
 
     switch (settings.name) {
-      /// HOME
+    /// HOME
       case Routes.homePage:
         final index = settings.arguments as int?;
         return MaterialPageRoute(
@@ -82,7 +85,7 @@ class RouteGenerator {
       case Routes.notificationScreen:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
 
-      /// CAMPAIGNS
+    /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
         return MaterialPageRoute(
           builder: (_) => CurrentCampaignsScreen(),
@@ -105,7 +108,7 @@ class RouteGenerator {
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
 
-      /// CHARITY
+    /// CHARITY
       case Routes.charityProfileScreen:
         return MaterialPageRoute(builder: (_) => const CharityProfileScreen());
 
@@ -153,7 +156,15 @@ class RouteGenerator {
       case Routes.donorsScreen:
         return MaterialPageRoute(builder: (_) => DonorsScreen());
 
-      /// SETTINGS
+      case Routes.charityReportsScreen:
+        return MaterialPageRoute(builder: (_) => const CharityReports());
+      case Routes.chatbotWelcomeScreen:
+        return MaterialPageRoute(builder: (_) => const WelcomeScreen());
+      case Routes.chatbotAskScreen:
+        final question=argument as String;
+        return MaterialPageRoute(builder: (_) =>  AskScreen(question: question,));
+
+    /// SETTINGS
       case Routes.settings:
         return MaterialPageRoute(builder: (_) => const Settings());
 
@@ -207,20 +218,20 @@ class RouteGenerator {
       case Routes.zakatMoney:
         return MaterialPageRoute(
           builder: (context) => ZakatMoney(
-              onSeeMorePressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  Routes.homePage,
-                      (route) => false,
-                  arguments: 1,
-                );
-              },
+            onSeeMorePressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.homePage,
+                    (route) => false,
+                arguments: 1,
+              );
+            },
           ),
         );
       case Routes.caseManagement:
         return MaterialPageRoute(builder: (_) => const CaseManagement());
 
-      /// AUTH
+    /// AUTH
       case Routes.userTypeScreen:
         return MaterialPageRoute(
           builder: (_) => const GeneralLoginChoicePage(),
@@ -254,7 +265,7 @@ class RouteGenerator {
       case Routes.changePasswordScreen:
         return MaterialPageRoute(builder: (_) => const ChangePassword());
 
-      /// ONBOARDING
+    /// ONBOARDING
       case Routes.onBoard1:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen1());
 
@@ -264,11 +275,11 @@ class RouteGenerator {
       case Routes.onBoard3:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
 
-      /// SPLASH
+    /// SPLASH
       case Routes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
 
-      /// Services
+    /// Services
       case Routes.fatwasOnZakatScreen:
         return MaterialPageRoute(builder: (_) => const FatawsOnZakat());
 
@@ -281,9 +292,9 @@ class RouteGenerator {
     return MaterialPageRoute(
       builder:
           (_) => Scaffold(
-            appBar: AppBar(title: const Text('No Route Found')),
-            body: const Center(child: Text('No Route Found')),
-          ),
+        appBar: AppBar(title: const Text('No Route Found')),
+        body: const Center(child: Text('No Route Found')),
+      ),
     );
   }
 }

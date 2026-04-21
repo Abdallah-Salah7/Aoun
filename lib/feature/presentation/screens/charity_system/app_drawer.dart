@@ -64,6 +64,22 @@ class AppDrawer extends StatelessWidget {
                     Navigator.pushNamed(context, Routes.campaignManagement);
                   },
                 ),
+                _buildDrawerItem(
+                  context,
+                  ImageAssets.homee,
+                  "عرض التقارير",
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.charityReportsScreen);
+                  },
+                ),
+                _buildDrawerItem(
+                  context,
+                  ImageAssets.homee,
+                  "مساعد عون",
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.chatbotWelcomeScreen);
+                  },
+                ),
                 _buildDrawerItem(context, ImageAssets.homee, "عرض التقارير"),
                 _buildDrawerItem(context, ImageAssets.homee, "مساعد عون"),
                 _buildDrawerItem(
