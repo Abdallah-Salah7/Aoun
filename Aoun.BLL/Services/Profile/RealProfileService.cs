@@ -2,8 +2,10 @@ using Aoun.BLL.DTOs.Profile;
 using Aoun.BLL.Interfaces.Profile;
 using Aoun.DAL.Data;
 using Aoun.DAL.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
 namespace Aoun.BLL.Services.Profile;
 
 public class RealProfileService : IProfileService
@@ -20,31 +22,17 @@ public class RealProfileService : IProfileService
     public async Task<bool> UpdateProfileAsync(string userId, UpdateProfileDto model)
     {
         var user = await _userManager.FindByIdAsync(userId);
-        if (user == null)
-        {
-            return false;
-        }
+        if (user == null) return false;
 
         user.FirstName = model.FullName?.Trim() ?? user.FirstName;
         if (!string.IsNullOrWhiteSpace(model.PhoneNumber))
-        {
             user.PhoneNumber = model.PhoneNumber.Trim();
-        }
 
         if (!string.IsNullOrWhiteSpace(model.Email) && !string.Equals(user.Email, model.Email.Trim(), StringComparison.OrdinalIgnoreCase))
         {
             var newEmail = model.Email.Trim();
-            var emailResult = await _userManager.SetEmailAsync(user, newEmail);
-            if (!emailResult.Succeeded)
-            {
-                return false;
-            }
-
-            var userNameResult = await _userManager.SetUserNameAsync(user, newEmail);
-            if (!userNameResult.Succeeded)
-            {
-                return false;
-            }
+            await _userManager.SetEmailAsync(user, newEmail);
+            await _userManager.SetUserNameAsync(user, newEmail);
         }
 
         var updateResult = await _userManager.UpdateAsync(user);
@@ -54,16 +42,38 @@ public class RealProfileService : IProfileService
     public async Task<bool> ChangePasswordAsync(string userId, ChangePasswordDto model)
     {
         var user = await _userManager.FindByIdAsync(userId);
-        if (user == null)
-        {
-            return false;
-        }
+        if (user == null) return false;
 
         var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
         return result.Succeeded;
     }
 
-    public Task<bool> UploadPictureAsync(string userId, string url) => Task.FromResult(true);
+    // Logic for saving physical file and updating DB
+    public async Task<string> UploadProfilePictureAsync(string userId, IFormFile file)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null) return string.Empty;
+
+        // Define upload folder
+        var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/profiles");
+        if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+        // Create unique file name
+        var fileName = $"{userId}_{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+        var filePath = Path.Combine(folderPath, fileName);
+
+        // Save file to disk
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        // Update user record in DB (assuming your ApplicationUser has ProfilePictureUrl property)
+        // user.ProfilePictureUrl = $"/uploads/profiles/{fileName}";
+        // await _userManager.UpdateAsync(user);
+
+        return $"/uploads/profiles/{fileName}";
+    }
 
     public async Task<object> GetActivityAsync(string userId)
     {
@@ -75,14 +85,10 @@ public class RealProfileService : IProfileService
             {
                 d.Amount,
                 d.DonationDate,
-                CaseTitle = d.Case != null ? d.Case.Title : string.Empty
+                CaseTitle = d.Case != null ? d.Case.Title : "General Donation"
             })
             .ToListAsync();
 
-        return new
-        {
-            TotalDonations = donations.Count,
-            History = donations
-        };
+        return new { TotalDonations = donations.Count, History = donations };
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
-namespace Aoun.API.Controllers.Donations;
+namespace Aoun.API.Controllers;
 
 public class DonationRequestDto
 {
@@ -28,32 +28,26 @@ public class DonationsController : ControllerBase
     public async Task<IActionResult> Donate([FromBody] DonationRequestDto request)
     {
         if (request.Amount <= 0)
-        {
-            return BadRequest(new { message = "قيمة التبرع يجب أن تكون أكبر من صفر" });
-        }
+            return BadRequest(new { message = "Donation amount must be greater than zero." });
 
         var targetCase = await _db.Cases.FirstOrDefaultAsync(c => c.Id == request.CaseId && !c.IsDeleted);
+
         if (targetCase == null)
-        {
-            return NotFound(new { message = "الحالة غير موجودة" });
-        }
+            return NotFound(new { message = "Case not found." });
 
         if (targetCase.Status == CaseStatus.Rejected)
-        {
-            return BadRequest(new { message = "لا يمكن التبرع لحالة مرفوضة" });
-        }
+            return BadRequest(new { message = "Cannot donate to a rejected case." });
 
         var remaining = targetCase.RequiredAmount - targetCase.CollectedAmount;
         if (remaining <= 0)
-        {
-            return BadRequest(new { message = "الحالة مكتملة بالفعل" });
-        }
+            return BadRequest(new { message = "This case has already reached its goal." });
 
         var appliedAmount = Math.Min(request.Amount, remaining);
         targetCase.CollectedAmount += appliedAmount;
 
         var donorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        _db.Donations.Add(new Donation
+
+        var donation = new Donation
         {
             CaseId = request.CaseId,
             Amount = appliedAmount,
@@ -61,20 +55,17 @@ public class DonationsController : ControllerBase
             PaymentMethod = string.IsNullOrWhiteSpace(request.PaymentMethod) ? "Credit Card" : request.PaymentMethod.Trim(),
             TransactionId = request.TransactionId?.Trim(),
             DonationDate = DateTime.UtcNow
-        });
+        };
 
+        _db.Donations.Add(donation);
         await _db.SaveChangesAsync();
 
         return Ok(new
         {
-            message = "✅ تم التبرع بنجاح!",
+            message = "Donation successful!",
             donatedAmount = appliedAmount,
             currentAmount = targetCase.CollectedAmount,
             remainingAmount = targetCase.RequiredAmount - targetCase.CollectedAmount
         });
     }
 }
-
-
-
-

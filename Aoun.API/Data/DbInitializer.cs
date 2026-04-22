@@ -22,10 +22,10 @@ public static class DbInitializer
         var adminEmail = "admin@test.com";
         var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
-        if (adminUser != null)
-        {
-            await userManager.DeleteAsync(adminUser);
-        }
+        //if (adminUser != null)
+        //{
+        //    await userManager.DeleteAsync(adminUser);
+        //}
 
         adminUser = new ApplicationUser
         {

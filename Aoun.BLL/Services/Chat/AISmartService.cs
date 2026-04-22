@@ -32,15 +32,12 @@ public class AISmartService
             .ToListAsync();
 
         var casesContext = string.Join("\n", cases.Select(c => $"- {c.Title}: {c.Description}"));
-        var identity = userRole == "Charity" ? "جمعية" : "متبرع";
-        var fallback = $"أهلاً {userName} ({identity}).\n\nالحالات المقترحة:\n{casesContext}\n\nأرسل سؤالك وسأساعدك في التبرع أو اختيار الحالة الأنسب.";
+        var identity = userRole == "Charity" ? "Charity Organization" : "Donor";
+        var fallback = $"Welcome {userName} ({identity}).\n\nSuggested Cases:\n{casesContext}\n\nAsk me anything to help you donate or choose the right case.";
 
-        if (string.IsNullOrWhiteSpace(_settings.ApiKey))
-        {
-            return fallback;
-        }
+        if (string.IsNullOrWhiteSpace(_settings.ApiKey)) return fallback;
 
-        var systemPrompt = $"أنت عون، مساعد ذكي. تخاطب {userName} وهو {identity}. الحالات المتاحة:\n{casesContext}";
+        var systemPrompt = $"You are Aoun, a smart assistant. You are talking to {userName} who is a {identity}. Available cases:\n{casesContext}";
         var url = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={_settings.ApiKey}";
         var payload = new
         {

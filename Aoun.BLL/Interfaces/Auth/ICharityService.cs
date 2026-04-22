@@ -6,6 +6,3 @@ public interface ICharityService {
     Task<bool> CompleteProfileAsync(CharityRegistrationDto model, string userId);
     Task<bool> UploadDocumentAsync(int charityId, string docUrl);
 }
-
-
-

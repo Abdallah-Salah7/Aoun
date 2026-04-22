@@ -62,7 +62,7 @@ public class RealCharityService : ICharityService
         _db.CharityDocuments.Add(new CharityDocument
         {
             CharityProfileId = charityId,
-            DocumentName = "وثيقة جديدة",
+            DocumentName = "New Document Attachment",
             DocumentUrl = docUrl.Trim()
         });
 

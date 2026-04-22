@@ -73,10 +73,6 @@ public class AuthService : IAuthService
         {
             return new AuthResponseDto { IsSuccess = false, Message = "Invalid credentials." };
         }
-        if (user == null || !await _userManager.CheckPasswordAsync(user, req.Password))
-        {
-            return new AuthResponseDto { IsSuccess = false, Message = "Invalid credentials." };
-        }
 
         var token = await GenerateToken(user);
 

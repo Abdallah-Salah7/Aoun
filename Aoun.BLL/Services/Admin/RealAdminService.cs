@@ -115,33 +115,29 @@ public async Task<object> UpdateCaseAsync(int id, UpdateCaseDto dto)
         await _db.SaveChangesAsync();
         return true;
     }
-public async Task<object> GetTopDonorsAsync()
-{
-    var data = await _db.Donations
-        .Where(d => d.UserId != null)
-        .GroupBy(d => d.UserId)
-        .Select(g => new
-        {
-            UserId = g.Key,
-            Total = g.Sum(x => x.Amount)
-        })
-        .OrderByDescending(x => x.Total)
-        .Take(5)
-        .Join(
-            _db.Users,
-            d => d.UserId,
-            u => u.Id,
-            (d, u) => new
+    public async Task<object> GetTopDonorsAsync()
+    {
+        var data = await _db.Donations
+            .Where(d => d.DonorId != null) 
+            .GroupBy(d => d.DonorId)
+            .Select(g => new
             {
-                email = u.Email,
-                total = d.Total
-            }
-        )
-        .ToListAsync();
+                UserId = g.Key,
+                Total = g.Sum(x => x.Amount)
+            })
+            .OrderByDescending(x => x.Total)
+            .Take(5)
+            .Join(
+                _db.Users,
+                d => d.UserId,
+                u => u.Id,
+                (d, u) => new { email = u.Email, total = d.Total }
+            )
+            .ToListAsync();
 
-    return data; 
-}
-public async Task<object> GetTopCharitiesAsync()
+        return data;
+    }
+    public async Task<object> GetTopCharitiesAsync()
 {
     var data = await _db.Cases
         .GroupBy(c => c.Title)
