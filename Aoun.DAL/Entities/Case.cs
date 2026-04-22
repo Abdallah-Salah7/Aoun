@@ -15,7 +15,6 @@ public class Case
     public string Category { get; set; } = "General";
     public bool IsDeleted { get; set; } = false;
     
-    // 👇 الحقول اللي الـ DbInitializer بيعتمد عليها لربط الحالة بالجمعية
     public int CharityProfileId { get; set; }
     public virtual CharityProfile? CharityProfile { get; set; }
 
