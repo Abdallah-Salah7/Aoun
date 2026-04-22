@@ -35,8 +35,10 @@ public class VerifyEmailDto
 
 public class SocialLoginDto
 {
-    public string Provider { get; set; } = "";
-    public string Token { get; set; } = "";
+    public string Provider { get; set; } = string.Empty; // google or facebook
+    public string Email { get; set; } = string.Empty;
+    public string? FullName { get; set; }
+    public string Token { get; set; } = string.Empty;
 }
 
 public class CharityRegistrationDto

@@ -117,45 +117,32 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponseDto> SocialLoginAsync(SocialLoginDto model)
     {
-        var provider = model.Provider.Trim().ToLowerInvariant();
-        if (provider is not ("google" or "facebook" or "apple"))
-        {
-            return new AuthResponseDto { IsSuccess = false, Message = "Social login provider not supported." };
-        }
+        var provider = model.Provider.ToLower();
+        var email = model.Email?.Trim();
 
-        if (string.IsNullOrWhiteSpace(model.Token))
-        {
-            return new AuthResponseDto { IsSuccess = false, Message = "Social login token is required." };
-        }
-
-        var email = model.Token.Contains('@')
-            ? model.Token.Trim()
-            : $"{provider}.{model.Token.Trim()}@local.auth";
+        if (string.IsNullOrEmpty(email))
+            return new AuthResponseDto { IsSuccess = false, Message = "Email from provider is missing." };
 
         var user = await _userManager.FindByEmailAsync(email);
+
         if (user == null)
         {
             user = new ApplicationUser
             {
                 UserName = email,
                 Email = email,
-                FirstName = provider,
+                FirstName = model.FullName ?? (provider + " User"),
                 UserType = UserType.Donor,
                 EmailConfirmed = true
             };
 
-            var create = await _userManager.CreateAsync(user);
-            if (!create.Succeeded)
-            {
-                return new AuthResponseDto
-                {
-                    IsSuccess = false,
-                    Message = string.Join(", ", create.Errors.Select(e => e.Description))
-                };
-            }
+            var result = await _userManager.CreateAsync(user);
+            if (!result.Succeeded)
+                return new AuthResponseDto { IsSuccess = false, Message = "Creation failed." };
         }
 
-        return new AuthResponseDto { IsSuccess = true, Message = "Social login successful.", Token = await GenerateToken(user) };
+        var token = await GenerateToken(user);
+        return new AuthResponseDto { IsSuccess = true, Token = token, Message = $"Login via {provider} successful." };
     }
 
     private async Task<string> GenerateToken(ApplicationUser user)

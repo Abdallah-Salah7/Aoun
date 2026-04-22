@@ -23,6 +23,22 @@ public class DonationsController : ControllerBase
     private readonly ApplicationDbContext _db;
 
     public DonationsController(ApplicationDbContext db) => _db = db;
+    [AllowAnonymous]
+    [HttpGet("campaigns")]
+    public async Task<IActionResult> GetCampaigns()
+    {
+        var campaigns = await _db.Cases
+            .Where(c => !c.IsDeleted && (c.Category == "Campaign" || c.Status == CaseStatus.Urgent))
+            .Select(c => new {
+                c.Id,
+                c.Title,
+                c.RequiredAmount,
+                c.CollectedAmount,
+                IsUrgent = c.Status == CaseStatus.Urgent
+            })
+            .ToListAsync();
+        return Ok(campaigns);
+    }
 
     [HttpPost("donate")]
     public async Task<IActionResult> Donate([FromBody] DonationRequestDto request)
