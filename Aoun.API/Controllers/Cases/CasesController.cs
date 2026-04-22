@@ -32,7 +32,3 @@ public class CasesController : ControllerBase
         return Ok(item);
     }
 }
-
-
-
-

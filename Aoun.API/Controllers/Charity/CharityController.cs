@@ -26,13 +26,3 @@ public IActionResult UploadDocument([FromBody] UploadDocumentDto model)
     return Ok(model.Url);
 }
 }
-
-
-
-
-
-
-
-
-
-

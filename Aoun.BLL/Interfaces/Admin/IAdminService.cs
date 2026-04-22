@@ -16,7 +16,3 @@ public interface IAdminService {
     Task<object> GetTopDonorsAsync();
     Task<object> GetTopCharitiesAsync();
 }
-
-
-
-

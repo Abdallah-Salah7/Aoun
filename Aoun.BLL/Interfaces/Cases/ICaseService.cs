@@ -7,7 +7,7 @@ public interface ICaseService
     Task<List<CaseDto>> GetAllActiveCasesAsync();
     Task<List<CaseDto>> GetUrgentCasesForHomeAsync();
     Task<CaseDto> GetCaseDetailsAsync(int id);
-    Task<List<CaseDto>> GetAllCasesAsync(); // مضافة للتوافق
+    Task<List<CaseDto>> GetAllCasesAsync(); 
 }
 
 

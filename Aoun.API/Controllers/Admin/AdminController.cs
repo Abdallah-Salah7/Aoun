@@ -11,6 +11,7 @@ namespace Aoun.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize(Roles = nameof(UserType.Admin))]
+[Authorize(Roles = "Admin")] // أو [Authorize(Policy = "AdminOnly")]
 public class AdminController : ControllerBase
 {
     private readonly IAdminService _adminService;
