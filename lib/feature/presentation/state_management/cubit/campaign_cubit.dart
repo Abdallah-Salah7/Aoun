@@ -17,6 +17,7 @@ class CampaignCubit extends Cubit<CampaignState> {
     _campaigns.insert(0, newCampaign);
     emit(CampaignLoaded(List.from(_campaigns)));
   }
+
   void updateCampaign(CampaignEntity updated) {
     final index = _campaigns.indexWhere((c) => c.id == updated.id);
 
@@ -25,7 +26,6 @@ class CampaignCubit extends Cubit<CampaignState> {
       emit(CampaignLoaded(List.from(_campaigns)));
     }
   }
-
 
   void deleteCampaign(String id) {
     _campaigns.removeWhere((c) => c.id == id);

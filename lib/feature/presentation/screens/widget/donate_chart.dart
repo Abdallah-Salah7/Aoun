@@ -17,10 +17,7 @@ class DonationsChart extends StatelessWidget {
         children: [
           const Text(
             'الإجمالي',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-            ),
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 12),
 
@@ -55,7 +52,7 @@ class DonationsChart extends StatelessWidget {
                           'الإغاثة',
                           'التعليم',
                           'كفالات',
-                          'بناء'
+                          'بناء',
                         ];
                         return Padding(
                           padding: const EdgeInsets.only(top: 6),
@@ -97,7 +94,7 @@ class DonationsChart extends StatelessWidget {
               SizedBox(width: 4),
               Icon(Icons.square, size: 10, color: Color(0xFF3A6F5D)),
             ],
-          )
+          ),
         ],
       ),
     );

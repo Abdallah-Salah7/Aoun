@@ -26,8 +26,9 @@ class _AddCaseState extends State<AddCase> {
   String selectedCategory = "الصحة";
 
   Future<void> _pickImage() async {
-    final XFile? pickedFile =
-    await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+    );
 
     if (pickedFile != null) {
       setState(() {
@@ -48,9 +49,9 @@ class _AddCaseState extends State<AddCase> {
     if (titleController.text.isEmpty ||
         amountController.text.isEmpty ||
         descController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("من فضلك املي كل البيانات")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("من فضلك املي كل البيانات")));
       return;
     }
     final newCase = CaseEntity(
@@ -85,8 +86,11 @@ class _AddCaseState extends State<AddCase> {
           centerTitle: true,
           leading: GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.arrow_back_ios_new,
-                size: 30, color: Colors.black),
+            child: const Icon(
+              Icons.arrow_back_ios_new,
+              size: 30,
+              color: Colors.black,
+            ),
           ),
         ),
         body: SingleChildScrollView(
@@ -99,7 +103,9 @@ class _AddCaseState extends State<AddCase> {
                 child: Text(
                   "صورة الحالة",
                   style: GoogleFonts.manrope(
-                      fontWeight: FontWeight.w500, fontSize: 22),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 22,
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
@@ -113,38 +119,41 @@ class _AddCaseState extends State<AddCase> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                        color: const Color(0xffC4C4C4), width: 1.5),
+                      color: const Color(0xffC4C4C4),
+                      width: 1.5,
+                    ),
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: _image != null
-                        ? Image.file(_image!, fit: BoxFit.fill)
-                        : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image(
-                          image: AssetImage(ImageAssets.upload),
-                          height: 59,
-                          width: 59,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          "اضغط لتحميل الصورة",
-                          style: GoogleFonts.manrope(
-                            color: Colors.grey,
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          "JPG, PNG (حد أقصى 5MB)",
-                          style: GoogleFonts.manrope(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
+                    child:
+                        _image != null
+                            ? Image.file(_image!, fit: BoxFit.fill)
+                            : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: AssetImage(ImageAssets.upload),
+                                  height: 59,
+                                  width: 59,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  "اضغط لتحميل الصورة",
+                                  style: GoogleFonts.manrope(
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Text(
+                                  "JPG, PNG (حد أقصى 5MB)",
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
                   ),
                 ),
               ),
@@ -215,19 +224,25 @@ class _AddCaseState extends State<AddCase> {
                       scale: 0.9,
                       child: Switch(
                         value: isUrgent,
-                        trackColor: WidgetStateProperty.resolveWith<Color?>((states) {
+                        trackColor: WidgetStateProperty.resolveWith<Color?>((
+                          states,
+                        ) {
                           if (states.contains(WidgetState.selected)) {
                             return const Color(0xff2F674D);
                           }
                           return Colors.grey.shade600;
                         }),
-                        thumbColor: WidgetStateProperty.resolveWith<Color?>((states) {
+                        thumbColor: WidgetStateProperty.resolveWith<Color?>((
+                          states,
+                        ) {
                           if (states.contains(WidgetState.selected)) {
                             return Colors.white;
                           }
                           return const Color(0xFFE0E0E0);
                         }),
-                        trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
+                        trackOutlineColor: WidgetStateProperty.all(
+                          Colors.transparent,
+                        ),
                         onChanged: (value) {
                           setState(() {
                             isUrgent = value;
@@ -238,7 +253,6 @@ class _AddCaseState extends State<AddCase> {
                   ],
                 ),
               ),
-
 
               const SizedBox(height: 25),
 
@@ -258,8 +272,7 @@ class _AddCaseState extends State<AddCase> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                          },
+                          onTap: () {},
                           child: Row(
                             children: [
                               const Icon(
@@ -284,7 +297,6 @@ class _AddCaseState extends State<AddCase> {
                     ),
                   ),
 
-
                   // حقل النص (TextField)
                 ],
               ),
@@ -297,7 +309,9 @@ class _AddCaseState extends State<AddCase> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
                   border: Border.all(
-                      color: const Color(0xffC4C4C4), width: 1.5),
+                    color: const Color(0xffC4C4C4),
+                    width: 1.5,
+                  ),
                 ),
                 child: TextField(
                   controller: descController,
@@ -347,11 +361,11 @@ class _AddCaseState extends State<AddCase> {
   }
 
   Widget _buildField(
-      String title,
-      String hint, {
-        required TextEditingController controller,
-        bool isNumber = false,
-      }) {
+    String title,
+    String hint, {
+    required TextEditingController controller,
+    bool isNumber = false,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -360,7 +374,9 @@ class _AddCaseState extends State<AddCase> {
           child: Text(
             title,
             style: GoogleFonts.manrope(
-                fontWeight: FontWeight.w500, fontSize: 22),
+              fontWeight: FontWeight.w500,
+              fontSize: 22,
+            ),
           ),
         ),
         const SizedBox(height: 10),
@@ -368,13 +384,11 @@ class _AddCaseState extends State<AddCase> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15),
-            border:
-            Border.all(color: const Color(0xffC4C4C4), width: 1.5),
+            border: Border.all(color: const Color(0xffC4C4C4), width: 1.5),
           ),
           child: TextField(
             controller: controller,
-            keyboardType:
-            isNumber ? TextInputType.number : TextInputType.text,
+            keyboardType: isNumber ? TextInputType.number : TextInputType.text,
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: GoogleFonts.manrope(

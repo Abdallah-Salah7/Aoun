@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -61,6 +60,7 @@ class _EditCampaignState extends State<EditCampaign> {
       });
     }
   }
+
   String _formatDate(DateTime? date) {
     if (date == null) return "";
     return "${date.year}/${date.month}/${date.day}";
@@ -80,14 +80,18 @@ class _EditCampaignState extends State<EditCampaign> {
       });
     }
   }
+
   @override
   void initState() {
     super.initState();
 
-
     titleController = TextEditingController(text: widget.campaignEntity.title);
-    amountController = TextEditingController(text: widget.campaignEntity.allValue);
-    descriptionController = TextEditingController(text: widget.campaignEntity.description);
+    amountController = TextEditingController(
+      text: widget.campaignEntity.allValue,
+    );
+    descriptionController = TextEditingController(
+      text: widget.campaignEntity.description,
+    );
 
     selectedCategory = widget.campaignEntity.category;
     isUrgent = widget.campaignEntity.status == "عاجلة جداً";
@@ -153,54 +157,58 @@ class _EditCampaignState extends State<EditCampaign> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Color(0xffC4C4C4), width: 1.5),
-
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: _image != null
-                        ? Image.file(
-                      _image!,
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.fill,
-                    )
-                        : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image(
-                          image: AssetImage(ImageAssets.upload),
-                          height: 59,
-                          width: 59,
-                          fit: BoxFit.contain,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          "اضغط لتحميل الصورة",
-                          style: GoogleFonts.manrope(
-                            color: Colors.grey,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          "JPG, PNG (حد أقصى 5MB)",
-                          style: GoogleFonts.manrope(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
+                    child:
+                        _image != null
+                            ? Image.file(
+                              _image!,
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.fill,
+                            )
+                            : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: AssetImage(ImageAssets.upload),
+                                  height: 59,
+                                  width: 59,
+                                  fit: BoxFit.contain,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  "اضغط لتحميل الصورة",
+                                  style: GoogleFonts.manrope(
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  "JPG, PNG (حد أقصى 5MB)",
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
                   ),
                 ),
               ),
 
               const SizedBox(height: 20),
-              _buildField("عنوان الحملة", "مثال: علاج طفل مريض ",titleController),
+              _buildField(
+                "عنوان الحملة",
+                "مثال: علاج طفل مريض ",
+                titleController,
+              ),
 
               const SizedBox(height: 15),
-              _buildField("المبلغ المستهدف", "20000 ج.م",amountController),
+              _buildField("المبلغ المستهدف", "20000 ج.م", amountController),
 
               const SizedBox(height: 25),
 
@@ -236,8 +244,7 @@ class _EditCampaignState extends State<EditCampaign> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                          },
+                          onTap: () {},
                           child: Row(
                             children: [
                               const Icon(
@@ -255,7 +262,6 @@ class _EditCampaignState extends State<EditCampaign> {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-
                             ],
                           ),
                         ),
@@ -369,7 +375,9 @@ class _EditCampaignState extends State<EditCampaign> {
                                   Expanded(
                                     child: InkWell(
                                       onTap: () {
-                                        campaignCubit.deleteCampaign(widget.campaignEntity.id);
+                                        campaignCubit.deleteCampaign(
+                                          widget.campaignEntity.id,
+                                        );
                                         Navigator.pop(dialogContext);
                                         Navigator.pop(dialogContext);
                                       },
@@ -436,11 +444,12 @@ class _EditCampaignState extends State<EditCampaign> {
       ),
     );
   }
+
   Widget _buildField(
-      String title,
-      String hint,
-      TextEditingController controller,
-      ) {
+    String title,
+    String hint,
+    TextEditingController controller,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -462,7 +471,7 @@ class _EditCampaignState extends State<EditCampaign> {
             border: Border.all(color: const Color(0xffC4C4C4), width: 1.5),
           ),
           child: TextField(
-            controller: controller,   // ⭐ أهم سطر
+            controller: controller, // ⭐ أهم سطر
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: GoogleFonts.manrope(
@@ -478,6 +487,7 @@ class _EditCampaignState extends State<EditCampaign> {
       ],
     );
   }
+
   Widget _buildDateField({
     required String title,
     required String hint,
@@ -492,7 +502,9 @@ class _EditCampaignState extends State<EditCampaign> {
           child: Text(
             title,
             style: GoogleFonts.manrope(
-                fontWeight: FontWeight.w500, fontSize: 22),
+              fontWeight: FontWeight.w500,
+              fontSize: 22,
+            ),
           ),
         ),
         const SizedBox(height: 10),
@@ -527,7 +539,6 @@ class _EditCampaignState extends State<EditCampaign> {
                     width: 34,
                   ),
                 ),
-
               ],
             ),
           ),

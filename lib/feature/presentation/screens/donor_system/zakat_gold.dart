@@ -4,17 +4,15 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
 
-
 class ZakatGold extends StatefulWidget {
   final VoidCallback onSeeMorePressed;
-  ZakatGold({super.key,required this.onSeeMorePressed});
+  ZakatGold({super.key, required this.onSeeMorePressed});
 
   @override
   State<ZakatGold> createState() => _ZakatGoldState();
 }
 
 class _ZakatGoldState extends State<ZakatGold> {
-
   final controller24 = TextEditingController();
   final controller21 = TextEditingController();
   final controller18 = TextEditingController();
@@ -44,16 +42,20 @@ class _ZakatGoldState extends State<ZakatGold> {
           backgroundColor: Color(0xff2F674D),
           toolbarHeight: 168,
           shape: OutlineInputBorder(
-              borderRadius:BorderRadius.only(bottomLeft: Radius.circular(35),
-                  bottomRight: Radius.circular(35)),
-              borderSide: BorderSide(color: Color(0xff2F674D))
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(35),
+              bottomRight: Radius.circular(35),
+            ),
+            borderSide: BorderSide(color: Color(0xff2F674D)),
           ),
           leading: Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new,
+              icon: const Icon(
+                Icons.arrow_back_ios_new,
                 color: Colors.white,
-                size: 30,),
+                size: 30,
+              ),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -66,19 +68,23 @@ class _ZakatGoldState extends State<ZakatGold> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: Image(image: AssetImage(ImageAssets.gold),
-                  height:29,
-                  width: 29,),
+                  child: Image(
+                    image: AssetImage(ImageAssets.gold),
+                    height: 29,
+                    width: 29,
+                  ),
                 ),
 
-                SizedBox(width: 8,),
+                SizedBox(width: 8),
 
-                Text("زكاة الذهب ",
-                  style:GoogleFonts.manrope(
+                Text(
+                  "زكاة الذهب ",
+                  style: GoogleFonts.manrope(
                     fontSize: 26,
                     fontWeight: FontWeight.w700, // SemiBold
-                    color:  Colors.white,
-                  ) ,),
+                    color: Colors.white,
+                  ),
+                ),
               ],
             ),
           ),
@@ -88,7 +94,6 @@ class _ZakatGoldState extends State<ZakatGold> {
           child: Align(
             alignment: Alignment.topRight,
 
-
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,7 +102,6 @@ class _ZakatGoldState extends State<ZakatGold> {
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     child: Row(
                       children: [
-
                         Container(
                           width: 5,
                           height: 23,
@@ -117,15 +121,12 @@ class _ZakatGoldState extends State<ZakatGold> {
                           ),
                           textAlign: TextAlign.right,
                         ),
-
-
                       ],
                     ),
                   ),
-                  SizedBox(height: 40,),
+                  SizedBox(height: 40),
                   Row(
                     children: [
-
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(right: 20.0),
@@ -133,26 +134,35 @@ class _ZakatGoldState extends State<ZakatGold> {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: Colors.grey.shade400,
+                              border: Border.all(
+                                color: Colors.grey.shade400,
                                 width: 1.5,
                               ),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 12,horizontal: 5),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 5,
+                            ),
                             child: Row(
                               children: [
-                                Image(image: AssetImage(ImageAssets.caliber,),
-                                width: 29,
-                                height: 29,),
-                                Text("عيار 24",
-                                  style: TextStyle(color: Colors.grey, fontSize: 18),
-
-                                )
+                                Image(
+                                  image: AssetImage(ImageAssets.caliber),
+                                  width: 29,
+                                  height: 29,
+                                ),
+                                Text(
+                                  "عيار 24",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                  ),
+                                ),
                               ],
                             ),
-                          )
+                          ),
                         ),
                       ),
-                      SizedBox(width: 8,),
+                      SizedBox(width: 8),
 
                       Expanded(
                         flex: 2,
@@ -166,12 +176,18 @@ class _ZakatGoldState extends State<ZakatGold> {
                             filled: true,
                             fillColor: Colors.white,
                             hintText: "الوزن بالجرام",
-                            hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 18,
+                            ),
                             suffixIcon: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
                                 "جرام",
-                                style: TextStyle(color: Colors.grey, fontSize: 20),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
 
@@ -206,41 +222,48 @@ class _ZakatGoldState extends State<ZakatGold> {
                           ),
                         ),
                       ),
-
                     ],
                   ),
-                  SizedBox(height: 26,),
+                  SizedBox(height: 26),
 
                   Row(
                     children: [
-
                       Expanded(
                         child: Padding(
-                            padding: const EdgeInsets.only(right: 20.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: Colors.grey.shade400,
-                                  width: 1.5,
+                          padding: const EdgeInsets.only(right: 20.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: Colors.grey.shade400,
+                                width: 1.5,
+                              ),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 5,
+                            ),
+                            child: Row(
+                              children: [
+                                Image(
+                                  image: AssetImage(ImageAssets.caliber),
+                                  width: 29,
+                                  height: 29,
                                 ),
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: 12,horizontal: 5),
-                              child: Row(
-                                children: [
-                                  Image(image: AssetImage(ImageAssets.caliber,),
-                                    width: 29,
-                                    height: 29,),
-                                  Text("عيار 21",
-                                    style: TextStyle(color: Colors.grey, fontSize: 18),
-
-                                  )
-                                ],
-                              ),
-                            )
+                                Text(
+                                  "عيار 21",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                      SizedBox(width: 8,),
+                      SizedBox(width: 8),
 
                       Expanded(
                         flex: 2,
@@ -254,12 +277,18 @@ class _ZakatGoldState extends State<ZakatGold> {
                             filled: true,
                             fillColor: Colors.white,
                             hintText: "الوزن بالجرام",
-                            hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 18,
+                            ),
                             suffixIcon: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
                                 "جرام",
-                                style: TextStyle(color: Colors.grey, fontSize: 20),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
 
@@ -294,40 +323,47 @@ class _ZakatGoldState extends State<ZakatGold> {
                           ),
                         ),
                       ),
-
                     ],
                   ),
-                  SizedBox(height: 26,),
+                  SizedBox(height: 26),
                   Row(
                     children: [
-
                       Expanded(
                         child: Padding(
-                            padding: const EdgeInsets.only(right: 20.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: Colors.grey.shade400,
-                                  width: 1.5,
+                          padding: const EdgeInsets.only(right: 20.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: Colors.grey.shade400,
+                                width: 1.5,
+                              ),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 5,
+                            ),
+                            child: Row(
+                              children: [
+                                Image(
+                                  image: AssetImage(ImageAssets.caliber),
+                                  width: 29,
+                                  height: 29,
                                 ),
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: 12,horizontal: 5),
-                              child: Row(
-                                children: [
-                                  Image(image: AssetImage(ImageAssets.caliber,),
-                                    width: 29,
-                                    height: 29,),
-                                  Text("عيار 18",
-                                    style: TextStyle(color: Colors.grey, fontSize: 18),
-
-                                  )
-                                ],
-                              ),
-                            )
+                                Text(
+                                  "عيار 18",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                      SizedBox(width: 8,),
+                      SizedBox(width: 8),
 
                       Expanded(
                         flex: 2,
@@ -341,12 +377,18 @@ class _ZakatGoldState extends State<ZakatGold> {
                             filled: true,
                             fillColor: Colors.white,
                             hintText: "الوزن بالجرام",
-                            hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 18,
+                            ),
                             suffixIcon: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
                                 "جرام",
-                                style: TextStyle(color: Colors.grey, fontSize: 20),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
 
@@ -381,40 +423,47 @@ class _ZakatGoldState extends State<ZakatGold> {
                           ),
                         ),
                       ),
-
                     ],
                   ),
-                  SizedBox(height: 26,),
+                  SizedBox(height: 26),
                   Row(
                     children: [
-
                       Expanded(
                         child: Padding(
-                            padding: const EdgeInsets.only(right: 20.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: Colors.grey.shade400,
-                                  width: 1.5,
+                          padding: const EdgeInsets.only(right: 20.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: Colors.grey.shade400,
+                                width: 1.5,
+                              ),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 5,
+                            ),
+                            child: Row(
+                              children: [
+                                Image(
+                                  image: AssetImage(ImageAssets.caliber),
+                                  width: 29,
+                                  height: 29,
                                 ),
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: 12,horizontal: 5),
-                              child: Row(
-                                children: [
-                                  Image(image: AssetImage(ImageAssets.caliber,),
-                                    width: 29,
-                                    height: 29,),
-                                  Text("عيار 14",
-                                    style: TextStyle(color: Colors.grey, fontSize: 18),
-
-                                  )
-                                ],
-                              ),
-                            )
+                                Text(
+                                  "عيار 14",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                      SizedBox(width: 8,),
+                      SizedBox(width: 8),
 
                       Expanded(
                         flex: 2,
@@ -428,12 +477,18 @@ class _ZakatGoldState extends State<ZakatGold> {
                             filled: true,
                             fillColor: Colors.white,
                             hintText: "الوزن بالجرام",
-                            hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 18,
+                            ),
                             suffixIcon: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
                                 "جرام",
-                                style: TextStyle(color: Colors.grey, fontSize: 20),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
 
@@ -468,53 +523,65 @@ class _ZakatGoldState extends State<ZakatGold> {
                           ),
                         ),
                       ),
-
                     ],
                   ),
-                  SizedBox(height: 26,),
+                  SizedBox(height: 26),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 36),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0,
+                      vertical: 36,
+                    ),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Color(0xffE0E2DA),
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Color(0xffDCD79E),
-                        width: 1.5)
+                        border: Border.all(
+                          color: Color(0xffDCD79E),
+                          width: 1.5,
+                        ),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 25,horizontal: 12),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 25,
+                        horizontal: 12,
+                      ),
                       child: Row(
                         children: [
-                          Image(image: AssetImage(ImageAssets.hint),
-                          height: 29,
-                          width: 29,),
+                          Image(
+                            image: AssetImage(ImageAssets.hint),
+                            height: 29,
+                            width: 29,
+                          ),
                           Column(
                             children: [
                               Row(
                                 children: [
-                                  Text("تنبيه",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 22,
-
-                                  ),),
-                                  Text(" : قيمة نصاب الذهب       ",
-                                  style:TextStyle(
-                                    color: Color(0xff4B4B4B),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20,
+                                  Text(
+                                    "تنبيه",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 22,
+                                    ),
                                   ),
+                                  Text(
+                                    " : قيمة نصاب الذهب       ",
+                                    style: TextStyle(
+                                      color: Color(0xff4B4B4B),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ],
                               ),
-                              Text(" من قيمة 85 جرام عيار 24 فأكثر",
-                                style:TextStyle(
+                              Text(
+                                " من قيمة 85 جرام عيار 24 فأكثر",
+                                style: TextStyle(
                                   color: Color(0xff4B4B4B),
                                   fontWeight: FontWeight.w600,
                                   fontSize: 20,
                                 ),
                               ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -545,10 +612,7 @@ class _ZakatGoldState extends State<ZakatGold> {
                       ),
                     ),
                   ),
-
-
                 ],
-
               ),
             ),
           ),
@@ -567,7 +631,7 @@ class _ZakatGoldState extends State<ZakatGold> {
           padding: const EdgeInsets.only(bottom: 20),
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 12),
-            padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(25),
@@ -577,17 +641,15 @@ class _ZakatGoldState extends State<ZakatGold> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
                       vertical: 10,
                     ),
                     decoration: BoxDecoration(
-                        color: Color(0xffE8EBE9),
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Color(0xff83A695),width: 1.2)
-
+                      color: Color(0xffE8EBE9),
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: Color(0xff83A695), width: 1.2),
                     ),
                     child: Row(
                       children: [
@@ -597,7 +659,8 @@ class _ZakatGoldState extends State<ZakatGold> {
                             fontWeight: FontWeight.w400,
                             fontSize: 20,
                             color: Colors.black,
-                          ),),
+                          ),
+                        ),
                         Spacer(),
                         Text(
                           " 5000 ج.م",
@@ -605,7 +668,8 @@ class _ZakatGoldState extends State<ZakatGold> {
                             fontWeight: FontWeight.w400,
                             fontSize: 20,
                             color: Colors.black,
-                          ),),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -624,9 +688,11 @@ class _ZakatGoldState extends State<ZakatGold> {
                       ),
                       child: Text(
                         "تبرع الآن",
-                        style: TextStyle(fontSize: 26,
+                        style: TextStyle(
+                          fontSize: 26,
                           color: Colors.white,
-                          fontWeight: FontWeight.w400,),
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                   ),

@@ -28,11 +28,9 @@ class CampaignItem extends StatelessWidget {
     required this.status,
     required this.startDate,
     required this.endDate,
-
   });
 
-  bool get isFileImage =>
-      image.startsWith('/') || image.startsWith('file://');
+  bool get isFileImage => image.startsWith('/') || image.startsWith('file://');
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -63,27 +61,29 @@ class CampaignItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-                          Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(15),
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(15),
+                    ),
+                    child:
+                        isFileImage
+                            ? Image.file(
+                              File(image),
+                              width: double.infinity,
+                              height: 220,
+                              fit: BoxFit.fill,
+                            )
+                            : Image.asset(
+                              image,
+                              width: double.infinity,
+                              height: 180,
+                              fit: BoxFit.cover,
+                            ),
                   ),
-                  child: isFileImage
-                      ? Image.file(
-                    File(image),
-                    width: double.infinity,
-                    height: 220,
-                    fit: BoxFit.fill,
-                  )
-                      : Image.asset(
-                    image,
-                    width: double.infinity,
-                    height: 180,
-                    fit: BoxFit.cover,
-                  ),
-                ), ]),
+                ],
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 18.0,
@@ -197,19 +197,14 @@ class CampaignItem extends StatelessWidget {
               ),
             ],
           ),
-       ),
+        ),
       ),
     );
   }
+
   int getRemainingDays() {
     final now = DateTime.now();
     final difference = endDate.difference(now).inDays;
     return difference < 0 ? 0 : difference;
   }
 }
-
-
-
-
-
-

@@ -28,11 +28,9 @@ class CradlesItem extends StatelessWidget {
     required this.status,
     required this.startDate,
     required this.endDate,
-
   });
 
-  bool get isFileImage =>
-      image.startsWith('/') || image.startsWith('file://');
+  bool get isFileImage => image.startsWith('/') || image.startsWith('file://');
 
   @override
   Widget build(BuildContext context) {
@@ -67,19 +65,19 @@ class CradlesItem extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child:
-                isFileImage
-                    ? Image.file(
-                  File(image),
-                  height: 252,
-                  width: 220,
-                  fit: BoxFit.cover,
-                )
-                    : Image.asset(
-                  image,
-                  height: 252,
-                  width: 220,
-                  fit: BoxFit.cover,
-                ),
+                    isFileImage
+                        ? Image.file(
+                          File(image),
+                          height: 252,
+                          width: 220,
+                          fit: BoxFit.cover,
+                        )
+                        : Image.asset(
+                          image,
+                          height: 252,
+                          width: 220,
+                          fit: BoxFit.cover,
+                        ),
               ),
             ),
           ),

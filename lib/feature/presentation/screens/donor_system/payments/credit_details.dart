@@ -1,8 +1,10 @@
+import 'package:aoun/feature/presentation/screens/donor_system/payments/processing_screen.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/auth_botton.dart';
 import 'package:flutter/material.dart';
 
 class CreditDetails extends StatelessWidget {
-  const CreditDetails({super.key});
+  final int amount;
+  const CreditDetails({super.key, required this.amount});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class CreditDetails extends StatelessWidget {
         backgroundColor: const Color(0xffE5EBE9),
         appBar: AppBar(
           title: const Text(
-            'معلومات بطاقة الإئتمان',
+            'الدفع بالبطاقة البنكية',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           foregroundColor: const Color(0xff255A41),
@@ -38,13 +40,40 @@ class CreditDetails extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          RichText(
+                            text: TextSpan(
+                              style: const TextStyle(fontSize: 14),
+                              children: [
+                                const TextSpan(
+                                  text: "مبلغ التبرع ",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "$amount",
+                                  style: const TextStyle(
+                                    color: Color(0xff2E7D32),
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           const SizedBox(height: 20),
+                          const Text("رقم البطاقة"),
                           SizedBox(
                             height: 40,
                             child: TextField(
                               decoration: InputDecoration(
-                                labelText: "رقم البطاقة",
-                                labelStyle: const TextStyle(color: Colors.grey),
+                                prefixIcon: Image.asset(
+                                  "assets/images/Mastercard.png",
+                                  width: 10,
+                                  height: 10,
+                                ),
+                                hintText: "رقم البطاقة",
+                                hintStyle: const TextStyle(color: Colors.grey),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(6),
                                   borderSide: const BorderSide(
@@ -64,6 +93,29 @@ class CreditDetails extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 30),
+                          const Text("اسم حامل البطاقة"),
+                          SizedBox(
+                            height: 40,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "اسم حامل البطاقة",
+                                hintStyle: const TextStyle(color: Colors.grey),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xff6E6A6A),
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xff6E6A6A),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
                           const Text("تاريخ الإنتهاء"),
                           const SizedBox(height: 10),
                           Row(
@@ -146,30 +198,22 @@ class CreditDetails extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 30),
-                          SizedBox(
-                            height: 40,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: "اسم حامل البطاقة",
-                                labelStyle: const TextStyle(color: Colors.grey),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                  borderSide: const BorderSide(
-                                    color: Color(0xff6E6A6A),
+                          const SizedBox(height: 50),
+                          Center(
+                            child: AuthButton(
+                              text: "تأكيد الدفع",
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) =>
+                                            ProcessingScreen(amount: amount),
                                   ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                  borderSide: const BorderSide(
-                                    color: Color(0xff6E6A6A),
-                                  ),
-                                ),
-                              ),
+                                );
+                              },
                             ),
                           ),
-                          const SizedBox(height: 50),
-                          AuthButton(text: "تبرع الآن", onTap: () {}),
                         ],
                       ),
                     ),

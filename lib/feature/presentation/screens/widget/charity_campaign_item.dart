@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -72,28 +71,27 @@ class CharityCampaignItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Stack(
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(20),
                   ),
-                  child: (image.startsWith('/') || image.contains('file://'))
-                      ? Image.file(
-                    File(image),
-                    height: 220,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  )
-                      : Image.asset(
-                    image.isNotEmpty ? image : ImageAssets.upload,
-                    height: 220,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+                  child:
+                      (image.startsWith('/') || image.contains('file://'))
+                          ? Image.file(
+                            File(image),
+                            height: 220,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          )
+                          : Image.asset(
+                            image.isNotEmpty ? image : ImageAssets.upload,
+                            height: 220,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
                 ),
-
               ],
             ),
 
@@ -128,7 +126,9 @@ class CharityCampaignItem extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 18, vertical: 25),
+                      horizontal: 18,
+                      vertical: 25,
+                    ),
                     child: Text(
                       title,
                       style: GoogleFonts.cairo(
@@ -144,8 +144,7 @@ class CharityCampaignItem extends StatelessWidget {
 
             /// PROGRESS
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 18, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: LinearProgressIndicator(
@@ -207,92 +206,91 @@ class CharityCampaignItem extends StatelessWidget {
             /// BUTTON
             status == "مكتملة"
                 ? Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Container(
-                width: double.infinity,
-                padding:
-                const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  color: const Color(0xff8FAF9A),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "اكتملت",
-                      style: GoogleFonts.manrope(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    const Icon(
-                      Icons.check_circle_outline,
-                      color: Colors.white,
-                      size: 36,
-                    ),
-                  ],
-                ),
-              ),
-            )
-                : Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 12),
-              child: SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12),
-                    side: const BorderSide(
-                        color: Color(0xff737373), width: 2),
-                    shape: RoundedRectangleBorder(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xff8FAF9A),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                  ),
-                  onPressed: () {
-                    final campaign = CampaignEntity(
-                      id: id,
-                      title: title,
-                      description: description,
-                      image: image,
-                      category: category,
-                      status: status,
-                      rateValue: rateValue,
-                      collectedValue: collectedValue,
-                      allValue: allValue,
-                      startDate: startDate,
-                      endDate: endDate,
-                    );
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => BlocProvider.value(
-                          value: context.read<CampaignCubit>(),
-                          child: EditCampaign(campaignEntity: campaign,),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "اكتملت",
+                          style: GoogleFonts.manrope(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  icon: Text(
-                    "تعديل الحملة",
-                    style: GoogleFonts.cairo(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xff737373),
+                        const SizedBox(width: 4),
+                        const Icon(
+                          Icons.check_circle_outline,
+                          color: Colors.white,
+                          size: 36,
+                        ),
+                      ],
                     ),
                   ),
-                  label: const Icon(
-                    Icons.mode_edit_outline_outlined,
-                    color: Color(0xff737373),
-                    size: 30,
+                )
+                : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        side: const BorderSide(
+                          color: Color(0xff737373),
+                          width: 2,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      onPressed: () {
+                        final campaign = CampaignEntity(
+                          id: id,
+                          title: title,
+                          description: description,
+                          image: image,
+                          category: category,
+                          status: status,
+                          rateValue: rateValue,
+                          collectedValue: collectedValue,
+                          allValue: allValue,
+                          startDate: startDate,
+                          endDate: endDate,
+                        );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (_) => BlocProvider.value(
+                                  value: context.read<CampaignCubit>(),
+                                  child: EditCampaign(campaignEntity: campaign),
+                                ),
+                          ),
+                        );
+                      },
+                      icon: Text(
+                        "تعديل الحملة",
+                        style: GoogleFonts.cairo(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xff737373),
+                        ),
+                      ),
+                      label: const Icon(
+                        Icons.mode_edit_outline_outlined,
+                        color: Color(0xff737373),
+                        size: 30,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
 
             const SizedBox(height: 12),
           ],
@@ -300,6 +298,7 @@ class CharityCampaignItem extends StatelessWidget {
       ),
     );
   }
+
   int getRemainingDays() {
     final now = DateTime.now();
     final difference = endDate.difference(now).inDays;

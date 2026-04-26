@@ -13,8 +13,6 @@ class CurrentCampaignsScreen extends StatefulWidget {
 }
 
 class _CurrentCampaignsScreenState extends State<CurrentCampaignsScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -94,7 +92,6 @@ class _CurrentCampaignsScreenState extends State<CurrentCampaignsScreen> {
                             status: campaign.status,
                             startDate: campaign.startDate,
                             endDate: campaign.endDate,
-
                           );
                         },
                       );
@@ -102,7 +99,7 @@ class _CurrentCampaignsScreenState extends State<CurrentCampaignsScreen> {
 
                     return Center(child: CircularProgressIndicator());
                   },
-                )
+                ),
               ],
             ),
           ],

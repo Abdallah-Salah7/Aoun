@@ -1,4 +1,3 @@
-
 import '../../domain/entities/case_entity.dart';
 
 class CaseModel extends CaseEntity {

@@ -1,5 +1,3 @@
-
-
 import '../../domain/entities/campaign_entity.dart';
 
 class CampaignModel extends CampaignEntity {

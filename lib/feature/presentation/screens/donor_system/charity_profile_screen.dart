@@ -8,7 +8,8 @@ import '../../../../core/resources/assets_manager.dart';
 import '../../state_management/cubit/campaign_cubit.dart';
 import '../../state_management/cubit/campaign_state.dart';
 import '../../state_management/cubit/case_cubit.dart';
-import '../../state_management/cubit/case_state.dart' show CaseLoaded, CaseState;
+import '../../state_management/cubit/case_state.dart'
+    show CaseLoaded, CaseState;
 
 class CharityProfileScreen extends StatefulWidget {
   const CharityProfileScreen({super.key});
@@ -25,7 +26,6 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
       "rateValue": 0.6,
       "collectedValue": "٨٩٠٠",
       "allValue": "١٨,٠٠٠",
-
     },
     {
       "image": ImageAssets.water,
@@ -63,7 +63,6 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
       "allValue": "١٨,٠٠٠",
     },
   ];
-
 
   String selectedFilter = "الحالات";
   @override
@@ -402,68 +401,71 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                   SizedBox(height: 20),
 
                   selectedFilter == "الحالات"
-                      ?BlocBuilder<CaseCubit, CaseState>(
-                    builder: (context, state) {
-                      if (state is CaseLoaded) {
+                      ? BlocBuilder<CaseCubit, CaseState>(
+                        builder: (context, state) {
+                          if (state is CaseLoaded) {
+                            final cases =
+                                state.cases.where((c) {
+                                  return c.status != "مكتملة";
+                                }).toList();
 
-                        final cases = state.cases.where((c) {
-                          return c.status != "مكتملة";
-                        }).toList();
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: cases.length,
+                              itemBuilder: (context, index) {
+                                final caseItem = cases[index];
 
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: cases.length,
-                          itemBuilder: (context, index) {
-                            final caseItem = cases[index];
-
-                            return CaseItem(
-                              image: caseItem.image,
-                              title: caseItem.title,
-                              description: caseItem.description,
-                              rateValue: caseItem.rateValue,
-                              collectedValue: caseItem.collectedValue,
-                              allValue: caseItem.allValue,
-                              status: caseItem.status,
+                                return CaseItem(
+                                  image: caseItem.image,
+                                  title: caseItem.title,
+                                  description: caseItem.description,
+                                  rateValue: caseItem.rateValue,
+                                  collectedValue: caseItem.collectedValue,
+                                  allValue: caseItem.allValue,
+                                  status: caseItem.status,
+                                );
+                              },
                             );
-                          },
-                        );
-                      }
+                          }
 
-                      return const Center(child: CircularProgressIndicator());
-                    },
-                  )
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      )
                       : BlocBuilder<CampaignCubit, CampaignState>(
-                    builder: (context, state) {
-                      if (state is CampaignLoaded) {
+                        builder: (context, state) {
+                          if (state is CampaignLoaded) {
+                            final campaigns = state.campaigns;
 
-                        final campaigns = state.campaigns;
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: campaigns.length,
+                              itemBuilder: (context, index) {
+                                final campaign = campaigns[index];
 
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: campaigns.length,
-                          itemBuilder: (context, index) {
-                            final campaign = campaigns[index];
-
-                            return CampaignItem(
-                              image: campaign.image,
-                              title: campaign.title,
-                              rateValue: campaign.rateValue,
-                              collectedValue: campaign.collectedValue,
-                              allValue: campaign.allValue,
-                              description: campaign.description,
-                              status: campaign.status,
-                              startDate: campaign.startDate,
-                              endDate: campaign.endDate,
+                                return CampaignItem(
+                                  image: campaign.image,
+                                  title: campaign.title,
+                                  rateValue: campaign.rateValue,
+                                  collectedValue: campaign.collectedValue,
+                                  allValue: campaign.allValue,
+                                  description: campaign.description,
+                                  status: campaign.status,
+                                  startDate: campaign.startDate,
+                                  endDate: campaign.endDate,
+                                );
+                              },
                             );
-                          },
-                        );
-                      }
+                          }
 
-                      return const Center(child: CircularProgressIndicator());
-                    },
-                  ),
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      ),
                 ],
               ),
             ),

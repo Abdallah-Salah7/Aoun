@@ -1,4 +1,4 @@
-import 'package:aoun/core/routes_manager/routes.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/payments/credit_details.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/auth_botton.dart';
 import 'package:flutter/material.dart';
 
@@ -194,7 +194,25 @@ class _PaymentScreenState extends State<PaymentScreen> {
               AuthButton(
                 text: "تابع الدفع",
                 onTap: () {
-                  Navigator.pushNamed(context, Routes.creditDetailsScreen);
+                  int? finalAmount;
+
+                  if (selectedAmount != null) {
+                    finalAmount = selectedAmount;
+                  } else if (customAmountController.text.isNotEmpty) {
+                    finalAmount = int.tryParse(customAmountController.text);
+                  }
+                  if (finalAmount == null || finalAmount <= 0) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("من فضلك أدخل مبلغ صحيح")),
+                    );
+                    return;
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => CreditDetails(amount: finalAmount!),
+                    ),
+                  );
                 },
               ),
             ],

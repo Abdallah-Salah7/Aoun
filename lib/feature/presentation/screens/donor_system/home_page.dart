@@ -8,7 +8,7 @@ import '../../../../core/resources/assets_manager.dart';
 
 class HomePage extends StatefulWidget {
   final int? initialIndex;
-  const HomePage({super.key,this.initialIndex});
+  const HomePage({super.key, this.initialIndex});
 
   @override
   State<HomePage> createState() => _HomePageState();

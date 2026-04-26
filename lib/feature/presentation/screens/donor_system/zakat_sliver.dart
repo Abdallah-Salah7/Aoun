@@ -3,9 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
+
 class ZakatSliver extends StatelessWidget {
   final VoidCallback onSeeMorePressed;
-   ZakatSliver({super.key,required this.onSeeMorePressed});
+  ZakatSliver({super.key, required this.onSeeMorePressed});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +26,11 @@ class ZakatSliver extends StatelessWidget {
             borderSide: BorderSide(color: Color(0xff2F674D)),
           ),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new,
-                color: Colors.white, size: 30),
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+              size: 30,
+            ),
             onPressed: () => Navigator.pop(context),
           ),
           title: Padding(
@@ -54,12 +58,11 @@ class ZakatSliver extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 80,),
+                SizedBox(height: 80),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   child: Row(
                     children: [
-            
                       Container(
                         width: 5,
                         height: 23,
@@ -69,7 +72,7 @@ class ZakatSliver extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 8),
-            
+
                       Text(
                         "وزن الفضة بالجرام",
                         style: GoogleFonts.saira(
@@ -79,13 +82,11 @@ class ZakatSliver extends StatelessWidget {
                         ),
                         textAlign: TextAlign.right,
                       ),
-            
-            
                     ],
                   ),
                 ),
-                SizedBox(height: 20,),
-            
+                SizedBox(height: 20),
+
                 Padding(
                   padding: const EdgeInsets.only(right: 20.0),
                   child: TextField(
@@ -94,7 +95,7 @@ class ZakatSliver extends StatelessWidget {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-            
+
                       suffixIcon: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
@@ -102,12 +103,12 @@ class ZakatSliver extends StatelessWidget {
                           style: TextStyle(color: Colors.grey, fontSize: 20),
                         ),
                       ),
-            
+
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 14,
                       ),
-            
+
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide(
@@ -115,7 +116,7 @@ class ZakatSliver extends StatelessWidget {
                           width: 1.5,
                         ),
                       ),
-            
+
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide(
@@ -123,7 +124,7 @@ class ZakatSliver extends StatelessWidget {
                           width: 1.5,
                         ),
                       ),
-            
+
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide(
@@ -134,36 +135,43 @@ class ZakatSliver extends StatelessWidget {
                     ),
                   ),
                 ),
-            
+
                 const SizedBox(height: 25),
-            
+
                 Padding(
-                  padding: const EdgeInsets.only(top: 36,bottom: 36,right: 16),
+                  padding: const EdgeInsets.only(
+                    top: 36,
+                    bottom: 36,
+                    right: 16,
+                  ),
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Color(0xffE0E2DA),
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Color(0xffDCD79E),
-                            width: 1.5)
+                      color: Color(0xffE0E2DA),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Color(0xffDCD79E), width: 1.5),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 25,horizontal: 12),
+                    padding: EdgeInsets.symmetric(vertical: 25, horizontal: 12),
                     child: Row(
                       children: [
-                        Image(image: AssetImage(ImageAssets.hint),
+                        Image(
+                          image: AssetImage(ImageAssets.hint),
                           height: 29,
-                          width: 29,),
+                          width: 29,
+                        ),
                         Column(
                           children: [
                             Row(
                               children: [
-                                Text("تنبيه",
+                                Text(
+                                  "تنبيه",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w900,
                                     fontSize: 22,
-            
-                                  ),),
-                                Text(" : تجب زكاة الفضة إذا بلغ       ",
-                                  style:TextStyle(
+                                  ),
+                                ),
+                                Text(
+                                  " : تجب زكاة الفضة إذا بلغ       ",
+                                  style: TextStyle(
                                     color: Color(0xff4B4B4B),
                                     fontWeight: FontWeight.w600,
                                     fontSize: 20,
@@ -171,23 +179,23 @@ class ZakatSliver extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Text(" وزنها 595 جرامًا فأكثر، ومضى عليها\n عام هجري كامل.",
-                              style:TextStyle(
+                            Text(
+                              " وزنها 595 جرامًا فأكثر، ومضى عليها\n عام هجري كامل.",
+                              style: TextStyle(
                                 color: Color(0xff4B4B4B),
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20,
                               ),
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
                 ),
-            
-            
+
                 const SizedBox(height: 90),
-            
+
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -204,7 +212,7 @@ class ZakatSliver extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -216,6 +224,7 @@ class ZakatSliver extends StatelessWidget {
       ),
     );
   }
+
   void showZakatSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -226,7 +235,7 @@ class ZakatSliver extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 20),
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 12),
-            padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(25),
@@ -236,17 +245,15 @@ class ZakatSliver extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
                       vertical: 10,
                     ),
                     decoration: BoxDecoration(
-                        color: Color(0xffE8EBE9),
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Color(0xff83A695),width: 1.2)
-
+                      color: Color(0xffE8EBE9),
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: Color(0xff83A695), width: 1.2),
                     ),
                     child: Row(
                       children: [
@@ -256,7 +263,8 @@ class ZakatSliver extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                             fontSize: 20,
                             color: Colors.black,
-                          ),),
+                          ),
+                        ),
                         Spacer(),
                         Text(
                           " 5000 ج.م",
@@ -264,7 +272,8 @@ class ZakatSliver extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                             fontSize: 20,
                             color: Colors.black,
-                          ),),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -283,9 +292,11 @@ class ZakatSliver extends StatelessWidget {
                       ),
                       child: Text(
                         "تبرع الآن",
-                        style: TextStyle(fontSize: 26,
+                        style: TextStyle(
+                          fontSize: 26,
                           color: Colors.white,
-                          fontWeight: FontWeight.w400,),
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                   ),
@@ -297,5 +308,4 @@ class ZakatSliver extends StatelessWidget {
       },
     );
   }
-
 }

@@ -5,26 +5,13 @@ import '../../../../core/resources/assets_manager.dart';
 import 'app_drawer.dart';
 
 class ProfileDonor extends StatelessWidget {
-
   String name;
   ProfileDonor({super.key, required this.name});
 
   final List<Map<String, String>> donations = const [
-    {
-      "title": "بناء مسجد",
-      "date": "1/3/2026",
-      "amount": "500 ج.م",
-    },
-    {
-      "title": "كفالة يتيم",
-      "date": "5/3/2026",
-      "amount": "300 ج.م",
-    },
-    {
-      "title": "حفر بئر",
-      "date": "10/3/2026",
-      "amount": "1000 ج.م",
-    },
+    {"title": "بناء مسجد", "date": "1/3/2026", "amount": "500 ج.م"},
+    {"title": "كفالة يتيم", "date": "5/3/2026", "amount": "300 ج.م"},
+    {"title": "حفر بئر", "date": "10/3/2026", "amount": "1000 ج.م"},
   ];
   @override
   Widget build(BuildContext context) {
@@ -328,7 +315,7 @@ class ProfileDonor extends StatelessWidget {
                         ),
                       );
                     },
-                  )
+                  ),
                 ),
               ),
             ],

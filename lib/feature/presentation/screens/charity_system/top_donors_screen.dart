@@ -20,10 +20,7 @@ class TopDonorsScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
           child: Text(
             "الأشخاص الأكثر تبرعاً",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
 
@@ -40,9 +37,7 @@ class TopDonorsScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProfileDonor(
-                      name: item["name"]!,
-                    ),
+                    builder: (context) => ProfileDonor(name: item["name"]!),
                   ),
                 );
               },

@@ -6,7 +6,6 @@ import '../widget/donation_chart.dart';
 import '../widget/weekly_chart.dart';
 import 'app_drawer.dart';
 
-
 class HomeCharity extends StatelessWidget {
   const HomeCharity({super.key});
 
@@ -15,7 +14,6 @@ class HomeCharity extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        
         drawer: const AppDrawer(),
         appBar: AppBar(backgroundColor: Color(0xff2F674D), toolbarHeight: 0),
         backgroundColor: Color(0xffC7CDCD),
@@ -358,7 +356,7 @@ class HomeCharity extends StatelessWidget {
                           ),
                         ),
                       ),
-                      WeeklyChart(title: "التبرعات خلال الفترة",),
+                      WeeklyChart(title: "التبرعات خلال الفترة"),
                       SizedBox(height: 18),
                       DonationChart(),
                       Padding(
@@ -434,25 +432,27 @@ class HomeCharity extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Row(
-                           children: [
-                             Text("النشاط الأخير",
-                             style: TextStyle(
-                               fontSize: 22,
-                               fontWeight: FontWeight.w800
-                             ),),
-                             Spacer(),
-                             InkWell(
-                               onTap: (){
-
-                               },
-                               child: Text("عرض المزيد",
-                                 style: TextStyle(
-                                     fontSize: 22,
-                                     fontWeight: FontWeight.w800,
-                                   color: Color(0xff248457)
-                                 ),),
-                             )
-                           ],
+                          children: [
+                            Text(
+                              "النشاط الأخير",
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            Spacer(),
+                            InkWell(
+                              onTap: () {},
+                              child: Text(
+                                "عرض المزيد",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(0xff248457),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Container(
@@ -484,13 +484,18 @@ class HomeCharity extends StatelessWidget {
                               ),
                               title: const Text(
                                 "محمد أحمد",
-                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
                               ),
-                              subtitle: const Text("علاج طفل مريض",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400
-                              ),),
+                              subtitle: const Text(
+                                "علاج طفل مريض",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                               trailing: const Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -500,7 +505,7 @@ class HomeCharity extends StatelessWidget {
                                     style: TextStyle(
                                       color: Color(0xff255A41),
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16
+                                      fontSize: 16,
                                     ),
                                   ),
                                   Text(

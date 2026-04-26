@@ -57,4 +57,9 @@ class Routes {
   static const String charityReportsScreen = "/charityReportsScreen";
   static const String chatbotWelcomeScreen = "/chatbotWelcomeScreen";
   static const String chatbotAskScreen = "/chatbotAskScreen";
+  static const String processingScreen = "/processingScreen";
+  static const String successPaymentScreen = "/successPaymentScreen";
+  static const String failedPaymentScreen = "/failedPaymentScreen";
+  static const String zakatScreen = "/zakatScreen";
+  static const String charityProfScreen = "/charityProfScreen";
 }

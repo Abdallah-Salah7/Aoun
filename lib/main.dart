@@ -14,9 +14,7 @@ import 'feature/presentation/state_management/provider/my_provider.dart';
 void main() {
   runApp(
     MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => MyProvider()),
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => MyProvider())],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => CaseCubit()),
@@ -48,7 +46,7 @@ class MainApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             home: child,
             onGenerateRoute: RouteGenerator.getRoute,
-            initialRoute: Routes.charityReportsScreen,
+            initialRoute: Routes.charityProfScreen,
           ),
     );
   }

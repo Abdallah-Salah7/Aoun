@@ -37,14 +37,16 @@ class _EditCaseState extends State<EditCase> {
       });
     }
   }
+
   @override
   void initState() {
     super.initState();
 
-
     titleController = TextEditingController(text: widget.caseEntity.title);
     amountController = TextEditingController(text: widget.caseEntity.allValue);
-    descriptionController = TextEditingController(text: widget.caseEntity.description);
+    descriptionController = TextEditingController(
+      text: widget.caseEntity.description,
+    );
 
     selectedCategory = widget.caseEntity.category;
     isUrgent = widget.caseEntity.status == "عاجلة جداً";
@@ -108,51 +110,55 @@ class _EditCaseState extends State<EditCase> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Color(0xffC4C4C4), width: 1.5),
-
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: _image != null
-                        ? Image.file(
-                      _image!,
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.fill,
-                    )
-                        : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image(
-                          image: AssetImage(ImageAssets.upload),
-                          height: 59,
-                          width: 59,
-                          fit: BoxFit.contain,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          "اضغط لتحميل الصورة",
-                          style: GoogleFonts.manrope(
-                            color: Colors.grey,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          "JPG, PNG (حد أقصى 5MB)",
-                          style: GoogleFonts.manrope(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
+                    child:
+                        _image != null
+                            ? Image.file(
+                              _image!,
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.fill,
+                            )
+                            : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: AssetImage(ImageAssets.upload),
+                                  height: 59,
+                                  width: 59,
+                                  fit: BoxFit.contain,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  "اضغط لتحميل الصورة",
+                                  style: GoogleFonts.manrope(
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  "JPG, PNG (حد أقصى 5MB)",
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
                   ),
                 ),
               ),
 
               const SizedBox(height: 20),
-              _buildField("عنوان الحالة", "مثال: علاج طفل مريض ",titleController),
+              _buildField(
+                "عنوان الحالة",
+                "مثال: علاج طفل مريض ",
+                titleController,
+              ),
               const SizedBox(height: 15),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 18.0),
@@ -165,7 +171,7 @@ class _EditCaseState extends State<EditCase> {
                 ),
               ),
               const SizedBox(height: 15),
-              _buildField("المبلغ المستهدف", "20000 ج.م",amountController),
+              _buildField("المبلغ المستهدف", "20000 ج.م", amountController),
               const SizedBox(height: 25),
               Container(
                 padding: const EdgeInsets.all(16.0),
@@ -204,19 +210,25 @@ class _EditCaseState extends State<EditCase> {
                       scale: 0.9,
                       child: Switch(
                         value: isUrgent,
-                        trackColor: WidgetStateProperty.resolveWith<Color?>((states) {
+                        trackColor: WidgetStateProperty.resolveWith<Color?>((
+                          states,
+                        ) {
                           if (states.contains(WidgetState.selected)) {
                             return const Color(0xff2F674D);
                           }
                           return Colors.grey.shade600;
                         }),
-                        thumbColor: WidgetStateProperty.resolveWith<Color?>((states) {
+                        thumbColor: WidgetStateProperty.resolveWith<Color?>((
+                          states,
+                        ) {
                           if (states.contains(WidgetState.selected)) {
                             return Colors.white;
                           }
                           return const Color(0xFFE0E0E0);
                         }),
-                        trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
+                        trackOutlineColor: WidgetStateProperty.all(
+                          Colors.transparent,
+                        ),
                         onChanged: (value) {
                           setState(() {
                             isUrgent = value;
@@ -244,8 +256,7 @@ class _EditCaseState extends State<EditCase> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                          },
+                          onTap: () {},
                           child: Row(
                             children: [
                               const Icon(
@@ -263,7 +274,6 @@ class _EditCaseState extends State<EditCase> {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-
                             ],
                           ),
                         ),
@@ -375,10 +385,12 @@ class _EditCaseState extends State<EditCase> {
                                   Expanded(
                                     child: InkWell(
                                       onTap: () {
-                                        caseCubit.deleteCase(widget.caseEntity.id);
+                                        caseCubit.deleteCase(
+                                          widget.caseEntity.id,
+                                        );
                                         Navigator.pop(dialogContext);
                                         Navigator.pop(dialogContext);
-                                        },
+                                      },
                                       child: Text(
                                         "حذف الحالة",
                                         style: GoogleFonts.saira(
@@ -397,7 +409,7 @@ class _EditCaseState extends State<EditCase> {
                                     child: InkWell(
                                       onTap: () {
                                         Navigator.pop(dialogContext);
-                                        },
+                                      },
                                       child: Text(
                                         "إلغاء",
                                         style: GoogleFonts.saira(
@@ -442,11 +454,12 @@ class _EditCaseState extends State<EditCase> {
       ),
     );
   }
+
   Widget _buildField(
-      String title,
-      String hint,
-      TextEditingController controller,
-      ) {
+    String title,
+    String hint,
+    TextEditingController controller,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -468,7 +481,7 @@ class _EditCaseState extends State<EditCase> {
             border: Border.all(color: const Color(0xffC4C4C4), width: 1.5),
           ),
           child: TextField(
-            controller: controller,   // ⭐ أهم سطر
+            controller: controller, // ⭐ أهم سطر
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: GoogleFonts.manrope(

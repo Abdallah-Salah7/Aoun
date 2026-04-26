@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class WeeklyChart extends StatefulWidget {
-  String  title;
-   WeeklyChart({super.key,required this.title});
+  String title;
+  WeeklyChart({super.key, required this.title});
 
   @override
   State<WeeklyChart> createState() => _WeeklyChartState();
@@ -55,10 +55,13 @@ class _WeeklyChartState extends State<WeeklyChart> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               Text(
+              Text(
                 widget.title,
 
-                style: TextStyle(fontWeight: FontWeight.w600,fontSize: MediaQuery.of(context).size.width * 0.038),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: MediaQuery.of(context).size.width * 0.038,
+                ),
               ),
               Row(
                 children: [

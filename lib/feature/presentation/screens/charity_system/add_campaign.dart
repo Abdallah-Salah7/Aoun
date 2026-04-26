@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -60,6 +59,7 @@ class _AddCampaignState extends State<AddCampaign> {
       });
     }
   }
+
   String _formatDate(DateTime? date) {
     if (date == null) return "";
     return "${date.year}/${date.month}/${date.day}";
@@ -72,8 +72,9 @@ class _AddCampaignState extends State<AddCampaign> {
   String selectedCategory = "الصحة";
 
   Future<void> _pickImage() async {
-    final XFile? pickedFile =
-    await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+    );
 
     if (pickedFile != null) {
       setState(() {
@@ -96,9 +97,10 @@ class _AddCampaignState extends State<AddCampaign> {
         descController.text.isEmpty ||
         startDate == null ||
         endDate == null) {
-
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("من فضلك املي كل البيانات بما فيها التواريخ")),
+        const SnackBar(
+          content: Text("من فضلك املي كل البيانات بما فيها التواريخ"),
+        ),
       );
       return;
     }
@@ -113,8 +115,8 @@ class _AddCampaignState extends State<AddCampaign> {
       allValue: amountController.text,
       status: isUrgent ? "عاجلة جداً" : "نشطة",
       category: selectedCategory,
-      startDate: startDate!,   // ✅ هنا الآمان بعد التحقق
-      endDate: endDate!,       // ✅
+      startDate: startDate!, // ✅ هنا الآمان بعد التحقق
+      endDate: endDate!, // ✅
     );
 
     Navigator.pop(context, newCase);
@@ -137,8 +139,11 @@ class _AddCampaignState extends State<AddCampaign> {
           centerTitle: true,
           leading: GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.arrow_back_ios_new,
-                size: 30, color: Colors.black),
+            child: const Icon(
+              Icons.arrow_back_ios_new,
+              size: 30,
+              color: Colors.black,
+            ),
           ),
         ),
         body: SingleChildScrollView(
@@ -151,7 +156,9 @@ class _AddCampaignState extends State<AddCampaign> {
                 child: Text(
                   "صورة الحملة",
                   style: GoogleFonts.manrope(
-                      fontWeight: FontWeight.w500, fontSize: 22),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 22,
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
@@ -165,38 +172,41 @@ class _AddCampaignState extends State<AddCampaign> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                        color: const Color(0xffC4C4C4), width: 1.5),
+                      color: const Color(0xffC4C4C4),
+                      width: 1.5,
+                    ),
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: _image != null
-                        ? Image.file(_image!, fit: BoxFit.fill)
-                        : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image(
-                          image: AssetImage(ImageAssets.upload),
-                          height: 59,
-                          width: 59,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          "اضغط لتحميل الصورة",
-                          style: GoogleFonts.manrope(
-                            color: Colors.grey,
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          "JPG, PNG (حد أقصى 5MB)",
-                          style: GoogleFonts.manrope(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
+                    child:
+                        _image != null
+                            ? Image.file(_image!, fit: BoxFit.fill)
+                            : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: AssetImage(ImageAssets.upload),
+                                  height: 59,
+                                  width: 59,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  "اضغط لتحميل الصورة",
+                                  style: GoogleFonts.manrope(
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Text(
+                                  "JPG, PNG (حد أقصى 5MB)",
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
                   ),
                 ),
               ),
@@ -236,7 +246,6 @@ class _AddCampaignState extends State<AddCampaign> {
 
               const SizedBox(height: 25),
 
-
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -253,8 +262,7 @@ class _AddCampaignState extends State<AddCampaign> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                          },
+                          onTap: () {},
                           child: Row(
                             children: [
                               const Icon(
@@ -279,7 +287,6 @@ class _AddCampaignState extends State<AddCampaign> {
                     ),
                   ),
 
-
                   // حقل النص (TextField)
                 ],
               ),
@@ -292,7 +299,9 @@ class _AddCampaignState extends State<AddCampaign> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
                   border: Border.all(
-                      color: const Color(0xffC4C4C4), width: 1.5),
+                    color: const Color(0xffC4C4C4),
+                    width: 1.5,
+                  ),
                 ),
                 child: TextField(
                   controller: descController,
@@ -342,11 +351,11 @@ class _AddCampaignState extends State<AddCampaign> {
   }
 
   Widget _buildField(
-      String title,
-      String hint, {
-        required TextEditingController controller,
-        bool isNumber = false,
-      }) {
+    String title,
+    String hint, {
+    required TextEditingController controller,
+    bool isNumber = false,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -355,7 +364,9 @@ class _AddCampaignState extends State<AddCampaign> {
           child: Text(
             title,
             style: GoogleFonts.manrope(
-                fontWeight: FontWeight.w500, fontSize: 22),
+              fontWeight: FontWeight.w500,
+              fontSize: 22,
+            ),
           ),
         ),
         const SizedBox(height: 10),
@@ -363,13 +374,11 @@ class _AddCampaignState extends State<AddCampaign> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15),
-            border:
-            Border.all(color: const Color(0xffC4C4C4), width: 1.5),
+            border: Border.all(color: const Color(0xffC4C4C4), width: 1.5),
           ),
           child: TextField(
             controller: controller,
-            keyboardType:
-            isNumber ? TextInputType.number : TextInputType.text,
+            keyboardType: isNumber ? TextInputType.number : TextInputType.text,
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: GoogleFonts.manrope(
@@ -385,6 +394,7 @@ class _AddCampaignState extends State<AddCampaign> {
       ],
     );
   }
+
   Widget _buildDateField({
     required String title,
     required String hint,
@@ -399,7 +409,9 @@ class _AddCampaignState extends State<AddCampaign> {
           child: Text(
             title,
             style: GoogleFonts.manrope(
-                fontWeight: FontWeight.w500, fontSize: 22),
+              fontWeight: FontWeight.w500,
+              fontSize: 22,
+            ),
           ),
         ),
         const SizedBox(height: 10),
@@ -434,7 +446,6 @@ class _AddCampaignState extends State<AddCampaign> {
                     width: 34,
                   ),
                 ),
-
               ],
             ),
           ),

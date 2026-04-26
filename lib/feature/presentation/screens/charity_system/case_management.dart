@@ -19,7 +19,6 @@ class CaseManagement extends StatefulWidget {
 }
 
 class _CaseManagementState extends State<CaseManagement> {
-
   String selectedFilter = "الكل";
   String selectedCategory = "الكل";
 
@@ -33,10 +32,7 @@ class _CaseManagementState extends State<CaseManagement> {
           height: 70,
           child: FloatingActionButton(
             onPressed: () async {
-              final result = await Navigator.pushNamed(
-                context,
-                Routes.addCase,
-              );
+              final result = await Navigator.pushNamed(context, Routes.addCase);
 
               if (result != null && result is CaseEntity) {
                 context.read<CaseCubit>().addCase(result);
@@ -46,11 +42,7 @@ class _CaseManagementState extends State<CaseManagement> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(35),
             ),
-            child: const Icon(
-              Icons.add,
-              size: 40,
-              color: Colors.white,
-            ),
+            child: const Icon(Icons.add, size: 40, color: Colors.white),
           ),
         ),
 
@@ -66,7 +58,6 @@ class _CaseManagementState extends State<CaseManagement> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 Container(
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -130,7 +121,11 @@ class _CaseManagementState extends State<CaseManagement> {
                 /// FILTER
                 Padding(
                   padding: const EdgeInsets.only(
-                      right: 18, left: 18, top: 18, bottom: 5),
+                    right: 18,
+                    left: 18,
+                    top: 18,
+                    bottom: 5,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -155,7 +150,10 @@ class _CaseManagementState extends State<CaseManagement> {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 20),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 18.0,
+                    horizontal: 20,
+                  ),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
@@ -322,29 +320,27 @@ class _CaseManagementState extends State<CaseManagement> {
                 ),
                 const SizedBox(height: 30),
 
-
                 BlocBuilder<CaseCubit, CaseState>(
                   builder: (context, state) {
                     if (state is CaseLoaded) {
-                      final filteredCases = state.cases.where((c) {
+                      final filteredCases =
+                          state.cases.where((c) {
+                            bool statusMatch;
+                            if (selectedFilter == "الكل") {
+                              statusMatch = true;
+                            } else {
+                              statusMatch = c.status == selectedFilter;
+                            }
 
-                        bool statusMatch;
-                        if (selectedFilter == "الكل") {
-                          statusMatch = true;
-                        } else {
-                          statusMatch = c.status == selectedFilter;
-                        }
+                            bool categoryMatch;
+                            if (selectedCategory == "الكل") {
+                              categoryMatch = true;
+                            } else {
+                              categoryMatch = c.category == selectedCategory;
+                            }
 
-                        bool categoryMatch;
-                        if (selectedCategory == "الكل") {
-                          categoryMatch = true;
-                        } else {
-                          categoryMatch = c.category == selectedCategory;
-                        }
-
-                        return statusMatch && categoryMatch;
-
-                      }).toList();
+                            return statusMatch && categoryMatch;
+                          }).toList();
 
                       return ListView.builder(
                         shrinkWrap: true,
@@ -367,9 +363,7 @@ class _CaseManagementState extends State<CaseManagement> {
                       );
                     }
 
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return const Center(child: CircularProgressIndicator());
                   },
                 ),
               ],

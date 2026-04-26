@@ -59,7 +59,6 @@ class CharityCaseItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             /// IMAGE
             Stack(
               children: [
@@ -67,19 +66,20 @@ class CharityCaseItem extends StatelessWidget {
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(20),
                   ),
-                  child: (image.startsWith('/') || image.contains('file://'))
-                      ? Image.file(
-                    File(image),
-                    height: 220,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  )
-                      : Image.asset(
-                    image.isNotEmpty ? image : ImageAssets.upload,
-                    height: 220,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+                  child:
+                      (image.startsWith('/') || image.contains('file://'))
+                          ? Image.file(
+                            File(image),
+                            height: 220,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          )
+                          : Image.asset(
+                            image.isNotEmpty ? image : ImageAssets.upload,
+                            height: 220,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
                 ),
 
                 if (status == "عاجلة جداً")
@@ -88,15 +88,20 @@ class CharityCaseItem extends StatelessWidget {
                     left: 10,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 6),
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.access_time,
-                              color: Colors.white, size: 16),
+                          const Icon(
+                            Icons.access_time,
+                            color: Colors.white,
+                            size: 16,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             "عاجلة",
@@ -116,7 +121,9 @@ class CharityCaseItem extends StatelessWidget {
                   right: 10,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 6),
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
@@ -135,8 +142,7 @@ class CharityCaseItem extends StatelessWidget {
 
             /// TITLE
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 18, vertical: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 25),
               child: Text(
                 title,
                 style: GoogleFonts.cairo(
@@ -149,8 +155,7 @@ class CharityCaseItem extends StatelessWidget {
 
             /// PROGRESS
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 18, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: LinearProgressIndicator(
@@ -212,85 +217,83 @@ class CharityCaseItem extends StatelessWidget {
             /// BUTTON
             status == "مكتملة"
                 ? Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Container(
-                width: double.infinity,
-                padding:
-                const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  color: const Color(0xff8FAF9A),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "اكتملت",
-                      style: GoogleFonts.manrope(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    const Icon(
-                      Icons.check_circle_outline,
-                      color: Colors.white,
-                      size: 36,
-                    ),
-                  ],
-                ),
-              ),
-            )
-                : Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 12),
-              child: SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12),
-                    side: const BorderSide(
-                        color: Color(0xff737373), width: 2),
-                    shape: RoundedRectangleBorder(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xff8FAF9A),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      Routes.editCase,
-                      arguments: CaseEntity(
-                        id: "",
-                        title: title,
-                        description: description,
-                        image: image,
-                        category: category,
-                        status: status,
-                        rateValue: rateValue,
-                        collectedValue: collectedValue,
-                        allValue: allValue,
-                      ),
-                    );
-                  },
-                  icon: Text(
-                    "تعديل الحالة",
-                    style: GoogleFonts.cairo(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xff737373),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "اكتملت",
+                          style: GoogleFonts.manrope(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        const Icon(
+                          Icons.check_circle_outline,
+                          color: Colors.white,
+                          size: 36,
+                        ),
+                      ],
                     ),
                   ),
-                  label: const Icon(
-                    Icons.mode_edit_outline_outlined,
-                    color: Color(0xff737373),
-                    size: 30,
+                )
+                : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        side: const BorderSide(
+                          color: Color(0xff737373),
+                          width: 2,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          Routes.editCase,
+                          arguments: CaseEntity(
+                            id: "",
+                            title: title,
+                            description: description,
+                            image: image,
+                            category: category,
+                            status: status,
+                            rateValue: rateValue,
+                            collectedValue: collectedValue,
+                            allValue: allValue,
+                          ),
+                        );
+                      },
+                      icon: Text(
+                        "تعديل الحالة",
+                        style: GoogleFonts.cairo(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xff737373),
+                        ),
+                      ),
+                      label: const Icon(
+                        Icons.mode_edit_outline_outlined,
+                        color: Color(0xff737373),
+                        size: 30,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
 
             const SizedBox(height: 12),
           ],

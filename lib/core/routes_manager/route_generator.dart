@@ -1,7 +1,9 @@
 import 'package:aoun/core/routes_manager/routes.dart';
+import 'package:aoun/feature/presentation/screens/charity_system/charity_profile/charity_prof.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/charity_reports.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/chatbot/ask_screen.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/chatbot/welcome_screen.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/zakat_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/charity/login_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/charity/register_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/donor/forget_password.dart';
@@ -11,6 +13,9 @@ import 'package:aoun/feature/presentation/screens/donor_system/fataws_on_zakat.d
 import 'package:aoun/feature/presentation/screens/donor_system/onboard_screens/onboard_screen1.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/onboard_screens/onboard_screen2.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/onboard_screens/onboard_screen3.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/payments/failed_payment.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/payments/payment_screen.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/payments/success_payment.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/splash_screen.dart';
 import 'package:flutter/material.dart';
 import '../../feature/domain/entities/campaign_entity.dart';
@@ -35,7 +40,7 @@ import '../../feature/presentation/screens/donor_system/case_details_screen.dart
 import '../../feature/presentation/screens/donor_system/donor/change_password.dart';
 import '../../feature/presentation/screens/donor_system/donor/email_verfication.dart';
 import '../../feature/presentation/screens/donor_system/charity_profile_screen.dart';
-import '../../feature/presentation/screens/donor_system/credit_details.dart';
+import '../../feature/presentation/screens/donor_system/payments/credit_details.dart';
 import '../../feature/presentation/screens/donor_system/current_campaigns_screen.dart';
 import '../../feature/presentation/screens/donor_system/customer_service.dart';
 import '../../feature/presentation/screens/donor_system/donation_field_screen.dart';
@@ -45,7 +50,6 @@ import '../../feature/presentation/screens/donor_system/edit_password.dart';
 import '../../feature/presentation/screens/donor_system/home_page.dart';
 import '../../feature/presentation/screens/donor_system/login_choice_screen.dart';
 import '../../feature/presentation/screens/donor_system/notification_screen.dart';
-import '../../feature/presentation/screens/donor_system/payment_screen.dart';
 import '../../feature/presentation/screens/donor_system/personal_information.dart';
 import '../../feature/presentation/screens/donor_system/privacy_and_security.dart';
 import '../../feature/presentation/screens/donor_system/saved_cases.dart';
@@ -63,12 +67,10 @@ class RouteGenerator {
     final argument = settings.arguments;
 
     switch (settings.name) {
-    /// HOME
+      /// HOME
       case Routes.homePage:
         final index = settings.arguments as int?;
-        return MaterialPageRoute(
-          builder: (_) => HomePage(initialIndex: index),
-        );
+        return MaterialPageRoute(builder: (_) => HomePage(initialIndex: index));
 
       case Routes.donationTab:
         return MaterialPageRoute(builder: (_) => const DonationTab());
@@ -85,11 +87,9 @@ class RouteGenerator {
       case Routes.notificationScreen:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
 
-    /// CAMPAIGNS
+      /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
-        return MaterialPageRoute(
-          builder: (_) => CurrentCampaignsScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => CurrentCampaignsScreen());
 
       case Routes.caseDetailsScreen:
         final args = argument as Map<String, dynamic>;
@@ -105,10 +105,20 @@ class RouteGenerator {
         final args = argument as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) => CampaignDetails(args: args));
 
+      /// PAYMENT
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
+      case Routes.creditDetailsScreen:
+        final amount = argument as int;
+        return MaterialPageRoute(builder: (_) => CreditDetails(amount: amount));
+      case Routes.successPaymentScreen:
+        return MaterialPageRoute(builder: (_) => SuccessPaymentScreen());
+      case Routes.failedPaymentScreen:
+        return MaterialPageRoute(builder: (_) => FailedPaymentScreen());
+      case Routes.successPaymentScreen:
+        return MaterialPageRoute(builder: (_) => SuccessPaymentScreen());
 
-    /// CHARITY
+      /// CHARITY
       case Routes.charityProfileScreen:
         return MaterialPageRoute(builder: (_) => const CharityProfileScreen());
 
@@ -137,9 +147,7 @@ class RouteGenerator {
           builder: (_) => EditCase(caseEntity: caseItem),
         );
       case Routes.campaignManagement:
-        return MaterialPageRoute(
-          builder: (_) => const CampaignManagement(),
-        );
+        return MaterialPageRoute(builder: (_) => const CampaignManagement());
       case Routes.addCampaign:
         return MaterialPageRoute(builder: (_) => const AddCampaign());
       case Routes.editCampaign:
@@ -161,10 +169,12 @@ class RouteGenerator {
       case Routes.chatbotWelcomeScreen:
         return MaterialPageRoute(builder: (_) => const WelcomeScreen());
       case Routes.chatbotAskScreen:
-        final question=argument as String;
-        return MaterialPageRoute(builder: (_) =>  AskScreen(question: question,));
+        final question = argument as String;
+        return MaterialPageRoute(builder: (_) => AskScreen(question: question));
+      case Routes.charityProfScreen:
+        return MaterialPageRoute(builder: (_) => const CharityProf());
 
-    /// SETTINGS
+      /// SETTINGS
       case Routes.settings:
         return MaterialPageRoute(builder: (_) => const Settings());
 
@@ -185,53 +195,55 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const EditPassword());
       case Routes.personalInformation:
         return MaterialPageRoute(builder: (_) => const PersonalInformation());
-      case Routes.creditDetailsScreen:
-        return MaterialPageRoute(builder: (_) => const CreditDetails());
+
       case Routes.calcZakat:
         return MaterialPageRoute(builder: (_) => const CalcZakat());
       case Routes.zakatGold:
         return MaterialPageRoute(
-          builder: (context) => ZakatGold(
-            onSeeMorePressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                Routes.homePage,
+          builder:
+              (context) => ZakatGold(
+                onSeeMorePressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Routes.homePage,
                     (route) => false,
-                arguments: 1,
-              );
-            },
-          ),
+                    arguments: 1,
+                  );
+                },
+              ),
         );
       case Routes.zakatSliver:
         return MaterialPageRoute(
-          builder: (context) => ZakatSliver(
-            onSeeMorePressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                Routes.homePage,
+          builder:
+              (context) => ZakatSliver(
+                onSeeMorePressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Routes.homePage,
                     (route) => false,
-                arguments: 1,
-              );
-            },
-          ),
+                    arguments: 1,
+                  );
+                },
+              ),
         );
       case Routes.zakatMoney:
         return MaterialPageRoute(
-          builder: (context) => ZakatMoney(
-            onSeeMorePressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                Routes.homePage,
+          builder:
+              (context) => ZakatMoney(
+                onSeeMorePressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Routes.homePage,
                     (route) => false,
-                arguments: 1,
-              );
-            },
-          ),
+                    arguments: 1,
+                  );
+                },
+              ),
         );
       case Routes.caseManagement:
         return MaterialPageRoute(builder: (_) => const CaseManagement());
 
-    /// AUTH
+      /// AUTH
       case Routes.userTypeScreen:
         return MaterialPageRoute(
           builder: (_) => const GeneralLoginChoicePage(),
@@ -265,7 +277,7 @@ class RouteGenerator {
       case Routes.changePasswordScreen:
         return MaterialPageRoute(builder: (_) => const ChangePassword());
 
-    /// ONBOARDING
+      /// ONBOARDING
       case Routes.onBoard1:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen1());
 
@@ -275,13 +287,16 @@ class RouteGenerator {
       case Routes.onBoard3:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
 
-    /// SPLASH
+      /// SPLASH
       case Routes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
 
-    /// Services
+      /// Services
       case Routes.fatwasOnZakatScreen:
         return MaterialPageRoute(builder: (_) => const FatawsOnZakat());
+
+      case Routes.zakatScreen:
+        return MaterialPageRoute(builder: (_) => const ZakatScreen());
 
       default:
         return unDefinedRoute();
@@ -292,9 +307,9 @@ class RouteGenerator {
     return MaterialPageRoute(
       builder:
           (_) => Scaffold(
-        appBar: AppBar(title: const Text('No Route Found')),
-        body: const Center(child: Text('No Route Found')),
-      ),
+            appBar: AppBar(title: const Text('No Route Found')),
+            body: const Center(child: Text('No Route Found')),
+          ),
     );
   }
 }

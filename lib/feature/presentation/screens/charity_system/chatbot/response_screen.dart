@@ -19,7 +19,7 @@ class ResponseScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              _buildHeader(h, w,context),
+              _buildHeader(h, w, context),
               SizedBox(height: h * 0.02),
 
               _buildBotMessage(w),
@@ -38,7 +38,7 @@ class ResponseScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(double h, double w,BuildContext context) {
+  Widget _buildHeader(double h, double w, BuildContext context) {
     return Container(
       height: h * 0.12,
       width: double.infinity,

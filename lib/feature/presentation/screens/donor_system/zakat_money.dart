@@ -7,7 +7,7 @@ import '../../../../core/routes_manager/routes.dart';
 class ZakatMoney extends StatelessWidget {
   final VoidCallback onSeeMorePressed;
 
-   ZakatMoney({super.key,required this.onSeeMorePressed});
+  ZakatMoney({super.key, required this.onSeeMorePressed});
 
   @override
   Widget build(BuildContext context) {
@@ -310,6 +310,7 @@ class ZakatMoney extends StatelessWidget {
       ),
     );
   }
+
   void showZakatSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -320,7 +321,7 @@ class ZakatMoney extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 20),
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 12),
-            padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(25),
@@ -330,7 +331,6 @@ class ZakatMoney extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
@@ -339,8 +339,7 @@ class ZakatMoney extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Color(0xffE8EBE9),
                       borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: Color(0xff83A695),width: 1.2)
-
+                      border: Border.all(color: Color(0xff83A695), width: 1.2),
                     ),
                     child: Row(
                       children: [
@@ -350,7 +349,8 @@ class ZakatMoney extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                             fontSize: 20,
                             color: Colors.black,
-                          ),),
+                          ),
+                        ),
                         Spacer(),
                         Text(
                           " 5000 ج.م",
@@ -358,7 +358,8 @@ class ZakatMoney extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                             fontSize: 20,
                             color: Colors.black,
-                          ),),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -377,9 +378,11 @@ class ZakatMoney extends StatelessWidget {
                       ),
                       child: Text(
                         "تبرع الآن",
-                        style: TextStyle(fontSize: 26,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,),
+                        style: TextStyle(
+                          fontSize: 26,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                   ),

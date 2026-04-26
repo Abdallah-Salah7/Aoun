@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -69,9 +68,11 @@ class _CharityCaseDetailsState extends State<CharityCaseDetails> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16),
                             child: Image(
-                              image: image.startsWith('/') || image.contains('cache')
-                                  ? FileImage(File(image))
-                                  : AssetImage(image) as ImageProvider,
+                              image:
+                                  image.startsWith('/') ||
+                                          image.contains('cache')
+                                      ? FileImage(File(image))
+                                      : AssetImage(image) as ImageProvider,
                               fit: BoxFit.fill,
                               height: 198,
                               width: double.infinity,
@@ -84,7 +85,10 @@ class _CharityCaseDetailsState extends State<CharityCaseDetails> {
                     Align(
                       alignment: Alignment.topRight,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8,horizontal:  28.0),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 28.0,
+                        ),
                         child: Text(
                           title,
                           style: GoogleFonts.cairo(
@@ -102,11 +106,13 @@ class _CharityCaseDetailsState extends State<CharityCaseDetails> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 28),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 28,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: LinearProgressIndicator(
@@ -158,7 +164,6 @@ class _CharityCaseDetailsState extends State<CharityCaseDetails> {
                                     ),
                                   ],
                                 ),
-
                               ],
                             ),
                           ],
@@ -203,23 +208,31 @@ class _CharityCaseDetailsState extends State<CharityCaseDetails> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 18),
-                      child: WeeklyChart(title: "نمو التبرعات",),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                        horizontal: 18,
+                      ),
+                      child: WeeklyChart(title: "نمو التبرعات"),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18.0,
+                        vertical: 8,
+                      ),
                       child: Row(
                         children: [
-                          Text("آخر التبرعات",
+                          Text(
+                            "آخر التبرعات",
                             style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w800
-                            ),),
+                              fontSize: 22,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all( 18.0),
+                      padding: const EdgeInsets.all(18.0),
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         margin: EdgeInsets.symmetric(vertical: 18),
@@ -249,13 +262,18 @@ class _CharityCaseDetailsState extends State<CharityCaseDetails> {
                               ),
                               title: const Text(
                                 "محمد أحمد",
-                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
-                              ),
-                              subtitle: const Text("منذ 5 دقائق",
                                 style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400
-                                ),),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              subtitle: const Text(
+                                "منذ 5 دقائق",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                               trailing: const Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -263,9 +281,9 @@ class _CharityCaseDetailsState extends State<CharityCaseDetails> {
                                   Text(
                                     "500 ج.م",
                                     style: TextStyle(
-                                        color: Color(0xff255A41),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16
+                                      color: Color(0xff255A41),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
                                     ),
                                   ),
                                 ],

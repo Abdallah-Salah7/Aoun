@@ -19,16 +19,20 @@ class CalcZakat extends StatelessWidget {
           backgroundColor: Color(0xff2F674D),
           toolbarHeight: 168,
           shape: OutlineInputBorder(
-              borderRadius:BorderRadius.only(bottomLeft: Radius.circular(35),
-                  bottomRight: Radius.circular(35)),
-              borderSide: BorderSide(color: Color(0xff2F674D))
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(35),
+              bottomRight: Radius.circular(35),
+            ),
+            borderSide: BorderSide(color: Color(0xff2F674D)),
           ),
           leading: Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new,
+              icon: const Icon(
+                Icons.arrow_back_ios_new,
                 color: Colors.white,
-                size: 30,),
+                size: 30,
+              ),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -39,13 +43,15 @@ class CalcZakat extends StatelessWidget {
             padding: const EdgeInsets.only(top: 38.0),
             child: Row(
               children: [
-                SizedBox(width: 8,),
-                Text("حاسبة الزكاة",
-                  style:GoogleFonts.manrope(
+                SizedBox(width: 8),
+                Text(
+                  "حاسبة الزكاة",
+                  style: GoogleFonts.manrope(
                     fontSize: 26,
                     fontWeight: FontWeight.w700, // SemiBold
-                    color:  Colors.white,
-                  ) ,),
+                    color: Colors.white,
+                  ),
+                ),
               ],
             ),
           ),
@@ -60,21 +66,22 @@ class CalcZakat extends StatelessWidget {
 
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 8),
-                  child: Text("خدماتنا",
-                    style:GoogleFonts.manrope(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                    vertical: 8,
+                  ),
+                  child: Text(
+                    "خدماتنا",
+                    style: GoogleFonts.manrope(
                       fontSize: 28,
                       fontWeight: FontWeight.w900, // SemiBold
-                    ) ,
+                    ),
                   ),
                 ),
-                SizedBox(height: 22,),
+                SizedBox(height: 22),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      Routes.zakatMoney,
-                    );
+                    Navigator.pushNamed(context, Routes.zakatMoney);
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -92,7 +99,6 @@ class CalcZakat extends StatelessWidget {
                           offset: Offset(0, 6),
                         ),
                       ],
-
                     ),
                     child: Row(
                       children: [
@@ -122,13 +128,10 @@ class CalcZakat extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 42,),
+                SizedBox(height: 42),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      Routes.zakatGold,
-                    );
+                    Navigator.pushNamed(context, Routes.zakatGold);
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -146,7 +149,6 @@ class CalcZakat extends StatelessWidget {
                           offset: Offset(0, 6),
                         ),
                       ],
-
                     ),
                     child: Row(
                       children: [
@@ -176,14 +178,10 @@ class CalcZakat extends StatelessWidget {
                   ),
                 ),
 
-
-                SizedBox(height: 42,),
+                SizedBox(height: 42),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      Routes.zakatSliver,
-                    );
+                    Navigator.pushNamed(context, Routes.zakatSliver);
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -201,7 +199,6 @@ class CalcZakat extends StatelessWidget {
                           offset: Offset(0, 6),
                         ),
                       ],
-
                     ),
                     child: Row(
                       children: [
@@ -230,9 +227,7 @@ class CalcZakat extends StatelessWidget {
                     ),
                   ),
                 ),
-
               ],
-
             ),
           ),
         ),

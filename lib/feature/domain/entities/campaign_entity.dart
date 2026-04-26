@@ -23,7 +23,6 @@ class CampaignEntity {
     required this.allValue,
     required this.startDate,
     required this.endDate,
-
   });
 
   CampaignEntity copyWith({
@@ -38,7 +37,6 @@ class CampaignEntity {
     String? allValue,
     DateTime? startDate,
     DateTime? endDate,
-
   }) {
     return CampaignEntity(
       id: id ?? this.id,

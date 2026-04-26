@@ -90,7 +90,7 @@ class _AskScreenState extends State<AskScreen> {
             ],
           ),
 
-        Positioned(
+          Positioned(
             left: 0,
             child: InkWell(
               onTap: () {
@@ -99,7 +99,6 @@ class _AskScreenState extends State<AskScreen> {
               child: Image.asset("assets/images/x.png", height: h * 0.03),
             ),
           ),
-
 
           Positioned(
             right: w * 0.1,

@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -70,9 +68,11 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16),
                             child: Image(
-                              image: image.startsWith('/') || image.contains('cache')
-                                  ? FileImage(File(image))
-                                  : AssetImage(image) as ImageProvider,
+                              image:
+                                  image.startsWith('/') ||
+                                          image.contains('cache')
+                                      ? FileImage(File(image))
+                                      : AssetImage(image) as ImageProvider,
                               fit: BoxFit.fill,
                               height: 198,
                               width: double.infinity,
@@ -85,7 +85,10 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                     Align(
                       alignment: Alignment.topRight,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8,horizontal:  28.0),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 28.0,
+                        ),
                         child: Text(
                           title,
                           style: GoogleFonts.cairo(
@@ -103,7 +106,10 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 28),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 28,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -131,11 +137,13 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                               ],
                             ),
 
-
                             Align(
                               alignment: Alignment.topRight,
                               child: Padding(
-                                padding: const EdgeInsets.only(bottom:8,right:  8.0),
+                                padding: const EdgeInsets.only(
+                                  bottom: 8,
+                                  right: 8.0,
+                                ),
                                 child: Text(
                                   title,
                                   style: GoogleFonts.cairo(
@@ -146,7 +154,6 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                                 ),
                               ),
                             ),
-
 
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
@@ -199,7 +206,6 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                                     ),
                                   ],
                                 ),
-
                               ],
                             ),
                           ],
@@ -244,7 +250,10 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0,
+                        vertical: 8,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -260,23 +269,31 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 18),
-                      child: WeeklyChart(title: "نمو التبرعات",),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                        horizontal: 18,
+                      ),
+                      child: WeeklyChart(title: "نمو التبرعات"),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18.0,
+                        vertical: 8,
+                      ),
                       child: Row(
                         children: [
-                          Text("آخر التبرعات",
+                          Text(
+                            "آخر التبرعات",
                             style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w800
-                            ),),
+                              fontSize: 22,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all( 18.0),
+                      padding: const EdgeInsets.all(18.0),
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         margin: EdgeInsets.symmetric(vertical: 18),
@@ -306,13 +323,18 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                               ),
                               title: const Text(
                                 "محمد أحمد",
-                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
-                              ),
-                              subtitle: const Text("منذ 5 دقائق",
                                 style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400
-                                ),),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              subtitle: const Text(
+                                "منذ 5 دقائق",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                               trailing: const Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -320,9 +342,9 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                                   Text(
                                     "500 ج.م",
                                     style: TextStyle(
-                                        color: Color(0xff255A41),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16
+                                      color: Color(0xff255A41),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
                                     ),
                                   ),
                                 ],
@@ -341,19 +363,17 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
       ),
     );
   }
+
   int getRemainingDays() {
     final now = DateTime.now();
     final difference = widget.campaignData.endDate.difference(now).inDays;
 
     return difference < 0 ? 0 : difference;
   }
-  Widget _buildDateBox({
-    required String title,
-    required DateTime? date,
-  }) {
-    String formattedDate = date == null
-        ? "--/--/----"
-        : "${date.day}/${date.month}/${date.year}";
+
+  Widget _buildDateBox({required String title, required DateTime? date}) {
+    String formattedDate =
+        date == null ? "--/--/----" : "${date.day}/${date.month}/${date.year}";
 
     return Column(
       children: [
@@ -393,4 +413,3 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
     );
   }
 }
-

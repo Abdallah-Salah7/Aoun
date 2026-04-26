@@ -95,7 +95,10 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                   Align(
                     alignment: Alignment.topRight,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18.0,
+                        vertical: 8,
+                      ),
                       child: Text(
                         title,
                         style: GoogleFonts.cairo(
@@ -232,10 +235,11 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => BlocProvider.value(
-                            value: context.read<CaseCubit>(),
-                            child: CharityProfileScreen(),
-                          ),
+                          builder:
+                              (_) => BlocProvider.value(
+                                value: context.read<CaseCubit>(),
+                                child: CharityProfileScreen(),
+                              ),
                         ),
                       );
                     },
@@ -354,13 +358,29 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
       ),
     );
   }
+
   Widget buildCaseImage(String image) {
     if (image.startsWith('http')) {
-      return Image.network(image, fit: BoxFit.cover, width: double.infinity, height: 292);
+      return Image.network(
+        image,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 292,
+      );
     } else if (image.startsWith('/') || image.contains('file://')) {
-      return Image.file(File(image), fit: BoxFit.cover, width: double.infinity, height: 292);
+      return Image.file(
+        File(image),
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 292,
+      );
     } else {
-      return Image.asset(image, fit: BoxFit.cover, width: double.infinity, height: 292);
+      return Image.asset(
+        image,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 292,
+      );
     }
   }
 }

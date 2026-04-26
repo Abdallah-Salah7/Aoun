@@ -187,10 +187,11 @@ class MainTab extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => BlocProvider.value(
-                                    value: context.read<CampaignCubit>(),
-                                    child: CurrentCampaignsScreen(),
-                                  ),
+                                  builder:
+                                      (_) => BlocProvider.value(
+                                        value: context.read<CampaignCubit>(),
+                                        child: CurrentCampaignsScreen(),
+                                      ),
                                 ),
                               );
                             },
@@ -216,8 +217,10 @@ class MainTab extends StatelessWidget {
                                 final campaign = campaigns[index];
 
                                 return Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                                  child:CradlesItem(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                  ),
+                                  child: CradlesItem(
                                     image: campaign.image,
                                     title: campaign.title,
                                     description: campaign.description,

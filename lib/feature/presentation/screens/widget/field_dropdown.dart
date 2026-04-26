@@ -5,7 +5,6 @@ class FieldDropdown extends StatefulWidget {
   const FieldDropdown({super.key, required this.onChanged});
   @override
   _FieldDropdownState createState() => _FieldDropdownState();
-
 }
 
 class _FieldDropdownState extends State<FieldDropdown> {
@@ -14,11 +13,10 @@ class _FieldDropdownState extends State<FieldDropdown> {
     'الإغاثة',
     'التعليم',
     'كفالات',
-    'مشاريع بناء'
+    'مشاريع بناء',
   ];
 
   String? selectedCategory;
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,18 +55,19 @@ class _FieldDropdownState extends State<FieldDropdown> {
             ),
             dropdownColor: Colors.white,
             elevation: 8,
-            items: categories.map((String category) {
-              return DropdownMenuItem<String>(
-                value: category,
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    category,
-                    style: TextStyle(fontSize: 16, color: Colors.black87),
-                  ),
-                ),
-              );
-            }).toList(),
+            items:
+                categories.map((String category) {
+                  return DropdownMenuItem<String>(
+                    value: category,
+                    child: Container(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        category,
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
+                      ),
+                    ),
+                  );
+                }).toList(),
             onChanged: (String? newValue) {
               setState(() {
                 selectedCategory = newValue;

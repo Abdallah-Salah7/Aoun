@@ -23,8 +23,7 @@ class CaseItem extends StatelessWidget {
     required this.status,
   });
 
-  bool get isFileImage =>
-      image.startsWith('/') || image.startsWith('file://');
+  bool get isFileImage => image.startsWith('/') || image.startsWith('file://');
 
   @override
   Widget build(BuildContext context) {
@@ -54,26 +53,26 @@ class CaseItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Stack(
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(15),
                     ),
-                    child: isFileImage
-                        ? Image.file(
-                      File(image),
-                      width: double.infinity,
-                      height: 180,
-                      fit: BoxFit.fill,
-                    )
-                        : Image.asset(
-                      image,
-                      width: double.infinity,
-                      height: 180,
-                      fit: BoxFit.cover,
-                    ),
+                    child:
+                        isFileImage
+                            ? Image.file(
+                              File(image),
+                              width: double.infinity,
+                              height: 180,
+                              fit: BoxFit.fill,
+                            )
+                            : Image.asset(
+                              image,
+                              width: double.infinity,
+                              height: 180,
+                              fit: BoxFit.cover,
+                            ),
                   ),
 
                   if (status == "عاجلة جداً" || status == "مكتملة")
@@ -82,22 +81,26 @@ class CaseItem extends StatelessWidget {
                       right: 10,
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 8),
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
                         decoration: BoxDecoration(
-                          color: status == "مكتملة"
-                              ? const Color(0xff287A54)
-                              : Colors.red,
+                          color:
+                              status == "مكتملة"
+                                  ? const Color(0xff287A54)
+                                  : Colors.red,
                           borderRadius: BorderRadius.circular(45),
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.access_time,
-                                color: Colors.white, size: 18),
+                            const Icon(
+                              Icons.access_time,
+                              color: Colors.white,
+                              size: 18,
+                            ),
                             const SizedBox(width: 4),
                             Text(
-                              status == "مكتملة"
-                                  ? "مكتملة"
-                                  : "عاجلة",
+                              status == "مكتملة" ? "مكتملة" : "عاجلة",
                               style: GoogleFonts.manrope(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -149,103 +152,99 @@ class CaseItem extends StatelessWidget {
 
               status == "مكتملة"
                   ? Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 18.0),
-                child: Text(
-                  "تم جمع 100%",
-                  style: GoogleFonts.manrope(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xff757575),
-                  ),
-                ),
-              )
-                  : Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 18.0),
-                child: Row(
-                  children: [
-                    Text(
-                      "تم جمع $collectedValue ج.م",
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Text(
+                      "تم جمع 100%",
                       style: GoogleFonts.manrope(
                         fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xff255A41),
-                      ),
-                    ),
-                    const Spacer(),
-                    Text(
-                      "من $allValue",
-                      style: GoogleFonts.manrope(
-                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xff757575),
                       ),
                     ),
-                  ],
-                ),
-              ),
+                  )
+                  : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          "تم جمع $collectedValue ج.م",
+                          style: GoogleFonts.manrope(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xff255A41),
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          "من $allValue",
+                          style: GoogleFonts.manrope(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xff757575),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
 
               const SizedBox(height: 10),
 
               Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: status == "مكتملة"
-                    ? Container(
-                  width: double.infinity,
-                  padding:
-                  const EdgeInsets.symmetric(vertical: 12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xff8FAF9A),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "اكتملت",
-                        style: GoogleFonts.manrope(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                child:
+                    status == "مكتملة"
+                        ? Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            color: const Color(0xff8FAF9A),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "اكتملت",
+                                style: GoogleFonts.manrope(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              const Icon(
+                                Icons.check_circle_outline,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
+                        )
+                        : SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff2F674D),
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.paymentScreen,
+                              );
+                            },
+                            child: Text(
+                              "تبرع الآن",
+                              style: GoogleFonts.manrope(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 6),
-                      const Icon(Icons.check_circle_outline,
-                          color: Colors.white),
-                    ],
-                  ),
-                )
-                    : SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                      const Color(0xff2F674D),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(20),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        Routes.paymentScreen,
-                      );
-                    },
-                    child: Text(
-                      "تبرع الآن",
-                      style: GoogleFonts.manrope(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
               ),
             ],
           ),

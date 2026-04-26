@@ -18,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              _buildHeader(h, w,context),
+              _buildHeader(h, w, context),
               SizedBox(height: h * 0.02),
 
               _buildBotMessage(w),
@@ -35,7 +35,7 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(double h, double w,BuildContext context) {
+  Widget _buildHeader(double h, double w, BuildContext context) {
     return Container(
       height: h * 0.12,
       width: double.infinity,
@@ -75,7 +75,6 @@ class WelcomeScreen extends StatelessWidget {
               child: Image.asset("assets/images/x.png", height: h * 0.03),
             ),
           ),
-
 
           // right icon
           Positioned(
@@ -189,7 +188,11 @@ class SuggestionsSection extends StatelessWidget {
           ...suggestions.map(
             (item) => InkWell(
               onTap: () {
-                Navigator.pushNamed(context, Routes.chatbotAskScreen,arguments: item["text"]as String);
+                Navigator.pushNamed(
+                  context,
+                  Routes.chatbotAskScreen,
+                  arguments: item["text"] as String,
+                );
               },
               child: Container(
                 margin: const EdgeInsets.only(bottom: 10),

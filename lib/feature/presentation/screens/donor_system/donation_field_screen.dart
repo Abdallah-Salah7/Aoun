@@ -14,8 +14,7 @@ class DonationFieldScreen extends StatefulWidget {
   const DonationFieldScreen({super.key, required this.fieldName});
 
   @override
-  State<DonationFieldScreen> createState() =>
-      _DonationFieldScreenState();
+  State<DonationFieldScreen> createState() => _DonationFieldScreenState();
 }
 
 class _DonationFieldScreenState extends State<DonationFieldScreen> {
@@ -24,13 +23,13 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
 
   List<CaseEntity> _applyFilter(List<CaseEntity> cases) {
     return cases.where((c) {
-      final matchFilter = selectedFilter == "الكل"
-          ? c.status != "مكتملة"
-          : c.status == selectedFilter;
+      final matchFilter =
+          selectedFilter == "الكل"
+              ? c.status != "مكتملة"
+              : c.status == selectedFilter;
 
       final matchSearch =
-          c.title.contains(searchText) ||
-              c.description.contains(searchText);
+          c.title.contains(searchText) || c.description.contains(searchText);
 
       return matchFilter && matchSearch;
     }).toList();
@@ -56,8 +55,11 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
           leading: Padding(
             padding: const EdgeInsets.only(bottom: 38.0),
             child: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new,
-                  color: Colors.white, size: 40),
+              icon: const Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.white,
+                size: 40,
+              ),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -86,15 +88,15 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
               return const Center(child: CircularProgressIndicator());
             }
 
-            final categoryCases =
-            context.read<CaseCubit>().getCasesByCategory(widget.fieldName);
+            final categoryCases = context.read<CaseCubit>().getCasesByCategory(
+              widget.fieldName,
+            );
 
             final filteredCases = _applyFilter(categoryCases);
             return ListView(
               children: [
                 Column(
                   children: [
-
                     Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: Container(
@@ -150,8 +152,7 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           buildFilterButton("الكل"),
                           buildFilterButton("عاجلة جداً"),
@@ -164,8 +165,7 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
 
                     ListView.builder(
                       shrinkWrap: true,
-                      physics:
-                      const NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: filteredCases.length,
                       itemBuilder: (context, index) {
                         final c = filteredCases[index];
@@ -201,12 +201,9 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
         });
       },
       child: Container(
-        padding:
-        const EdgeInsets.symmetric(horizontal: 34, vertical: 13),
+        padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 13),
         decoration: BoxDecoration(
-          color: isSelected
-              ? const Color(0xff2F674D)
-              : Colors.white,
+          color: isSelected ? const Color(0xff2F674D) : Colors.white,
           borderRadius: BorderRadius.circular(15),
         ),
         child: Text(
@@ -214,8 +211,7 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
           style: GoogleFonts.manrope(
             fontSize: 20,
             fontWeight: FontWeight.w600,
-            color:
-            isSelected ? Colors.white : Colors.black,
+            color: isSelected ? Colors.white : Colors.black,
           ),
         ),
       ),
@@ -224,23 +220,23 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
 
   Widget _infoRow(String title, String value) {
     return Container(
-      margin: const EdgeInsets.symmetric(
-          horizontal: 18, vertical: 8),
-      padding: const EdgeInsets.symmetric(
-          horizontal: 18, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
       decoration: BoxDecoration(
         color: const Color(0xFF8FAF9A),
         borderRadius: BorderRadius.circular(45),
       ),
       child: Row(
         children: [
-          Text(title,
-              style: GoogleFonts.manrope(
-                  color: const Color(0xff287A54))),
+          Text(
+            title,
+            style: GoogleFonts.manrope(color: const Color(0xff287A54)),
+          ),
           const Spacer(),
-          Text(value,
-              style: GoogleFonts.manrope(
-                  color: const Color(0xff287A54))),
+          Text(
+            value,
+            style: GoogleFonts.manrope(color: const Color(0xff287A54)),
+          ),
         ],
       ),
     );
