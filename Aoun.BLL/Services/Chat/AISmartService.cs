@@ -6,6 +6,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using Aoun.BLL.DTOs.ChatAI;
 
+
 namespace Aoun.BLL.Services.Chat;
 
 public class AISmartService
@@ -84,7 +85,7 @@ public class AISmartService
         var userDonations = await _db.Donations
             .AsNoTracking()
             .Include(d => d.Case)
-            .Where(d => d.DonorId == userId && !d.IsDeleted && d.Case != null)
+            .Where(d => d.UserId.ToString() == userId && !d.IsDeleted && d.Case != null) // تغيير DonorId إلى UserId
             .ToListAsync();
 
         if (!userDonations.Any())
@@ -102,11 +103,11 @@ public class AISmartService
         var favoriteCategory = userDonations
             .GroupBy(d => d.Case!.Category)
             .OrderByDescending(g => g.Count())
-            .Select(g => g.Key)
+            .Select(g => g.Key.Name)  // تأكد من أنك تأخذ اسم الفئة أو الخاصية المناسبة
             .FirstOrDefault() ?? "General";
 
         var recommended = await _db.Cases.AsNoTracking()
-            .Where(c => !c.IsDeleted && c.Category == favoriteCategory)
+            .Where(c => !c.IsDeleted && c.Category.Name == favoriteCategory) // تعديل هنا لاستخدام اسم الفئة
             .Take(3)
             .Select(c => c.Title)
             .ToListAsync();

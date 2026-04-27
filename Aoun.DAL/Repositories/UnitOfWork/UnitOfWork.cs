@@ -1,7 +1,6 @@
-
 using Aoun.DAL.Data;
-using Aoun.DAL.Repositories.CaseRepo;
 using Aoun.DAL.Repositories.Generic;
+using Aoun.DAL.Repositories.Case;
 using System.Threading.Tasks;
 
 namespace Aoun.DAL.Repositories.UnitOfWork;
@@ -12,7 +11,6 @@ public class UnitOfWork : IUnitOfWork {
 
     public UnitOfWork(ApplicationDbContext context) {
         _context = context;
-        // تعريف الـ Repository المخصص
         Cases = new CaseRepository(_context);
     }
 

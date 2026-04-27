@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Aoun.DAL.Entities.User
+namespace Aoun.DAL.Entities
 {
     public class UserFavorite
     {
