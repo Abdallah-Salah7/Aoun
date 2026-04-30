@@ -1,117 +1,132 @@
-using Aoun.DAL.Data;
-using Aoun.DAL.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
-using Aoun.BLL.DTOs.ChatAI;
 
-
-namespace Aoun.BLL.Services.Chat;
-
-public class AISmartService
+namespace Aoun.BLL.Services.Chat
 {
-    private readonly HttpClient _httpClient;
-    private readonly GeminiSettings _settings;
-    private readonly ApplicationDbContext _db;
-
-    public AISmartService(HttpClient httpClient, IOptions<GeminiSettings> settings, ApplicationDbContext db)
+    public class AISmartService
     {
-        _httpClient = httpClient;
-        _settings = settings.Value;
-        _db = db;
-    }
+        private readonly HttpClient _http;
+        private readonly string _apiKey;
 
-    public async Task<string> ChatWithAounAsync(string userMessage, string userName, string userRole)
-    {
-        var cases = await _db.Cases
-            .AsNoTracking()
-            .Where(c => !c.IsDeleted && c.Status != CaseStatus.Rejected)
-            .OrderByDescending(c => c.Status == CaseStatus.Urgent)
-            .ThenByDescending(c => c.Id)
-            .Take(3)
-            .ToListAsync();
+        // متغير سحري سيحفظ اسم الموديل الشغال أياً كان اسمه!
+        private string _workingModelName = string.Empty;
 
-        var casesContext = string.Join("\n", cases.Select(c => $"- {c.Title}: {c.Description}"));
-        var identity = userRole == "Charity" ? "Charity Organization" : "Donor";
-        var fallback = $"Welcome {userName} ({identity}).\n\nSuggested Cases:\n{casesContext}\n\nAsk me anything to help you donate or choose the right case.";
-
-        if (string.IsNullOrWhiteSpace(_settings.ApiKey)) return fallback;
-
-        var systemPrompt = $"You are Aoun, a smart assistant. You are talking to {userName} who is a {identity}. Available cases:\n{casesContext}";
-        var url = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={_settings.ApiKey}";
-        var payload = new
+        public AISmartService(HttpClient http, IConfiguration config)
         {
-            contents = new[]
+            _http = http;
+            _apiKey = "REDACTED_GEMINI_KEY_2";
+        }
+
+        private async Task<string> AskGeminiAsync(string prompt)
+        {
+            // =================================================================
+            // 1. السحر الهندسي: الاستكشاف التلقائي (Auto-Discovery)
+            // =================================================================
+            if (string.IsNullOrEmpty(_workingModelName))
             {
-                new
+                string listModelsUrl = $"https://generativelanguage.googleapis.com/v1beta/models?key={_apiKey}";
+                var listResponse = await _http.GetAsync(listModelsUrl);
+
+                if (!listResponse.IsSuccessStatusCode)
+                    throw new Exception("فشل الاتصال بجوجل لجلب النماذج!");
+
+                var listJson = await listResponse.Content.ReadFromJsonAsync<JsonElement>();
+
+                // البحث في قائمة جوجل عن أول موديل جيميناي صالح للمحادثة
+                foreach (var model in listJson.GetProperty("models").EnumerateArray())
                 {
-                    parts = new[]
+                    var name = model.GetProperty("name").GetString();
+                    var methods = model.GetProperty("supportedGenerationMethods").EnumerateArray().Select(m => m.GetString()).ToList();
+
+                    if (methods.Contains("generateContent") && name != null && name.StartsWith("models/gemini"))
                     {
-                        new { text = systemPrompt + "\n\nسؤال المستخدم: " + userMessage }
+                        _workingModelName = name; // التقطنا الموديل الشغال (مثلاً: models/gemini-1.0-pro)
+                        Console.WriteLine($"✅ Auto-Discovered Working Model: {_workingModelName}");
+                        break;
                     }
                 }
+
+                if (string.IsNullOrEmpty(_workingModelName))
+                    throw new Exception("مفتاحك لا يملك صلاحية لأي نموذج من نماذج جيميناي!");
             }
-        };
 
-        try
-        {
-            var response = await _httpClient.PostAsJsonAsync(url, payload);
-            response.EnsureSuccessStatusCode();
+            // =================================================================
+            // 2. إرسال الطلب للموديل الذي اكتشفناه تلقائياً
+            // =================================================================
+            string requestUrl = $"https://generativelanguage.googleapis.com/v1beta/{_workingModelName}:generateContent?key={_apiKey}";
 
-            var json = await response.Content.ReadFromJsonAsync<JsonElement>();
-            return json.GetProperty("candidates")[0].GetProperty("content").GetProperty("parts")[0].GetProperty("text").GetString() ?? fallback;
-        }
-        catch
-        {
-            return fallback;
-        }
-    }
+            var requestBody = new
+            {
+                contents = new[] { new { parts = new[] { new { text = prompt } } } }
+            };
 
-    public async Task<string> GetRecommendedCasesAsync(string? userId = null)
-    {
-        if (string.IsNullOrWhiteSpace(userId))
-        {
-            var urgent = await _db.Cases.AsNoTracking()
-                .Where(c => !c.IsDeleted && c.Status == CaseStatus.Urgent)
-                .OrderByDescending(c => c.CollectedAmount / (c.RequiredAmount == 0 ? 1 : c.RequiredAmount))
-                .Take(3)
-                .Select(c => c.Title)
-                .ToListAsync();
+            string jsonBody = JsonSerializer.Serialize(requestBody);
+            var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
 
-            return string.Join(", ", urgent);
-        }
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl) { Content = content };
+            var response = await _http.SendAsync(request);
 
-        var userDonations = await _db.Donations
-            .AsNoTracking()
-            .Include(d => d.Case)
-            .Where(d => d.UserId.ToString() == userId && !d.IsDeleted && d.Case != null) // تغيير DonorId إلى UserId
-            .ToListAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorDetails = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Google API Error: {errorDetails}");
+            }
 
-        if (!userDonations.Any())
-        {
-            var general = await _db.Cases.AsNoTracking()
-                .Where(c => !c.IsDeleted)
-                .OrderByDescending(c => c.Status == CaseStatus.Urgent)
-                .Take(3)
-                .Select(c => c.Title)
-                .ToListAsync();
-
-            return string.Join(", ", general);
+            var jsonResponse = await response.Content.ReadFromJsonAsync<JsonElement>();
+            return jsonResponse.GetProperty("candidates")[0]
+                               .GetProperty("content")
+                               .GetProperty("parts")[0]
+                               .GetProperty("text").GetString() ?? "";
         }
 
-        var favoriteCategory = userDonations
-            .GroupBy(d => d.Case!.Category)
-            .OrderByDescending(g => g.Count())
-            .Select(g => g.Key.Name)  // تأكد من أنك تأخذ اسم الفئة أو الخاصية المناسبة
-            .FirstOrDefault() ?? "General";
+        // ==========================================
+        // 1. Recommendation System 
+        // ==========================================
+        public async Task<string> GetRecommendationsAsync(string userHistory, string availableCases)
+        {
+            string prompt = $@"
+                أنت خبير في التوصيات الخيرية في منصة 'عون'. 
+                إليك تاريخ تبرعات المستخدم وتفضيلاته: {userHistory}
+                وإليك قائمة الحالات المتاحة حالياً للتبرع: {availableCases}
+                بناءً على هذه البيانات، اختر أفضل 3 حالات تناسب هذا المستخدم، واذكر اسم الحالة ولماذا رشحتها له في رد قصير ومحفز باللغة العربية.
+            ";
+            return await AskGeminiAsync(prompt);
+        }
 
-        var recommended = await _db.Cases.AsNoTracking()
-            .Where(c => !c.IsDeleted && c.Category.Name == favoriteCategory) // تعديل هنا لاستخدام اسم الفئة
-            .Take(3)
-            .Select(c => c.Title)
-            .ToListAsync();
+        // ==========================================
+        // 2. RAG Chatbot 
+        // ==========================================
+        public async Task<string> ChatWithRAGAsync(string userQuestion, string dbContext)
+        {
+            string prompt = $@"
+                أنت مساعد ذكي ولطيف اسمك 'عون' تعمل في منصة خيرية مصرية.
+                مهمتك هي الإجابة على أسئلة المستخدمين بخصوص الزكاة، الصدقات، وحالات المنصة.
+                
+                التعليمات:
+                - لا تخترع معلومات غير موجودة.
+                - استخدم المعلومات التالية المستخرجة من قاعدة البيانات للإجابة:
+                {dbContext}
+                - كن إيجابياً ومحفزاً للخير.
+                
+                سؤال المستخدم: {userQuestion}
+            ";
+            return await AskGeminiAsync(prompt);
+        }
 
-        return string.Join(", ", recommended);
+        // ==========================================
+        // 3. AI Description Generator 
+        // ==========================================
+        public async Task<string> GenerateCaseDescriptionAsync(string title, string category, decimal requiredAmount)
+        {
+            string prompt = $@"
+                أنت كاتب محتوى إنساني محترف تعمل في مؤسسة خيرية.
+                اكتب وصفاً مؤثراً، احترافياً، وغير مبالغ فيه لحالة خيرية تحتاج للتبرع باللغة العربية.
+                بيانات الحالة: العنوان: {title} | التصنيف: {category} | المبلغ المطلوب: {requiredAmount} جنيه مصري
+                اجعل الوصف في حدود 3 إلى 4 أسطر، واختمه بدعوة لطيفة للتبرع.
+            ";
+            return await AskGeminiAsync(prompt);
+        }
     }
 }

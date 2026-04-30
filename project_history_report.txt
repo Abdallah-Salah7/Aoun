@@ -1,0 +1,23 @@
+a805177 HEAD@{2026-04-30 00:56:00 +0300}: reset: moving to a805177
+7880647 HEAD@{2026-04-30 00:52:19 +0300}: reset: moving to 7880647
+ef5cc6a HEAD@{2026-04-30 00:49:18 +0300}: reset: moving to HEAD
+ef5cc6a HEAD@{2026-04-30 00:33:01 +0300}: reset: moving to ef5cc6a6902e7a3b6d143637aca1eeff5bb7184e
+ef5cc6a HEAD@{2026-04-30 00:21:39 +0300}: checkout: moving from Full to Full-Featured-Final-Version
+7880647 HEAD@{2026-04-30 00:21:39 +0300}: reset: moving to HEAD
+7880647 HEAD@{2026-04-28 02:29:29 +0300}: commit: Full
+ef5cc6a HEAD@{2026-04-28 02:29:14 +0300}: checkout: moving from master to Full
+ef5cc6a HEAD@{2026-04-25 01:12:08 +0300}: commit: final
+a805177 HEAD@{2026-04-23 02:22:37 +0200}: pull --tags origin master: Fast-forward
+0adb4ab HEAD@{2026-04-23 01:56:03 +0200}: checkout: moving from master to master
+0adb4ab HEAD@{2026-04-22 23:28:08 +0200}: checkout: moving from Final to master
+eeb8def HEAD@{2026-04-22 23:28:02 +0200}: checkout: moving from master to Final
+0adb4ab HEAD@{2026-04-22 22:57:40 +0200}: checkout: moving from master to master
+0adb4ab HEAD@{2026-04-22 04:41:51 +0200}: pull --progress --no-edit --no-stat --recurse-submodules=no origin: Fast-forward
+9eecf9b HEAD@{2026-04-22 04:41:39 +0200}: checkout: moving from Final to master
+eeb8def HEAD@{2026-04-22 04:39:47 +0200}: commit: final version
+9eecf9b HEAD@{2026-04-22 04:23:44 +0200}: checkout: moving from master to Final
+9eecf9b HEAD@{2026-04-22 03:25:57 +0200}: commit: Final
+6182ef4 HEAD@{2026-04-22 02:25:01 +0200}: commit: final
+e81b644 HEAD@{2026-04-22 01:38:14 +0200}: commit: Abdallah's Edit
+779ea00 HEAD@{2026-04-18 23:18:55 +0200}: commit: Add project files.
+1cfcb98 HEAD@{2026-04-18 23:18:51 +0200}: commit (initial): Add .gitattributes and .gitignore.
