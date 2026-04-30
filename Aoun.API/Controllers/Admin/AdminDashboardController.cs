@@ -3,14 +3,14 @@ using Aoun.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-// 🔥 الحل السحري لتجنب تضارب اسم الكلاس مع اسم المجلد (Namespace Collision)
+// 🔥 هنا عرفنا الاسم المستعار
 using CharityEntity = Aoun.DAL.Entities.Charity.Charity;
 
 namespace Aoun.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize] // حماية لوحة التحكم
+    [Authorize]
     public class AdminDashboardController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -32,7 +32,7 @@ namespace Aoun.API.Controllers
                 var totalDonations = await _context.Donations.SumAsync(d => (decimal?)d.Amount) ?? 0;
                 var activeCases = await _context.Cases.CountAsync(c => c.CollectedAmount < c.RequiredAmount);
 
-                // ✅ استخدمنا CharityEntity لضمان عدم حدوث خطأ الـ Namespace
+                // ✅ تم التغيير لـ CharityEntity
                 var totalCharities = await _context.Set<CharityEntity>().CountAsync();
 
                 var recentDonations = await _context.Donations
@@ -78,14 +78,14 @@ namespace Aoun.API.Controllers
         [HttpGet("charities")]
         public async Task<IActionResult> GetCharities()
         {
-            // ✅ استخدمنا CharityEntity هنا أيضاً لجلب البيانات من جدول الجمعيات مباشرة
+            // ✅ تم التغيير لـ CharityEntity
             var charities = await _context.Set<CharityEntity>()
                 .Select(c => new
                 {
                     Id = c.Id,
                     Name = c.Name,
-                    RegistrationNumber = c.LicenseNumber, // جلب رقم الترخيص الفعلي
-                    Status = c.IsApproved ? "Approved" : "Pending" // تحويل حالة البولين لنص مقروء
+                    RegistrationNumber = c.LicenseNumber,
+                    Status = c.IsApproved ? "Approved" : "Pending"
                 })
                 .ToListAsync();
 
@@ -97,25 +97,22 @@ namespace Aoun.API.Controllers
         [HttpPut("charities/{id}/status")]
         public async Task<IActionResult> UpdateCharityStatus(int id, [FromBody] StatusDto dto)
         {
+            // ✅ تم التغيير لـ CharityEntity
             var charity = await _context.Set<CharityEntity>().FindAsync(id);
             if (charity == null) return NotFound(new { message = "الجمعية غير موجودة" });
 
-            // تغيير حالة الموافقة بناءً على ما يرسله الفرونت إند
             charity.IsApproved = (dto.Status == "Approved");
             await _context.SaveChangesAsync();
 
             return Ok(new { success = true, message = "تم التحديث بنجاح" });
         }
 
-        // ==========================================
-        // 4. إضافة مدير جديد
-        // ==========================================
-        public class AddAdminDto { public string Email { get; set; } public string Password { get; set; } public string FullName { get; set; } }
-
         [HttpPost("add-admin")]
         public IActionResult AddAdmin([FromBody] AddAdminDto dto)
         {
             return Ok(new { success = true, message = "تمت محاكاة إضافة الأدمن بنجاح" });
         }
+
+        public class AddAdminDto { public string Email { get; set; } public string Password { get; set; } public string FullName { get; set; } }
     }
 }

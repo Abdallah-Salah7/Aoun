@@ -1,46 +1,30 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
-import Dashboard from './pages/Dashboard';
-import Charities from './pages/Charities';
+import { useState } from 'react';
 import Login from './pages/Login';
-import Cases from './pages/Cases';
+import DashboardLayout from './layouts/DashboardLayout';
+import MainStats from './pages/MainStats';
+import UsersManagement from './pages/UsersManagement';
+import CharitiesManagement from './pages/CharitiesManagement';
+import AdminsManagement from './pages/AdminsManagement';
+import CasesManagement from './pages/CasesManagement';
+import AppSettings from './pages/Settings';
 
-const ProtectedRoute = ({ children }) => {
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-        return <Navigate to="/login" replace />;
-    }
-    
-    return children;
-};
-
-export default function App() {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/login" element={<Login />} />
-
-                <Route 
-                    path="/admin/*" 
-                    element={
-                        <ProtectedRoute>
-                            <div className="flex min-h-screen bg-[#0b1120]">
-                                <Sidebar />
-                                <main className="flex-1 p-12 overflow-y-auto w-full">
-                                    <Routes>
-                                        <Route path="/" element={<Dashboard />} />
-                                        <Route path="/charities" element={<Charities />} />
-                                        <Route path="/cases" element={<Cases />} />
-                                    </Routes>
-                                </main>
-                            </div>
-                        </ProtectedRoute>
-                    } 
-                />
-
-                <Route path="*" element={<Navigate to="/admin" replace />} />
-            </Routes>
-        </BrowserRouter>
-    );
+function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('admin_token'));
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={!isAuthenticated ? <Login setAuth={setIsAuthenticated} /> : <Navigate to="/" />} />
+        <Route path="/" element={isAuthenticated ? <DashboardLayout setAuth={setIsAuthenticated} /> : <Navigate to="/login" />}>
+          <Route index element={<MainStats />} />
+          <Route path="users" element={<UsersManagement />} />
+          <Route path="charities" element={<CharitiesManagement />} />
+          <Route path="admins" element={<AdminsManagement />} />
+          <Route path="cases" element={<CasesManagement />} />
+          <Route path="settings" element={<AppSettings />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
+export default App;

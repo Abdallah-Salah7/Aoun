@@ -90,7 +90,7 @@ builder.Services.AddScoped<ICharityService, RealCharityService>();
 builder.Services.AddScoped<IProfileService, RealProfileService>();
 builder.Services.AddScoped<ZakatService>();
 builder.Services.AddHttpClient<MetalPriceService>();
-builder.Services.AddScoped<StripeService>();
+builder.Services.AddScoped<PaymobService>();
 builder.Services.AddScoped<IAdminService, RealAdminService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<CampaignStateService>();
@@ -105,6 +105,7 @@ builder.Services.AddScoped<IFavoritesService, FavoritesService>();
 
 // 6. General API Services
 builder.Services.AddControllers();
+builder.Services.AddHttpClient<Aoun.BLL.Services.Chat.AISmartService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMemoryCache();
 builder.Services.AddCors(options =>
@@ -147,7 +148,13 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Aoun API v1");
+        c.EnablePersistAuthorization(); // 🔥 ميزة حفظ التوكن
+        c.InjectStylesheet("/swagger-theme.css");
+        c.InjectJavascript("/swagger-theme.js");
+    });
     app.UseDeveloperExceptionPage();
 }
 
@@ -191,3 +198,9 @@ using (var scope = app.Services.CreateScope())
 app.Run();
 
 public partial class Program { }
+
+
+
+
+
+

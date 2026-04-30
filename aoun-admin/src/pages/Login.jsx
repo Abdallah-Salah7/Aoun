@@ -1,70 +1,45 @@
 import { useState } from 'react';
-import { ShieldCheck, ArrowRight, Loader2 } from 'lucide-react';
-import api from '../api/axios';
+import axios from 'axios';
 
-export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState("");
+export default function Login({ setAuth }) {
+    const [email, setEmail] = useState('admin@test.com');
+    const [password, setPassword] = useState('Admin123!');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
-        setErrorMsg("");
-        
+        setLoading(true); setError('');
         try {
-            const res = await api.post('/Auth/login', { email, password });
-            localStorage.setItem('token', res.data.token);
-            window.location.href = '/admin';
+            const res = await axios.post('http://localhost:5055/api/Auth/login', { email, password });
+            if (res.data && res.data.token) {
+                localStorage.setItem('admin_token', res.data.token);
+                setAuth(true);
+            }
         } catch (err) {
-            // حل مشكلة ESLint: استخدمنا المتغير err لعرض رسالة خطأ للمستخدم
-            const message = err.response?.data?.message || "Invalid Admin Credentials";
-            setErrorMsg(message);
-        } finally {
-            setIsLoading(false);
-        }
+            setError(err.response?.data?.message || 'بيانات الدخول غير صحيحة');
+        } finally { setLoading(false); }
     };
 
     return (
-        <div className="min-h-screen bg-brand-dark flex items-center justify-center p-6">
-            <div className="glass-card w-full max-w-md p-10 rounded-[2.5rem] border border-white/5 relative">
-                <div className="text-center mb-10">
-                    <div className="inline-flex p-4 bg-brand-accent/10 rounded-3xl text-brand-accent mb-4">
-                        <ShieldCheck size={40}/>
-                    </div>
-                    <h1 className="text-3xl font-black text-white italic tracking-tighter">AOUN SECURITY</h1>
-                    <p className="text-slate-500 mt-2">Access Central Control System</p>
+        <div className="min-h-screen flex items-center justify-center bg-gray-900">
+            <div className="bg-white p-8 rounded-xl shadow-2xl w-96 text-center">
+                <div className="mb-6">
+                    <h2 className="text-3xl font-bold text-teal-600 mb-2">منصة عون</h2>
+                    <p className="text-gray-500 text-sm">لوحة تحكم الإدارة العليا</p>
                 </div>
-
-                {errorMsg && (
-                    <div className="mb-6 p-4 bg-rose-500/10 border border-rose-500/20 rounded-2xl text-rose-500 text-sm font-bold text-center animate-bounce">
-                        {errorMsg}
+                <form onSubmit={handleLogin} className="space-y-4 text-right">
+                    <div>
+                        <label className="block text-sm font-semibold mb-1">البريد الإلكتروني</label>
+                        <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full px-4 py-2 border rounded-lg focus:ring-teal-500 text-left" dir="ltr" required />
                     </div>
-                )}
-
-                <form className="space-y-5" onSubmit={handleLogin}>
-                    <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase ml-2 tracking-widest">Email Address</label>
-                        <input 
-                            type="email" required
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-white focus:border-brand-accent outline-none transition-all"
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
+                    <div>
+                        <label className="block text-sm font-semibold mb-1">كلمة المرور</label>
+                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full px-4 py-2 border rounded-lg focus:ring-teal-500 text-left" dir="ltr" required />
                     </div>
-                    <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase ml-2 tracking-widest">Secret Key</label>
-                        <input 
-                            type="password" required
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-white focus:border-brand-accent outline-none transition-all"
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
-                    <button 
-                        disabled={isLoading}
-                        className="w-full bg-brand-accent hover:bg-sky-400 disabled:opacity-50 text-brand-dark py-4 rounded-2xl font-black flex items-center justify-center gap-2 transition-all mt-4 shadow-xl shadow-brand-accent/20"
-                    >
-                        {isLoading ? <Loader2 className="animate-spin" /> : <>AUTHORIZE ACCESS <ArrowRight size={20}/></>}
+                    {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+                    <button type="submit" disabled={loading} className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-lg transition-colors">
+                        {loading ? 'جاري الدخول...' : 'تسجيل الدخول'}
                     </button>
                 </form>
             </div>
