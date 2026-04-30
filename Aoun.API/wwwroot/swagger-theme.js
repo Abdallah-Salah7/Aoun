@@ -1,31 +1,21 @@
 window.addEventListener('load', function() {
-    // نستخدم setInterval لضمان تحميل عناصر Swagger بالكامل قبل الزرع
-    var checkExist = setInterval(function() {
-        var infoSection = document.querySelector('.swagger-ui .info');
-        if (infoSection && !document.getElementById('theme-toggle')) {
-            clearInterval(checkExist);
-            
-            var btn = document.createElement('button');
-            btn.id = 'theme-toggle';
-            btn.title = 'Toggle Dark/Light Mode';
-            
-            var isDark = localStorage.getItem('swagger-dark') === 'true';
-            btn.innerHTML = isDark ? '☀️' : '🌙';
-            if (isDark) document.body.classList.add('dark-theme');
+    // ----------------------------------------------------
+    // 1. Dark Mode Floating Action Button (FAB)
+    // ----------------------------------------------------
+    var btn = document.createElement('button');
+    btn.id = 'theme-toggle';
+    btn.title = 'Toggle Dark/Light Mode';
+    var isDark = localStorage.getItem('swagger-dark') === 'true';
+    btn.innerHTML = isDark ? '☀️' : '🌙';
+    if (isDark) document.body.classList.add('dark-theme');
 
-            btn.addEventListener('click', function() {
-                document.body.classList.toggle('dark-theme');
-                var darkEnabled = document.body.classList.contains('dark-theme');
-                localStorage.setItem('swagger-dark', darkEnabled);
-                btn.innerHTML = darkEnabled ? '☀️' : '🌙';
-            });
-            
-            // إضافة الزر داخل منطقة الـ Info
-            infoSection.appendChild(btn);
-        }
-    }, 100); // يفحص كل 100 ملي ثانية
-});
-window.addEventListener('load', function() {
+    btn.addEventListener('click', function() {
+        document.body.classList.toggle('dark-theme');
+        var darkEnabled = document.body.classList.contains('dark-theme');
+        localStorage.setItem('swagger-dark', darkEnabled);
+        btn.innerHTML = darkEnabled ? '☀️' : '🌙';
+    });
+    document.body.appendChild(btn);
 
     // ----------------------------------------------------
     // 2. Professional Payment Success/Fail Modal
@@ -101,41 +91,4 @@ window.addEventListener('load', function() {
         style.innerHTML = '@keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }';
         document.head.appendChild(style);
     }
-});
-
-
-window.addEventListener('load', function() {
-    var checkExist = setInterval(function() {
-        var infoSection = document.querySelector('.swagger-ui .info');
-        if (infoSection && !document.getElementById('theme-toggle')) {
-            clearInterval(checkExist);
-
-            var btn = document.createElement('button');
-            btn.id = 'theme-toggle';
-            btn.title = 'Toggle Dark/Light Mode';
-
-            // التحقق من الوضع الداكن عند تحميل الصفحة
-            var isDark = localStorage.getItem('swagger-dark') === 'true';
-            btn.innerHTML = isDark ? '☀️' : '🌙';  // تعيين الأيقونة بناءً على الوضع
-
-            if (isDark) document.body.classList.add('dark-theme');
-
-            btn.addEventListener('click', function() {
-                // التبديل بين الوضعين
-                document.body.classList.toggle('dark-theme');
-                var darkEnabled = document.body.classList.contains('dark-theme');
-                localStorage.setItem('swagger-dark', darkEnabled);
-
-                // تغيير الأيقونة بناءً على الوضع
-                if (darkEnabled) {
-                    btn.innerHTML = '☀️';  // الشمس في الوضع الداكن
-                } else {
-                    btn.innerHTML = '🌙';  // القمر في الوضع الفاتح
-                }
-            });
-
-            // إضافة الزر داخل منطقة الـ Info
-            infoSection.appendChild(btn);
-        }
-    }, 100); // يفحص كل 100 ملي ثانية
 });
