@@ -1,5 +1,4 @@
 using Aoun.BLL.DTOs.Auth;
-using Aoun.BLL.DTOs.Cases;
 using Aoun.BLL.DTOs.ChatAI;
 using Aoun.BLL.DTOs.Zakat;
 using Aoun.BLL.Interfaces;
@@ -15,7 +14,7 @@ public static class ServiceExtensions
     public static void AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<ICaseService, CaseService>();
+        //services.AddScoped<ICaseService, CaseService>();
         services.AddScoped<AISmartService>();
         services.AddScoped<ZakatService>();
     }

@@ -1,17 +1,30 @@
 using Aoun.API.Middleware;
+using Aoun.BLL.Interfaces;
+using Aoun.BLL.Interfaces.Campaign;
+using Aoun.BLL.Interfaces.Donation;
+using Aoun.BLL.Interfaces.Email;
+using Aoun.BLL.Interfaces.Favorite;
+using Aoun.BLL.Services;
 using Aoun.BLL.Services.Admin;
 using Aoun.BLL.Services.Charity;
 using Aoun.BLL.Services.Chat;
+using Aoun.BLL.Services.Email;
 using Aoun.BLL.Services.Profile;
 using Aoun.BLL.Services.Zakat;
 using Aoun.DAL.Data;
 using Aoun.DAL.Repositories.UnitOfWork;
+using Aoun.DAL.Repositories.Donation;
+using Aoun.DAL.Repositories.Favorite;
+using Aoun.DAL.Repositories.Case;
+using Aoun.DAL.Repositories.Campaigns;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 using System.Text;
+using Aoun.DAL.Repositories;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +47,11 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 // 3. JWT Authentication Configuration
 var jwtSecret = builder.Configuration["JwtSettings:Secret"] ?? throw new InvalidOperationException("JWT Secret is missing!");
 
@@ -72,10 +90,22 @@ builder.Services.AddScoped<ICharityService, RealCharityService>();
 builder.Services.AddScoped<IProfileService, RealProfileService>();
 builder.Services.AddScoped<ZakatService>();
 builder.Services.AddHttpClient<MetalPriceService>();
-builder.Services.AddScoped<StripeService>();
+builder.Services.AddScoped<PaymobService>();
+builder.Services.AddScoped<IAdminService, RealAdminService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<CampaignStateService>();
+builder.Services.AddScoped<ICaseService, CaseService>();
+builder.Services.AddScoped<ICaseRepository, CaseRepository>();
+builder.Services.AddScoped<ICampaignService, CampaignService>();
+builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
+builder.Services.AddScoped<IDonationService, DonationService>();
+builder.Services.AddScoped<IDonationRepository, DonationRepository>();
+builder.Services.AddScoped<IFavoritesRepository, FavoritesRepository>();
+builder.Services.AddScoped<IFavoritesService, FavoritesService>();
 
 // 6. General API Services
 builder.Services.AddControllers();
+builder.Services.AddHttpClient<Aoun.BLL.Services.Chat.AISmartService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMemoryCache();
 builder.Services.AddCors(options =>
@@ -118,7 +148,13 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Aoun API v1");
+        c.EnablePersistAuthorization(); // 🔥 ميزة حفظ التوكن
+        c.InjectStylesheet("/swagger-theme.css");
+        c.InjectJavascript("/swagger-theme.js");
+    });
     app.UseDeveloperExceptionPage();
 }
 
@@ -162,3 +198,9 @@ using (var scope = app.Services.CreateScope())
 app.Run();
 
 public partial class Program { }
+
+
+
+
+
+

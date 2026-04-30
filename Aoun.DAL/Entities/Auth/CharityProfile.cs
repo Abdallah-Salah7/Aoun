@@ -9,10 +9,3 @@ public class CharityProfile {
     public string UserId { get; set; } = string.Empty;
     public ApplicationUser? User { get; set; }
 }
-
-
-
-
-
-
-

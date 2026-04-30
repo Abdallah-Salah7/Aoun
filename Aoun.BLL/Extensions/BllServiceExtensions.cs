@@ -1,7 +1,9 @@
-using Aoun.BLL.DTOs.Cases;
+using Aoun.BLL.DTOs.Case;
 using Aoun.BLL.DTOs.ChatAI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Aoun.BLL.Interfaces;
+using Aoun.BLL.Services;
 
 public static class BllServiceExtensions
 {

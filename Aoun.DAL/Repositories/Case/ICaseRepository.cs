@@ -1,19 +1,24 @@
+﻿using CaseEntity = Aoun.DAL.Entities.Case;
 
-using Aoun.DAL.Entities;
-using Aoun.DAL.Repositories.Generic;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+namespace Aoun.DAL.Repositories.Case
+{
+    public interface ICaseRepository
+    {
+        Task<List<CaseEntity>> GetAllAsync();
+        Task<CaseEntity?> GetByIdAsync(int id);
 
-namespace Aoun.DAL.Repositories.CaseRepo;
+        Task<List<CaseEntity>> GetHomeCasesAsync();
 
-public interface ICaseRepository : IGenericRepository<Case> {
-    // هنا بنكتب الدوال المخصصة لجدول الحالات فقط (مش موجودة في الجداول التانية)
-    Task<IEnumerable<Case>> GetUrgentCasesAsync();
-    Task<IEnumerable<Case>> GetCasesByCategoryAsync(string category);
+        Task<List<CaseEntity>> GetByCharityAsync(int charityId);
+
+        Task AddAsync(CaseEntity entity);
+
+        void Update(CaseEntity entity);
+
+        void Delete(CaseEntity entity);
+
+        Task SaveChangesAsync();
+
+        IQueryable<CaseEntity> Query(); // مهم للـ search & filters
+    }
 }
-
-
-
-
-
-

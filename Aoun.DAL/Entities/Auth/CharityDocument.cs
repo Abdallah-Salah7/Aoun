@@ -1,4 +1,4 @@
-namespace Aoun.DAL.Entities;
+namespace Aoun.DAL.Entities.Auth;
 public class CharityDocument {
     public int Id { get; set; }
     public string DocumentUrl { get; set; } = string.Empty;
@@ -7,6 +7,12 @@ public class CharityDocument {
     public int CharityProfileId { get; set; }
     public CharityProfile? CharityProfile { get; set; }
 }
+
+
+
+
+
+
 
 
 

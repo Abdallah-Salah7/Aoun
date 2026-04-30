@@ -2,18 +2,5 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-
-body {
-  margin: 0;
-  background-color: #0b1120;
-  color: #f1f5f9;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-}
-
-.glass-card {
-  background: rgba(21, 31, 50, 0.8);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+body { font-family: 'Tajawal', sans-serif; direction: rtl; background-color: #f3f4f6; }

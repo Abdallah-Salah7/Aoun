@@ -79,12 +79,12 @@ public class RealProfileService : IProfileService
     {
         var donations = await _db.Donations
             .AsNoTracking()
-            .Where(d => d.DonorId == userId && !d.IsDeleted)
+            .Where(d => d.UserId.ToString() == userId && !d.IsDeleted) // تغيير DonorId إلى UserId
             .Include(d => d.Case)
             .Select(d => new
             {
                 d.Amount,
-                d.DonationDate,
+                d.CreatedAt,
                 CaseTitle = d.Case != null ? d.Case.Title : "General Donation"
             })
             .ToListAsync();

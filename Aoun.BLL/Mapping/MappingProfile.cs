@@ -1,6 +1,5 @@
 
 using Aoun.BLL.DTOs.Auth;
-using Aoun.BLL.DTOs.Cases;
 using AutoMapper;
 using Aoun.DAL.Entities;
 

@@ -1,8 +1,7 @@
 using Aoun.BLL.DTOs.Profile;
 using Aoun.BLL.Interfaces.Profile;
 using Aoun.DAL.Data; 
-using Aoun.DAL.Entities; 
-using Aoun.DAL.Entities.User;
+using Aoun.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

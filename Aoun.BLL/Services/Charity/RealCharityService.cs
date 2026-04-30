@@ -3,8 +3,9 @@ using Aoun.BLL.Interfaces.Auth;
 using Aoun.DAL.Data;
 using Aoun.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
-
+using Aoun.DAL.Repositories;
 namespace Aoun.BLL.Services.Charity;
+
 
 public class RealCharityService : ICharityService
 {
