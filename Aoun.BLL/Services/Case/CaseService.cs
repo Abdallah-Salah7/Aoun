@@ -3,25 +3,21 @@ using Aoun.BLL.DTOs.Donations;
 using Microsoft.EntityFrameworkCore;
 using Aoun.DAL.Repositories.Case;
 using Aoun.BLL.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace Aoun.BLL.Services
 {
     public class CaseService : ICaseService
     {
-        //private readonly ApplicationDbContext ️ _context;
-
-        //public CaseService(ApplicationDbContext ️ context)
-        //{
-        //    _context = context;
-        //}
-
-
         private readonly ICaseRepository _repo;
 
         public CaseService(ICaseRepository repo)
         {
             _repo = repo;
         }
-
 
         // ================= GET ALL =================
         public async Task<(IEnumerable<CaseGetAllDto> Data, int TotalCount)> GetAllCases(int? categoryId, string status, int page, int pageSize)
@@ -82,11 +78,11 @@ namespace Aoun.BLL.Services
         }
 
         // ================= CREATE =================
-        public async Task<Case> CreateCase(CaseCreateDto dto)
+        public async Task<Aoun.DAL.Entities.Case> CreateCase(CaseCreateDto dto)
         {
             var imagePath = await ImageHelper.SaveImageAsync(dto.Image, "cases");
 
-            var entity = new Case
+            var entity = new Aoun.DAL.Entities.Case
             {
                 Title = dto.Title,
                 Description = dto.Description,
@@ -130,14 +126,13 @@ namespace Aoun.BLL.Services
                 IsUrgent = c.IsUrgent,
                 IsCompleted = c.IsCompleted,
                 CategoryName = c.Category.Name,
-                CharityName = c.Charity.Name,
+                // 🔥 التعديل هنا لـ CharityName
+                CharityName = c.Charity.CharityName,
                 DonorsCount = c.Donations.Count
             };
         }
 
         // ================= UPDATE =================
-        //public async Task<(bool Success, string Message, Case? UpdatedCase)> UpdateCase(int id, CaseUpdateDto dto)
-
         public async Task<(bool Success, string Message, CaseUpdatedResponseDto? Data)> UpdateCase(int id, CaseUpdateDto dto)
         {
             var entity = await _repo.GetByIdAsync(id);
@@ -171,7 +166,7 @@ namespace Aoun.BLL.Services
         }
 
         // ================= DELETE =================
-        public async Task<(bool Success, string Message, Case? DeletedCase)> DeleteCase(int id)
+        public async Task<(bool Success, string Message, Aoun.DAL.Entities.Case? DeletedCase)> DeleteCase(int id)
         {
             var entity = await _repo.Query()
                 .Include(c => c.Donations)
@@ -191,19 +186,18 @@ namespace Aoun.BLL.Services
 
         // ================= SEARCH =================
         public async Task<(IEnumerable<CaseGetAllDto> Data, int TotalCount)> SearchCases(
-     int? categoryId = null,
-     string? status = "all",
-     string? keyword = null,
-     string? charityName = null,
-     int page = 1,
-     int pageSize = 10)
+            int? categoryId = null,
+            string? status = "all",
+            string? keyword = null,
+            string? charityName = null,
+            int page = 1,
+            int pageSize = 10)
         {
             var query = _repo.Query()
                 .Include(c => c.Category)
                 .Include(c => c.Charity)
                 .AsQueryable();
 
-            // 👇 هنا تحطي الكود اللي بعتيه
             query = categoryId.HasValue
                 ? query.Where(c => c.CategoryId == categoryId)
                 : query;
@@ -219,7 +213,8 @@ namespace Aoun.BLL.Services
                 : query;
 
             query = !string.IsNullOrEmpty(charityName)
-                ? query.Where(c => c.Charity.Name.Contains(charityName))
+                // 🔥 التعديل هنا لـ CharityName
+                ? query.Where(c => c.Charity.CharityName.Contains(charityName))
                 : query;
 
             var total = await query.CountAsync();
@@ -247,13 +242,7 @@ namespace Aoun.BLL.Services
             return (data, total);
         }
 
-        //// باقي اللي لسه مش مكتمل سيبيه مؤقتًا
-        //public Task<CaseDetailsDto?> GetCaseDetails(int id) => throw new NotImplementedException();
-        //public Task<(CaseStatsDto Stats, IEnumerable<CaseGetAllDto> Cases, int TotalCount)> GetCharityCasesByFilter(int charityId, string status, int? categoryId, int page, int pageSize) => throw new NotImplementedException();
-
-
-
-        public async Task<CaseDetailsDto?> GetCaseDetails(int id)     //دى للجمعيه 
+        public async Task<CaseDetailsDto?> GetCaseDetails(int id)
         {
             var caseEntity = await _repo.Query()
                 .Include(c => c.Category)
@@ -292,7 +281,7 @@ namespace Aoun.BLL.Services
                 .Take(5)
                 .Select(d => new LastDonationDto
                 {
-                    UserName = d.User.UserName,
+                    UserName = d.User != null ? d.User.UserName : "فاعل خير",
                     Amount = d.Amount,
                     Date = d.CreatedAt
                 }).ToList();
@@ -307,14 +296,14 @@ namespace Aoun.BLL.Services
                 CollectedAmount = caseEntity.CollectedAmount,
                 Progress = caseEntity.RequiredAmount == 0
                     ? 0
-                    : (double)Math.Min(100,
-                        Math.Round((caseEntity.CollectedAmount / caseEntity.RequiredAmount) * 100, 1)),
+                    : (double)Math.Min(100, Math.Round((caseEntity.CollectedAmount / caseEntity.RequiredAmount) * 100, 1)),
                 IsUrgent = caseEntity.IsUrgent,
                 IsCompleted = caseEntity.IsCompleted,
                 CreatedAt = caseEntity.CreatedAt,
                 CompletedAt = caseEntity.CompletedAt,
                 CategoryName = caseEntity.Category.Name,
-                CharityName = caseEntity.Charity.Name,
+                // 🔥 التعديل هنا لـ CharityName
+                CharityName = caseEntity.Charity.CharityName,
                 DonorsCount = caseEntity.Donations.Count,
                 WeeklyDonations = weekly,
                 MonthlyDonations = monthly,
@@ -323,8 +312,7 @@ namespace Aoun.BLL.Services
         }
 
 
-        public async Task<(CaseStatsDto Stats, IEnumerable<CaseGetAllDto> Cases, int TotalCount)>
-GetCharityCasesByFilter(int charityId, string status, int? categoryId, int page, int pageSize)
+        public async Task<(CaseStatsDto Stats, IEnumerable<CaseGetAllDto> Cases, int TotalCount)> GetCharityCasesByFilter(int charityId, string status, int? categoryId, int page, int pageSize)
         {
             if (page <= 0) page = 1;
             if (pageSize <= 0 || pageSize > 50) pageSize = 10;
@@ -396,6 +384,5 @@ GetCharityCasesByFilter(int charityId, string status, int? categoryId, int page,
 
             return (stats, cards, totalCount);
         }
-
     }
 }

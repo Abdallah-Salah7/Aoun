@@ -267,7 +267,8 @@ namespace Aoun.BLL.Services
                 Title = campaign.Title,
                 Description = campaign.Description,
                 ImageUrl = campaign.ImageUrl,
-                CharityName = campaign.Charity.Name,
+                // 🔥 تم التعديل هنا لـ CharityName
+                CharityName = campaign.Charity.CharityName,
                 RequiredAmount = campaign.RequiredAmount,
                 CollectedAmount = campaign.CollectedAmount,
                 DonorsCount = campaign.Donations.Count,

@@ -1,3 +1,4 @@
+using Aoun.API.Data;
 using Aoun.API.Middleware;
 using Aoun.BLL.Interfaces;
 using Aoun.BLL.Interfaces.Campaign;
@@ -12,12 +13,12 @@ using Aoun.BLL.Services.Email;
 using Aoun.BLL.Services.Profile;
 using Aoun.BLL.Services.Zakat;
 using Aoun.DAL.Data;
-using Aoun.DAL.Repositories.UnitOfWork;
+using Aoun.DAL.Repositories;
+using Aoun.DAL.Repositories.Campaigns;
+using Aoun.DAL.Repositories.Case;
 using Aoun.DAL.Repositories.Donation;
 using Aoun.DAL.Repositories.Favorite;
-using Aoun.DAL.Repositories.Case;
-using Aoun.DAL.Repositories.Campaigns;
-using Aoun.DAL.Repositories;
+using Aoun.DAL.Repositories.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -63,7 +64,15 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler =
             System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler =
+            System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
 
+        // 🔥 السطر ده هو اللي بيخلي Swagger يعرض الـ Enum كقائمة (Donor, Charity)
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
 // ==========================
 // 4. JWT Authentication
 // ==========================
@@ -221,40 +230,31 @@ app.UseAuthorization();
 app.MapControllers();
 
 // ==========================
-// 10. Database Seeding
+// 10. Database Migrations & Seeding
 // ==========================
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
+var services = scope.ServiceProvider;
 
-    try
-    {
-        var context = services.GetRequiredService<ApplicationDbContext>();
-        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-        await Aoun.API.Data.DbInitializer.SeedAsync(context, userManager, roleManager);
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred during database seeding.");
-    }
-}
-
-// Ensure DB Created
-using (var scope = app.Services.CreateScope())
+try
 {
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.EnsureCreated();
+var context = services.GetRequiredService<ApplicationDbContext>();
+var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+// 🔥 التعديل الجذري: ده بيعمل Update-Database أوتوماتيك أول ما المشروع يشتغل
+await context.Database.MigrateAsync();
+
+// 🔥 بينده على الـ Seed براحته عشان يضيف الأدمن والبيانات الأساسية
+await Aoun.API.Data.DbInitializer.SeedAsync(context, userManager, roleManager);
+}
+catch (Exception ex)
+{
+var logger = services.GetRequiredService<ILogger<Program>>();
+logger.LogError(ex, "An error occurred during database migration or seeding.");
+}
 }
 
 app.Run();
 
 public partial class Program { }
-
-
-
-
-
-

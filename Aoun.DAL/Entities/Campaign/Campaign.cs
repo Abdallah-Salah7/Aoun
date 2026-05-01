@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Aoun.DAL.Entities;
-using CharityEntity = Aoun.DAL.Entities.Charity.Charity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Aoun.DAL.Entities
 {
     public class Campaign
     {
         public int Id { get; set; }
-
         public string Title { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
@@ -22,11 +20,12 @@ namespace Aoun.DAL.Entities
         public bool IsCompleted { get; set; }
 
         public DateTime CreatedAt { get; set; }
-        public DateTime? CompletedAt { get; set; }              //انا ال ضفتها عشان اعرف امتى الحملة انتهت مش بس اعرف انها انتهت
+        public DateTime? CompletedAt { get; set; }
 
-        // FK
+        // 🔥 هنا العلاقة الوحيدة بالجمعية (مفيش غيرها)
         public int CharityId { get; set; }
-        public CharityEntity Charity { get; set; }
+
+        public CharityProfile Charity { get; set; }
 
         public List<Donation> Donations { get; set; }
     }

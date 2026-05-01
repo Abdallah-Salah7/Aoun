@@ -13,33 +13,30 @@ namespace Aoun.BLL.Services.Chat
         private readonly string _openAiKey;
         private readonly string _deepSeekKey;
         private readonly string _groqKey;
+        private string _workingModelName = string.Empty;
+
 
         public AISmartService(HttpClient http, IConfiguration config)
         {
             _http = http;
 
-            // ⚠️ نصيحة أمنية: يفضل دايماً نقل المفاتيح دي لـ appsettings.json عشان متبقاش مكشوفة في الكود
             _geminiKey = "REDACTED_GEMINI_KEY";
             _openAiKey = "REDACTED_OPENAI_KEY";
             _deepSeekKey = "REDACTED_DEEPSEEK_KEY";
             _groqKey = "REDACTED_GROQ_KEY";
         }
 
-        // =================================================================
-        // 🚀 السحر الهندسي: استراتيجية التبديل التلقائي (Groq في المقدمة)
-        // =================================================================
         private async Task<string> AskAIWithFallbackAsync(string systemPrompt, string userPrompt)
         {
             string fullPrompt = $"{systemPrompt}\n\n{userPrompt}";
             List<string> errors = new List<string>();
 
-            // 1. المحاولة الأولى: Groq (أسرع ومجاني ومفتاحه شغال)
+            // 1. Groq
             if (!string.IsNullOrEmpty(_groqKey))
             {
                 try
                 {
                     Console.WriteLine("🤖 [Routing] Trying Groq (Llama 70B)...");
-                    // غيرنا الموديل للنسخة الـ 70B العملاقة والذكية جداً في العربي
                     return await AskOpenAICompatibleAsync(_groqKey, "https://api.groq.com/openai/v1/chat/completions", "llama-3.3-70b-versatile", systemPrompt, userPrompt);
                 }
                 catch (Exception ex)
@@ -49,58 +46,74 @@ namespace Aoun.BLL.Services.Chat
                 }
             }
 
-            // 2. المحاولة الثانية: Gemini
-            if (!string.IsNullOrEmpty(_geminiKey))
+            // 2. Gemini
+            if (string.IsNullOrEmpty(_workingModelName))
             {
                 try
                 {
-                    Console.WriteLine("🤖 [Routing] Trying Google Gemini...");
-                    return await AskGeminiAsync(fullPrompt);
+                    string listModelsUrl = $"https://generativelanguage.googleapis.com/v1beta/models?key={_geminiKey}";
+                    var listResponse = await _http.GetAsync(listModelsUrl);
+
+                    if (!listResponse.IsSuccessStatusCode)
+                        throw new Exception("فشل الاتصال بجوجل لجلب النماذج!");
+
+                    var listJson = await listResponse.Content.ReadFromJsonAsync<JsonElement>();
+
+                    foreach (var model in listJson.GetProperty("models").EnumerateArray())
+                    {
+                        var name = model.GetProperty("name").GetString();
+                        var methods = model.GetProperty("supportedGenerationMethods").EnumerateArray().Select(m => m.GetString()).ToList();
+
+                        if (methods.Contains("generateContent") && name != null && name.StartsWith("models/gemini"))
+                        {
+                            _workingModelName = name;
+                            Console.WriteLine($"✅ Auto-Discovered Working Model: {_workingModelName}");
+                            break;
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"⚠️ Gemini Failed: {ex.Message}");
-                    errors.Add($"Gemini: {ex.Message}");
+                    if (string.IsNullOrEmpty(_workingModelName))
+                        throw new Exception("مفتاحك لا يملك صلاحية لأي نموذج من نماذج جيميناي!");
                 }
+
+                // 3. OpenAI
+                if (!string.IsNullOrEmpty(_openAiKey))
+                {
+                    try
+                    {
+                        Console.WriteLine("🤖 [Routing] Trying OpenAI (ChatGPT)...");
+                        return await AskOpenAICompatibleAsync(_openAiKey, "https://api.openai.com/v1/chat/completions", "gpt-4o-mini", systemPrompt, userPrompt);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"⚠️ OpenAI Failed: {ex.Message}");
+                        errors.Add($"OpenAI: {ex.Message}");
+                    }
+                }
+
+                // 4. DeepSeek
+                if (!string.IsNullOrEmpty(_deepSeekKey))
+                {
+                    try
+                    {
+                        Console.WriteLine("🤖 [Routing] Trying DeepSeek...");
+                        return await AskOpenAICompatibleAsync(_deepSeekKey, "https://api.deepseek.com/chat/completions", "deepseek-chat", systemPrompt, userPrompt);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"⚠️ DeepSeek Failed: {ex.Message}");
+                        errors.Add($"DeepSeek: {ex.Message}");
+                    }
+                }
+
+                throw new Exception($"❌ All AI providers failed! Errors log: {string.Join(" | ", errors)}");
             }
 
-            // 3. المحاولة الثالثة: OpenAI (ChatGPT)
-            if (!string.IsNullOrEmpty(_openAiKey))
-            {
-                try
-                {
-                    Console.WriteLine("🤖 [Routing] Trying OpenAI (ChatGPT)...");
-                    return await AskOpenAICompatibleAsync(_openAiKey, "https://api.openai.com/v1/chat/completions", "gpt-4o-mini", systemPrompt, userPrompt);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"⚠️ OpenAI Failed: {ex.Message}");
-                    errors.Add($"OpenAI: {ex.Message}");
-                }
-            }
-
-            // 4. المحاولة الرابعة: DeepSeek
-            if (!string.IsNullOrEmpty(_deepSeekKey))
-            {
-                try
-                {
-                    Console.WriteLine("🤖 [Routing] Trying DeepSeek...");
-                    return await AskOpenAICompatibleAsync(_deepSeekKey, "https://api.deepseek.com/chat/completions", "deepseek-chat", systemPrompt, userPrompt);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"⚠️ DeepSeek Failed: {ex.Message}");
-                    errors.Add($"DeepSeek: {ex.Message}");
-                }
-            }
-
-            // لو الـ 4 وقعوا
-            throw new Exception($"❌ All AI providers failed! Errors log: {string.Join(" | ", errors)}");
+            // ✅ الحل الوحيد للمشكلة
+            throw new Exception("Unexpected error: no AI provider executed.");
         }
-
-        // =================================================================
-        // 🌐 دوال الاتصال الخاصة بكل شركة
-        // =================================================================
 
         private async Task<string> AskGeminiAsync(string prompt)
         {
@@ -120,18 +133,17 @@ namespace Aoun.BLL.Services.Chat
 
         private async Task<string> AskOpenAICompatibleAsync(string apiKey, string url, string modelName, string sysPrompt, string usrPrompt)
         {
-            // تعليمات صارمة جداً تمنع الموديل من التصرف كآلة
-            string strictSystemPrompt = sysPrompt + "\nتعليمات صارمة: لا تذكر أبداً أنك ذكاء اصطناعي أو روبوت أو نموذج لغوي. لا تستخدم مقدمات مثل 'بصفتي كذا' أو 'إليك الإجابة'. تحدث كإنسان طبيعي، ودود، ومباشر يعمل في فريق الدعم. استخدم صيغة المخاطب مع المستخدم (أنت، لك، يا فاعل الخير).";
+            string strictSystemPrompt = sysPrompt + "\nتعليمات صارمة: لا تذكر أبداً أنك ذكاء اصطناعي أو روبوت أو نموذج لغوي...";
 
             var requestBody = new
             {
                 model = modelName,
                 messages = new[] {
-            new { role = "system", content = strictSystemPrompt },
-            new { role = "user", content = usrPrompt }
-        },
-                temperature = 0.3, // نسبة ممتازة للردود المنطقية الإنسانية
-                max_tokens = 500   // مناسب جداً عشان ميضربش Rate Limit من Groq
+                    new { role = "system", content = strictSystemPrompt },
+                    new { role = "user", content = usrPrompt }
+                },
+                temperature = 0.3,
+                max_tokens = 500
             };
 
             var request = new HttpRequestMessage(HttpMethod.Post, url);
@@ -145,27 +157,23 @@ namespace Aoun.BLL.Services.Chat
             return jsonResponse.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString() ?? "";
         }
 
-        // ==========================================
-        // 🎯 دوال منصة عون (بلمسة إنسانية)
-        // ==========================================
-
         public async Task<string> GetRecommendationsAsync(string userHistory, string availableCases)
         {
-            string sysPrompt = "أنت موظف بشري ودود في خدمة عملاء منصة 'عون'. تحدث مع المتبرع مباشرة ورشح له 3 حالات تناسبه من القائمة باختصار وبأسلوب إنساني دافئ. (مثال: أهلاً بك ، بناءً على تبرعاتك السابقة أنصحك بـ...)";
+            string sysPrompt = "أنت موظف بشري ودود في خدمة عملاء منصة 'عون'...";
             string usrPrompt = $"تاريخ المتبرع: {userHistory}\nالحالات المتاحة حالياً: {availableCases}";
             return await AskAIWithFallbackAsync(sysPrompt, usrPrompt);
         }
 
         public async Task<string> ChatWithRAGAsync(string userQuestion, string dbContext)
         {
-            string sysPrompt = $"أنت إنسان طبيعي تعمل في منصة (عون). أجب على السائل فوراً بلغة ودودة ومباشرة بناءً على هذه المعلومات فقط: {dbContext}. إذا سُئلت عن الزكاة، احسبها فوراً (المبلغ × 2.5%) وأعطه الناتج النهائي بلا إطالة.";
+            string sysPrompt = $"أنت إنسان طبيعي تعمل في منصة (عون)... {dbContext}";
             string usrPrompt = $"السؤال: {userQuestion}";
             return await AskAIWithFallbackAsync(sysPrompt, usrPrompt);
         }
 
         public async Task<string> GenerateCaseDescriptionAsync(string title, string category, decimal requiredAmount)
         {
-            string sysPrompt = "اكتب وصفاً تسويقياً وإنسانياً مؤثراً لهذه الحالة لجذب التبرعات. ادخل في صلب الموضوع مباشرة بدون أي مقدمات أو تحيات. النص يجب ألا يتجاوز 3 أسطر.";
+            string sysPrompt = "اكتب وصفاً تسويقياً...";
             string usrPrompt = $"العنوان: {title} | التصنيف: {category} | المبلغ: {requiredAmount}";
             return await AskAIWithFallbackAsync(sysPrompt, usrPrompt);
         }

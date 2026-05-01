@@ -1,8 +1,9 @@
 ﻿using Aoun.DAL.Data;
 using Aoun.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 using DonationEntity = Aoun.DAL.Entities.Donation;
-using CharityEntity = Aoun.DAL.Entities.Charity.Charity;
 using CaseEntity = Aoun.DAL.Entities.Case;
 
 
@@ -53,7 +54,8 @@ namespace Aoun.DAL.Repositories.Donation
         public async Task<Campaign?> GetCampaignByIdAsync(int id)
             => await _context.Campaigns.FirstOrDefaultAsync(c => c.Id == id);
 
-        public async Task<CharityEntity?> GetCharityByIdAsync(int id)
-            => await _context.Charities.FirstOrDefaultAsync(c => c.Id == id);
+        // 🔥 التعديل هنا: استخدام CharityProfile بدلاً من الكلاس القديم
+        public async Task<CharityProfile?> GetCharityByIdAsync(int id)
+            => await _context.CharityProfiles.FirstOrDefaultAsync(c => c.Id == id);
     }
 }
