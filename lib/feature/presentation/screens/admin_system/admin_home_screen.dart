@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SilverPage extends StatelessWidget {
-  const SilverPage({super.key});
+class AdminHomeScreen extends StatelessWidget {
+  const AdminHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class SilverPage extends StatelessWidget {
 
       body: Center(
         child: Text(
-          "Silver screen",
+          "Admin Home Screen",
           style: GoogleFonts.manrope(
             fontSize: 22,
             fontWeight: FontWeight.w900, 

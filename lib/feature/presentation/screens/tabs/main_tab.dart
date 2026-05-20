@@ -34,7 +34,7 @@ class MainTab extends StatelessWidget {
                     ListTile(
                       leading: Container(
                         decoration: BoxDecoration(
-                          color: Color(0xff255A4230),
+                          color: Color(0xff255a4230),
                           borderRadius: BorderRadius.circular(45),
                         ),
                         child: Padding(

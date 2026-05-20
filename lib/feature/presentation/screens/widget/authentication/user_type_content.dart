@@ -6,14 +6,18 @@ import 'package:flutter/material.dart';
 class Content extends StatelessWidget {
   final String textButton1;
   final String textButton2;
+  final String? textButton3;
   final void Function() onTap1;
   final void Function() onTap2;
+  final void Function()? onTap3;
   const Content({
     super.key,
     required this.textButton1,
     required this.textButton2,
     required this.onTap1,
     required this.onTap2,
+    this.textButton3,
+    this.onTap3,
   });
 
   @override
@@ -59,7 +63,10 @@ class Content extends StatelessWidget {
               SizedBox(height: size.height * 0.02),
               AuthButton(text: textButton2, onTap: onTap2),
 
-              SizedBox(height: size.height * 0.05),
+              SizedBox(height: size.height * 0.02),
+              (textButton3 == null && onTap3 == null)
+                  ? SizedBox()
+                  : AuthButton(text: textButton3!, onTap: onTap3!),
             ],
           ),
         ),

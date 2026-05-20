@@ -21,12 +21,15 @@ class OnboardingScreen2 extends StatelessWidget {
               paragraphText:
                   "تُغطي جميع مجالات الخير وتصل إلى من يستحقها من الفئات الأكثر حاجة،لتمنحهم فرصة جديدة للحياة وتمدّ لهم يد العون.",
               skipFunction: () {
-                Navigator.pushReplacementNamed(context, Routes.onBoard3);
-              },
+                Navigator.pushNamed(context, Routes.userTypeScreen);
+              }, followFunction: () { 
+                Navigator.pushNamed(context, Routes.onBoard3);
+               },
             ),
           ),
         ],
       ),
     );
+
   }
 }

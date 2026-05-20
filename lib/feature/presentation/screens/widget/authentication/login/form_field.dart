@@ -8,7 +8,7 @@ class CustomFormField extends StatefulWidget {
   final TextStyle? labelStyle;
   final bool downloadIcon;
   final bool? filled;
-  final TextEditingController? emailController;
+  final TextEditingController? controller;
 
   const CustomFormField({
     super.key,
@@ -17,7 +17,7 @@ class CustomFormField extends StatefulWidget {
     this.isPassword = false,
     this.downloadIcon = false,
     this.labelStyle,
-    this.emailController,
+    this.controller,
     this.imagePath,
     this.filled = true,
   });
@@ -58,7 +58,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
           SizedBox(
             height: fieldHeight * 0.8,
             child: TextField(
-              controller: widget.emailController,
+              controller: widget.controller,
               obscureText: widget.isPassword ? obscure : false,
               style: TextStyle(fontSize: fontSize),
               decoration: InputDecoration(

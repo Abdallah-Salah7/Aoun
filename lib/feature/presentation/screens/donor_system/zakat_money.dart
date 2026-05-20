@@ -7,7 +7,7 @@ import '../../../../core/routes_manager/routes.dart';
 class ZakatMoney extends StatelessWidget {
   final VoidCallback onSeeMorePressed;
 
-  ZakatMoney({super.key, required this.onSeeMorePressed});
+  const ZakatMoney({super.key, required this.onSeeMorePressed});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class ZakatMoney extends StatelessWidget {
                   "زكاة المال ",
                   style: GoogleFonts.manrope(
                     fontSize: 26,
-                    fontWeight: FontWeight.w700, // SemiBold
+                    fontWeight: FontWeight.w700,
                     color: Colors.white,
                   ),
                 ),

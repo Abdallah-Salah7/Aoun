@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../domain/entities/campaign_entity.dart';
-import '../widget/field_dropdown.dart';
 
 class AddCampaign extends StatefulWidget {
   const AddCampaign({super.key});

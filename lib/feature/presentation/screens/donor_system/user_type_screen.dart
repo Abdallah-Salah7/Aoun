@@ -17,7 +17,7 @@ class GeneralLoginChoicePage extends StatelessWidget {
           builder: (context, constraints) {
             double cardWidth;
             if (constraints.maxWidth > 1200) {
-              cardWidth = 500; // Desktop / Web كبير
+              cardWidth = 500; // Desktop / Web 
             } else if (constraints.maxWidth > 900) {
               cardWidth = 450; // Web / Large Tablet
             } else if (constraints.maxWidth > 600) {
@@ -51,7 +51,13 @@ class GeneralLoginChoicePage extends StatelessWidget {
                           Routes.loginChoiceScreen,
                           arguments: "charity",
                         );
-                      },
+                      }, textButton3: 'أدمن', onTap3: () {
+                         Navigator.pushNamed(
+                          context,
+                          Routes.loginChoiceScreen,
+                          arguments: "admin",
+                        );
+                        },
                     ),
                   ),
                 ),

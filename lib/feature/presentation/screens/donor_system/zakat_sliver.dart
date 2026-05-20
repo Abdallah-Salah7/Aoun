@@ -6,7 +6,7 @@ import '../../../../core/routes_manager/routes.dart';
 
 class ZakatSliver extends StatelessWidget {
   final VoidCallback onSeeMorePressed;
-  ZakatSliver({super.key, required this.onSeeMorePressed});
+  const ZakatSliver({super.key, required this.onSeeMorePressed});
 
   @override
   Widget build(BuildContext context) {

@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   "عون … الخيرُ يبدأ بِك",
                   style: TextStyle(
                     color: Colors.white70,
-                    fontSize: size.width * 0.05,
+                    fontSize: size.width * 0.065,
                   ),
                 ),
               ],

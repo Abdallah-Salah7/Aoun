@@ -3,8 +3,8 @@ import 'package:aoun/feature/presentation/screens/widget/onboarding/onboard_back
 import 'package:aoun/feature/presentation/screens/widget/onboarding/onboard_content.dart';
 import 'package:flutter/material.dart';
 
-class OnboardingScreen3 extends StatelessWidget {
-  const OnboardingScreen3({super.key});
+class OnboardingScreen4 extends StatelessWidget {
+  const OnboardingScreen4({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +17,9 @@ class OnboardingScreen3 extends StatelessWidget {
           /// Content
           Positioned.fill(
             child: OnboardingContent(
-              titleText: "طُرق دفع آمنة وسهلة",
-              paragraphText: "عَبر خياراتٍ متعددة تُسهل عملية التبرع والعطاء.",
-              skipFunction: () {
+              titleText: "عطاؤك في أيدٍ أمينة",
+              paragraphText: "جمعيات موثوقة تم التحقق منها،ليصل عطاؤك لمن يستحق بكل أمان وطمأنينة.", followFunction: () { 
                 Navigator.pushNamed(context, Routes.userTypeScreen);
-              }, followFunction: () { 
-                Navigator.pushNamed(context, Routes.onBoard4);
                },
             ),
           ),

@@ -21,8 +21,11 @@ class OnboardingScreen1 extends StatelessWidget {
               paragraphText:
                   "خُطوة مِنك تُنقذ حَياة وتفتح باب أمل ،\nلتترك أثراً لا يُينسى.",
               skipFunction: () {
-                Navigator.pushReplacementNamed(context, Routes.onBoard2);
-              },
+                Navigator.pushNamed(context, Routes.userTypeScreen);
+              }, followFunction: () { 
+                Navigator.pushNamed(context, Routes.onBoard2);
+               },
+              
             ),
           ),
         ],

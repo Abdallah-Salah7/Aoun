@@ -19,7 +19,7 @@ class AppDrawer extends StatelessWidget {
         children: [
           const SizedBox(height: 60),
           CircleAvatar(
-            radius: 40, // نص 73
+            radius: 40, 
             backgroundImage: AssetImage(ImageAssets.ghaith),
           ),
           const SizedBox(height: 15),
@@ -80,8 +80,6 @@ class AppDrawer extends StatelessWidget {
                     Navigator.pushNamed(context, Routes.chatbotWelcomeScreen);
                   },
                 ),
-                _buildDrawerItem(context, ImageAssets.homee, "عرض التقارير"),
-                _buildDrawerItem(context, ImageAssets.homee, "مساعد عون"),
                 _buildDrawerItem(
                   context,
                   ImageAssets.homee,
@@ -90,7 +88,14 @@ class AppDrawer extends StatelessWidget {
                     Navigator.pushNamed(context, Routes.donorsScreen);
                   },
                 ),
-                _buildDrawerItem(context, ImageAssets.homee, "الاعدادات"),
+                _buildDrawerItem(
+                  context,
+                  ImageAssets.homee,
+                  "الاعدادات",
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.charitySettings);
+                  },
+                ),
 
                 SizedBox(height: 30),
                 _buildDrawerItem(

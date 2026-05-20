@@ -6,12 +6,13 @@ class OnboardingContent extends StatelessWidget {
   final String titleText;
   final String paragraphText;
   final VoidCallback? skipFunction;
+  final VoidCallback? followFunction;
 
   const OnboardingContent({
     super.key,
     required this.titleText,
     required this.paragraphText,
-    this.skipFunction,
+    this.skipFunction, required this.followFunction,
   });
 
   @override
@@ -50,13 +51,13 @@ class OnboardingContent extends StatelessWidget {
                 Expanded(
                   child: SingleChildScrollView(
                     child: SizedBox(
-                      width: size.width * 0.6,
+                      width: size.width * 0.7,
                       child: Text(
                         paragraphText,
                         textDirection: TextDirection.rtl,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: isTablet ? 18 : size.width * 0.045,
+                          fontSize: isTablet ? 18 : size.width * 0.065,
                           color: PrimaryColors.secondaryColor,
                           height: 1.6,
                         ),
@@ -68,7 +69,7 @@ class OnboardingContent extends StatelessWidget {
                 SizedBox(height: size.height * 0.01),
 
                 /// Bottom Controls
-                BottomControls(skipFunction: skipFunction),
+                BottomControls(skipFunction: skipFunction, followFunction: followFunction,),
 
                 SizedBox(height: size.height * 0.02),
               ],

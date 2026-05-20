@@ -15,10 +15,12 @@ class Routes {
   static const String onBoard1 = "/onBoard1";
   static const String onBoard2 = "/onBoard2";
   static const String onBoard3 = "/onBoard3";
+  static const String onBoard4 = "/onBoard4";
   static const String splashScreen = "/splashScreen";
   static const String userTypeScreen = "/userTypeScreen";
   static const String loginChoiceScreen = "/loginChoiceScreen";
   static const String donorLoginScreen = "/donorLoginScreen";
+  static const String adminLoginScreen = "/adminLoginScreen";
   static const String donorRegisteScreen = "/donorRegisteScreen";
   static const String charityLoginScreen = "/charityLoginScreen";
   static const String charityRegisteScreen = "/charityRegisteScreen";
@@ -27,6 +29,7 @@ class Routes {
   static const String donationRecord = "/donationRecord";
   static const String privacyAndSecurity = "/privacyAndSecurity";
   static const String settings = "/settings";
+  static const String charitySettings = "/charitySettings";
   static const String savedCases = "/savedCases";
   static const String customerService = "/customerService";
   static const String emailVerficationScreen = "/emailVerficationScreen";
@@ -61,5 +64,5 @@ class Routes {
   static const String successPaymentScreen = "/successPaymentScreen";
   static const String failedPaymentScreen = "/failedPaymentScreen";
   static const String zakatScreen = "/zakatScreen";
-  static const String charityProfScreen = "/charityProfScreen";
+  static const String adminHomeScreen = "/adminHomeScreen";
 }

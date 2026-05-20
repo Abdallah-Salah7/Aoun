@@ -7,16 +7,16 @@ import 'base_theme.dart';
 
 class LightTheme extends BaseTheme {
   @override
-  Color get background => Color(0xFF);
+  Color get background => Color(0x000000ff);
   @override
-  Color get primaryColor => Color(0xFF);
+  Color get primaryColor => Color(0x000000ff);
   @override
-  Color get textColor => Color(0xFF);
+  Color get textColor => Color(0x000000ff);
   @override
-  Color get focusColor => Color(0xFF);
+  Color get focusColor => Color(0x000000ff);
   @override
   ThemeData get themeData => ThemeData(
-    focusColor: Color(0xFF),
+    focusColor: Color(0x000000ff),
     primaryColor: primaryColor,
     scaffoldBackgroundColor: background,
     appBarTheme: AppBarTheme(

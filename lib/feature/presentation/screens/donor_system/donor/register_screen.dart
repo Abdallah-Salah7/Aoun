@@ -22,7 +22,7 @@ class DonorRegisterScreen extends StatelessWidget {
                 SizedBox(height: verticalSpacing),
                 const LogoWidget(),
                 SizedBox(height: verticalSpacing),
-                const LoginForm(isLogin: false),
+                const LoginForm(isLogin: false, userType: "donor",),
                 SizedBox(height: verticalSpacing),
                 const SocialLoginSection(isLogin: false),
                 SizedBox(height: verticalSpacing),

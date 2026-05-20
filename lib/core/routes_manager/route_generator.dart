@@ -1,8 +1,11 @@
 import 'package:aoun/core/routes_manager/routes.dart';
-import 'package:aoun/feature/presentation/screens/charity_system/charity_profile/charity_prof.dart';
+import 'package:aoun/feature/presentation/screens/admin_system/admin_home_screen.dart';
+import 'package:aoun/feature/presentation/screens/admin_system/admin_login_screen.dart';
+import 'package:aoun/feature/presentation/screens/charity_system/charity_profile/charity_settings.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/charity_reports.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/chatbot/ask_screen.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/chatbot/welcome_screen.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/onboard_screens/onboard_screen4.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/zakat_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/charity/login_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/charity/register_screen.dart';
@@ -115,8 +118,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SuccessPaymentScreen());
       case Routes.failedPaymentScreen:
         return MaterialPageRoute(builder: (_) => FailedPaymentScreen());
-      case Routes.successPaymentScreen:
-        return MaterialPageRoute(builder: (_) => SuccessPaymentScreen());
+      
 
       /// CHARITY
       case Routes.charityProfileScreen:
@@ -171,12 +173,12 @@ class RouteGenerator {
       case Routes.chatbotAskScreen:
         final question = argument as String;
         return MaterialPageRoute(builder: (_) => AskScreen(question: question));
-      case Routes.charityProfScreen:
-        return MaterialPageRoute(builder: (_) => const CharityProf());
-
+      case Routes.charitySettings:
+        return MaterialPageRoute(builder: (_) => const CharitySettings());
       /// SETTINGS
       case Routes.settings:
         return MaterialPageRoute(builder: (_) => const Settings());
+      
 
       case Routes.savedCases:
         return MaterialPageRoute(builder: (_) => const SavedCases());
@@ -255,7 +257,9 @@ class RouteGenerator {
         );
 
       case Routes.donorLoginScreen:
-        return MaterialPageRoute(builder: (_) => const DonorLoginScreen());
+        return MaterialPageRoute(builder: (_) =>  DonorLoginScreen());
+      case Routes.adminLoginScreen:
+        return MaterialPageRoute(builder: (_) =>  AdminLoginScreen());
 
       case Routes.donorRegisteScreen:
         return MaterialPageRoute(builder: (_) => const DonorRegisterScreen());
@@ -286,6 +290,8 @@ class RouteGenerator {
 
       case Routes.onBoard3:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
+      case Routes.onBoard4:
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen4());
 
       /// SPLASH
       case Routes.splashScreen:
@@ -297,6 +303,9 @@ class RouteGenerator {
 
       case Routes.zakatScreen:
         return MaterialPageRoute(builder: (_) => const ZakatScreen());
+      ///Admin
+      case Routes.adminHomeScreen:
+        return MaterialPageRoute(builder: (_) => const AdminHomeScreen());
 
       default:
         return unDefinedRoute();

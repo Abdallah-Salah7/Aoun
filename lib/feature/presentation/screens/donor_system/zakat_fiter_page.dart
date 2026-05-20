@@ -23,7 +23,7 @@ class ZakatFiterPage extends StatelessWidget {
           "Zakat Fiter screen",
           style: GoogleFonts.manrope(
             fontSize: 22,
-            fontWeight: FontWeight.w900, // SemiBold
+            fontWeight: FontWeight.w900, 
             color: const Color(0xff252424),
           ),
         ),

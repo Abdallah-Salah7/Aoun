@@ -6,7 +6,7 @@ import '../../../../core/routes_manager/routes.dart';
 
 class ZakatGold extends StatefulWidget {
   final VoidCallback onSeeMorePressed;
-  ZakatGold({super.key, required this.onSeeMorePressed});
+  const ZakatGold({super.key, required this.onSeeMorePressed});
 
   @override
   State<ZakatGold> createState() => _ZakatGoldState();
@@ -81,7 +81,7 @@ class _ZakatGoldState extends State<ZakatGold> {
                   "زكاة الذهب ",
                   style: GoogleFonts.manrope(
                     fontSize: 26,
-                    fontWeight: FontWeight.w700, // SemiBold
+                    fontWeight: FontWeight.w700, 
                     color: Colors.white,
                   ),
                 ),

@@ -6,7 +6,7 @@ import '../../state_management/cubit/campaign_cubit.dart';
 import '../../state_management/cubit/campaign_state.dart';
 
 class CurrentCampaignsScreen extends StatefulWidget {
-  CurrentCampaignsScreen({super.key});
+  const CurrentCampaignsScreen({super.key});
 
   @override
   State<CurrentCampaignsScreen> createState() => _CurrentCampaignsScreenState();

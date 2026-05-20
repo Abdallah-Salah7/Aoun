@@ -1,11 +1,11 @@
 import 'package:aoun/core/color_manager/primary_colors.dart';
-import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:flutter/material.dart';
 
 class BottomControls extends StatelessWidget {
   final VoidCallback? skipFunction;
+  final VoidCallback? followFunction;
 
-  const BottomControls({super.key, this.skipFunction});
+  const BottomControls({super.key, this.skipFunction, required this.followFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -25,22 +25,36 @@ class BottomControls extends StatelessWidget {
               /// Back Button
               InkWell(
                 borderRadius: BorderRadius.circular(30),
-                onTap: () {
-                  if (skipFunction != null) {
-                    Navigator.pop(context);
-                  } else {
-                    Navigator.pushNamed(context, Routes.userTypeScreen);
-                  }
-                },
+                onTap: followFunction,
                 child:
                     skipFunction != null
-                        ? CircleAvatar(
-                          radius: isTablet ? 28 : size.width * 0.07,
-                          backgroundColor: PrimaryColors.primaryColor,
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.white,
-                            size: isTablet ? 22 : size.width * 0.05,
+                        ? Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: isTablet ? 30 : size.width * 0.05,
+                            vertical: isTablet ? 14 : size.height * 0.015,
+                          ),
+                          decoration: BoxDecoration(
+                            color: PrimaryColors.primaryColor,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                                size: isTablet ? 20 : size.width * 0.045,
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                "التالى",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: isTablet ? 16 : size.width * 0.05,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
                           ),
                         )
                         : Container(
@@ -65,7 +79,7 @@ class BottomControls extends StatelessWidget {
                                 "ابدأ الآن",
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: isTablet ? 16 : size.width * 0.04,
+                                  fontSize: isTablet ? 16 : size.width * 0.05,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),

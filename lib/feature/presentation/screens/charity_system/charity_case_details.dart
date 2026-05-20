@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/resources/assets_manager.dart';
-import '../../../../core/routes_manager/routes.dart';
 import '../../../domain/entities/case_entity.dart';
 import '../widget/weekly_chart.dart';
 

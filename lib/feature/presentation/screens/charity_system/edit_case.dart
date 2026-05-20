@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/resources/assets_manager.dart';
-import '../../../../core/routes_manager/routes.dart';
 import '../../../domain/entities/case_entity.dart';
 import '../../state_management/cubit/case_cubit.dart';
 import '../widget/field_dropdown.dart';

@@ -91,7 +91,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                           labelStyle: const TextStyle(
                             fontWeight: FontWeight.w700,
                           ),
-                          emailController: emailController,
+                          controller: emailController,
                         ),
 
                         const SizedBox(height: 30),

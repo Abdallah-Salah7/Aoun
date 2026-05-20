@@ -1,10 +1,10 @@
 import 'package:aoun/feature/presentation/screens/widget/authentication/login/login_form.dart';
-import 'package:aoun/feature/presentation/screens/widget/authentication/login/social_login.dart';
+
 import 'package:aoun/feature/presentation/screens/widget/authentication/logo_widget.dart';
 import 'package:flutter/material.dart';
 
-class DonorLoginScreen extends StatelessWidget {
-   DonorLoginScreen({super.key});
+class AdminLoginScreen extends StatelessWidget {
+  AdminLoginScreen({super.key});
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -24,9 +24,7 @@ class DonorLoginScreen extends StatelessWidget {
                 SizedBox(height: verticalSpacing),
                 const LogoWidget(),
                 SizedBox(height: verticalSpacing),
-                const LoginForm(isLogin: true, userType: 'donor',),
-                SizedBox(height: verticalSpacing),
-                const SocialLoginSection(isLogin: true),
+                const LoginForm(isLogin: true, userType: 'admin'),
                 SizedBox(height: verticalSpacing),
               ],
             ),

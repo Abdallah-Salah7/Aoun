@@ -8,7 +8,6 @@ import '../../../../core/routes_manager/routes.dart';
 import '../../../domain/entities/campaign_entity.dart';
 import '../../state_management/cubit/campaign_cubit.dart';
 import '../../state_management/cubit/campaign_state.dart';
-import '../widget/charity_case_item.dart';
 import 'app_drawer.dart';
 
 class CampaignManagement extends StatefulWidget {
