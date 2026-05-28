@@ -9,9 +9,9 @@ import '../../state_management/cubit/case_state.dart';
 import '../widget/case_item.dart';
 
 class DonationFieldScreen extends StatefulWidget {
-  final String fieldName;
+  final int categoryId;
 
-  const DonationFieldScreen({super.key, required this.fieldName});
+  const DonationFieldScreen({super.key, required this.categoryId});
 
   @override
   State<DonationFieldScreen> createState() => _DonationFieldScreenState();
@@ -70,7 +70,7 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
                 const Image(image: AssetImage(ImageAssets.icon)),
                 const SizedBox(width: 8),
                 Text(
-                  "مجال ${widget.fieldName}",
+                  "مجال ${widget.categoryId}",
                   style: GoogleFonts.manrope(
                     fontSize: 26,
                     fontWeight: FontWeight.w700,
@@ -89,7 +89,7 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
             }
 
             final categoryCases = context.read<CaseCubit>().getCasesByCategory(
-              widget.fieldName,
+                widget.categoryId,
             );
 
             final filteredCases = _applyFilter(categoryCases);
@@ -171,12 +171,12 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
                         final c = filteredCases[index];
 
                         return CaseItem(
-                          image: c.image,
+                          image: c.imageUrl,
                           title: c.title,
                           description: c.description,
-                          rateValue: c.rateValue,
-                          collectedValue: c.collectedValue,
-                          allValue: c.allValue,
+                          rateValue: c.progress,
+                          collectedValue: c.collectedAmount,
+                          allValue: c.requiredAmount,
                           status: c.status,
                         );
                       },

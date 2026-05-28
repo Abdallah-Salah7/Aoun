@@ -19,7 +19,7 @@ class AppDrawer extends StatelessWidget {
         children: [
           const SizedBox(height: 60),
           CircleAvatar(
-            radius: 40, 
+            radius: 40, // نص 73
             backgroundImage: AssetImage(ImageAssets.ghaith),
           ),
           const SizedBox(height: 15),
@@ -50,7 +50,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 _buildDrawerItem(
                   context,
-                  ImageAssets.homee,
+                  ImageAssets.caseIcon,
                   "الحالات",
                   onTap: () {
                     Navigator.pushNamed(context, Routes.caseManagement);
@@ -58,7 +58,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 _buildDrawerItem(
                   context,
-                  ImageAssets.homee,
+                  ImageAssets.campIcon,
                   "الحملات",
                   onTap: () {
                     Navigator.pushNamed(context, Routes.campaignManagement);
@@ -66,7 +66,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 _buildDrawerItem(
                   context,
-                  ImageAssets.homee,
+                  ImageAssets.repoIcon,
                   "عرض التقارير",
                   onTap: () {
                     Navigator.pushNamed(context, Routes.charityReportsScreen);
@@ -74,7 +74,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 _buildDrawerItem(
                   context,
-                  ImageAssets.homee,
+                  ImageAssets.chatIcon,
                   "مساعد عون",
                   onTap: () {
                     Navigator.pushNamed(context, Routes.chatbotWelcomeScreen);
@@ -82,27 +82,24 @@ class AppDrawer extends StatelessWidget {
                 ),
                 _buildDrawerItem(
                   context,
-                  ImageAssets.homee,
+                  ImageAssets.donIcon,
                   "المتبرعين",
                   onTap: () {
                     Navigator.pushNamed(context, Routes.donorsScreen);
                   },
                 ),
-                _buildDrawerItem(
-                  context,
-                  ImageAssets.homee,
-                  "الاعدادات",
+                _buildDrawerItem(context, ImageAssets.setIcon, "الاعدادات",
+
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.charitySettings);
-                  },
-                ),
+                    Navigator.pushNamed(context, Routes.charityProfScreen);
+                  },),
 
                 SizedBox(height: 30),
                 _buildDrawerItem(
                   context,
                   ImageAssets.logout,
                   "تسجيل الخروج",
-                  color: Colors.redAccent,
+                  color: Color(0xffDC2626),
                   onTap: () {
                     Navigator.pushNamed(context, Routes.donorLoginScreen);
                   },
@@ -116,14 +113,21 @@ class AppDrawer extends StatelessWidget {
   }
 
   Widget _buildDrawerItem(
-    BuildContext context,
-    String imagePath,
-    String title, {
-    Color color = Colors.black87,
-    VoidCallback? onTap,
-  }) {
+      BuildContext context,
+      String imagePath,
+      String title, {
+        Color color = Colors.black87,
+        VoidCallback? onTap,
+      }) {
     return ListTile(
-      leading: Image.asset(imagePath, width: 24, height: 24),
+      leading: Image.asset(
+        imagePath,
+        width: 34,
+        height: 34,
+        color: title == "تسجيل الخروج"
+            ? Color(0xffDC2626)
+            : const Color(0xff2F674D),
+      ),
 
       title: Text(
         title,

@@ -124,59 +124,62 @@ class _ProfileTabState extends State<ProfileTab> {
                     ),
                     Directionality(
                       textDirection: TextDirection.rtl,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xffD4E1DB),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              width: 172,
-                              height: 69,
-                              margin: EdgeInsets.only(
-                                left: 14,
-                                right: 6,
-                                top: 22,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "    12\nمرة تبرع",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(0xff2C5240),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xff306B50),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                width: 175,
+                                height: 75,
+                                margin: EdgeInsets.only(
+                                  left: 14,
+                                  right: 6,
+                                  top: 22,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "    12\nمرة تبرع",
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xffFFFFFF),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xffD4E1DB),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              width: 172,
-                              height: 69,
-                              margin: EdgeInsets.only(
-                                right: 14,
-                                left: 6,
-                                top: 22,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  " 5,800 ج.م\nإجمالى التبرعات",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(0xff2C5240),
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xff306B50),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                width: 175,
+                                height: 75,
+                                margin: EdgeInsets.only(
+                                  right: 14,
+                                  left: 6,
+                                  top: 22,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    " 5,800 ج.م\nإجمالى التبرعات",
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     Directionality(
@@ -284,7 +287,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                     ),
                                     const SizedBox(width: 12),
                                     Text(
-                                      "الحالات المحفوظة",
+                                      "العناصر المحفوظة",
                                       style: GoogleFonts.saira(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 18,

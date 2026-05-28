@@ -6,7 +6,8 @@ import '../../../../core/routes_manager/routes.dart';
 
 class ZakatGold extends StatefulWidget {
   final VoidCallback onSeeMorePressed;
-  const ZakatGold({super.key, required this.onSeeMorePressed});
+  ZakatGold({super.key, required this.onSeeMorePressed});
+
 
   @override
   State<ZakatGold> createState() => _ZakatGoldState();
@@ -81,7 +82,7 @@ class _ZakatGoldState extends State<ZakatGold> {
                   "زكاة الذهب ",
                   style: GoogleFonts.manrope(
                     fontSize: 26,
-                    fontWeight: FontWeight.w700, 
+                    fontWeight: FontWeight.w700, // SemiBold
                     color: Colors.white,
                   ),
                 ),
@@ -600,8 +601,37 @@ class _ZakatGoldState extends State<ZakatGold> {
                           ),
                         ),
                         onPressed: () {
+                          final input24 = controller24.text.trim();
+                          final input21 = controller21.text.trim();
+                          final input18 = controller18.text.trim();
+                          final input14 = controller14.text.trim();
+
+
+                          final weight24 = double.tryParse(input24);
+                          final weight21 = double.tryParse(input21);
+                          final weight18 = double.tryParse(input18);
+                          final weight14 = double.tryParse(input14);
+
+
+                          double totalGold =
+                              (weight24 ?? 0) +
+                                  (weight21 ?? 0) * 0.875 +
+                                  (weight18 ?? 0) * 0.75 +
+                                  (weight14 ?? 0) * 0.583;
+                          if (
+                          totalGold < 85
+
+                          ) {
+                            showErrorDialog(
+                              context,
+                              "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م",
+                            );
+                            return;
+                          }
+
                           showZakatSheet(context);
                         },
+
                         child: Text(
                           "احسب قيمة الزكاة",
                           style: GoogleFonts.manrope(
@@ -704,4 +734,70 @@ class _ZakatGoldState extends State<ZakatGold> {
       },
     );
   }
+  void showErrorDialog(BuildContext context, String message) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: "error",
+      barrierColor: Colors.black.withOpacity(0.4),
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (context, anim1, anim2) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: kToolbarHeight + 110),
+                    padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 35,
+                        ),
+
+                        const SizedBox(width: 10),
+
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                message,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.close, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 }

@@ -208,7 +208,7 @@ class CreditDetails extends StatelessWidget {
                                   MaterialPageRoute(
                                     builder:
                                         (context) =>
-                                            ProcessingScreen(amount: amount),
+                                        ProcessingScreen(amount: amount),
                                   ),
                                 );
                               },

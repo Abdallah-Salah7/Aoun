@@ -7,11 +7,11 @@ import 'base_theme.dart';
 
 class DarkTheme extends BaseTheme {
   @override
-  Color get background => Color(0x000000ff);
+  Color get background => Color(0xFF);
   @override
-  Color get primaryColor => Color(0x000000ff);
+  Color get primaryColor => Color(0xFF);
   @override
-  Color get textColor => Color(0x000000ff);
+  Color get textColor => Color(0xFF);
   @override
   ThemeData get themeData => ThemeData(
     focusColor: primaryColor,

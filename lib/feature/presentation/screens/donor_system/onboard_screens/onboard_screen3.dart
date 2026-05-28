@@ -21,9 +21,9 @@ class OnboardingScreen3 extends StatelessWidget {
               paragraphText: "عَبر خياراتٍ متعددة تُسهل عملية التبرع والعطاء.",
               skipFunction: () {
                 Navigator.pushNamed(context, Routes.userTypeScreen);
-              }, followFunction: () { 
-                Navigator.pushNamed(context, Routes.onBoard4);
-               },
+              }, followFunction: () {
+              Navigator.pushNamed(context, Routes.onBoard4);
+            },
             ),
           ),
         ],

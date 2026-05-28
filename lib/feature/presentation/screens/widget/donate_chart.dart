@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
+import '../../../domain/entities/category_distribution_entity.dart';
+
 class DonationsChart extends StatelessWidget {
-  const DonationsChart({super.key});
+  final List<CategoryDistributionEntity> categories;
+
+  const DonationsChart({
+    super.key,
+    required this.categories,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +23,17 @@ class DonationsChart extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           const Text(
-            'الإجمالي',
+            'التبرعات حسب الفئة',
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
           ),
+
           const SizedBox(height: 12),
 
-          /// CHART
           SizedBox(
             height: 180,
             child: BarChart(
               BarChartData(
-                gridData: FlGridData(show: true),
+                gridData: const FlGridData(show: true),
                 borderData: FlBorderData(show: false),
 
                 titlesData: FlTitlesData(
@@ -47,17 +54,16 @@ class DonationsChart extends StatelessWidget {
                     sideTitles: SideTitles(
                       showTitles: true,
                       getTitlesWidget: (value, meta) {
-                        const titles = [
-                          'الصحة',
-                          'الإغاثة',
-                          'التعليم',
-                          'كفالات',
-                          'بناء',
-                        ];
+                        final index = value.toInt();
+
+                        if (index < 0 || index >= categories.length) {
+                          return const SizedBox();
+                        }
+
                         return Padding(
                           padding: const EdgeInsets.only(top: 6),
                           child: Text(
-                            titles[value.toInt()],
+                            categories[index].categoryName,
                             style: const TextStyle(fontSize: 10),
                           ),
                         );
@@ -65,35 +71,22 @@ class DonationsChart extends StatelessWidget {
                     ),
                   ),
 
-                  rightTitles: AxisTitles(
+                  rightTitles: const AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
                   ),
-                  topTitles: AxisTitles(
+                  topTitles: const AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
                   ),
                 ),
 
-                barGroups: [
-                  _bar(0, 17000),
-                  _bar(1, 4000),
-                  _bar(2, 8000),
-                  _bar(3, 5000),
-                  _bar(4, 10000),
-                ],
+                barGroups: List.generate(categories.length, (index) {
+                  return _bar(
+                    index,
+                    categories[index].amount,
+                  );
+                }),
               ),
             ),
-          ),
-
-          const SizedBox(height: 10),
-
-          /// LEGEND
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Text('2', style: TextStyle(fontSize: 10)),
-              SizedBox(width: 4),
-              Icon(Icons.square, size: 10, color: Color(0xFF3A6F5D)),
-            ],
           ),
         ],
       ),

@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/resources/assets_manager.dart';
-import '../../../domain/entities/campaign_entity.dart';
+import '../../../domain/entities/camp_entity.dart';
+import '../widget/field_dropdown.dart';
 
 class AddCampaign extends StatefulWidget {
   const AddCampaign({super.key});
@@ -91,34 +92,37 @@ class _AddCampaignState extends State<AddCampaign> {
   }
 
   void _submitCase() {
+    // التحقق من أن جميع الحقول المطلوبة ممتلئة
     if (titleController.text.isEmpty ||
         amountController.text.isEmpty ||
         descController.text.isEmpty ||
         startDate == null ||
-        endDate == null) {
+        endDate == null ||
+        _image == null) { // تأكدي أيضاً من اختيار صورة
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("من فضلك املي كل البيانات بما فيها التواريخ"),
-        ),
+        const SnackBar(content: Text("من فضلك املي كل البيانات بما فيها صورة الحملة والتواريخ")),
       );
       return;
     }
 
+    // بناء الكائن الجديد بالتوافق مع التعديلات الأخيرة للـ Entity
     final newCase = CampaignEntity(
-      id: "",
-      image: _image?.path ?? ImageAssets.upload,
+      id: 0, // أو أي قيمة افتراضية للـ ID إذا كانت الحملة جديدة
       title: titleController.text,
+      imageUrl: _image!.path, // التأكد من إرسال مسار الصورة
       description: descController.text,
-      rateValue: 0.0,
-      collectedValue: "0",
-      allValue: amountController.text,
-      status: isUrgent ? "عاجلة جداً" : "نشطة",
-      category: selectedCategory,
-      startDate: startDate!, // ✅ هنا الآمان بعد التحقق
-      endDate: endDate!, // ✅
+      requiredAmount: double.tryParse(amountController.text) ?? 0.0,
+      collectedAmount: 0.0, // الحملة الجديدة تبدأ بجمع 0
+      donorsCount: 0,
+      daysLeft: endDate!.difference(DateTime.now()).inDays, // حساب الأيام المتبقية تلقائياً
+      isCompleted: false, // الحملة الجديدة غير مكتملة
+      startDate: startDate!,
+      endDate: endDate!,
     );
 
-    Navigator.pop(context, newCase);
+    // إرسال الكائن أو الـ FormData للـ Cubit
+    // هنا نقوم بإنشاء الـ FormData لأن الـ API يتطلبها
+    // Navigator.pop(context, newCase); // استخدمي هذا إذا كنتِ ستمررين الـ Entity فقط
   }
 
   @override

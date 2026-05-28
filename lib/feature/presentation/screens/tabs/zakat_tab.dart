@@ -18,24 +18,21 @@ class ZakatTab extends StatelessWidget {
           backgroundColor: Color(0xff2F674D),
           toolbarHeight: 167,
           shape: OutlineInputBorder(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(35),
-              bottomRight: Radius.circular(35),
-            ),
-            borderSide: BorderSide(color: Color(0xff2F674D)),
+              borderRadius:BorderRadius.only(bottomLeft: Radius.circular(35),
+                  bottomRight: Radius.circular(35)),
+              borderSide: BorderSide(color: Color(0xff2F674D))
           ),
 
           title: Padding(
             padding: const EdgeInsets.only(top: 48.0),
             child: Row(
               children: [
-                Text(
-                  "حاسبة الزكاة",
-                  style: GoogleFonts.manrope(
+                Text("حاسبة الزكاة",
+                  style:GoogleFonts.manrope(
                     fontSize: 26,
                     fontWeight: FontWeight.w700, // SemiBold
-                    color: Colors.white,
-                  ),
+                    color:  Colors.white,
+                  ) ,
                 ),
               ],
             ),
@@ -49,25 +46,25 @@ class ZakatTab extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0,
-                    vertical: 8,
-                  ),
-                  child: Text(
-                    "خدماتنا",
-                    style: GoogleFonts.manrope(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 8),
+                  child: Text("خدماتنا",
+                    style:GoogleFonts.manrope(
                       fontSize: 28,
                       fontWeight: FontWeight.w900, // SemiBold
-                    ),
+                    ) ,
                   ),
                 ),
                 Row(
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, Routes.calcZakat);
-                      },
-                      child: Expanded(
+                    Expanded(
+                      child: InkWell(
+                        onTap: (){
+
+                          Navigator.pushNamed(
+                            context,
+                            Routes.calcZakat,
+                          );
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
@@ -83,7 +80,7 @@ class ZakatTab extends StatelessWidget {
                           ),
                           height: 176,
                           width: 167,
-                          padding: EdgeInsets.only(top: 28),
+                          padding: EdgeInsets.only(top: 28,),
                           child: Column(
                             children: [
                               Padding(
@@ -119,15 +116,16 @@ class ZakatTab extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 51),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.fatwasOnZakatScreen,
-                        );
-                      },
-                      child: Expanded(
+                    SizedBox(width: 51,),
+                    Expanded(
+                      child: InkWell(
+                        onTap: (){
+
+                          Navigator.pushNamed(
+                            context,
+                            Routes.fatwasOnZakatScreen,
+                          );
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
@@ -143,7 +141,7 @@ class ZakatTab extends StatelessWidget {
                           ),
                           height: 176,
                           width: 167,
-                          padding: EdgeInsets.only(top: 28),
+                          padding: EdgeInsets.only(top: 28,),
                           child: Column(
                             children: [
                               Padding(
@@ -179,16 +177,19 @@ class ZakatTab extends StatelessWidget {
                         ),
                       ),
                     ),
+
+
+
                   ],
                 ),
-                SizedBox(height: 44),
+                SizedBox(height: 44,),
                 Row(
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, Routes.zakatScreen);
-                      },
-                      child: Expanded(
+                    Expanded(
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.pushNamed(context, Routes.zakatScreen);
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
@@ -204,7 +205,7 @@ class ZakatTab extends StatelessWidget {
                           ),
                           height: 176,
                           width: 167,
-                          padding: EdgeInsets.only(top: 28),
+                          padding: EdgeInsets.only(top: 28,),
                           child: Column(
                             children: [
                               Padding(
@@ -240,10 +241,16 @@ class ZakatTab extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 51),
-                    InkWell(
-                      onTap: () {},
-                      child: Expanded(
+                    SizedBox(width: 51,),
+                    Expanded(
+                      child: InkWell(
+                        onTap: (){
+
+                          Navigator.pushNamed(
+                            context,
+                            Routes.fundsZakat,
+                          );
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
@@ -259,7 +266,7 @@ class ZakatTab extends StatelessWidget {
                           ),
                           height: 176,
                           width: 167,
-                          padding: EdgeInsets.only(top: 28),
+                          padding: EdgeInsets.only(top: 28,),
                           child: Column(
                             children: [
                               Padding(
@@ -295,8 +302,12 @@ class ZakatTab extends StatelessWidget {
                         ),
                       ),
                     ),
+
+
+
                   ],
                 ),
+
               ],
             ),
           ),

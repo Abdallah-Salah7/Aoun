@@ -4,9 +4,17 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
 
-class ZakatSliver extends StatelessWidget {
+class ZakatSliver extends StatefulWidget {
   final VoidCallback onSeeMorePressed;
-  const ZakatSliver({super.key, required this.onSeeMorePressed});
+  ZakatSliver({super.key, required this.onSeeMorePressed});
+
+  @override
+  State<ZakatSliver> createState() => _ZakatSliverState();
+}
+
+class _ZakatSliverState extends State<ZakatSliver> {
+  final TextEditingController weightController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +98,7 @@ class ZakatSliver extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 20.0),
                   child: TextField(
+                    controller: weightController,
                     textAlign: TextAlign.right,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -199,7 +208,31 @@ class ZakatSliver extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () => showZakatSheet(context),
+                    onPressed: () {
+                      final input = weightController.text.trim();
+
+                      if (input.isEmpty) {
+                        showErrorDialog(context, "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م");
+                        return;
+                      }
+
+                      final weight = double.tryParse(input);
+
+                      if (weight == null) {
+                        showErrorDialog(context,  "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م");
+                        return;
+                      }
+
+                      if (weight < 595) {
+                        showErrorDialog(
+                          context,
+                          "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م",
+                        );
+                        return;
+                      }
+
+                      showZakatSheet(context);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff2F674D),
                       padding: const EdgeInsets.symmetric(vertical: 14),
@@ -282,7 +315,7 @@ class ZakatSliver extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: onSeeMorePressed ?? () {},
+                      onPressed: widget.onSeeMorePressed ?? () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF2F6B4F),
                         padding: EdgeInsets.symmetric(vertical: 8),
@@ -301,6 +334,72 @@ class ZakatSliver extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void showErrorDialog(BuildContext context, String message) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: "error",
+      barrierColor: Colors.black.withOpacity(0.4),
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (context, anim1, anim2) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: kToolbarHeight + 110),
+                    padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 35,
+                        ),
+
+                        const SizedBox(width: 10),
+
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                message,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.close, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

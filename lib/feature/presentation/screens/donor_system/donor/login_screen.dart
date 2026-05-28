@@ -4,9 +4,7 @@ import 'package:aoun/feature/presentation/screens/widget/authentication/logo_wid
 import 'package:flutter/material.dart';
 
 class DonorLoginScreen extends StatelessWidget {
-   DonorLoginScreen({super.key});
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  const DonorLoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +22,8 @@ class DonorLoginScreen extends StatelessWidget {
                 SizedBox(height: verticalSpacing),
                 const LogoWidget(),
                 SizedBox(height: verticalSpacing),
-                const LoginForm(isLogin: true, userType: 'donor',),
+                const LoginForm(isLogin: true, userType: 'charity',),
+
                 SizedBox(height: verticalSpacing),
                 const SocialLoginSection(isLogin: true),
                 SizedBox(height: verticalSpacing),

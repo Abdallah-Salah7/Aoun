@@ -1,38 +1,45 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../core/routes_manager/routes.dart';
 
 class CradlesItem extends StatelessWidget {
+  // الحقول المطلوبة فقط
   final String image;
   final String title;
-  final String description;
-  final double rateValue;
-  final String collectedValue;
-  final String allValue;
-  final String status;
-  final DateTime startDate;
-  final DateTime endDate;
+
+  // الحقول الاختيارية (تقبل null)
+  final String? description;
+  final double? rateValue;
+  final String? collectedValue;
+  final String? allValue;
+  final String? status;
+  final DateTime? startDate;
+  final DateTime? endDate;
 
   const CradlesItem({
     super.key,
-    required this.image,
-    required this.title,
-    required this.description,
-    required this.rateValue,
-    required this.collectedValue,
-    required this.allValue,
-    required this.status,
-    required this.startDate,
-    required this.endDate,
+    required this.image, // مطلوب
+    required this.title, // مطلوب
+    this.description,    // اختياري
+    this.rateValue,
+    this.collectedValue,
+    this.allValue,
+    this.status,
+    this.startDate,
+    this.endDate,
   });
 
-  bool get isFileImage => image.startsWith('/') || image.startsWith('file://');
+  bool get isFileImage => image.startsWith('/') || image.startsWith('file://') || image.startsWith('http');
 
   @override
   Widget build(BuildContext context) {
+    // حساب النسبة المئوية برمجياً (مع التعامل مع القيم الفارغة)
+    final collected = double.tryParse(collectedValue ?? "0") ?? 0.0;
+    final all = double.tryParse(allValue ?? "1") ?? 1.0;
+    final calculatedRate = (all > 0) ? (collected / all) : 0.0;
+    final finalRate = calculatedRate.clamp(0.0, 1.0);
+
     return InkWell(
       onTap: () {
         Navigator.pushNamed(
@@ -41,11 +48,11 @@ class CradlesItem extends StatelessWidget {
           arguments: {
             "image": image,
             "title": title,
-            "description": description,
-            "rateValue": rateValue,
-            "collectedValue": collectedValue,
-            "allValue": allValue,
-            "status": status,
+            "description": description ?? "",
+            "rateValue": finalRate,
+            "collectedValue": collectedValue ?? "0",
+            "allValue": allValue ?? "0",
+            "status": status ?? "",
             "startDate": startDate,
             "endDate": endDate,
           },
@@ -57,26 +64,14 @@ class CradlesItem extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-              ),
-
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child:
-                    isFileImage
-                        ? Image.file(
-                          File(image),
-                          height: 252,
-                          width: 220,
-                          fit: BoxFit.cover,
-                        )
-                        : Image.asset(
-                          image,
-                          height: 252,
-                          width: 220,
-                          fit: BoxFit.cover,
-                        ),
+                child: image.startsWith('http')
+                    ? Image.network(image, height: 252, width: 220, fit: BoxFit.cover)
+                    : (isFileImage
+                    ? Image.file(File(image), height: 252, width: 220, fit: BoxFit.cover)
+                    : Image.asset(image, height: 252, width: 220, fit: BoxFit.cover)),
               ),
             ),
           ),
@@ -84,10 +79,10 @@ class CradlesItem extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               decoration: BoxDecoration(
-                color: Color(0xff323131),
+                color: const Color(0xff323131),
                 borderRadius: BorderRadius.circular(18),
               ),
-              padding: EdgeInsets.symmetric(vertical: 3, horizontal: 40),
+              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 40),
               child: Text(
                 title,
                 style: GoogleFonts.abrilFatface(

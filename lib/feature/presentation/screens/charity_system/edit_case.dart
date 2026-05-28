@@ -5,14 +5,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../../../core/routes_manager/routes.dart';
 import '../../../domain/entities/case_entity.dart';
 import '../../state_management/cubit/case_cubit.dart';
 import '../widget/field_dropdown.dart';
 
 class EditCase extends StatefulWidget {
-  final CaseEntity caseEntity;
+  late  CaseEntity caseEntity;
 
-  const EditCase({super.key, required this.caseEntity});
+   EditCase({super.key, required this.caseEntity});
 
   @override
   State<EditCase> createState() => _EditCaseState();
@@ -22,8 +23,13 @@ class _EditCaseState extends State<EditCase> {
   late TextEditingController titleController;
   late TextEditingController amountController;
   late TextEditingController descriptionController;
+
   File? _image;
   final ImagePicker _picker = ImagePicker();
+
+  bool isUrgent = false;
+
+  int selectedCategory = 1; // ✅ خليها int
 
   Future<void> _pickImage() async {
     final XFile? pickedFile = await _picker.pickImage(
@@ -41,23 +47,19 @@ class _EditCaseState extends State<EditCase> {
   void initState() {
     super.initState();
 
-    titleController = TextEditingController(text: widget.caseEntity.title);
-    amountController = TextEditingController(text: widget.caseEntity.allValue);
-    descriptionController = TextEditingController(
-      text: widget.caseEntity.description,
-    );
+    titleController =
+        TextEditingController(text: widget.caseEntity.title);
 
-    selectedCategory = widget.caseEntity.category;
-    isUrgent = widget.caseEntity.status == "عاجلة جداً";
+    amountController =
+        TextEditingController(text: widget.caseEntity.requiredAmount.toString());
 
-    // 🔥 أهم سطر
-    if (widget.caseEntity.image.isNotEmpty) {
-      _image = File(widget.caseEntity.image);
-    }
+    descriptionController =
+        TextEditingController(text: widget.caseEntity.description);
+
+    selectedCategory = widget.caseEntity.categoryId; // ✅ صح كده
+
+    isUrgent = widget.caseEntity.isUrgent;
   }
-
-  bool isUrgent = false;
-  String selectedCategory = "الصحة";
 
   @override
   Widget build(BuildContext context) {
@@ -112,42 +114,44 @@ class _EditCaseState extends State<EditCase> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child:
-                        _image != null
-                            ? Image.file(
-                              _image!,
-                              width: double.infinity,
-                              height: double.infinity,
-                              fit: BoxFit.fill,
-                            )
-                            : Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image(
-                                  image: AssetImage(ImageAssets.upload),
-                                  height: 59,
-                                  width: 59,
-                                  fit: BoxFit.contain,
-                                  color: Colors.grey,
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  "اضغط لتحميل الصورة",
-                                  style: GoogleFonts.manrope(
-                                    color: Colors.grey,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Text(
-                                  "JPG, PNG (حد أقصى 5MB)",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
+                     child: _image != null
+                  ? Image.file(
+                  _image!,
+                    fit: BoxFit.cover,
+                  )
+                        : widget.caseEntity.imageUrl.isNotEmpty
+                ? Image(
+                    image: getImage(widget.caseEntity.imageUrl),
+                fit: BoxFit.cover,
+              )
+                        : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image(
+                          image: AssetImage(ImageAssets.upload),
+                          height: 59,
+                          width: 59,
+                          fit: BoxFit.contain,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "اضغط لتحميل الصورة",
+                          style: GoogleFonts.manrope(
+                            color: Colors.grey,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          "JPG, PNG (حد أقصى 5MB)",
+                          style: GoogleFonts.manrope(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -164,7 +168,7 @@ class _EditCaseState extends State<EditCase> {
                 child: FieldDropdown(
                   onChanged: (value) {
                     setState(() {
-                      selectedCategory = value ?? "الصحة";
+                      selectedCategory = int.tryParse(value.toString()) ?? 1;
                     });
                   },
                 ),
@@ -207,8 +211,14 @@ class _EditCaseState extends State<EditCase> {
                     ),
                     Transform.scale(
                       scale: 0.9,
-                      child: Switch(
+                      child:     /// 👇 Switch
+                      Switch(
                         value: isUrgent,
+                        onChanged: (value) {
+                          setState(() {
+                            isUrgent = value;
+                          });
+                        },
                         trackColor: WidgetStateProperty.resolveWith<Color?>((
                           states,
                         ) {
@@ -228,11 +238,7 @@ class _EditCaseState extends State<EditCase> {
                         trackOutlineColor: WidgetStateProperty.all(
                           Colors.transparent,
                         ),
-                        onChanged: (value) {
-                          setState(() {
-                            isUrgent = value;
-                          });
-                        },
+
                       ),
                     ),
                   ],
@@ -266,7 +272,7 @@ class _EditCaseState extends State<EditCase> {
                               const SizedBox(width: 5),
 
                               Text(
-                                "توليد بالذكاء الاصطناعي",
+                                "تحسين بالذكاء الاصطناعى",
                                 style: GoogleFonts.manrope(
                                   fontSize: 16,
                                   color: const Color(0xff2F674D),
@@ -313,17 +319,27 @@ class _EditCaseState extends State<EditCase> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     final updated = widget.caseEntity.copyWith(
                       title: titleController.text,
                       description: descriptionController.text,
-                      allValue: amountController.text,
-                      category: selectedCategory,
-                      status: isUrgent ? "عاجلة جداً" : "عادية",
-                      image: _image?.path ?? widget.caseEntity.image,
+                      requiredAmount:
+                      double.tryParse(amountController.text) ??
+                          widget.caseEntity.requiredAmount,
+
+                      categoryId: selectedCategory, // ✅ صح
+
+                      status: widget.caseEntity.status,
+                      isUrgent: isUrgent, // ✅ مهم جداً
+                      imageUrl: widget.caseEntity.imageUrl,
                     );
 
-                    context.read<CaseCubit>().updateCase(updated);
+                    await context.read<CaseCubit>().updateCase(
+                      updated,
+                      imageFile: _image,
+                    );
+
+                    await context.read<CaseCubit>().fetchCases();
 
                     Navigator.pop(context);
                   },
@@ -383,14 +399,14 @@ class _EditCaseState extends State<EditCase> {
                                 children: [
                                   Expanded(
                                     child: InkWell(
+                                      // داخل الـ AlertDialog -> Row -> InkWell (حذف الحالة)
                                       onTap: () {
-                                        caseCubit.deleteCase(
-                                          widget.caseEntity.id,
-                                        );
+                                        // بدون await
+                                        caseCubit.deleteCase(widget.caseEntity.id);
+
                                         Navigator.pop(dialogContext);
-                                        Navigator.pop(dialogContext);
-                                      },
-                                      child: Text(
+                                        Navigator.pop(context);
+                                      },                                      child: Text(
                                         "حذف الحالة",
                                         style: GoogleFonts.saira(
                                           fontSize: 23,
@@ -480,7 +496,7 @@ class _EditCaseState extends State<EditCase> {
             border: Border.all(color: const Color(0xffC4C4C4), width: 1.5),
           ),
           child: TextField(
-            controller: controller, // ⭐ أهم سطر
+            controller: controller,
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: GoogleFonts.manrope(
@@ -495,5 +511,16 @@ class _EditCaseState extends State<EditCase> {
         ),
       ],
     );
+  }
+  ImageProvider getImage(String image) {
+    if (image.startsWith('http')) {
+      return NetworkImage(image);
+    }
+
+    if (image.startsWith('/images')) {
+      return NetworkImage("https://aounplatform.runasp.net$image");
+    }
+
+    return const AssetImage(ImageAssets.upload);
   }
 }

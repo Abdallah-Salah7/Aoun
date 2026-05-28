@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
-import '../../state_management/cubit/campaign_cubit.dart';
-import '../../state_management/cubit/campaign_state.dart';
+import '../../state_management/cubit/camp_cubit.dart';
+import '../../state_management/cubit/camp_state.dart';
 import '../../state_management/cubit/case_cubit.dart';
 import '../../state_management/cubit/case_state.dart'
     show CaseLoaded, CaseState;
@@ -417,12 +417,12 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                                 final caseItem = cases[index];
 
                                 return CaseItem(
-                                  image: caseItem.image,
+                                  image: caseItem.imageUrl,
                                   title: caseItem.title,
                                   description: caseItem.description,
-                                  rateValue: caseItem.rateValue,
-                                  collectedValue: caseItem.collectedValue,
-                                  allValue: caseItem.allValue,
+                                  rateValue: caseItem.progress,
+                                  collectedValue: caseItem.collectedAmount,
+                                  allValue: caseItem.requiredAmount,
                                   status: caseItem.status,
                                 );
                               },
@@ -435,9 +435,9 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                         },
                       )
                       : BlocBuilder<CampaignCubit, CampaignState>(
-                        builder: (context, state) {
-                          if (state is CampaignLoaded) {
-                            final campaigns = state.campaigns;
+                    builder: (context, state) {
+                      if (state is CampaignLoaded) {
+                        final campaigns = state.campaigns;
 
                             return ListView.builder(
                               shrinkWrap: true,
@@ -447,17 +447,16 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                                 final campaign = campaigns[index];
 
                                 return CampaignItem(
-                                  image: campaign.image,
+                                  image: campaign.imageUrl,
                                   title: campaign.title,
                                   rateValue: campaign.rateValue,
-                                  collectedValue: campaign.collectedValue,
-                                  allValue: campaign.allValue,
+                                  collectedValue: campaign.collectedAmount.toString(),
+                                  allValue: campaign.requiredAmount.toString(),
                                   description: campaign.description,
-                                  status: campaign.status,
+                                  // status: campaign.status,
                                   startDate: campaign.startDate,
                                   endDate: campaign.endDate,
-                                );
-                              },
+                                );                              },
                             );
                           }
 

@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
-import '../../state_management/cubit/campaign_cubit.dart';
-import '../../state_management/cubit/campaign_state.dart';
+import '../../state_management/cubit/camp_cubit.dart';
+import '../../state_management/cubit/camp_state.dart';
 import '../donor_system/current_campaigns_screen.dart';
 import '../widget/case_item.dart';
 import '../widget/cradles_item.dart';
@@ -34,7 +34,7 @@ class MainTab extends StatelessWidget {
                     ListTile(
                       leading: Container(
                         decoration: BoxDecoration(
-                          color: Color(0xff255a4230),
+                          color: Color(0xff255A4230),
                           borderRadius: BorderRadius.circular(45),
                         ),
                         child: Padding(
@@ -221,15 +221,9 @@ class MainTab extends StatelessWidget {
                                     horizontal: 6,
                                   ),
                                   child: CradlesItem(
-                                    image: campaign.image,
+                                    image: campaign.imageUrl,
                                     title: campaign.title,
                                     description: campaign.description,
-                                    rateValue: campaign.rateValue,
-                                    collectedValue: campaign.collectedValue,
-                                    allValue: campaign.allValue,
-                                    status: campaign.status,
-                                    startDate: campaign.startDate,
-                                    endDate: campaign.endDate,
                                   ),
                                 );
                               },
@@ -248,8 +242,8 @@ class MainTab extends StatelessWidget {
                       description:
                           "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
                       rateValue: 0.6,
-                      collectedValue: "٨٩٠٠",
-                      allValue: "١٨,٠٠٠",
+                      collectedValue: 8900,
+                      allValue: 18000,
                       status: "عاجلة",
                     ),
                     SizedBox(height: 30),
@@ -260,8 +254,8 @@ class MainTab extends StatelessWidget {
                       description:
                           "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
                       rateValue: 0.6,
-                      collectedValue: "٨٩٠٠",
-                      allValue: "١٨,٠٠٠",
+                      collectedValue: 8900,
+                      allValue: 18000,
                       status: "عاجلة جداً",
                     ),
                     SizedBox(height: 30),
@@ -272,8 +266,8 @@ class MainTab extends StatelessWidget {
                       description:
                           "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
                       rateValue: 0.6,
-                      collectedValue: "٨٩٠٠",
-                      allValue: "١٨,٠٠٠",
+                      collectedValue: 8900,
+                      allValue: 18000,
                       status: "عاجلة",
                     ),
                     SizedBox(height: 30),

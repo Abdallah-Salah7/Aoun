@@ -1,47 +1,61 @@
+import '../../domain/entities/case_entity.dart';
+
 class CaseEntity {
-  final String id;
+  final int id;
   final String title;
   final String description;
-  final String image;
-  final String category;
+  final String imageUrl;
+  final double requiredAmount;
+  final double collectedAmount;
+  final double progress;
+  final bool isUrgent;
+  final bool isCompleted;
+  final int categoryId;
   final String status;
-  final double rateValue;
-  final String collectedValue;
-  final String allValue;
+  final int donorCount;
 
   CaseEntity({
     required this.id,
     required this.title,
     required this.description,
-    required this.image,
-    required this.category,
+    required this.imageUrl,
+    required this.requiredAmount,
+    required this.collectedAmount,
+    required this.progress,
+    required this.isUrgent,
+    required this.isCompleted,
+    required this.categoryId,
     required this.status,
-    required this.rateValue,
-    required this.collectedValue,
-    required this.allValue,
+    required this.donorCount,
   });
 
   CaseEntity copyWith({
-    String? id,
+    int? id,
+    int? donorCount,
     String? title,
     String? description,
-    String? image,
-    String? category,
+    String? imageUrl,
+    double? requiredAmount,
+    double? collectedAmount,
+    double? progress,
+    bool? isUrgent,
+    bool? isCompleted,
+    int? categoryId,
     String? status,
-    double? rateValue,
-    String? collectedValue,
-    String? allValue,
   }) {
     return CaseEntity(
       id: id ?? this.id,
+      donorCount: donorCount ?? this.donorCount,
       title: title ?? this.title,
       description: description ?? this.description,
-      image: image ?? this.image,
-      category: category ?? this.category,
+      imageUrl: imageUrl ?? this.imageUrl,
+      requiredAmount: requiredAmount ?? this.requiredAmount,
+      collectedAmount: collectedAmount ?? this.collectedAmount,
+      progress: progress ?? this.progress,
+      isUrgent: isUrgent ?? this.isUrgent,
+      isCompleted: isCompleted ?? this.isCompleted,
+      categoryId: categoryId ?? this.categoryId,
       status: status ?? this.status,
-      rateValue: rateValue ?? this.rateValue,
-      collectedValue: collectedValue ?? this.collectedValue,
-      allValue: allValue ?? this.allValue,
     );
   }
 }

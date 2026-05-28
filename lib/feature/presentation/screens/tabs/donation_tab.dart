@@ -14,20 +14,20 @@ class DonationTab extends StatefulWidget {
 }
 
 class _DonationTabState extends State<DonationTab> {
-  List<Map<String, String>> allFields = [
-    {"title": "الصحة", "image": ImageAssets.healthCheck},
-    {"title": "الإغاثة", "image": ImageAssets.siren},
-    {"title": "التعليم", "image": ImageAssets.classroom},
-    {"title": "كفالات", "image": ImageAssets.socialCare},
-    {"title": "مشاريع بناء", "image": ImageAssets.brickWall},
-    {"title": "التنمية", "image": ImageAssets.people},
-    {"title": "ذوى الاحتياجات", "image": ImageAssets.elderly},
-    {"title": "كفارات", "image": ImageAssets.elderly},
-    {"title": "الغارمين", "image": ImageAssets.debt},
-    {"title": "الإطعام", "image": ImageAssets.deliveryMan},
+  List<Map<String, dynamic>> allFields = [
+    {"id": 1, "title": "الصحة", "image": ImageAssets.healthCheck},
+    {"id": 2, "title": "الإغاثة", "image": ImageAssets.siren},
+    {"id": 3, "title": "التعليم", "image": ImageAssets.classroom},
+    {"id": 4, "title": "كفالات", "image": ImageAssets.socialCare},
+    {"id": 5, "title": "مشاريع بناء", "image": ImageAssets.brickWall},
+    {"id": 6, "title": "التنمية", "image": ImageAssets.people},
+    {"id": 7, "title": "ذوى الاحتياجات", "image": ImageAssets.elderly},
+    {"id": 8, "title": "كفارات", "image": ImageAssets.elderly},
+    {"id": 9, "title": "الغارمين", "image": ImageAssets.debt},
+    {"id": 10, "title": "الإطعام", "image": ImageAssets.deliveryMan},
   ];
 
-  List<Map<String, String>> filteredFields = [];
+  List<Map<String, dynamic>> filteredFields = [];
 
   @override
   void initState() {
@@ -67,6 +67,7 @@ class _DonationTabState extends State<DonationTab> {
             child: TextField(
               onChanged: (value) {
                 setState(() {
+
                   filteredFields =
                       allFields.where((field) {
                         return field["title"]!.toLowerCase().contains(
@@ -125,10 +126,9 @@ class _DonationTabState extends State<DonationTab> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder:
-                            (context) => DonationFieldScreen(
-                              fieldName: filteredFields[index]["title"]!,
-                            ),
+                        builder: (context) => DonationFieldScreen(
+                          categoryId: filteredFields[index]["id"] as int,
+                        ),
                       ),
                     );
                   },

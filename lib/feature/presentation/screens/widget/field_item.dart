@@ -8,7 +8,7 @@ class FieldItem extends StatelessWidget {
   final String image;
   final String title;
   final VoidCallback onTap;
-  const FieldItem({
+  FieldItem({
     super.key,
     required this.image,
     required this.title,

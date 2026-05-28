@@ -64,6 +64,19 @@ abstract class ImageAssets {
   static const String logout = "$imagePath/logout.png";
   static const String upload = "$imagePath/upload.png";
   static const String newDonors = "$imagePath/newDonors.png";
+  static const String langIcon = "$imagePath/lang_icon.png";
+  static const String phoneIcon = "$imagePath/phone_icon.png";
+  static const String emailIcon = "$imagePath/email_icon.png";
+  static const String mosque = "$imagePath/mosque.jpg";
+  static const String caseIcon = "$imagePath/caseIcon.png";
+  static const String campIcon = "$imagePath/campIcon.png";
+  static const String chatIcon = "$imagePath/chatIcon.png";
+  static const String donIcon = "$imagePath/donIcon.png";
+  static const String repoIcon = "$imagePath/repoIcon.png";
+  static const String setIcon = "$imagePath/setIcon.png";
+  static const String deleteCharity = "$imagePath/deleteCharity.png";
+  static const String acceptCharity = "$imagePath/acceptCharity.png";
+  static const String reqCharity = "$imagePath/reqCharity.png";
 }
 
 class SvgAssets {}

@@ -7,7 +7,9 @@ import '../../../../core/routes_manager/routes.dart';
 class ZakatMoney extends StatelessWidget {
   final VoidCallback onSeeMorePressed;
 
-  const ZakatMoney({super.key, required this.onSeeMorePressed});
+  ZakatMoney({super.key, required this.onSeeMorePressed});
+  final TextEditingController weightController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,7 @@ class ZakatMoney extends StatelessWidget {
                   "زكاة المال ",
                   style: GoogleFonts.manrope(
                     fontSize: 26,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w700, // SemiBold
                     color: Colors.white,
                   ),
                 ),
@@ -116,6 +118,7 @@ class ZakatMoney extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 20.0),
                     child: TextField(
+                      controller: weightController,
                       textAlign: TextAlign.right,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -290,8 +293,31 @@ class ZakatMoney extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
+                          final input = weightController.text.trim();
+
+                          if (input.isEmpty) {
+                            showErrorDialog(context, "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م");
+                            return;
+                          }
+
+                          final weight = double.tryParse(input);
+
+                          if (weight == null) {
+                            showErrorDialog(context,  "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م");
+                            return;
+                          }
+
+                          if (weight < 672000) {
+                            showErrorDialog(
+                              context,
+                              "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م",
+                            );
+                            return;
+                          }
+
                           showZakatSheet(context);
                         },
+
                         child: Text(
                           "احسب قيمة الزكاة",
                           style: GoogleFonts.manrope(
@@ -394,4 +420,70 @@ class ZakatMoney extends StatelessWidget {
       },
     );
   }
+  void showErrorDialog(BuildContext context, String message) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: "error",
+      barrierColor: Colors.black.withOpacity(0.4),
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (context, anim1, anim2) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: kToolbarHeight + 110),
+                    padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 35,
+                        ),
+
+                        const SizedBox(width: 10),
+
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                message,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.close, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 }

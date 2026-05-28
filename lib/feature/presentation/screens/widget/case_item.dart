@@ -8,8 +8,8 @@ class CaseItem extends StatelessWidget {
   final String title;
   final String description;
   final double rateValue;
-  final String collectedValue;
-  final String allValue;
+  final double collectedValue;
+  final double allValue;
   final String status;
 
   const CaseItem({

@@ -1,41 +1,19 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
-import '../../../domain/entities/campaign_entity.dart';
-import '../../state_management/cubit/campaign_cubit.dart';
+import '../../../domain/entities/camp_entity.dart';
+import '../../state_management/cubit/camp_cubit.dart';
 import '../charity_system/edit_campaign.dart';
 
 class CharityCampaignItem extends StatelessWidget {
-  final String image;
-  final String title;
-  final String description;
-  final double rateValue;
-  final String collectedValue;
-  final String allValue;
-  final String status;
-  final String category;
-  final DateTime startDate;
-  final DateTime endDate;
-  final String id;
+  final CampaignEntity campaign;
 
   const CharityCampaignItem({
     super.key,
-    required this.image,
-    required this.title,
-    required this.description,
-    required this.rateValue,
-    required this.collectedValue,
-    required this.allValue,
-    required this.status,
-    required this.category,
-    required this.startDate,
-    required this.endDate,
-    required this.id,
+    required this.campaign,
   });
 
   @override
@@ -46,262 +24,113 @@ class CharityCampaignItem extends StatelessWidget {
         Navigator.pushNamed(
           context,
           Routes.charityCampaignDetails,
-          arguments: CampaignEntity(
-            id: "",
-            title: title,
-            description: description,
-            image: image,
-            category: category,
-            status: status,
-            rateValue: rateValue,
-            collectedValue: collectedValue,
-            allValue: allValue,
-            startDate: startDate,
-            endDate: endDate,
-          ),
+          arguments: campaign,
         );
       },
-
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
+          boxShadow: [const BoxShadow(color: Colors.black12, blurRadius: 5, offset: Offset(0, 2))],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
-                  child:
-                      (image.startsWith('/') || image.contains('file://'))
-                          ? Image.file(
-                            File(image),
-                            height: 220,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          )
-                          : Image.asset(
-                            image.isNotEmpty ? image : ImageAssets.upload,
-                            height: 220,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                ),
-              ],
-            ),
-
-            /// TITLE
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 18.0),
-                      child: Image(
-                        image: AssetImage(ImageAssets.iconDate),
-                        height: 34,
-                        width: 34,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "${getRemainingDays()} يوم متبقى",
-                        style: GoogleFonts.manrope(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black45,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 18,
-                      vertical: 25,
-                    ),
-                    child: Text(
-                      title,
-                      style: GoogleFonts.cairo(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.right,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            /// PROGRESS
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: LinearProgressIndicator(
-                  value: rateValue,
-                  minHeight: 6,
-                  backgroundColor: const Color(0xffE0E0E0),
-                  color: const Color(0xff2F674D),
-                ),
+            // في ملف CharityCampaignItem.dart، استبدلي جزء عرض الصورة بـ:
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+              child: campaign.imageUrl.startsWith('http')
+                  ? Image.network(
+                campaign.imageUrl,
+                height: 220,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Image.asset(ImageAssets.upload, height: 220, width: double.infinity, fit: BoxFit.cover),
+              )
+                  : Image.asset(
+                campaign.imageUrl.isNotEmpty ? campaign.imageUrl : ImageAssets.upload,
+                height: 220,
+                width: double.infinity,
+                fit: BoxFit.cover,
               ),
             ),
 
-            /// VALUES
+            // التاريخ والعنوان
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
+              padding: const EdgeInsets.all(18.0),
+              child: Column(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                      Text(
-                        "تم جمع $collectedValue ج.م",
-                        style: GoogleFonts.manrope(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xff255A41),
-                        ),
-                      ),
-                      Text(
-                        "من $allValue",
-                        style: GoogleFonts.manrope(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xff757575),
-                        ),
-                      ),
+                      Image.asset(ImageAssets.iconDate, height: 34, width: 34),
+                      const SizedBox(width: 8),
+                      Text("${campaign.daysLeft} يوم متبقى", style: GoogleFonts.manrope(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black45)),
                     ],
                   ),
-                  const Spacer(),
-                  Column(
-                    children: [
-                      Image(image: AssetImage(ImageAssets.vector)),
-                      const SizedBox(height: 5),
-                      Text(
-                        "125 متبرع",
-                        style: GoogleFonts.cairo(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
+                  const SizedBox(height: 15),
+                  Align(alignment: Alignment.topRight, child: Text(campaign.title, style: GoogleFonts.cairo(fontSize: 16, fontWeight: FontWeight.bold))),
                 ],
               ),
             ),
 
-            const SizedBox(height: 10),
+            // شريط التقدم
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: LinearProgressIndicator(value: campaign.rateValue.clamp(0.0, 1.0), minHeight: 6, color: const Color(0xff2F674D), backgroundColor: const Color(0xffE0E0E0)),
+            ),
 
-            /// BUTTON
-            status == "مكتملة"
-                ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                      color: const Color(0xff8FAF9A),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "اكتملت",
-                          style: GoogleFonts.manrope(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        const Icon(
-                          Icons.check_circle_outline,
-                          color: Colors.white,
-                          size: 36,
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-                : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton.icon(
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        side: const BorderSide(
-                          color: Color(0xff737373),
-                          width: 2,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      onPressed: () {
-                        final campaign = CampaignEntity(
-                          id: id,
-                          title: title,
-                          description: description,
-                          image: image,
-                          category: category,
-                          status: status,
-                          rateValue: rateValue,
-                          collectedValue: collectedValue,
-                          allValue: allValue,
-                          startDate: startDate,
-                          endDate: endDate,
-                        );
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (_) => BlocProvider.value(
-                                  value: context.read<CampaignCubit>(),
-                                  child: EditCampaign(campaignEntity: campaign),
-                                ),
-                          ),
-                        );
-                      },
-                      icon: Text(
-                        "تعديل الحملة",
-                        style: GoogleFonts.cairo(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xff737373),
-                        ),
-                      ),
-                      label: const Icon(
-                        Icons.mode_edit_outline_outlined,
-                        color: Color(0xff737373),
-                        size: 30,
-                      ),
-                    ),
-                  ),
-                ),
+            // القيم والإحصائيات
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text("تم جمع ${campaign.collectedAmount.toInt()} ج.م", style: GoogleFonts.manrope(fontSize: 17, fontWeight: FontWeight.bold, color: const Color(0xff255A41))),
+                    Text("من ${campaign.requiredAmount.toInt()}", style: GoogleFonts.manrope(fontSize: 17, fontWeight: FontWeight.bold, color: const Color(0xff757575))),
+                  ]),
+                  const Spacer(),
+                  Column(children: [
+                    Image.asset(ImageAssets.vector),
+                    Text("${campaign.donorsCount} متبرع", style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
+                  ]),
+                ],
+              ),
+            ),
 
-            const SizedBox(height: 12),
+            // زر الحالة أو التعديل
+            campaign.isCompleted ? _buildCompletedButton() : _buildEditButton(context),
+            const SizedBox(height: 15),
           ],
         ),
       ),
     );
   }
 
-  int getRemainingDays() {
-    final now = DateTime.now();
-    final difference = endDate.difference(now).inDays;
-    return difference < 0 ? 0 : difference;
-  }
+  Widget _buildCompletedButton() => Container(
+    margin: const EdgeInsets.symmetric(horizontal: 12),
+    width: double.infinity,
+    padding: const EdgeInsets.symmetric(vertical: 10),
+    decoration: BoxDecoration(color: const Color(0xff8FAF9A), borderRadius: BorderRadius.circular(20)),
+    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Text("اكتملت", style: GoogleFonts.manrope(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white)),
+      const SizedBox(width: 5),
+      const Icon(Icons.check_circle_outline, color: Colors.white, size: 36),
+    ]),
+  );
+
+  Widget _buildEditButton(BuildContext context) => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 12),
+    child: SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12), side: const BorderSide(color: Color(0xff737373), width: 2), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => BlocProvider.value(value: context.read<CampaignCubit>(), child: EditCampaign(campaignEntity: campaign))));
+        },
+        icon: const Icon(Icons.mode_edit_outline_outlined, color: Color(0xff737373), size: 30),
+        label: Text("تعديل الحملة", style: GoogleFonts.cairo(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xff737373))),
+      ),
+    ),
+  );
 }

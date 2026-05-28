@@ -19,7 +19,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   final TextEditingController recipientNameController = TextEditingController();
   final TextEditingController recipientPhoneController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController messageController = TextEditingController();
 
   final List<int> amounts = [50, 100, 500, 10];
@@ -56,29 +56,29 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 spacing: 16,
                 runSpacing: 10,
                 children:
-                    amounts.map((amt) {
-                      bool isSelected = selectedAmount == amt;
-                      return ChoiceChip(
-                        labelStyle: const TextStyle(color: Color(0xff255A41)),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 3,
-                        ),
-                        color: const WidgetStatePropertyAll(Color(0xffE5EBE9)),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          side: const BorderSide(color: Color(0xff255A41)),
-                        ),
-                        label: Text('$amt'),
-                        selected: isSelected,
-                        onSelected: (selected) {
-                          setState(() {
-                            selectedAmount = selected ? amt : null;
-                            customAmountController.clear();
-                          });
-                        },
-                      );
-                    }).toList(),
+                amounts.map((amt) {
+                  bool isSelected = selectedAmount == amt;
+                  return ChoiceChip(
+                    labelStyle: const TextStyle(color: Color(0xff255A41)),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 3,
+                    ),
+                    color: const WidgetStatePropertyAll(Color(0xffE5EBE9)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: const BorderSide(color: Color(0xff255A41)),
+                    ),
+                    label: Text('$amt'),
+                    selected: isSelected,
+                    onSelected: (selected) {
+                      setState(() {
+                        selectedAmount = selected ? amt : null;
+                        customAmountController.clear();
+                      });
+                    },
+                  );
+                }).toList(),
               ),
               const SizedBox(height: 12),
               const Text(
@@ -134,7 +134,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           isGift = val;
                         });
                       },
-                      activeThumbColor: Colors.white,
+                      activeColor: Colors.white,
                       activeTrackColor: const Color(0xff255A41),
                       inactiveThumbColor: const Color(0xffD9D9D9),
                       inactiveTrackColor: const Color(0xff717573),
@@ -223,10 +223,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildGiftField(
-    String label,
-    TextEditingController controller, {
-    int maxLines = 1,
-  }) {
+      String label,
+      TextEditingController controller, {
+        int maxLines = 1,
+      }) {
     return SizedBox(
       width: double.infinity,
       height: maxLines == 1 ? 35 : 65,

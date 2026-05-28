@@ -18,9 +18,9 @@ class OnboardingScreen4 extends StatelessWidget {
           Positioned.fill(
             child: OnboardingContent(
               titleText: "عطاؤك في أيدٍ أمينة",
-              paragraphText: "جمعيات موثوقة تم التحقق منها،ليصل عطاؤك لمن يستحق بكل أمان وطمأنينة.", followFunction: () { 
-                Navigator.pushNamed(context, Routes.userTypeScreen);
-               },
+              paragraphText: "جمعيات موثوقة تم التحقق منها،ليصل عطاؤك لمن يستحق بكل أمان وطمأنينة.", followFunction: () {
+              Navigator.pushNamed(context, Routes.userTypeScreen);
+            },
             ),
           ),
         ],

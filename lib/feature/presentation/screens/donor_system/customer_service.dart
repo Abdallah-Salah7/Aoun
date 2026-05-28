@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -17,17 +18,15 @@ class _CustomerServiceState extends State<CustomerService> {
   bool dontAskAgain = false;
 
   Future<void> openWhatsApp() async {
-    final Uri url = Uri.parse("https://wa.me/201208106922");
+    final Uri url = Uri.parse("https://wa.me/111");
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not open WhatsApp');
     }
   }
 
   Future<void> makePhoneCall() async {
-    final Uri url = Uri.parse("tel:+201208106922");
-    if (!await launchUrl(url)) {
-      throw Exception('Could not make phone call');
-    }
+    await FlutterPhoneDirectCaller.callNumber("111");
+
   }
 
   Future<void> openTruecaller() async {
@@ -199,7 +198,7 @@ class _CustomerServiceState extends State<CustomerService> {
                 ),
               ],
             ),
-            const Spacer(),
+            Expanded(child: SizedBox()),
             const Icon(Icons.arrow_forward_ios, size: 20),
           ],
         ),
@@ -345,8 +344,8 @@ class _CustomerServiceState extends State<CustomerService> {
                       ),
                       Checkbox(
                         value: dontAskAgain,
-                        fillColor: WidgetStateProperty.resolveWith((states) {
-                          if (states.contains(WidgetState.selected)) {
+                        fillColor: MaterialStateProperty.resolveWith((states) {
+                          if (states.contains(MaterialState.selected)) {
                             return Color(0xff2C5240);
                           }
                           return Colors.white;

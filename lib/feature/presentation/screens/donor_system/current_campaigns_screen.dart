@@ -2,11 +2,13 @@ import 'package:aoun/feature/presentation/screens/widget/campaign_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../state_management/cubit/campaign_cubit.dart';
-import '../../state_management/cubit/campaign_state.dart';
+
+import '../../state_management/cubit/camp_cubit.dart';
+import '../../state_management/cubit/camp_state.dart';
+
 
 class CurrentCampaignsScreen extends StatefulWidget {
-  const CurrentCampaignsScreen({super.key});
+  CurrentCampaignsScreen({super.key});
 
   @override
   State<CurrentCampaignsScreen> createState() => _CurrentCampaignsScreenState();
@@ -83,13 +85,12 @@ class _CurrentCampaignsScreenState extends State<CurrentCampaignsScreen> {
                           final campaign = filteredCampaigns[index];
 
                           return CampaignItem(
-                            image: campaign.image,
+                            image: campaign.imageUrl,
                             title: campaign.title,
                             rateValue: campaign.rateValue,
-                            collectedValue: campaign.collectedValue,
-                            allValue: campaign.allValue,
+                            collectedValue: campaign.collectedAmount.toString(),
+                            allValue: campaign.requiredAmount.toString(),
                             description: campaign.description,
-                            status: campaign.status,
                             startDate: campaign.startDate,
                             endDate: campaign.endDate,
                           );

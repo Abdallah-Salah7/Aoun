@@ -1,11 +1,12 @@
 import 'package:aoun/core/color_manager/primary_colors.dart';
 import 'package:aoun/core/routes_manager/routes.dart';
-import 'package:aoun/feature/data/api_services.dart';
-import 'package:aoun/feature/data/models/register_model.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/auth_botton.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/login/form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../../data/data_sources/api_services.dart';
+import '../../../../../data/models/register_model.dart';
 
 class LoginForm extends StatefulWidget {
   final bool isLogin;
@@ -31,7 +32,7 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController passwordController = TextEditingController();
 
   final TextEditingController confirmPasswordController =
-      TextEditingController();
+  TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +51,10 @@ class _LoginFormState extends State<LoginForm> {
             children: [
               (!widget.isLogin)
                   ? CustomFormField(
-                      controller: nameController,
-                      label: "اسم المستخدم",
-                      hint: "اسم المستخدم",
-                    )
+                controller: nameController,
+                label: "اسم المستخدم",
+                hint: "اسم المستخدم",
+              )
                   : const SizedBox(),
 
               CustomFormField(
@@ -73,32 +74,32 @@ class _LoginFormState extends State<LoginForm> {
 
               (!widget.isLogin)
                   ? CustomFormField(
-                      controller: confirmPasswordController,
-                      label: "تأكيد كلمة المرور",
-                      hint: "أعد إدخال كلمة المرور",
-                      isPassword: true,
-                    )
+                controller: confirmPasswordController,
+                label: "تأكيد كلمة المرور",
+                hint: "أعد إدخال كلمة المرور",
+                isPassword: true,
+              )
                   : const SizedBox(),
 
               SizedBox(height: spacing * 0.6),
 
               (widget.isLogin)
                   ? InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.forgetPasswordScreen,
-                        );
-                      },
-                      child: Text(
-                        "هل نسيت كلمة المرور؟",
-                        style: TextStyle(
-                          color: PrimaryColors.primaryColor,
-                          fontSize: fontSize,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    )
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.forgetPasswordScreen,
+                  );
+                },
+                child: Text(
+                  "هل نسيت كلمة المرور؟",
+                  style: TextStyle(
+                    color: PrimaryColors.primaryColor,
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              )
                   : const SizedBox(),
 
               SizedBox(height: spacing),
@@ -174,7 +175,7 @@ class _LoginFormState extends State<LoginForm> {
                             password: passwordController.text,
 
                             confirmPassword:
-                                confirmPasswordController.text,
+                            confirmPasswordController.text,
 
                             accountType: "Donor",
                           );
@@ -226,7 +227,7 @@ class _LoginFormState extends State<LoginForm> {
                           if (data["isSuccess"] == true) {
 
                             final prefs =
-                                await SharedPreferences.getInstance();
+                            await SharedPreferences.getInstance();
 
                             // ===== ADMIN =====
 
@@ -245,7 +246,7 @@ class _LoginFormState extends State<LoginForm> {
 
                               Navigator.pushReplacementNamed(
                                 context,
-                                Routes.adminHomeScreen,
+                                Routes.adminHome,
                               );
                             }
 
