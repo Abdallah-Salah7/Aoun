@@ -327,7 +327,8 @@ class CharitySettings extends StatelessWidget {
       splashRadius: 15,
       value: value,
       onChanged: onChanged,
-      activeThumbColor: Color(0xff2F674D),
+      thumbColor: WidgetStatePropertyAll(Color(0xff2F674D)),
+
       trackColor: WidgetStateProperty.all(Color(0xff559376,)),
       contentPadding: EdgeInsets.zero,
       title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 14)),

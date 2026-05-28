@@ -134,7 +134,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           isGift = val;
                         });
                       },
-                      activeThumbColor: Colors.white,
+                      thumbColor: WidgetStatePropertyAll(Colors.white),
                       activeTrackColor: const Color(0xff255A41),
                       inactiveThumbColor: const Color(0xffD9D9D9),
                       inactiveTrackColor: const Color(0xff717573),
