@@ -115,7 +115,7 @@ class SecuritySction extends StatelessWidget {
                   Switch(
                     value: false, // Change as needed
                     onChanged: (val) {},
-                    thumbColor: WidgetStatePropertyAll(Color(0xFF4CAF50)),
+                    activeThumbColor: const Color(0xFF4CAF50),
                   ),
                 ],
               ),
