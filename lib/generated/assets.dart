@@ -175,6 +175,7 @@
 //   static const String imagesNumCases = 'assets/images/numCases.png';
 //   static const String imagesNumDonors = 'assets/images/numDonors.png';
 //   static const String imagesOut = 'assets/images/out.png';
+//   static const String imagesP1 = 'assets/images/p1.jpg';
 //   static const String imagesPayWay = 'assets/images/pay_way.png';
 //   static const String imagesPeople = 'assets/images/People.png';
 //   static const String imagesPersonInfo = 'assets/images/personInfo.png';

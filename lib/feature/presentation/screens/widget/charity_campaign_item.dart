@@ -125,8 +125,23 @@ class CharityCampaignItem extends StatelessWidget {
       width: double.infinity,
       child: OutlinedButton.icon(
         style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12), side: const BorderSide(color: Color(0xff737373), width: 2), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => BlocProvider.value(value: context.read<CampaignCubit>(), child: EditCampaign(campaignEntity: campaign))));
+        onPressed: () async {
+          final cubit = context.read<CampaignCubit>();
+
+          final campaignDetails =
+          await cubit.repository.getDetails(campaign.id);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => BlocProvider.value(
+                value: cubit,
+                child: EditCampaign(
+                  campaignEntity: campaignDetails,
+                ),
+              ),
+            ),
+          );
         },
         icon: const Icon(Icons.mode_edit_outline_outlined, color: Color(0xff737373), size: 30),
         label: Text("تعديل الحملة", style: GoogleFonts.cairo(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xff737373))),

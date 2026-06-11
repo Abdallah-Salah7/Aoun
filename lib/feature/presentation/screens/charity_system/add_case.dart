@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../../data/data_sources/case_api_service.dart';
+import '../../../data/repositories/case_repository.dart';
 import '../widget/field_dropdown.dart';
 
 class AddCase extends StatefulWidget {
@@ -23,6 +25,10 @@ class _AddCaseState extends State<AddCase> {
   File? _image;
 
   final ImagePicker _picker = ImagePicker();
+
+  final CaseRepository repository =
+  CaseRepository(CaseApiService());
+
 
   bool isUrgent = false;
 
@@ -97,41 +103,62 @@ class _AddCaseState extends State<AddCase> {
     super.dispose();
   }
   Future<void> _submitCase() async {
-    if (titleController.text.isEmpty || amountController.text.isEmpty || descController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("من فضلك املي كل البيانات")));
+    if (titleController.text.isEmpty ||
+        amountController.text.isEmpty ||
+        descController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("من فضلك املي كل البيانات")),
+      );
       return;
     }
 
     setState(() => isLoading = true);
 
     try {
-      // 1. تحضير البيانات
       FormData formData = FormData.fromMap({
         "title": titleController.text,
         "description": descController.text,
         "categoryId": getCategoryId(selectedCategory),
-        "isUrgent": isUrgent, // تأكدي أن السيرفر يقبل boolean
-        "requiredAmount": double.tryParse(amountController.text) ?? 0,
+        "isUrgent": isUrgent,
+        "requiredAmount":
+        double.tryParse(amountController.text) ?? 0,
       });
 
       if (_image != null) {
         formData.files.add(
-          MapEntry("image", await MultipartFile.fromFile(_image!.path)),
+          MapEntry(
+            "image",
+            await MultipartFile.fromFile(
+              _image!.path,
+              filename: _image!.path.split('/').last,
+            ),
+          ),
         );
       }
 
-      // 2. استخدام الدالة التي كتبناها في CaseApiService (التي تحتوي على التوكن)
-      // final response = await _apiService.addCase(formData);
+      print("FIELDS:");
+      print(formData.fields);
 
-      // print("Success: ${response.data}");
+      print("FILES:");
+      print(formData.files);
 
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("تم رفع الحالة بنجاح")));
-      Navigator.pop(context, true);
+      await repository.addCase(formData);
 
-    } on DioException catch (e) {
-      print("ERROR: ${e.response?.data}");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.response?.data.toString() ?? "حدث خطأ")),
+        const SnackBar(content: Text("تم رفع الحالة بنجاح")),
+      );
+
+      Navigator.pop(context, true);
+    } on DioException catch (e) {
+      print("ERROR:");
+      print(e.response?.data);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            e.response?.data.toString() ?? "حدث خطأ",
+          ),
+        ),
       );
     } finally {
       setState(() => isLoading = false);

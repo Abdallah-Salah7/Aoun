@@ -23,7 +23,10 @@ class _CampaignManagementState extends State<CampaignManagement> {
   @override
   void initState() {
     super.initState();
-    context.read<CampaignCubit>().fetchCampaigns(1);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CampaignCubit>().fetchCampaigns(1);
+    });
   }
 
   @override

@@ -36,10 +36,13 @@ void main() {
               CaseRepository(CaseApiService()),
             )..fetchCases(),
           ),
+          // BlocProvider(
+          //   create: (_) => CampaignCubit(
+          //     CampaignRepository(CampApiService()),
+          //   )..fetchCampaigns(1),
+          // ),
           BlocProvider(
-            create: (_) => CampaignCubit(
-              CampaignRepository(CampApiService()),
-            )..fetchCampaigns(1),
+            create: (_) => CampaignCubit(getIt<CampaignRepository>()),
           ),
           BlocProvider(
             create: (_) => DashboardCubit(

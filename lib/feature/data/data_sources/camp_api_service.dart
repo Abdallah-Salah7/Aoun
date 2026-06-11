@@ -32,17 +32,35 @@ class CampApiService {
 
 
   Future<Response> updateCampaign(int id, FormData formData) async {
-    return await dio.put(
-      "/api/Campaigns/$id",
-      data: formData,
-      options: Options(
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      ),
-    );
-  }
-  Future<Response> addCampaign(FormData formData) async {
+    print("FIELDS:");
+    print(formData.fields);
+
+    print("FILES:");
+    print(formData.files);
+
+    try {
+      final response = await dio.put(
+        "/api/Campaigns/$id",
+        data: formData,
+        options: Options(
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        ),
+      );
+
+      print("SUCCESS:");
+      print(response.data);
+
+      return response;
+    } on DioException catch (e) {
+      print("STATUS CODE: ${e.response?.statusCode}");
+      print("ERROR DATA: ${e.response?.data}");
+      print("ERROR MESSAGE: ${e.message}");
+
+      rethrow;
+    }
+  }  Future<Response> addCampaign(FormData formData) async {
     return await dio.post(
       "/api/Campaigns",
       data: formData,

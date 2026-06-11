@@ -6,46 +6,123 @@ import 'camp_state.dart';
 
 class CampaignCubit extends Cubit<CampaignState> {
   final CampaignRepository repository;
+
   CampaignCubit(this.repository) : super(CampaignInitial());
 
+  int? _charityId;
+
+  /// =========================
+  /// FETCH CAMPAIGNS
+  /// =========================
   Future<void> fetchCampaigns(int charityId) async {
+    _charityId = charityId;
+
     emit(CampaignLoading());
+
     try {
       final result = await repository.getCampaigns(charityId);
-      // الآن نرسل القائمة والإحصائيات معاً
-      emit(CampaignLoaded(campaigns: result.campaigns, stats: result.stats));
+
+      emit(
+        CampaignLoaded(
+          campaigns: result.campaigns,
+          stats: result.stats,
+        ),
+      );
     } catch (e) {
       emit(CampaignError(e.toString()));
     }
   }
 
-  void updateCampaign(int id, FormData formData) async {
+  /// =========================
+  /// UPDATE CAMPAIGN
+  /// =========================
+  Future<void> updateCampaign(
+      int id,
+      FormData formData,
+      ) async {
     emit(CampaignLoading());
+
     try {
       await repository.updateCampaign(id, formData);
+
       emit(CampaignUpdatedSuccess());
+
+      if (_charityId != null) {
+        final result = await repository.getCampaigns(_charityId!);
+
+        emit(
+          CampaignLoaded(
+            campaigns: result.campaigns,
+            stats: result.stats,
+          ),
+        );
+      }
     } catch (e) {
       emit(CampaignError(e.toString()));
     }
   }
 
-  void addCampaign(FormData formData) async {
+  /// =========================
+  /// ADD CAMPAIGN
+  /// =========================
+  Future<void> addCampaign(FormData formData) async {
     emit(CampaignLoading());
+
     try {
       await repository.addCampaign(formData);
-      emit(CampaignAddedSuccess());
+
+      if (_charityId == null) {
+        _charityId = 1; // أو احفظيها من login
+      }
+
+      final result = await repository.getCampaigns(_charityId!);
+
+      emit(CampaignLoaded(
+        campaigns: result.campaigns,
+        stats: result.stats,
+      ));
     } catch (e) {
       emit(CampaignError(e.toString()));
     }
   }
 
-  void deleteCampaign(int id) async {
+  /// =========================
+  /// DELETE CAMPAIGN
+  /// =========================
+  Future<void> deleteCampaign(int id) async {
     emit(CampaignLoading());
+
     try {
       await repository.deleteCampaign(id);
+
       emit(CampaignDeletedSuccess());
+
+      if (_charityId != null) {
+        final result = await repository.getCampaigns(_charityId!);
+
+        emit(CampaignLoaded(
+          campaigns: result.campaigns,
+          stats: result.stats,
+        ));
+      }
     } catch (e) {
-      emit(CampaignError(e.toString()));
+      String message = "حدث خطأ أثناء الحذف";
+
+      if (e is DioException) {
+        final data = e.response?.data;
+        if (data != null && data["message"] != null) {
+          message = data["message"];
+        }
+      }
+
+      emit(CampaignError(message));
+    }
+  }
+
+
+  void clearError() {
+    if (state is CampaignError) {
+      fetchCampaigns(1);
     }
   }
 }

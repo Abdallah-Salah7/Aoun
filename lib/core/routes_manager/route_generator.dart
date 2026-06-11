@@ -18,6 +18,7 @@ import 'package:aoun/feature/presentation/screens/donor_system/payments/payment_
 import 'package:aoun/feature/presentation/screens/donor_system/payments/success_payment.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import '../../feature/data/models/camp_model.dart';
 import '../../feature/data/repositories/camp_repository.dart';
@@ -67,6 +68,8 @@ import '../../feature/presentation/screens/donor_system/zakat_sliver.dart';
 import '../../feature/presentation/screens/tabs/donation_tab.dart';
 import '../../feature/presentation/screens/tabs/profile_tab.dart';
 import '../../feature/presentation/screens/tabs/zakat_tab.dart';
+import '../../feature/presentation/state_management/cubit/camp_cubit.dart';
+import '../../main.dart';
 
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings settings) {
@@ -157,9 +160,14 @@ class RouteGenerator {
           builder: (_) => EditCase(caseEntity: caseItem),
         );
       case Routes.campaignManagement:
-        return MaterialPageRoute(builder: (_) => const CampaignManagement());
+        return MaterialPageRoute(
+          builder: (_) => const CampaignManagement(),
+        );
+
       case Routes.addCampaign:
-        return MaterialPageRoute(builder: (_) => const AddCampaign());
+        return MaterialPageRoute(
+          builder: (_) => const AddCampaign(),
+        );
       case Routes.editCampaign:
         final campaign = settings.arguments as CampaignEntity;
 

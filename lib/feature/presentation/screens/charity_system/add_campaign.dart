@@ -1,21 +1,27 @@
 import 'dart:io';
+import 'package:get_it/get_it.dart';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../../data/repositories/camp_repository.dart';
 import '../../../domain/entities/camp_entity.dart';
-import '../widget/field_dropdown.dart';
+import '../../state_management/cubit/camp_cubit.dart';
 
 class AddCampaign extends StatefulWidget {
-  const AddCampaign({super.key});
 
+  const AddCampaign({super.key});
   @override
   State<AddCampaign> createState() => _AddCampaignState();
 }
 
 class _AddCampaignState extends State<AddCampaign> {
+  final getIt = GetIt.instance;
+
   final TextEditingController titleController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
   final TextEditingController descController = TextEditingController();
@@ -91,46 +97,42 @@ class _AddCampaignState extends State<AddCampaign> {
     super.dispose();
   }
 
-  void _submitCase() {
-    // التحقق من أن جميع الحقول المطلوبة ممتلئة
+  void _submitCase() async {
     if (titleController.text.isEmpty ||
         amountController.text.isEmpty ||
         descController.text.isEmpty ||
         startDate == null ||
         endDate == null ||
-        _image == null) { // تأكدي أيضاً من اختيار صورة
+        _image == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("من فضلك املي كل البيانات بما فيها صورة الحملة والتواريخ")),
       );
       return;
     }
 
-    // بناء الكائن الجديد بالتوافق مع التعديلات الأخيرة للـ Entity
-    final newCase = CampaignEntity(
-      id: 0, // أو أي قيمة افتراضية للـ ID إذا كانت الحملة جديدة
-      title: titleController.text,
-      imageUrl: _image!.path, // التأكد من إرسال مسار الصورة
-      description: descController.text,
-      requiredAmount: double.tryParse(amountController.text) ?? 0.0,
-      collectedAmount: 0.0, // الحملة الجديدة تبدأ بجمع 0
-      donorsCount: 0,
-      daysLeft: endDate!.difference(DateTime.now()).inDays, // حساب الأيام المتبقية تلقائياً
-      isCompleted: false, // الحملة الجديدة غير مكتملة
-      startDate: startDate!,
-      endDate: endDate!,
-    );
+    final formData = FormData.fromMap({
+      "title": titleController.text,
+      "description": descController.text,
+      "requiredAmount": amountController.text,
+      "collectedAmount": 0,
+      "donorsCount": 0,
+      "daysLeft": endDate!.difference(DateTime.now()).inDays,
+      "startDate": startDate!.toIso8601String(),
+      "endDate": endDate!.toIso8601String(),
+      "image": await MultipartFile.fromFile(_image!.path),
+    });
 
-    // إرسال الكائن أو الـ FormData للـ Cubit
-    // هنا نقوم بإنشاء الـ FormData لأن الـ API يتطلبها
-    // Navigator.pop(context, newCase); // استخدمي هذا إذا كنتِ ستمررين الـ Entity فقط
+    await context.read<CampaignCubit>().addCampaign(formData);
+    Navigator.pop(context);
   }
-
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<CampaignCubit>();
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: const Color(0xffE5EBE9),
+
         appBar: AppBar(
           title: Text(
             "إضافة حملة جديدة",
@@ -149,11 +151,14 @@ class _AddCampaignState extends State<AddCampaign> {
             ),
           ),
         ),
+
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+              /// صورة الحملة
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Text(
@@ -164,6 +169,7 @@ class _AddCampaignState extends State<AddCampaign> {
                   ),
                 ),
               ),
+
               const SizedBox(height: 10),
 
               GestureDetector(
@@ -181,40 +187,41 @@ class _AddCampaignState extends State<AddCampaign> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child:
-                        _image != null
-                            ? Image.file(_image!, fit: BoxFit.fill)
-                            : Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image(
-                                  image: AssetImage(ImageAssets.upload),
-                                  height: 59,
-                                  width: 59,
-                                  color: Colors.grey,
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  "اضغط لتحميل الصورة",
-                                  style: GoogleFonts.manrope(
-                                    color: Colors.grey,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text(
-                                  "JPG, PNG (حد أقصى 5MB)",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
+                    child: _image != null
+                        ? Image.file(_image!, fit: BoxFit.fill)
+                        : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image(
+                          image: AssetImage(ImageAssets.upload),
+                          height: 59,
+                          width: 59,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "اضغط لتحميل الصورة",
+                          style: GoogleFonts.manrope(
+                            color: Colors.grey,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          "JPG, PNG (حد أقصى 5MB)",
+                          style: GoogleFonts.manrope(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
 
               const SizedBox(height: 20),
+
+              /// عنوان الحملة
               _buildField(
                 "عنوان الحملة",
                 "مثال: حملة اغاثة غزة",
@@ -222,6 +229,8 @@ class _AddCampaignState extends State<AddCampaign> {
               ),
 
               const SizedBox(height: 15),
+
+              /// المبلغ
               _buildField(
                 "المبلغ المستهدف",
                 "20000 ج.م",
@@ -231,6 +240,7 @@ class _AddCampaignState extends State<AddCampaign> {
 
               const SizedBox(height: 25),
 
+              /// التاريخ
               _buildDateField(
                 title: "بداية الحملة",
                 hint: "تاريخ البداية",
@@ -249,49 +259,16 @@ class _AddCampaignState extends State<AddCampaign> {
 
               const SizedBox(height: 25),
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "وصف الحملة",
-                          style: GoogleFonts.manrope(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 22,
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.auto_awesome_outlined,
-                                size: 25,
-                                color: Color(0xff2F674D),
-                              ),
-                              const SizedBox(width: 5),
-
-                              Text(
-                                "توليد بالذكاء الاصطناعي",
-                                style: GoogleFonts.manrope(
-                                  fontSize: 16,
-                                  color: const Color(0xff2F674D),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+              /// الوصف
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Text(
+                  "وصف الحملة",
+                  style: GoogleFonts.manrope(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 22,
                   ),
-
-                  // حقل النص (TextField)
-                ],
+                ),
               ),
 
               const SizedBox(height: 10),
@@ -326,10 +303,14 @@ class _AddCampaignState extends State<AddCampaign> {
 
               const SizedBox(height: 30),
 
+              /// زرار الإرسال
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _submitCase,
+                  onPressed: () {
+                    _submitCase();
+                    // هتستدعي Cubit جوهها
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff2F674D),
                     padding: const EdgeInsets.symmetric(vertical: 15),
@@ -352,7 +333,6 @@ class _AddCampaignState extends State<AddCampaign> {
       ),
     );
   }
-
   Widget _buildField(
     String title,
     String hint, {
