@@ -225,6 +225,8 @@
 //   static const String modelsDonorModel = 'lib/feature/data/models/donor_model.dart';
 //   static const String modelsGrowthCaseModel = 'lib/feature/data/models/growth_case_model.dart';
 //   static const String modelsGrowthModel = 'lib/feature/data/models/growth_model.dart';
+//   static const String modelsLoginModel = 'lib/feature/data/models/login_model.dart';
+//   static const String modelsPaymentModel = 'lib/feature/data/models/payment_model.dart';
 //   static const String modelsRecentDonationModel = 'lib/feature/data/models/recent_donation_model.dart';
 //   static const String modelsRegisterModel = 'lib/feature/data/models/register_model.dart';
 //   static const String onboardScreensOnboardScreen1 = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboard_screen1.dart';
