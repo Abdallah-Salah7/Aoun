@@ -221,10 +221,11 @@
 //   static const String modelsCaseModel = 'lib/feature/data/models/case_model.dart';
 //   static const String modelsCategoryDistributionModel = 'lib/feature/data/models/category_distribution_model.dart';
 //   static const String modelsCharityDashboardModel = 'lib/feature/data/models/charity_dashboard_model.dart';
-//   static const String modelsDonationModel = 'lib/feature/data/models/donation_model.dart';
 //   static const String modelsDonorModel = 'lib/feature/data/models/donor_model.dart';
+//   static const String modelsGrowthCampModel = 'lib/feature/data/models/growth_camp_model.dart';
 //   static const String modelsGrowthCaseModel = 'lib/feature/data/models/growth_case_model.dart';
 //   static const String modelsGrowthModel = 'lib/feature/data/models/growth_model.dart';
+//   static const String modelsLastDonationModel = 'lib/feature/data/models/last_donation_model.dart';
 //   static const String modelsLoginModel = 'lib/feature/data/models/login_model.dart';
 //   static const String modelsPaymentModel = 'lib/feature/data/models/payment_model.dart';
 //   static const String modelsRecentDonationModel = 'lib/feature/data/models/recent_donation_model.dart';
@@ -276,6 +277,7 @@
 //   static const String widgetOpenWebsite = 'lib/feature/presentation/screens/widget/openWebsite.dart';
 //   static const String widgetTitleItem = 'lib/feature/presentation/screens/widget/title_item.dart';
 //   static const String widgetWeeklyChart = 'lib/feature/presentation/screens/widget/weekly_chart.dart';
+//   static const String widgetWeeklyChartCamp = 'lib/feature/presentation/screens/widget/weekly_chart_camp.dart';
 //   static const String widgetWeeklyChartCase = 'lib/feature/presentation/screens/widget/weekly_chart_case.dart';
 //
 // }

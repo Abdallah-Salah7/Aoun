@@ -1,5 +1,5 @@
 import '../../domain/entities/case_entity.dart';
-import 'donation_model.dart';
+import 'last_donation_model.dart';
 import 'growth_case_model.dart';
 
 class CaseModel {
@@ -19,7 +19,7 @@ class CaseModel {
   final DateTime? createdAt;
   final DateTime? completedAt;
   final String charityName;
-  final List<DonationModel> lastDonations;
+  final List<LastDonationModel> lastDonations;
   final List<GrowthCaseModel> weeklyGrowth;
   final List<GrowthCaseModel> monthlyGrowth;
 
@@ -103,7 +103,7 @@ class CaseModel {
       charityName: json['charityName'] ?? '',
 
       lastDonations: (json['lastDonations'] as List<dynamic>?)
-          ?.map((e) => DonationModel.fromJson(e))
+          ?.map((e) => LastDonationModel.fromJson(e))
           .toList() ??
           [],
 
