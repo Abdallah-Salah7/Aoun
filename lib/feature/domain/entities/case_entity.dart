@@ -1,18 +1,36 @@
-import '../../domain/entities/case_entity.dart';
+import 'donation_entity.dart';
+import 'growth_case_entity.dart';
 
 class CaseEntity {
   final int id;
   final String title;
   final String description;
   final String imageUrl;
+
   final double requiredAmount;
   final double collectedAmount;
   final double progress;
+
   final bool isUrgent;
   final bool isCompleted;
+
   final int categoryId;
   final String status;
+
   final int donorCount;
+
+  final DateTime? createdAt;
+  final DateTime? completedAt;
+
+  final String charityName;
+
+  final List<DonationEntity> lastDonations;
+
+
+
+
+  final List<GrowthCaseEntity> weeklyGrowth;
+  final List<GrowthCaseEntity> monthlyGrowth;
 
   CaseEntity({
     required this.id,
@@ -27,6 +45,14 @@ class CaseEntity {
     required this.categoryId,
     required this.status,
     required this.donorCount,
+
+    required this.createdAt,
+    required this.completedAt,
+    required this.charityName,
+
+    required this.lastDonations,
+    required this.weeklyGrowth,
+    required this.monthlyGrowth,
   });
 
   CaseEntity copyWith({
@@ -42,6 +68,13 @@ class CaseEntity {
     bool? isCompleted,
     int? categoryId,
     String? status,
+    DateTime? createdAt,
+    DateTime? completedAt,
+    String? charityName,
+    List<DonationEntity>? lastDonations,
+
+    List<GrowthCaseEntity>? weeklyGrowth,
+    List<GrowthCaseEntity>? monthlyGrowth,
   }) {
     return CaseEntity(
       id: id ?? this.id,
@@ -56,6 +89,12 @@ class CaseEntity {
       isCompleted: isCompleted ?? this.isCompleted,
       categoryId: categoryId ?? this.categoryId,
       status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      completedAt: completedAt ?? this.completedAt,
+      charityName: charityName ?? this.charityName,
+      lastDonations: lastDonations ?? this.lastDonations,
+      weeklyGrowth: weeklyGrowth ?? this.weeklyGrowth,
+      monthlyGrowth: monthlyGrowth ?? this.monthlyGrowth,
     );
   }
 }

@@ -35,21 +35,21 @@ class _WeeklyChartState extends State<WeeklyChart> {
   double _getMaxY(List<FlSpot> spots) {
     if (spots.isEmpty) return 100;
 
-    final max =
-    spots.map((e) => e.y).reduce((a, b) => a > b ? a : b);
-
-    return max + (max * 0.15);
+    final max = spots.map((e) => e.y).reduce((a, b) => a > b ? a : b);
+    // إذا كانت القيمة القصوى صفر، نرجع 100 لتفادي أي مشاكل في الرسم
+    return max == 0 ? 100 : max + (max * 0.15);
   }
 
   @override
   Widget build(BuildContext context) {
-    final currentData =
-    isWeekly ? widget.weeklyGrowth : widget.monthlyGrowth;
+    final currentData = isWeekly ? widget.weeklyGrowth : widget.monthlyGrowth;
 
     final spots = _generateSpots(currentData);
-
     final maxX = spots.isEmpty ? 0.0 : spots.last.x;
     final maxY = _getMaxY(spots);
+
+    // حساب الفاصل مع التأكد من عدم القسمة على صفر
+    final interval = maxY == 0 ? 1.0 : maxY / 4;
 
     return Container(
       padding: const EdgeInsets.all(18),
@@ -69,16 +69,13 @@ class _WeeklyChartState extends State<WeeklyChart> {
         children: [
           /// HEADER
           Row(
-            mainAxisAlignment:
-            MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 widget.title,
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
-                  fontSize:
-                  MediaQuery.of(context).size.width *
-                      0.042,
+                  fontSize: MediaQuery.of(context).size.width * 0.042,
                 ),
               ),
               Row(
@@ -112,21 +109,16 @@ class _WeeklyChartState extends State<WeeklyChart> {
                 maxX: maxX,
                 minY: 0,
                 maxY: maxY,
-
-                borderData:
-                FlBorderData(show: false),
+                borderData: FlBorderData(show: false),
 
                 /// GRID
                 gridData: FlGridData(
                   show: true,
                   drawVerticalLine: false,
-                  horizontalInterval:
-                  maxY / 4,
-                  getDrawingHorizontalLine:
-                      (value) {
+                  horizontalInterval: interval,
+                  getDrawingHorizontalLine: (value) {
                     return FlLine(
-                      color:
-                      Colors.grey.shade300,
+                      color: Colors.grey.shade300,
                       strokeWidth: 1.2,
                       dashArray: [6, 4],
                     );
@@ -139,125 +131,53 @@ class _WeeklyChartState extends State<WeeklyChart> {
                     sideTitles: SideTitles(
                       showTitles: true,
                       reservedSize: 50,
-                      interval: maxY / 4,
-                      getTitlesWidget:
-                          (value, meta) {
+                      interval: interval,
+                      getTitlesWidget: (value, meta) {
                         return Padding(
-                          padding:
-                          const EdgeInsets.only(
-                              right: 8),
+                          padding: const EdgeInsets.only(right: 8),
                           child: Text(
-                            value
-                                .toInt()
-                                .toString(),
-                            style:
-                            const TextStyle(
+                            value.toInt().toString(),
+                            style: const TextStyle(
                               fontSize: 11,
-                              color:
-                              Colors.grey,
-                              fontWeight:
-                              FontWeight
-                                  .w500,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         );
                       },
                     ),
                   ),
-
-                  bottomTitles:
-                  AxisTitles(
-                    sideTitles:
-                    SideTitles(
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
                       showTitles: true,
                       reservedSize: 40,
                       interval: 1,
-                      getTitlesWidget:
-                          (value, meta) {
-                        final index =
-                        value.toInt();
-
-                        if (index >= 0 &&
-                            index <
-                                currentData
-                                    .length) {
-                          final date =
-                              currentData[
-                              index]
-                                  .date;
-
-                          const monthMap =
-                          {
-                            "Jan":
-                            "يناير",
-                            "Feb":
-                            "فبراير",
-                            "Mar":
-                            "مارس",
-                            "Apr":
-                            "أبريل",
-                            "May":
-                            "مايو",
-                            "Jun":
-                            "يونيو",
-                            "Jul":
-                            "يوليو",
-                            "Aug":
-                            "أغسطس",
-                            "Sep":
-                            "سبتمبر",
-                            "Oct":
-                            "أكتوبر",
-                            "Nov":
-                            "نوفمبر",
-                            "Dec":
-                            "ديسمبر",
+                      getTitlesWidget: (value, meta) {
+                        final index = value.toInt();
+                        if (index >= 0 && index < currentData.length) {
+                          final date = currentData[index].date;
+                          const monthMap = {
+                            "Jan": "يناير", "Feb": "فبراير", "Mar": "مارس",
+                            "Apr": "أبريل", "May": "مايو", "Jun": "يونيو",
+                            "Jul": "يوليو", "Aug": "أغسطس", "Sep": "سبتمبر",
+                            "Oct": "أكتوبر", "Nov": "نوفمبر", "Dec": "ديسمبر",
                           };
-
-                          final arabicDate =
-                              monthMap[
-                              date] ??
-                                  date;
-
+                          final arabicDate = monthMap[date] ?? date;
                           return Padding(
-                            padding:
-                            const EdgeInsets.only(
-                                top:
-                                10),
+                            padding: const EdgeInsets.only(top: 10),
                             child: Text(
                               arabicDate,
-                              style:
-                              const TextStyle(
-                                fontSize:
-                                10,
-                                fontWeight:
-                                FontWeight
-                                    .w500,
-                              ),
+                              style: const TextStyle(
+                                  fontSize: 10, fontWeight: FontWeight.w500),
                             ),
                           );
                         }
-
                         return const SizedBox();
                       },
                     ),
                   ),
-
-                  rightTitles:
-                  const AxisTitles(
-                    sideTitles:
-                    SideTitles(
-                        showTitles:
-                        false),
-                  ),
-
-                  topTitles:
-                  const AxisTitles(
-                    sideTitles:
-                    SideTitles(
-                        showTitles:
-                        false),
-                  ),
+                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                 ),
 
                 /// LINE
@@ -265,54 +185,28 @@ class _WeeklyChartState extends State<WeeklyChart> {
                   LineChartBarData(
                     spots: spots,
                     isCurved: true,
-                    color:
-                    const Color(
-                        0xff000000),
+                    color: const Color(0xff000000),
                     barWidth: 2,
-                    isStrokeCapRound:
-                    true,
-
-                    dotData:
-                    FlDotData(
+                    isStrokeCapRound: true,
+                    dotData: FlDotData(
                       show: true,
-                      getDotPainter:
-                          (
-                          spot,
-                          percent,
-                          barData,
-                          index,
-                          ) {
+                      getDotPainter: (spot, percent, barData, index) {
                         return FlDotCirclePainter(
                           radius: 5,
-                          color:
-                          const Color(
-                              0xff2F674D),
-                          strokeWidth:
-                          2,
-                          strokeColor:
-                          Colors
-                              .white,
+                          color: const Color(0xff2F674D),
+                          strokeWidth: 2,
+                          strokeColor: Colors.white,
                         );
                       },
                     ),
-
-                    belowBarData:
-                    BarAreaData(
+                    belowBarData: BarAreaData(
                       show: true,
-                      gradient:
-                      LinearGradient(
-                        begin:
-                        Alignment
-                            .topCenter,
-                        end: Alignment
-                            .bottomCenter,
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                         colors: [
-                          const Color(
-                              0xff2F674D)
-                              .withOpacity(
-                              0.25),
-                          Colors
-                              .transparent,
+                          const Color(0xff2F674D).withOpacity(0.25),
+                          Colors.transparent,
                         ],
                       ),
                     ),
@@ -326,46 +220,22 @@ class _WeeklyChartState extends State<WeeklyChart> {
     );
   }
 
-  Widget _buildTab(
-      String text,
-      bool weekly,
-      ) {
-    final isSelected =
-        isWeekly == weekly;
-
+  Widget _buildTab(String text, bool weekly) {
+    final isSelected = isWeekly == weekly;
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          isWeekly = weekly;
-        });
-      },
+      onTap: () => setState(() => isWeekly = weekly),
       child: AnimatedContainer(
-        duration:
-        const Duration(
-            milliseconds: 250),
-        padding:
-        const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 8,
-        ),
+        duration: const Duration(milliseconds: 250),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected
-              ? const Color(
-              0xff2F674D)
-              : const Color(
-              0xffE7E7E7),
-          borderRadius:
-          BorderRadius.circular(
-              20),
+          color: isSelected ? const Color(0xff2F674D) : const Color(0xffE7E7E7),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
           text,
           style: TextStyle(
-            color: isSelected
-                ? Colors.white
-                : Colors.black87,
-            fontWeight:
-            FontWeight.w600,
+            color: isSelected ? Colors.white : Colors.black87,
+            fontWeight: FontWeight.w600,
             fontSize: 13,
           ),
         ),

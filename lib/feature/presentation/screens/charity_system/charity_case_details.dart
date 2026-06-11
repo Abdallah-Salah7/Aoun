@@ -7,6 +7,7 @@ import '../../../domain/entities/case_entity.dart';
 import '../../state_management/cubit/dashboard_cubit.dart';
 import '../../state_management/cubit/dashboard_state.dart';
 import '../widget/weekly_chart.dart';
+import '../widget/weekly_chart_case.dart';
 
 class CharityCaseDetails extends StatefulWidget {
   final CaseEntity caseData;
@@ -45,6 +46,8 @@ class _CharityCaseDetailsState
         widget.caseData.description;
     final donorCount =
         widget.caseData.donorCount;
+    final lastDonations =
+        widget.caseData.lastDonations;
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -401,17 +404,10 @@ class _CharityCaseDetailsState
                               horizontal: 18,
                             ),
 
-                            child: WeeklyChart(
-                              title:
-                              "نمو التبرعات",
-
-                              weeklyGrowth: state
-                                  .dashboard
-                                  .weeklyGrowth,
-
-                              monthlyGrowth: state
-                                  .dashboard
-                                  .monthlyGrowth,
+                            child: WeeklyCaseChart(
+                              title: "نمو التبرعات",
+                              weeklyCaseGrowth: widget.caseData.weeklyGrowth,
+                              monthlyCaseGrowth: widget.caseData.monthlyGrowth,
                             ),
                           ),
 
@@ -481,14 +477,7 @@ class _CharityCaseDetailsState
                               physics:
                               const NeverScrollableScrollPhysics(),
 
-                              itemCount:
-                              state
-                              is DashboardSuccess
-                                  ? state
-                                  .dashboard
-                                  .recentDonationStatistic
-                                  .length
-                                  : 0,
+            itemCount: lastDonations.length,
 
                               separatorBuilder:
                                   (
@@ -502,11 +491,7 @@ class _CharityCaseDetailsState
                                   context,
                                   index,
                                   ) {
-                                final donation =
-                                (state
-                                as DashboardSuccess)
-                                    .dashboard
-                                    .recentDonationStatistic[index];
+                                    final donation = lastDonations[index];
 
                                 return ListTile(
                                   contentPadding:
@@ -520,8 +505,9 @@ class _CharityCaseDetailsState
                                     ),
 
                                     child: Text(
-                                      donation
-                                          .donorName[0],
+                                      donation.userName.isNotEmpty
+                                          ? donation.userName[0]
+                                          : '?',
 
                                       style:
                                       const TextStyle(
@@ -538,8 +524,7 @@ class _CharityCaseDetailsState
                                   ),
 
                                   title: Text(
-                                    donation
-                                        .donorName,
+                                    donation.userName,
 
                                     style:
                                     const TextStyle(
@@ -552,8 +537,7 @@ class _CharityCaseDetailsState
                                   ),
 
                                   subtitle: Text(
-                                    donation
-                                        .targetName,
+                                    "${donation.date.day}/${donation.date.month}/${donation.date.year}",
 
                                     style:
                                     const TextStyle(

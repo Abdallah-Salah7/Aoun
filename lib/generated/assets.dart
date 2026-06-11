@@ -94,7 +94,9 @@
 //   static const String entitiesCaseEntity = 'lib/feature/domain/entities/case_entity.dart';
 //   static const String entitiesCategoryDistributionEntity = 'lib/feature/domain/entities/category_distribution_entity.dart';
 //   static const String entitiesDashboardEntity = 'lib/feature/domain/entities/dashboard_entity.dart';
+//   static const String entitiesDonationEntity = 'lib/feature/domain/entities/donation_entity.dart';
 //   static const String entitiesDonorEntity = 'lib/feature/domain/entities/donor_entity.dart';
+//   static const String entitiesGrowthCaseEntity = 'lib/feature/domain/entities/growth_case_entity.dart';
 //   static const String entitiesGrowthEntity = 'lib/feature/domain/entities/growth_entity.dart';
 //   static const String entitiesRecentDonationEntity = 'lib/feature/domain/entities/recent_donation_entity.dart';
 //   static const String generatedAssets = 'lib/generated/assets.dart';
@@ -219,7 +221,9 @@
 //   static const String modelsCaseModel = 'lib/feature/data/models/case_model.dart';
 //   static const String modelsCategoryDistributionModel = 'lib/feature/data/models/category_distribution_model.dart';
 //   static const String modelsCharityDashboardModel = 'lib/feature/data/models/charity_dashboard_model.dart';
+//   static const String modelsDonationModel = 'lib/feature/data/models/donation_model.dart';
 //   static const String modelsDonorModel = 'lib/feature/data/models/donor_model.dart';
+//   static const String modelsGrowthCaseModel = 'lib/feature/data/models/growth_case_model.dart';
 //   static const String modelsGrowthModel = 'lib/feature/data/models/growth_model.dart';
 //   static const String modelsRecentDonationModel = 'lib/feature/data/models/recent_donation_model.dart';
 //   static const String modelsRegisterModel = 'lib/feature/data/models/register_model.dart';
@@ -270,5 +274,6 @@
 //   static const String widgetOpenWebsite = 'lib/feature/presentation/screens/widget/openWebsite.dart';
 //   static const String widgetTitleItem = 'lib/feature/presentation/screens/widget/title_item.dart';
 //   static const String widgetWeeklyChart = 'lib/feature/presentation/screens/widget/weekly_chart.dart';
+//   static const String widgetWeeklyChartCase = 'lib/feature/presentation/screens/widget/weekly_chart_case.dart';
 //
 // }

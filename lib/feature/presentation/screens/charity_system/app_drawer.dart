@@ -88,7 +88,7 @@ class AppDrawer extends StatelessWidget {
                     Navigator.pushNamed(context, Routes.donorsScreen);
                   },
                 ),
-                _buildDrawerItem(context, ImageAssets.setIcon, "الاعدادات",
+                _buildDrawerItem(context, ImageAssets.setting, "الاعدادات",
 
                   onTap: () {
                     Navigator.pushNamed(context, Routes.charityProfScreen);
