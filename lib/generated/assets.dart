@@ -95,7 +95,7 @@
 //   static const String entitiesCategoryDistributionEntity = 'lib/feature/domain/entities/category_distribution_entity.dart';
 //   static const String entitiesDashboardEntity = 'lib/feature/domain/entities/dashboard_entity.dart';
 //   static const String entitiesDonationEntity = 'lib/feature/domain/entities/donation_entity.dart';
-//   static const String entitiesDonorEntity = 'lib/feature/domain/entities/donor_entity.dart';
+//   static const String entitiesDonorEntity = 'lib/feature/domain/entities/top_donor_entity.dart';
 //   static const String entitiesGrowthCaseEntity = 'lib/feature/domain/entities/growth_case_entity.dart';
 //   static const String entitiesGrowthEntity = 'lib/feature/domain/entities/growth_entity.dart';
 //   static const String entitiesRecentDonationEntity = 'lib/feature/domain/entities/recent_donation_entity.dart';
@@ -222,7 +222,7 @@
 //   static const String modelsCaseModel = 'lib/feature/data/models/case_model.dart';
 //   static const String modelsCategoryDistributionModel = 'lib/feature/data/models/category_distribution_model.dart';
 //   static const String modelsCharityDashboardModel = 'lib/feature/data/models/charity_dashboard_model.dart';
-//   static const String modelsDonorModel = 'lib/feature/data/models/donor_model.dart';
+//   static const String modelsDonorModel = 'lib/feature/data/models/top_donor_model.dart';
 //   static const String modelsGrowthCampModel = 'lib/feature/data/models/growth_camp_model.dart';
 //   static const String modelsGrowthCaseModel = 'lib/feature/data/models/growth_case_model.dart';
 //   static const String modelsGrowthModel = 'lib/feature/data/models/growth_model.dart';

@@ -1,5 +1,5 @@
 import 'package:aoun/feature/domain/entities/category_distribution_entity.dart';
-import 'package:aoun/feature/domain/entities/donor_entity.dart';
+import 'package:aoun/feature/domain/entities/top_donor_entity.dart';
 import 'package:aoun/feature/domain/entities/growth_entity.dart';
 import 'package:aoun/feature/domain/entities/recent_donation_entity.dart';
 
@@ -17,8 +17,8 @@ class DashboardEntity {
 
   final List<RecentDonationEntity> recentDonationStatistic;
 
-  final List<DonorEntity> topDonors;
-  final List<DonorEntity> allDonors;
+  final List<TopDonorEntity> topDonors;
+  final List<TopDonorEntity> allDonors;
 
   final List<GrowthEntity> weeklyDonorsGrowth;
   final List<GrowthEntity> monthlyDonorsGrowth;

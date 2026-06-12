@@ -2,7 +2,7 @@ import '../../domain/entities/dashboard_entity.dart';
 import '../../domain/entities/growth_entity.dart';
 import '../../domain/entities/recent_donation_entity.dart';
 import '../../domain/entities/category_distribution_entity.dart';
-import '../../domain/entities/donor_entity.dart';
+import '../../domain/entities/top_donor_entity.dart';
 
 class CharityDashboardModel extends DashboardEntity {
   CharityDashboardModel({
@@ -14,8 +14,8 @@ class CharityDashboardModel extends DashboardEntity {
     required List<GrowthEntity> weeklyGrowth,
     required List<RecentDonationEntity> recentDonationStatistic,
     required List<CategoryDistributionEntity> categoryDistribution,
-    required List<DonorEntity> topDonors,
-    required List<DonorEntity> allDonors,
+    required List<TopDonorEntity> topDonors,
+    required List<TopDonorEntity> allDonors,
     required List<GrowthEntity> weeklyDonorsGrowth,
     required List<GrowthEntity> monthlyDonorsGrowth,
     required List<GrowthEntity> monthlyGrowth,
@@ -67,12 +67,12 @@ class CharityDashboardModel extends DashboardEntity {
           [],
 
       topDonors: (json['topDonors'] as List?)
-          ?.map((e) => DonorEntity.fromJson(e))
+          ?.map((e) => TopDonorEntity.fromJson(e))
           .toList() ??
           [],
 
       allDonors: (json['allDonors'] as List?)
-          ?.map((e) => DonorEntity.fromJson(e))
+          ?.map((e) => TopDonorEntity.fromJson(e))
           .toList() ??
           [],
 

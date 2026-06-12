@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/profile_donor.dart';
 
-import '../../../domain/entities/donor_entity.dart';
+import '../../../domain/entities/top_donor_entity.dart';
 
 class TopDonorsScreen extends StatelessWidget {
-  final List<DonorEntity> donors;
+  final List<TopDonorEntity> donors;
 
   const TopDonorsScreen({
     super.key,

@@ -21,26 +21,6 @@ class DonorsScreen extends StatefulWidget {
 class _DonorsScreenState
     extends State<DonorsScreen> {
 
-  final List<Map<String, String>>
-  donors = [
-    {
-      "name": "محمد أحمد",
-      "time": "منذ 5 دقائق",
-      "amount": "500 ج.م",
-    },
-
-    {
-      "name": "أحمد علي",
-      "time": "منذ 10 دقائق",
-      "amount": "300 ج.م",
-    },
-
-    {
-      "name": "سارة خالد",
-      "time": "منذ ساعة",
-      "amount": "1000 ج.م",
-    },
-  ];
 
   @override
   void initState() {
@@ -824,7 +804,7 @@ class _DonorsScreenState
                                 CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    "${dashboard.recentDonationStatistic[index].amount} ج.م",
+                                    "${dashboard.allDonors[index].totalAmount} ج.م",
                                     style: TextStyle(
                                       color:
                                       Color(0xff255A41),
