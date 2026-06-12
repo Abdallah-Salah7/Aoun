@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../../domain/entities/recent_donation_entity.dart';
 import '../../state_management/cubit/dashboard_cubit.dart';
 import '../../state_management/cubit/dashboard_state.dart';
 import '../widget/weekly_chart.dart';
@@ -754,6 +755,18 @@ class _DonorsScreenState
                               (context, index) =>
                           const Divider(),
                           itemBuilder: (context, index) {
+                            final donor = dashboard.allDonors[index];
+
+                            final recentDonation = dashboard.recentDonationStatistic.firstWhere(
+                                  (item) => item.donorName == donor.donorName,
+                              orElse: () => RecentDonationEntity(
+                                donorName: '',
+                                amount: 0,
+                                targetName: '',
+                                date: DateTime(1970),
+                              ),
+                            );
+
                             return ListTile(
                               contentPadding: EdgeInsets.zero,
 
@@ -777,7 +790,7 @@ class _DonorsScreenState
                               ),
 
                               title: Text(
-                                dashboard.allDonors[index].donorName,
+                                donor.donorName,
                                 style: TextStyle(
                                   fontWeight:
                                   FontWeight.bold,
@@ -785,10 +798,10 @@ class _DonorsScreenState
                                 ),
                               ),
 
-                              subtitle:    Text(
-                                formatTimeAgo(
-                                  dashboard.recentDonationStatistic[index].date,
-                                ),
+                              subtitle: Text(
+                            recentDonation.donorName.isNotEmpty
+                            ? formatTimeAgo(recentDonation.date)
+                                : "لا توجد تبرعات",
                                 style: TextStyle(
                                   fontWeight:
                                   FontWeight.bold,
@@ -803,8 +816,8 @@ class _DonorsScreenState
                                 crossAxisAlignment:
                                 CrossAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    "${dashboard.allDonors[index].totalAmount} ج.م",
+                              Text(
+                              "${donor.totalAmount} ج.م",
                                     style: TextStyle(
                                       color:
                                       Color(0xff255A41),
