@@ -52,6 +52,31 @@ class _DonorsScreenState
           .getDashboardStats();
     });
   }
+  String formatTimeAgo(DateTime date) {
+    final difference = DateTime.now().difference(date);
+
+    if (difference.inSeconds < 60) {
+      return "منذ لحظات";
+    } else if (difference.inMinutes < 60) {
+      final minutes = difference.inMinutes;
+      return minutes == 1
+          ? "منذ دقيقة"
+          : "منذ $minutes دقيقة";
+    } else if (difference.inHours < 24) {
+      final hours = difference.inHours;
+      return hours == 1
+          ? "منذ ساعة"
+          : "منذ $hours ساعة";
+    } else if (difference.inDays < 30) {
+      final days = difference.inDays;
+      return days == 1
+          ? "منذ يوم"
+          : "منذ $days يوم";
+    } else {
+      return "${date.day}/${date.month}/${date.year}";
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -668,7 +693,9 @@ class _DonorsScreenState
                       ),
                     ),
 
-                    const TopDonorsScreen(),
+                    TopDonorsScreen(
+                      donors: dashboard.topDonors,
+                    ),
 
                     /// title
                     Padding(
@@ -718,178 +745,104 @@ class _DonorsScreenState
                     ),
 
                     /// donors list
-                    Container(
-                      padding:
-                      const EdgeInsets.all(
-                        16,
-                      ),
-
-                      margin:
-                      const EdgeInsets.symmetric(
-                        vertical: 18,
-                        horizontal: 18,
-                      ),
-
-                      decoration:
-                      BoxDecoration(
-                        color:
-                        Colors.white,
-
-                        borderRadius:
-                        BorderRadius.circular(
-                          20,
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 18,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                          BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 10,
+                            ),
+                          ],
                         ),
 
-                        boxShadow: const [
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          physics:
+                          const NeverScrollableScrollPhysics(),
+                          itemCount:
+                          dashboard.allDonors.length,
+                          separatorBuilder:
+                              (context, index) =>
+                          const Divider(),
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              contentPadding: EdgeInsets.zero,
 
-                          BoxShadow(
-                            color:
-                            Colors.black12,
-
-                            blurRadius:
-                            10,
-                          ),
-                        ],
-                      ),
-
-                      child:
-                      ListView.separated(
-                        shrinkWrap: true,
-
-                        physics:
-                        const NeverScrollableScrollPhysics(),
-
-                        itemCount:
-                        donors.length,
-
-                        separatorBuilder:
-                            (
-                            context,
-                            index,
-                            ) =>
-                        const Divider(),
-
-                        itemBuilder:
-                            (
-                            context,
-                            index,
-                            ) {
-
-                          final donor =
-                          donors[index];
-
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-
-                                MaterialPageRoute(
-                                  builder:
-                                      (
-                                      context,
-                                      ) =>
-                                      ProfileDonor(
-                                        name:
-                                        donor["name"]!,
-                                      ),
-                                ),
-                              );
-                            },
-
-                            child:
-                            ListTile(
-                              contentPadding:
-                              EdgeInsets.zero,
-
-                              leading:
-                              CircleAvatar(
-                                backgroundColor:
-                                const Color(
-                                  0xffC7CDCD,
-                                ),
-
+                              leading: CircleAvatar(
+                                backgroundColor: const Color(0xffC7CDCD),
                                 child: Text(
-                                  donor["name"]![0],
-
-                                  style:
-                                  const TextStyle(
-                                    color:
-                                    Color(
-                                      0xFF1E5631,
-                                    ),
-
-                                    fontWeight:
-                                    FontWeight.bold,
+                                  dashboard.allDonors[index]
+                                      .donorName
+                                      .trim()
+                                      .isNotEmpty
+                                      ? dashboard.allDonors[index]
+                                      .donorName
+                                      .trim()[0]
+                                      : "?",
+                                  style: const TextStyle(
+                                    color: Color(0xFF1E5631),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
                                   ),
                                 ),
                               ),
 
                               title: Text(
-                                donor["name"]!,
-
-                                style:
-                                const TextStyle(
+                                dashboard.allDonors[index].donorName,
+                                style: TextStyle(
                                   fontWeight:
-                                  FontWeight
-                                      .bold,
-
-                                  fontSize:
-                                  20,
+                                  FontWeight.bold,
+                                  fontSize: 20,
                                 ),
                               ),
 
-                              subtitle:
-                              Text(
-                                donor["time"]!,
-
-                                style:
-                                const TextStyle(
-                                  fontSize:
-                                  15,
-
+                              subtitle:    Text(
+                                formatTimeAgo(
+                                  dashboard.recentDonationStatistic[index].date,
+                                ),
+                                style: TextStyle(
                                   fontWeight:
-                                  FontWeight
-                                      .w400,
+                                  FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.grey,
                                 ),
                               ),
 
-                              trailing:
-                              Column(
+                              trailing:  Column(
                                 mainAxisAlignment:
-                                MainAxisAlignment
-                                    .center,
-
+                                MainAxisAlignment.center,
                                 crossAxisAlignment:
-                                CrossAxisAlignment
-                                    .end,
-
+                                CrossAxisAlignment.end,
                                 children: [
-
                                   Text(
-                                    donor["amount"]!,
-
-                                    style:
-                                    const TextStyle(
+                                    "${dashboard.recentDonationStatistic[index].amount} ج.م",
+                                    style: TextStyle(
                                       color:
-                                      Color(
-                                        0xff255A41,
-                                      ),
-
+                                      Color(0xff255A41),
                                       fontWeight:
-                                      FontWeight
-                                          .bold,
-
-                                      fontSize:
-                                      16,
+                                      FontWeight.bold,
+                                      fontSize: 16,
                                     ),
                                   ),
+
                                 ],
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
                     ),
+
+
                   ],
                 ),
               );

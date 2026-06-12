@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/profile_donor.dart';
 
-class TopDonorsScreen extends StatelessWidget {
-  const TopDonorsScreen({super.key});
+import '../../../domain/entities/donor_entity.dart';
 
-  final List<Map<String, String>> donors = const [
-    {"name": "أحمد علي", "donation": "24 تبرع", "amount": "5000 ج.م"},
-    {"name": "فاطمة حسن", "donation": "15 تبرع", "amount": "5000 ج.م"},
-    {"name": "خالد سيد", "donation": "15 تبرع", "amount": "5000 ج.م"},
-    {"name": "مريم عبد الله", "donation": "15 تبرع", "amount": "5000 ج.م"},
-  ];
+class TopDonorsScreen extends StatelessWidget {
+  final List<DonorEntity> donors;
+
+  const TopDonorsScreen({
+    super.key,
+    required this.donors,
+  });
+
+  String getInitials(String name) {
+    final words = name.trim().split(' ');
+
+    if (words.isEmpty || words.first.isEmpty) {
+      return '?';
+    }
+
+    if (words.length == 1) {
+      return words.first[0];
+    }
+
+    return words[0][0] + words[1][0];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +44,16 @@ class TopDonorsScreen extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: donors.length,
           itemBuilder: (context, index) {
-            final item = donors[index];
+            final donor = donors[index];
 
             return InkWell(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProfileDonor(name: item["name"]!),
+                    builder: (context) =>ProfileDonor(
+                      name: donor.donorName,
+                    ),
                   ),
                 );
               },
@@ -63,8 +79,8 @@ class TopDonorsScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       child: Center(
-                        child: Text(
-                          item["name"]![0], // أول حرف من الاسم
+                        child:Text(
+                          getInitials(donor.donorName[0]),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -81,17 +97,17 @@ class TopDonorsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            item["name"]!,
+                            donor.donorName,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            item["donation"]!,
+                           "${donor.donationsCount} تبرع",
                             style: const TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey,
+                              fontSize: 16,
+                              color: Colors.black54,
                             ),
                           ),
                         ],
@@ -99,7 +115,7 @@ class TopDonorsScreen extends StatelessWidget {
                     ),
 
                     Text(
-                      item["amount"]!,
+                 "${donor.totalAmount} ج.م",
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,

@@ -29,6 +29,31 @@ class _HomeCharityState extends State<HomeCharity> {
     });
   }
 
+  String formatTimeAgo(DateTime date) {
+    final difference = DateTime.now().difference(date);
+
+    if (difference.inSeconds < 60) {
+      return "منذ لحظات";
+    } else if (difference.inMinutes < 60) {
+      final minutes = difference.inMinutes;
+      return minutes == 1
+          ? "منذ دقيقة"
+          : "منذ $minutes دقيقة";
+    } else if (difference.inHours < 24) {
+      final hours = difference.inHours;
+      return hours == 1
+          ? "منذ ساعة"
+          : "منذ $hours ساعة";
+    } else if (difference.inDays < 30) {
+      final days = difference.inDays;
+      return days == 1
+          ? "منذ يوم"
+          : "منذ $days يوم";
+    } else {
+      return "${date.day}/${date.month}/${date.year}";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -661,15 +686,20 @@ class _HomeCharityState extends State<HomeCharity> {
                                     contentPadding: EdgeInsets.zero,
 
                                     leading: CircleAvatar(
-                                      backgroundColor:
-                                      const Color(0xffC7CDCD),
-                                      child: const Text(
-                                        "م",
-                                        style: TextStyle(
-                                          color:
-                                          Color(0xFF1E5631),
-                                          fontWeight:
-                                          FontWeight.bold,
+                                      backgroundColor: const Color(0xffC7CDCD),
+                                      child: Text(
+                                        data.recentDonationStatistic[index]
+                                            .donorName
+                                            .trim()
+                                            .isNotEmpty
+                                            ? data.recentDonationStatistic[index]
+                                            .donorName
+                                            .trim()[0]
+                                            : "?",
+                                        style: const TextStyle(
+                                          color: Color(0xFF1E5631),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
                                         ),
                                       ),
                                     ),
@@ -709,7 +739,9 @@ class _HomeCharityState extends State<HomeCharity> {
                                           ),
                                         ),
                                         Text(
-                                          "منذ 5 دقائق",
+                                          formatTimeAgo(
+                                            data.recentDonationStatistic[index].date,
+                                          ),
                                           style: TextStyle(
                                             fontWeight:
                                             FontWeight.bold,
