@@ -6,8 +6,14 @@ import '../../../../core/routes_manager/routes.dart';
 class DonationItem extends StatelessWidget {
   final String image;
   final String name;
+  final int categoryId;
 
-  const DonationItem({super.key, required this.image, required this.name});
+  const DonationItem({
+    super.key,
+    required this.image,
+    required this.name,
+    required this.categoryId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +22,9 @@ class DonationItem extends StatelessWidget {
         Navigator.pushNamed(
           context,
           Routes.donationFieldScreen,
-          arguments: name,
+          arguments: categoryId,
         );
       },
-
       child: Column(
         children: [
           Container(
@@ -29,7 +34,11 @@ class DonationItem extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Image.asset(image, width: 37, height: 37),
+              child: Image.asset(
+                image,
+                width: 37,
+                height: 37,
+              ),
             ),
           ),
           Padding(

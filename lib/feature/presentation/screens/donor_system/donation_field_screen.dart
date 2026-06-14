@@ -20,20 +20,55 @@ class DonationFieldScreen extends StatefulWidget {
 class _DonationFieldScreenState extends State<DonationFieldScreen> {
   String selectedFilter = "الكل";
   String searchText = "";
-
   List<CaseEntity> _applyFilter(List<CaseEntity> cases) {
+    bool isCompleted(CaseEntity c) {
+      return c.progress >= 1.0 ||
+          c.collectedAmount >= c.requiredAmount ||
+          c.status == "مكتملة";
+    }
+    bool isUrgent(CaseEntity c) {
+      final completed = isCompleted(c);
+
+      return c.isUrgent == true && !completed;
+    }
     return cases.where((c) {
-      final matchFilter =
-          selectedFilter == "الكل"
-              ? c.status != "مكتملة"
-              : c.status == selectedFilter;
+
+      final completed = isCompleted(c);
+      final urgent = isUrgent(c);
+
+      bool matchFilter;
+
+      if (selectedFilter == "مكتملة") {
+        matchFilter = completed;
+
+      } else if (selectedFilter == "عاجلة جداً") {
+        matchFilter = urgent;
+
+      } else {
+        // الكل = غير المكتملة فقط
+        matchFilter = !completed;
+      }
 
       final matchSearch =
-          c.title.contains(searchText) || c.description.contains(searchText);
+          c.title.contains(searchText) ||
+              c.description.contains(searchText);
 
       return matchFilter && matchSearch;
     }).toList();
   }
+
+  final Map<int, String> categoryNames = {
+    1: "الصحة",
+    2: "التعليم",
+    3: "الإغاثة",
+    4: "كفالات",
+    5: "مشاريع بناء",
+    6: "التنمية",
+    7: "ذوى الاحتياجات",
+    8: "كفارات",
+    9: "الغارمين",
+    10: "الاطعام",
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +105,7 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
                 const Image(image: AssetImage(ImageAssets.icon)),
                 const SizedBox(width: 8),
                 Text(
-                  "مجال ${widget.categoryId}",
+                  "مجال ${categoryNames[widget.categoryId]}" ?? "المجالات",
                   style: GoogleFonts.manrope(
                     fontSize: 26,
                     fontWeight: FontWeight.w700,
@@ -171,13 +206,7 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
                         final c = filteredCases[index];
 
                         return CaseItem(
-                          image: c.imageUrl,
-                          title: c.title,
-                          description: c.description,
-                          rateValue: c.progress,
-                          collectedValue: c.collectedAmount,
-                          allValue: c.requiredAmount,
-                          status: c.status,
+                          caseEntity: c,
                         );
                       },
                     ),

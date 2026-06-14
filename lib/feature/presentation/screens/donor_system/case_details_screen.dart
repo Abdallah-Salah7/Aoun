@@ -6,13 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
+import '../../../domain/entities/case_entity.dart';
 import '../../state_management/cubit/case_cubit.dart';
 import 'charity_profile_screen.dart';
 
 class CaseDetailsScreen extends StatefulWidget {
-  final Map<String, dynamic> args;
+  final CaseEntity caseEntity;
 
-  const CaseDetailsScreen({super.key, required this.args});
+  const CaseDetailsScreen({super.key, required this.caseEntity});
 
   @override
   State<CaseDetailsScreen> createState() => _CaseDetailsScreenState();
@@ -22,13 +23,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
   bool isSaved = false;
   @override
   Widget build(BuildContext context) {
-    final image = widget.args["image"];
-    final title = widget.args["title"];
-    final rateValue = widget.args["rateValue"];
-    final collectedValue = widget.args["collectedValue"];
-    final allValue = widget.args["allValue"];
-    final status = widget.args["status"];
-    final description = widget.args["description"];
+    final caseEntity = widget.caseEntity;
 
     return Scaffold(
       backgroundColor: Color(0xffE5EBE9),
@@ -44,7 +39,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                 children: [
                   Stack(
                     children: [
-                      buildCaseImage(image),
+                      buildCaseImage(caseEntity.imageUrl),
                       Row(
                         children: [
                           Container(
@@ -100,7 +95,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                         vertical: 8,
                       ),
                       child: Text(
-                        title,
+                        caseEntity.title,
                         style: GoogleFonts.cairo(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -123,7 +118,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: LinearProgressIndicator(
-                                value: rateValue,
+                                value: caseEntity.progress,
                                 minHeight: 8,
                                 backgroundColor: Color(0xffD9D9D9),
                                 color: Color(0xff255A41),
@@ -131,7 +126,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                               ),
                             ),
                           ),
-                          status == "مكتملة"
+                          caseEntity.isCompleted
                               ? Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 18.0,
@@ -155,7 +150,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      "تم جمع $collectedValue ج.م",
+                                      "تم جمع ${caseEntity.collectedAmount} ج.م",
                                       style: GoogleFonts.manrope(
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold,
@@ -164,7 +159,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                                     ),
                                     Spacer(),
                                     Text(
-                                      "من $allValue",
+                                      "من ${caseEntity.requiredAmount}",
                                       style: GoogleFonts.manrope(
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold,
@@ -184,8 +179,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                                     image: AssetImage(ImageAssets.vector),
                                   ),
                                 ),
-                                Text(
-                                  "١٢٥ متبرع",
+                    Text("${caseEntity.donorsCount == 0 ? '—' : caseEntity.donorsCount} متبرع",
                                   style: GoogleFonts.manrope(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
@@ -219,7 +213,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                           ),
                         ),
                         Text(
-                          description,
+                          caseEntity.description,
                           style: GoogleFonts.manrope(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
@@ -294,7 +288,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                     padding: const EdgeInsets.all(18.0),
                     child: Center(
                       child:
-                          status == "مكتملة"
+                      caseEntity.isCompleted
                               ? Container(
                                 width: double.infinity,
                                 padding: EdgeInsets.symmetric(vertical: 10),
@@ -358,29 +352,51 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
       ),
     );
   }
+  Widget _placeholder() {
+    return Container(
+      height: 292,
+      width: double.infinity,
+      color: Colors.grey.shade300,
+      child: const Icon(
+        Icons.image_not_supported,
+        size: 60,
+        color: Colors.grey,
+      ),
+    );
+  }
+  Widget buildCaseImage(String? image) {
+    final safeImage = image ?? "";
 
-  Widget buildCaseImage(String image) {
-    if (image.startsWith('http')) {
+    if (safeImage.startsWith('http')) {
       return Image.network(
-        image,
+        safeImage,
         fit: BoxFit.cover,
         width: double.infinity,
         height: 292,
-      );
-    } else if (image.startsWith('/') || image.contains('file://')) {
-      return Image.file(
-        File(image),
-        fit: BoxFit.cover,
-        width: double.infinity,
-        height: 292,
-      );
-    } else {
-      return Image.asset(
-        image,
-        fit: BoxFit.cover,
-        width: double.infinity,
-        height: 292,
+        errorBuilder: (_, __, ___) => _placeholder(),
       );
     }
+
+    if (safeImage.startsWith('/')) {
+      return Image.network(
+        "https://aounplatform.runasp.net$safeImage",
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 292,
+        errorBuilder: (_, __, ___) => _placeholder(),
+      );
+    }
+
+    if (safeImage.contains('file://')) {
+      return Image.file(
+        File(safeImage),
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 292,
+        errorBuilder: (_, __, ___) => _placeholder(),
+      );
+    }
+
+    return _placeholder();
   }
 }

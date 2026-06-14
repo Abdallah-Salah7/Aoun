@@ -23,7 +23,9 @@ class _CampaignDetailsState extends State<CampaignDetails> {
     final rateValue = widget.args["rateValue"];
     final collectedValue = widget.args["collectedValue"];
     final allValue = widget.args["allValue"];
-    final description = widget.args["description"];
+    final description = widget.args["description"] ?? "";
+    final donorsCount = widget.args["donorsCount"];
+    final daysLeft = widget.args["daysLeft"];
 
     return Scaffold(
       backgroundColor: Color(0xffE5EBE9),
@@ -39,19 +41,7 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                 children: [
                   Stack(
                     children: [
-                      image.startsWith('/')
-                          ? Image.file(
-                            File(image),
-                            width: double.infinity,
-                            height: 292,
-                            fit: BoxFit.cover,
-                          )
-                          : Image.asset(
-                            image,
-                            width: double.infinity,
-                            height: 292,
-                            fit: BoxFit.cover,
-                          ),
+                      buildImage(image),
 
                       Row(
                         children: [
@@ -142,7 +132,7 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "${getRemainingDays()} يوم متبقى",
+                                  "$daysLeft يوم متبقى",
                                   style: GoogleFonts.manrope(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
@@ -202,7 +192,7 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                                   ),
                                 ),
                                 Text(
-                                  "١٢٥ متبرع",
+                                  " $donorsCountمتبرع",
                                   style: GoogleFonts.manrope(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
@@ -235,8 +225,8 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                             color: Colors.black,
                           ),
                         ),
-                        Text(
-                          description,
+                    Text(
+                      description.isEmpty ? "لا يوجد وصف متاح" : description,
                           style: GoogleFonts.manrope(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
@@ -336,12 +326,42 @@ class _CampaignDetailsState extends State<CampaignDetails> {
   }
 
   int getRemainingDays() {
+    final endDate = widget.args["endDate"] as DateTime?;
+    if (endDate == null) return 0;
+
     final now = DateTime.now();
+    return endDate.difference(now).inDays.clamp(0, 9999);
+  }
 
-    final DateTime endDate = widget.args["endDate"];
+  Widget buildImage(String image) {
+    if (image.startsWith('http')) {
+      return Image.network(
+        image,
+        width: double.infinity,
+        height: 292,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => Container(
+          height: 292,
+          color: Colors.grey,
+          child: const Icon(Icons.broken_image),
+        ),
+      );
+    }
 
-    final difference = endDate.difference(now).inDays;
+    if (image.startsWith('/') || image.startsWith('file://')) {
+      return Image.file(
+        File(image),
+        width: double.infinity,
+        height: 292,
+        fit: BoxFit.cover,
+      );
+    }
 
-    return difference < 0 ? 0 : difference;
+    return Image.asset(
+      image,
+      width: double.infinity,
+      height: 292,
+      fit: BoxFit.cover,
+    );
   }
 }

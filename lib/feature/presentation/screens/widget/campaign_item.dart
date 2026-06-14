@@ -8,13 +8,14 @@ import '../../../../core/routes_manager/routes.dart';
 class CampaignItem extends StatelessWidget {
   final String image;
   final String title;
-  // الحقول التي كانت تُحسب يدوياً أصبحت الآن تُمرر من الموديل
   final String description;
   final double rateValue;
   final String collectedValue;
   final String allValue;
-  final DateTime startDate;
-  final DateTime endDate;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final int daysLeft;
+  final int donorsCount;
 
   const CampaignItem({
     super.key,
@@ -26,6 +27,8 @@ class CampaignItem extends StatelessWidget {
     required this.allValue,
     required this.startDate,
     required this.endDate,
+    required this.daysLeft,
+    required this.donorsCount,
   });
 
   // إضافة دعم للروابط الشبكية (http) بجانب الملفات المحلية
@@ -48,6 +51,8 @@ class CampaignItem extends StatelessWidget {
             "allValue": allValue,
             "startDate": startDate,
             "endDate": endDate,
+            "daysLeft": daysLeft,
+            "donorsCount": donorsCount,
           },
         );
       },
@@ -91,7 +96,7 @@ class CampaignItem extends StatelessWidget {
                           child: Image.asset(ImageAssets.iconDate, height: 34, width: 34),
                         ),
                         Text(
-                          "${getRemainingDays()} يوم متبقى",
+                          "${daysLeft} يوم متبقى",
                           style: GoogleFonts.manrope(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black45),
                         ),
                       ],
@@ -156,10 +161,13 @@ class CampaignItem extends StatelessWidget {
       ),
     );
   }
-
   int getRemainingDays() {
+    final date = endDate;
+    if (date == null) return 0;
+
     final now = DateTime.now();
-    final difference = endDate.difference(now).inDays;
+    final difference = date.difference(now).inDays;
+
     return difference < 0 ? 0 : difference;
   }
 }

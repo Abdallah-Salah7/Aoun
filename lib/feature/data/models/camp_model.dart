@@ -59,14 +59,13 @@ class CampaignModel {
           : "https://aounplatform.runasp.net${json['imageUrl']}",
       requiredAmount: (json['requiredAmount'] as num?)?.toDouble() ?? 0.0,
       collectedAmount: (json['collectedAmount'] as num?)?.toDouble() ?? 0.0,
-      donorsCount: json['donorsCount'] ?? 0,
-      daysLeft: json['daysLeft'] ?? 0,
       completedInDays: json['completedInDays'],
       completedAt: json['completedAt'],
-      description: json['description'],
       startDate: json['startDate'] != null ? DateTime.tryParse(json['startDate']) : null,
       endDate: json['endDate'] != null ? DateTime.tryParse(json['endDate']) : null,
-
+      donorsCount: json['donorsCount'] ?? json['stats']?['donorsCount'] ?? 0,
+      daysLeft: json['daysLeft'] ?? 0,
+      description: json['description']?.toString() ?? "",
       weeklyDonations: json['weeklyDonations'] != null
           ? (json['weeklyDonations'] as List).map((e) => CampDonationModel.fromJson(e)).toList()
           : [],

@@ -140,7 +140,7 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              "${_getRemainingDays(data.endDate)} يوم متبقى",
+                              "${getRemainingDays(data.endDate)} يوم متبقى",
                               style: GoogleFonts.manrope(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -476,8 +476,12 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
     }
   }
 
-  int _getRemainingDays(DateTime endDate) {
-    final diff = endDate.difference(DateTime.now()).inDays;
+  int getRemainingDays(DateTime? date) {
+    if (date == null) return 0;
+
+    final now = DateTime.now();
+    final diff = date.difference(now).inDays;
+
     return diff < 0 ? 0 : diff;
   }
 

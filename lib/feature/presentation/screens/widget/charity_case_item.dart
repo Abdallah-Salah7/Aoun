@@ -36,12 +36,12 @@ class _CharityCaseItemState extends State<CharityCaseItem> {
   }
   void _checkAndRefresh() {
     // إذا كانت الحالة تحمل بالفعل عدد متبرعين أكبر من 0، أو تم جلبها مسبقاً، نمنع الطلب تماماً
-    if (widget.caseEntity.donorCount == 0 && !_isFetched) {
+    if (widget.caseEntity.donorsCount == 0 && !_isFetched) {
       // فحص أخير للتأكد من أن الـ Cubit لا يحتوي بالفعل على القيمة المحدثة في قائمته العامة
       final currentCases = context.read<CaseCubit>().state;
       if (currentCases is CaseLoaded) {
         final matchingCase = currentCases.cases.firstWhere((c) => c.id == widget.caseEntity.id);
-        if (matchingCase.donorCount > 0) {
+        if (matchingCase.donorsCount > 0) {
           if (mounted) {
             setState(() {
               _isFetched = true;
@@ -110,29 +110,33 @@ class _CharityCaseItemState extends State<CharityCaseItem> {
                     },
                   ),
                 ),
-                if (caseData.isUrgent)
+                if (caseData.isUrgent || caseData.isCompleted)
                   Positioned(
                     top: 10,
-                    left: 10,
+                    right: 20,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 10,
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.red,
+                        color: caseData.isCompleted
+                            ? const Color(0xff287A54)
+                            : Colors.red,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
                         children: [
-                          const Icon(
-                            Icons.access_time,
+                          Icon(
+                            caseData.isCompleted
+                                ? Icons.check_circle_outline
+                                : Icons.access_time,
                             color: Colors.white,
                             size: 16,
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            "عاجلة",
+                            caseData.isCompleted ? "مكتملة" : "عاجلة",
                             style: GoogleFonts.cairo(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -142,26 +146,7 @@ class _CharityCaseItemState extends State<CharityCaseItem> {
                       ),
                     ),
                   ),
-                Positioned(
-                  top: 10,
-                  right: 10,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      caseData.status,
-                      style: GoogleFonts.cairo(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
+
               ],
             ),
             Padding(
@@ -221,7 +206,7 @@ class _CharityCaseItemState extends State<CharityCaseItem> {
                       Image.asset(ImageAssets.vector),
                       const SizedBox(height: 5),
                       Text(
-                        "${caseData.donorCount} متبرع",
+                        "${caseData.donorsCount} متبرع",
                         style: GoogleFonts.cairo(
                           fontSize: 14,
                           color: Colors.grey,

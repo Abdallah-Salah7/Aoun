@@ -129,41 +129,48 @@ class MainTab extends StatelessWidget {
                             DonationItem(
                               image: ImageAssets.siren,
                               name: "الإغاثة",
+                              categoryId: 3,
                             ),
                             SizedBox(width: 4),
 
                             DonationItem(
                               image: ImageAssets.elderly,
                               name: "ذوى الإحتياجات",
+                              categoryId: 7,
                             ),
                             SizedBox(width: 4),
                             DonationItem(
                               image: ImageAssets.brickWall,
                               name: "مشاريع بناء",
+                              categoryId: 5,
                             ),
                             SizedBox(width: 12),
 
                             DonationItem(
                               image: ImageAssets.socialCare,
                               name: "كفالات",
+                              categoryId: 4,
                             ),
                             SizedBox(width: 12),
 
                             DonationItem(
                               image: ImageAssets.classroom,
                               name: "التعليم",
+                              categoryId: 2,
                             ),
                             SizedBox(width: 12),
 
                             DonationItem(
                               image: ImageAssets.healthCheck,
                               name: "الصحة",
+                              categoryId: 1,
                             ),
                             SizedBox(width: 12),
 
                             DonationItem(
                               image: ImageAssets.deliveryMan,
                               name: "الإطعام",
+                              categoryId: 10,
                             ),
                             SizedBox(width: 12),
                           ],
@@ -221,10 +228,17 @@ class MainTab extends StatelessWidget {
                                     horizontal: 6,
                                   ),
                                   child: CradlesItem(
-                                    image: campaign.imageUrl,
-                                    title: campaign.title,
-                                    description: campaign.description,
-                                  ),
+                                  image: campaign.imageUrl,
+                                  title: campaign.title,
+                                  description: campaign.description,
+                                  rateValue: campaign.rateValue,
+                                  collectedValue: campaign.collectedAmount.toString(),
+                                  allValue: campaign.requiredAmount.toString(),
+                                  startDate: campaign.startDate,
+                                  endDate: campaign.endDate,
+                                    donorsCount: campaign.donorsCount,
+                                    daysLeft: campaign.daysLeft,
+                                )
                                 );
                               },
                             );
@@ -236,41 +250,20 @@ class MainTab extends StatelessWidget {
                     ),
                     SizedBox(height: 26),
 
-                    CaseItem(
-                      image: ImageAssets.caseRec,
-                      title: "أحمد يحتاج عملية زراعة قوقعة عاجلة",
-                      description:
-                          "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
-                      rateValue: 0.6,
-                      collectedValue: 8900,
-                      allValue: 18000,
-                      status: "عاجلة",
-                    ),
-                    SizedBox(height: 30),
-
-                    CaseItem(
-                      image: ImageAssets.caseRec,
-                      title: "أحمد يحتاج عملية زراعة قوقعة عاجلة",
-                      description:
-                          "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
-                      rateValue: 0.6,
-                      collectedValue: 8900,
-                      allValue: 18000,
-                      status: "عاجلة جداً",
-                    ),
-                    SizedBox(height: 30),
-
-                    CaseItem(
-                      image: ImageAssets.caseRec,
-                      title: "أحمد يحتاج عملية زراعة قوقعة عاجلة",
-                      description:
-                          "طفل يبلغ من العمر 8 سنوات يحتاج إلى عملية زراعة\n قوقعة عاجلة لإنقاذ حياته ",
-                      rateValue: 0.6,
-                      collectedValue: 8900,
-                      allValue: 18000,
-                      status: "عاجلة",
-                    ),
-                    SizedBox(height: 30),
+    // CaseItem(
+    // caseEntity: caseItem,
+    // ),
+    //                 SizedBox(height: 30),
+    //
+    //                 CaseItem(
+    //                   caseEntity: caseItem,
+    //                 ),
+    //                 SizedBox(height: 30),
+    //
+    //                 CaseItem(
+    //                   caseEntity: caseItem,
+    //                 ),
+    //                 SizedBox(height: 30),
                   ],
                 ),
               ),

@@ -16,8 +16,8 @@ class DonationTab extends StatefulWidget {
 class _DonationTabState extends State<DonationTab> {
   List<Map<String, dynamic>> allFields = [
     {"id": 1, "title": "الصحة", "image": ImageAssets.healthCheck},
-    {"id": 2, "title": "الإغاثة", "image": ImageAssets.siren},
-    {"id": 3, "title": "التعليم", "image": ImageAssets.classroom},
+    {"id": 3, "title": "الإغاثة", "image": ImageAssets.siren},
+    {"id": 2, "title": "التعليم", "image": ImageAssets.classroom},
     {"id": 4, "title": "كفالات", "image": ImageAssets.socialCare},
     {"id": 5, "title": "مشاريع بناء", "image": ImageAssets.brickWall},
     {"id": 6, "title": "التنمية", "image": ImageAssets.people},

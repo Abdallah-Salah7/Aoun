@@ -42,8 +42,12 @@ void main() {
           //   )..fetchCampaigns(1),
           // ),
           BlocProvider(
-            create: (_) => CampaignCubit(getIt<CampaignRepository>()),
+            create: (_) => CampaignCubit(getIt<CampaignRepository>())
+              ..fetchCampaigns(1), // ← مهم جداً
           ),
+          // BlocProvider(
+          //   create: (_) => CampaignCubit(getIt<CampaignRepository>()),
+          // ),
           BlocProvider(
             create: (_) => DashboardCubit(
               GetDashboardStatsUseCase(
@@ -78,7 +82,7 @@ class MainApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: child,
         onGenerateRoute: RouteGenerator.getRoute,
-        initialRoute: Routes.homeCharity,
+        initialRoute: Routes.homePage,
       ),
     );
   }

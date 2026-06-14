@@ -64,14 +64,16 @@ class CaseRepository {
   }
   // ⬇️ أضيفي هذه الدالة داخل كلاس CaseRepository
   Future<CaseEntity> getCaseById(int id) async {
-    final response = await api.getCaseById(id); // بتنادي دالة الـ Service اللي ضفناها سابقاً
 
+    final response = await api.getCaseById(id); // بتنادي دالة الـ Service اللي ضفناها سابقاً
+    print("CASE DETAILS: ${response.data}");
     print("GET CASE DETAILS RESPONSE:");
     print(response.data);
 
     return CaseModel.fromJson(response.data['data']).toEntity();
   }
 // في ملف CaseRepository
+
   Future<void> deleteCase(int id) async {
     await api.deleteCase(id); // الآن يجب أن تتعرف على الدالة
   }

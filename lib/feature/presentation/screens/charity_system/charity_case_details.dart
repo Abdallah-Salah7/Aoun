@@ -45,7 +45,7 @@ class _CharityCaseDetailsState
     final description =
         widget.caseData.description;
     final donorCount =
-        widget.caseData.donorCount;
+        widget.caseData.donorsCount;
     final lastDonations =
         widget.caseData.lastDonations;
 

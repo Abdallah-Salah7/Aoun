@@ -7,8 +7,6 @@ class CradlesItem extends StatelessWidget {
   // الحقول المطلوبة فقط
   final String image;
   final String title;
-
-  // الحقول الاختيارية (تقبل null)
   final String? description;
   final double? rateValue;
   final String? collectedValue;
@@ -16,6 +14,8 @@ class CradlesItem extends StatelessWidget {
   final String? status;
   final DateTime? startDate;
   final DateTime? endDate;
+  final int? donorsCount;
+  final int? daysLeft;
 
   const CradlesItem({
     super.key,
@@ -28,6 +28,8 @@ class CradlesItem extends StatelessWidget {
     this.status,
     this.startDate,
     this.endDate,
+    this.donorsCount,
+    this.daysLeft,
   });
 
   bool get isFileImage => image.startsWith('/') || image.startsWith('file://') || image.startsWith('http');
@@ -42,6 +44,7 @@ class CradlesItem extends StatelessWidget {
 
     return InkWell(
       onTap: () {
+        print("DESC = $description");
         Navigator.pushNamed(
           context,
           Routes.campaignDetails,
@@ -55,6 +58,8 @@ class CradlesItem extends StatelessWidget {
             "status": status ?? "",
             "startDate": startDate,
             "endDate": endDate,
+            "daysLeft": daysLeft,
+            "donorsCount": donorsCount,
           },
         );
       },

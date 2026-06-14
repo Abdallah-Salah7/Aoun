@@ -417,13 +417,7 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                                 final caseItem = cases[index];
 
                                 return CaseItem(
-                                  image: caseItem.imageUrl,
-                                  title: caseItem.title,
-                                  description: caseItem.description,
-                                  rateValue: caseItem.progress,
-                                  collectedValue: caseItem.collectedAmount,
-                                  allValue: caseItem.requiredAmount,
-                                  status: caseItem.status,
+                                  caseEntity: caseItem,
                                 );
                               },
                             );
@@ -456,6 +450,9 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                                   // status: campaign.status,
                                   startDate: campaign.startDate,
                                   endDate: campaign.endDate,
+                                  daysLeft: campaign.daysLeft,
+                                  donorsCount: campaign.donorsCount,
+
                                 );                              },
                             );
                           }

@@ -95,10 +95,10 @@
 //   static const String entitiesCategoryDistributionEntity = 'lib/feature/domain/entities/category_distribution_entity.dart';
 //   static const String entitiesDashboardEntity = 'lib/feature/domain/entities/dashboard_entity.dart';
 //   static const String entitiesDonationEntity = 'lib/feature/domain/entities/donation_entity.dart';
-//   static const String entitiesDonorEntity = 'lib/feature/domain/entities/top_donor_entity.dart';
 //   static const String entitiesGrowthCaseEntity = 'lib/feature/domain/entities/growth_case_entity.dart';
 //   static const String entitiesGrowthEntity = 'lib/feature/domain/entities/growth_entity.dart';
 //   static const String entitiesRecentDonationEntity = 'lib/feature/domain/entities/recent_donation_entity.dart';
+//   static const String entitiesTopDonorEntity = 'lib/feature/domain/entities/top_donor_entity.dart';
 //   static const String generatedAssets = 'lib/generated/assets.dart';
 //   static const String images0a72c076b22658e77070c0d563195b0e3c83dcc8 = 'assets/images/0a72c076b22658e77070c0d563195b0e3c83dcc8.jpg';
 //   static const String images17b5d25de0d5b7b416eef337c8582906f70b39a8 = 'assets/images/17b5d25de0d5b7b416eef337c8582906f70b39a8.jpg';
@@ -113,6 +113,7 @@
 //   static const String imagesBrick wall = 'assets/images/Brick wall.png';
 //   static const String imagesBrickWall = 'assets/images/BrickWall.png';
 //   static const String imagesBsa = 'assets/images/bsa.jpg';
+//   static const String imagesC1 = 'assets/images/c1.jpg';
 //   static const String imagesCalc = 'assets/images/calc.png';
 //   static const String imagesCalcZakat = 'assets/images/calcZakat.png';
 //   static const String imagesCaliber = 'assets/images/caliber.png';
@@ -222,7 +223,6 @@
 //   static const String modelsCaseModel = 'lib/feature/data/models/case_model.dart';
 //   static const String modelsCategoryDistributionModel = 'lib/feature/data/models/category_distribution_model.dart';
 //   static const String modelsCharityDashboardModel = 'lib/feature/data/models/charity_dashboard_model.dart';
-//   static const String modelsDonorModel = 'lib/feature/data/models/top_donor_model.dart';
 //   static const String modelsGrowthCampModel = 'lib/feature/data/models/growth_camp_model.dart';
 //   static const String modelsGrowthCaseModel = 'lib/feature/data/models/growth_case_model.dart';
 //   static const String modelsGrowthModel = 'lib/feature/data/models/growth_model.dart';
@@ -231,6 +231,7 @@
 //   static const String modelsPaymentModel = 'lib/feature/data/models/payment_model.dart';
 //   static const String modelsRecentDonationModel = 'lib/feature/data/models/recent_donation_model.dart';
 //   static const String modelsRegisterModel = 'lib/feature/data/models/register_model.dart';
+//   static const String modelsTopDonorModel = 'lib/feature/data/models/top_donor_model.dart';
 //   static const String onboardScreensOnboardScreen1 = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboard_screen1.dart';
 //   static const String onboardScreensOnboardScreen2 = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboard_screen2.dart';
 //   static const String onboardScreensOnboardScreen3 = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboard_screen3.dart';

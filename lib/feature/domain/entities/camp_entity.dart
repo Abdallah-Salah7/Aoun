@@ -11,8 +11,8 @@ class CampaignEntity {
   final int donorsCount;
   final int daysLeft;
   final bool isCompleted;
-  final DateTime startDate;
-  final DateTime endDate;
+  final DateTime? startDate;
+  final DateTime? endDate;
 
   final List<GrowthCampModel> weeklyCampDonations;
   final List<GrowthCampModel> monthlyCampDonations;

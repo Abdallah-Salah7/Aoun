@@ -93,6 +93,8 @@ class _CurrentCampaignsScreenState extends State<CurrentCampaignsScreen> {
                             description: campaign.description,
                             startDate: campaign.startDate,
                             endDate: campaign.endDate,
+                            daysLeft: campaign.daysLeft,
+                            donorsCount: campaign.donorsCount,
                           );
                         },
                       );

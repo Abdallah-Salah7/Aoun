@@ -17,7 +17,7 @@ class CaseEntity {
   final int categoryId;
   final String status;
 
-  final int donorCount;
+  final int donorsCount;
 
   final DateTime? createdAt;
   final DateTime? completedAt;
@@ -25,9 +25,6 @@ class CaseEntity {
   final String charityName;
 
   final List<DonationEntity> lastDonations;
-
-
-
 
   final List<GrowthCaseEntity> weeklyGrowth;
   final List<GrowthCaseEntity> monthlyGrowth;
@@ -44,20 +41,24 @@ class CaseEntity {
     required this.isCompleted,
     required this.categoryId,
     required this.status,
-    required this.donorCount,
-
+    required this.donorsCount,
     required this.createdAt,
     required this.completedAt,
     required this.charityName,
-
     required this.lastDonations,
     required this.weeklyGrowth,
     required this.monthlyGrowth,
   });
 
+  // ⭐ أهم إضافة في المشروع كله
+  bool get isReallyCompleted =>
+      progress >= 1.0 ||
+          collectedAmount >= requiredAmount ||
+          status == "مكتملة";
+
   CaseEntity copyWith({
     int? id,
-    int? donorCount,
+    int? donorsCount,
     String? title,
     String? description,
     String? imageUrl,
@@ -72,13 +73,12 @@ class CaseEntity {
     DateTime? completedAt,
     String? charityName,
     List<DonationEntity>? lastDonations,
-
     List<GrowthCaseEntity>? weeklyGrowth,
     List<GrowthCaseEntity>? monthlyGrowth,
   }) {
     return CaseEntity(
       id: id ?? this.id,
-      donorCount: donorCount ?? this.donorCount,
+      donorsCount: donorsCount ?? this.donorsCount,
       title: title ?? this.title,
       description: description ?? this.description,
       imageUrl: imageUrl ?? this.imageUrl,

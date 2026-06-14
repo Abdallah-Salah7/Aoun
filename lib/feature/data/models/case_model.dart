@@ -4,7 +4,7 @@ import 'growth_case_model.dart';
 
 class CaseModel {
   final int id;
-  final int donorCount;
+  final int donorsCount;
   final String title;
   final String description;
   final String imageUrl;
@@ -27,7 +27,7 @@ class CaseModel {
 
   CaseModel({
     required this.id,
-    required this.donorCount,
+    required this.donorsCount,
     required this.title,
     required this.description,
     required this.imageUrl,
@@ -74,7 +74,7 @@ class CaseModel {
 
     return CaseModel(
       id: json['id'] ?? 0,
-      donorCount: json['donorsCount'] ?? json['donorCount'] ?? 0,
+      donorsCount: json['donorsCount'] ?? 0,
 
       title: json['title'] ?? "",
       description: json['description'] ?? "",
@@ -132,7 +132,7 @@ class CaseModel {
       isUrgent: isUrgent,
       isCompleted: isCompleted,
       progress: progress,
-      donorCount: donorCount,
+      donorsCount: donorsCount,
 
       createdAt: createdAt,
       completedAt: completedAt,
