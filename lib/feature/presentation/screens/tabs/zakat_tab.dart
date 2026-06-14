@@ -244,12 +244,9 @@ class ZakatTab extends StatelessWidget {
                     SizedBox(width: 51,),
                     Expanded(
                       child: InkWell(
-                        onTap: (){
-
-                          Navigator.pushNamed(
-                            context,
-                            Routes.fundsZakat,
-                          );
+                        onTap: () {
+                          print("CLICKED FUNDS ZAKAT");
+                          Navigator.pushNamed(context, Routes.fundsZakat);
                         },
                         child: Container(
                           decoration: BoxDecoration(

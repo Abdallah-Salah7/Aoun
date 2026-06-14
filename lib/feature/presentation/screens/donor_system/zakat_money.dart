@@ -3,13 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
+import '../../../data/data_sources/api_services.dart';
+import '../../../data/models/zakat_model.dart';
 
 class ZakatMoney extends StatelessWidget {
   final VoidCallback onSeeMorePressed;
 
   ZakatMoney({super.key, required this.onSeeMorePressed});
-  final TextEditingController weightController = TextEditingController();
-
+  final cashController = TextEditingController();
+  final investmentController = TextEditingController();
+  final debtsController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +121,7 @@ class ZakatMoney extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 20.0),
                     child: TextField(
-                      controller: weightController,
+                      controller: cashController,
                       textAlign: TextAlign.right,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -177,12 +180,12 @@ class ZakatMoney extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 20.0),
                     child: TextField(
+                      controller: investmentController,
                       textAlign: TextAlign.right,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
-
                         suffixIcon: Text(
                           "ج.م",
                           style: TextStyle(color: Colors.grey, fontSize: 20),
@@ -236,6 +239,7 @@ class ZakatMoney extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 20.0),
                     child: TextField(
+                      controller: debtsController,
                       textAlign: TextAlign.right,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -292,32 +296,45 @@ class ZakatMoney extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        onPressed: () {
-                          final input = weightController.text.trim();
+                        onPressed: () async {
+                          try {
+                            print("Button Pressed");
 
-                          if (input.isEmpty) {
-                            showErrorDialog(context, "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م");
-                            return;
-                          }
-
-                          final weight = double.tryParse(input);
-
-                          if (weight == null) {
-                            showErrorDialog(context,  "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م");
-                            return;
-                          }
-
-                          if (weight < 672000) {
-                            showErrorDialog(
-                              context,
-                              "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م",
+                            final response = await ApiServices().calculateZakat(
+                              ZakatModel(
+                                cash: double.tryParse(cashController.text) ?? 0,
+                                bank: 0,
+                                gold24: 0,
+                                gold21: 0,
+                                gold18: 0,
+                                silverGrams: 0,
+                                investments:
+                                double.tryParse(investmentController.text) ?? 0,
+                                debts:
+                                double.tryParse(debtsController.text) ?? 0,
+                              ),
                             );
-                            return;
+
+                            print("ZAKAT RESPONSE = $response");
+                            if (response['isEligible'] == false) {
+                              showErrorDialog(
+                                context,
+                                "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو ${response['nisab']} ج.م",
+                              );
+                              return;
+                            }
+
+                            showZakatSheet(
+                              context,
+                              response['zakat'],
+                              response['nisab'],
+                            );
+                          } catch (e) {
+                            print("ZAKAT ERROR = $e");
+
+
                           }
-
-                          showZakatSheet(context);
                         },
-
                         child: Text(
                           "احسب قيمة الزكاة",
                           style: GoogleFonts.manrope(
@@ -337,7 +354,11 @@ class ZakatMoney extends StatelessWidget {
     );
   }
 
-  void showZakatSheet(BuildContext context) {
+  void showZakatSheet(
+      BuildContext context,
+      dynamic zakatAmount,
+      dynamic nisab,
+      ){
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -379,7 +400,7 @@ class ZakatMoney extends StatelessWidget {
                         ),
                         Spacer(),
                         Text(
-                          " 5000 ج.م",
+                          "${(zakatAmount as num).toStringAsFixed(2)} ج.م",
                           style: GoogleFonts.saira(
                             fontWeight: FontWeight.w400,
                             fontSize: 20,
@@ -446,11 +467,10 @@ class ZakatMoney extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        const Icon(
-                          Icons.error_outline,
-                          color: Colors.red,
-                          size: 35,
-                        ),
+                        Image(image: AssetImage(ImageAssets.error),
+                          width: 39,
+                          height: 39,),
+
 
                         const SizedBox(width: 10),
 
@@ -462,8 +482,8 @@ class ZakatMoney extends StatelessWidget {
                               Text(
                                 message,
                                 style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18,
                                 ),
                               ),
                             ],

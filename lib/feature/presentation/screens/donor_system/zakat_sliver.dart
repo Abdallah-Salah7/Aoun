@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
+import '../../../data/data_sources/api_services.dart';
+import '../../../data/models/zakat_model.dart';
 
 class ZakatSliver extends StatefulWidget {
   final VoidCallback onSeeMorePressed;
@@ -208,30 +210,46 @@ class _ZakatSliverState extends State<ZakatSliver> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      final input = weightController.text.trim();
+                    onPressed: () async {
+                      try {
+                        final weight =
+                            double.tryParse(weightController.text.trim()) ?? 0;
 
-                      if (input.isEmpty) {
-                        showErrorDialog(context, "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م");
-                        return;
-                      }
+                        final response = await ApiServices().calculateZakat(
+                          ZakatModel(
+                            cash: 0,
+                            bank: 0,
+                            gold24: 0,
+                            gold21: 0,
+                            gold18: 0,
+                            silverGrams: weight,
+                            investments: 0,
+                            debts: 0,
+                          ),
+                        );
 
-                      final weight = double.tryParse(input);
+                        print("SILVER RESPONSE = $response");
 
-                      if (weight == null) {
-                        showErrorDialog(context,  "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م");
-                        return;
-                      }
+                        if (response['isEligible'] == false) {
+                          showErrorDialog(
+                            context,
+                           "حدث خطأ ما !\n قيمة الفضة أقل من النصاب الشرعي،\nوهو ما يعادل 595 جرام من الفضة."
+                          );
+                          return;
+                        }
 
-                      if (weight < 595) {
+                        showZakatSheet(
+                          context,
+                          response['zakat'],
+                        );
+                      } catch (e) {
+                        print("SILVER ERROR = $e");
+
                         showErrorDialog(
                           context,
-                          "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م",
+                          "حدث خطأ أثناء حساب الزكاة",
                         );
-                        return;
                       }
-
-                      showZakatSheet(context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff2F674D),
@@ -257,8 +275,10 @@ class _ZakatSliverState extends State<ZakatSliver> {
       ),
     );
   }
-
-  void showZakatSheet(BuildContext context) {
+  void showZakatSheet(
+      BuildContext context,
+      dynamic zakatAmount,
+      ){
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -300,7 +320,7 @@ class _ZakatSliverState extends State<ZakatSliver> {
                         ),
                         Spacer(),
                         Text(
-                          " 5000 ج.م",
+                          "${(zakatAmount as num).toStringAsFixed(2)} ج.م",
                           style: GoogleFonts.saira(
                             fontWeight: FontWeight.w400,
                             fontSize: 20,
@@ -368,11 +388,10 @@ class _ZakatSliverState extends State<ZakatSliver> {
                     ),
                     child: Row(
                       children: [
-                        const Icon(
-                          Icons.error_outline,
-                          color: Colors.red,
-                          size: 35,
-                        ),
+                        Image(image: AssetImage(ImageAssets.error),
+                          width: 39,
+                          height: 39,),
+
 
                         const SizedBox(width: 10),
 
@@ -384,8 +403,8 @@ class _ZakatSliverState extends State<ZakatSliver> {
                               Text(
                                 message,
                                 style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18,
                                 ),
                               ),
                             ],

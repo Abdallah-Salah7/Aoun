@@ -1,3 +1,4 @@
+import 'package:aoun/feature/data/models/zakat_model.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,5 +31,18 @@ class ApiServices {
   static Future<String?> getAdminToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString("adminToken");
+  }
+
+
+
+  Future<Map<String, dynamic>> calculateZakat(
+      ZakatModel request,
+      ) async {
+    final response = await dio.post(
+      '/api/zakat/calculate',
+      data: request.toJson(),
+    );
+
+    return response.data;
   }
 }

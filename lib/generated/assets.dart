@@ -7,6 +7,9 @@
 //   static const String adminSystemDataChart = 'lib/feature/presentation/screens/admin_system/data_chart.dart';
 //   static const String apiApiManager = 'lib/core/api/api_manager.dart';
 //   static const String apiEndPoints = 'lib/core/api/end_points.dart';
+//   static const String assetsImagesEmailIcon = 'assets/images/email_icon.png';
+//   static const String assetsImagesLangIcon = 'assets/images/lang_icon.png';
+//   static const String assetsImagesPhoneIcon = 'assets/images/phone_icon.png';
 //   static const String assetsImagesProfile = 'assets/images/profile.png';
 //   static const String authenticationAuthBotton = 'lib/feature/presentation/screens/widget/authentication/auth_botton.dart';
 //   static const String authenticationLogoWidget = 'lib/feature/presentation/screens/widget/authentication/logo_widget.dart';
@@ -138,9 +141,10 @@
 //   static const String imagesDeliveryMan = 'assets/images/delivery-man.png';
 //   static const String imagesDonIcon = 'assets/images/donIcon.png';
 //   static const String imagesElderly = 'assets/images/elderly.png';
-//   static const String imagesEmailIcon = 'assets/images/email_icon.png';
+//   static const String imagesEmailIcon = 'assets/images/emailIcon.png';
 //   static const String imagesEmailVerify = 'assets/images/email_verify.png';
 //   static const String imagesEmergency = 'assets/images/Emergency.png';
+//   static const String imagesError = 'assets/images/error.png';
 //   static const String imagesFacebook = 'assets/images/facebook.png';
 //   static const String imagesFav = 'assets/images/fav.png';
 //   static const String imagesFb2d9255049becc18f7d9568b4f8300b26e1b185 = 'assets/images/fb2d9255049becc18f7d9568b4f8300b26e1b185.png';
@@ -160,7 +164,7 @@
 //   static const String imagesIcon = 'assets/images/icon.png';
 //   static const String imagesIconDate = 'assets/images/iconDate.png';
 //   static const String imagesId = 'assets/images/id.png';
-//   static const String imagesLangIcon = 'assets/images/lang_icon.png';
+//   static const String imagesLangIcon = 'assets/images/langIcon.png';
 //   static const String imagesLetsIconsWalletDuotone = 'assets/images/lets-icons_wallet-duotone.png';
 //   static const String imagesLogo = 'assets/images/logo.png';
 //   static const String imagesLogosGooglePay = 'assets/images/logos_google-pay.png';
@@ -181,7 +185,7 @@
 //   static const String imagesPeople = 'assets/images/People.png';
 //   static const String imagesPersonInfo = 'assets/images/personInfo.png';
 //   static const String imagesPhone = 'assets/images/phone.png';
-//   static const String imagesPhoneIcon = 'assets/images/phone_icon.png';
+//   static const String imagesPhoneIcon = 'assets/images/phoneIcon.png';
 //   static const String imagesPlant = 'assets/images/Plant.png';
 //   static const String imagesPresentPayment = 'assets/images/present_payment.png';
 //   static const String imagesProfile = 'assets/images/profile.jpg';
@@ -232,6 +236,7 @@
 //   static const String modelsRecentDonationModel = 'lib/feature/data/models/recent_donation_model.dart';
 //   static const String modelsRegisterModel = 'lib/feature/data/models/register_model.dart';
 //   static const String modelsTopDonorModel = 'lib/feature/data/models/top_donor_model.dart';
+//   static const String modelsZakatModel = 'lib/feature/data/models/zakat_model.dart';
 //   static const String onboardScreensOnboardScreen1 = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboard_screen1.dart';
 //   static const String onboardScreensOnboardScreen2 = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboard_screen2.dart';
 //   static const String onboardScreensOnboardScreen3 = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboard_screen3.dart';
@@ -277,6 +282,7 @@
 //   static const String widgetFieldDropdown = 'lib/feature/presentation/screens/widget/field_dropdown.dart';
 //   static const String widgetFieldItem = 'lib/feature/presentation/screens/widget/field_item.dart';
 //   static const String widgetOpenWebsite = 'lib/feature/presentation/screens/widget/openWebsite.dart';
+//   static const String widgetSendEmail = 'lib/feature/presentation/screens/widget/send_email.dart';
 //   static const String widgetTitleItem = 'lib/feature/presentation/screens/widget/title_item.dart';
 //   static const String widgetWeeklyChart = 'lib/feature/presentation/screens/widget/weekly_chart.dart';
 //   static const String widgetWeeklyChartCamp = 'lib/feature/presentation/screens/widget/weekly_chart_camp.dart';

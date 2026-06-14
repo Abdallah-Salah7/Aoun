@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
+import '../../../data/data_sources/api_services.dart';
+import '../../../data/models/zakat_model.dart';
 
 class ZakatGold extends StatefulWidget {
   final VoidCallback onSeeMorePressed;
@@ -19,17 +21,7 @@ class _ZakatGoldState extends State<ZakatGold> {
   final controller18 = TextEditingController();
   final controller14 = TextEditingController();
 
-  String activeField = "";
 
-  void handleInput(String value, String field) {
-    setState(() {
-      if (value.isNotEmpty) {
-        activeField = field;
-      } else {
-        activeField = "";
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -169,8 +161,6 @@ class _ZakatGoldState extends State<ZakatGold> {
                         flex: 2,
                         child: TextField(
                           controller: controller24,
-                          enabled: activeField.isEmpty || activeField == "24",
-                          onChanged: (value) => handleInput(value, "24"),
                           textAlign: TextAlign.right,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
@@ -270,8 +260,6 @@ class _ZakatGoldState extends State<ZakatGold> {
                         flex: 2,
                         child: TextField(
                           controller: controller21,
-                          enabled: activeField.isEmpty || activeField == "21",
-                          onChanged: (value) => handleInput(value, "21"),
                           textAlign: TextAlign.right,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
@@ -370,8 +358,6 @@ class _ZakatGoldState extends State<ZakatGold> {
                         flex: 2,
                         child: TextField(
                           controller: controller18,
-                          enabled: activeField.isEmpty || activeField == "18",
-                          onChanged: (value) => handleInput(value, "18"),
                           textAlign: TextAlign.right,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
@@ -470,8 +456,6 @@ class _ZakatGoldState extends State<ZakatGold> {
                         flex: 2,
                         child: TextField(
                           controller: controller14,
-                          enabled: activeField.isEmpty || activeField == "14",
-                          onChanged: (value) => handleInput(value, "14"),
                           textAlign: TextAlign.right,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
@@ -600,36 +584,56 @@ class _ZakatGoldState extends State<ZakatGold> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        onPressed: () {
-                          final input24 = controller24.text.trim();
-                          final input21 = controller21.text.trim();
-                          final input18 = controller18.text.trim();
-                          final input14 = controller14.text.trim();
+                        onPressed: () async {
+                          try {
+                            final gold24 =
+                                double.tryParse(controller24.text.trim()) ?? 0;
 
+                            final gold21 =
+                                double.tryParse(controller21.text.trim()) ?? 0;
 
-                          final weight24 = double.tryParse(input24);
-                          final weight21 = double.tryParse(input21);
-                          final weight18 = double.tryParse(input18);
-                          final weight14 = double.tryParse(input14);
+                            final gold18 =
+                                double.tryParse(controller18.text.trim()) ?? 0;
 
+                            final gold14 =
+                                double.tryParse(controller14.text.trim()) ?? 0;
 
-                          double totalGold =
-                              (weight24 ?? 0) +
-                                  (weight21 ?? 0) * 0.875 +
-                                  (weight18 ?? 0) * 0.75 +
-                                  (weight14 ?? 0) * 0.583;
-                          if (
-                          totalGold < 85
+                            // تحويل عيار 14 لمكافئ عيار 24
+                            final converted14 = gold14 * (14 / 24);
 
-                          ) {
+                            final response = await ApiServices().calculateZakat(
+                              ZakatModel(
+                                cash: 0,
+                                bank: 0,
+                                gold24: gold24 + converted14,
+                                gold21: gold21,
+                                gold18: gold18,
+                                silverGrams: 0,
+                                investments: 0,
+                                debts: 0,
+                              ),
+                            );
+
+                            if (response['isEligible'] == false) {
+                              showErrorDialog(
+                                context,
+                                "حدث خطأ ما !\n قيمة الذهب أقل من النصاب الشرعي، وهو\n ما يعادل 85 جرام من الذهب من عيار 24.",
+                              );
+                              return;
+                            }
+
+                            showZakatSheet(
+                              context,
+                              response['zakat'],
+                            );
+                          } catch (e) {
+                            print("GOLD ERROR = $e");
+
                             showErrorDialog(
                               context,
-                              "حدث خطأ ما !\nالمبلغ أقل من قيمة النصاب وهو672,000 ج.م",
+                              "حدث خطأ أثناء حساب الزكاة",
                             );
-                            return;
                           }
-
-                          showZakatSheet(context);
                         },
 
                         child: Text(
@@ -651,7 +655,10 @@ class _ZakatGoldState extends State<ZakatGold> {
     );
   }
 
-  void showZakatSheet(BuildContext context) {
+  void showZakatSheet(
+      BuildContext context,
+      dynamic zakatAmount,
+      ){
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -693,7 +700,7 @@ class _ZakatGoldState extends State<ZakatGold> {
                         ),
                         Spacer(),
                         Text(
-                          " 5000 ج.م",
+                          "${(zakatAmount as num).toStringAsFixed(2)} ج.م",
                           style: GoogleFonts.saira(
                             fontWeight: FontWeight.w400,
                             fontSize: 20,
@@ -760,11 +767,9 @@ class _ZakatGoldState extends State<ZakatGold> {
                     ),
                     child: Row(
                       children: [
-                        const Icon(
-                          Icons.error_outline,
-                          color: Colors.red,
-                          size: 35,
-                        ),
+                       Image(image: AssetImage(ImageAssets.error),
+                       width: 39,
+                       height: 39,),
 
                         const SizedBox(width: 10),
 
@@ -776,8 +781,8 @@ class _ZakatGoldState extends State<ZakatGold> {
                               Text(
                                 message,
                                 style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18,
                                 ),
                               ),
                             ],

@@ -76,7 +76,7 @@ class RouteGenerator {
     final argument = settings.arguments;
 
     switch (settings.name) {
-    /// HOME
+      /// HOME
       case Routes.homePage:
         final index = settings.arguments as int?;
         return MaterialPageRoute(builder: (_) => HomePage(initialIndex: index));
@@ -95,15 +95,16 @@ class RouteGenerator {
 
       case Routes.notificationScreen:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
-      case Routes.fundsZakat:
-        return MaterialPageRoute(builder: (_) => const ZakatTab());
+      // case Routes.fundsZakat:
+      //   return MaterialPageRoute(builder: (_) => const ZakatTab());
       case Routes.onBoard4:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen4());
 
-    /// CAMPAIGNS
+      case Routes.fundsZakat:
+        return MaterialPageRoute(builder: (_) => const FundsZakat());
+      /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
         return MaterialPageRoute(builder: (_) => CurrentCampaignsScreen());
-
       case Routes.caseDetailsScreen:
         final caseEntity = settings.arguments as CaseEntity;
 
@@ -114,16 +115,14 @@ class RouteGenerator {
         final categoryId = argument as int;
 
         return MaterialPageRoute(
-          builder: (_) => DonationFieldScreen(
-            categoryId: categoryId,
-          ),
+          builder: (_) => DonationFieldScreen(categoryId: categoryId),
         );
 
       case Routes.campaignDetails:
         final args = argument as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) => CampaignDetails(args: args));
 
-    /// PAYMENT
+      /// PAYMENT
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
       case Routes.creditDetailsScreen:
@@ -136,7 +135,7 @@ class RouteGenerator {
       case Routes.successPaymentScreen:
         return MaterialPageRoute(builder: (_) => SuccessPaymentScreen());
 
-    /// CHARITY
+      /// CHARITY
       case Routes.charityProfileScreen:
         return MaterialPageRoute(builder: (_) => const CharityProfileScreen());
 
@@ -165,14 +164,10 @@ class RouteGenerator {
           builder: (_) => EditCase(caseEntity: caseItem),
         );
       case Routes.campaignManagement:
-        return MaterialPageRoute(
-          builder: (_) => const CampaignManagement(),
-        );
+        return MaterialPageRoute(builder: (_) => const CampaignManagement());
 
       case Routes.addCampaign:
-        return MaterialPageRoute(
-          builder: (_) => const AddCampaign(),
-        );
+        return MaterialPageRoute(builder: (_) => const AddCampaign());
       case Routes.editCampaign:
         final campaign = settings.arguments as CampaignEntity;
 
@@ -182,11 +177,12 @@ class RouteGenerator {
       case Routes.charityCampaignDetails:
         final args = settings.arguments as CampaignEntity;
         return MaterialPageRoute(
-          builder: (_) => CharityCampaignDetails(
-            campaignData: args,
-            // بدلاً من context.read، نستخدم GetIt
-            repository: GetIt.I<CampaignRepository>(),
-          ),
+          builder:
+              (_) => CharityCampaignDetails(
+                campaignData: args,
+                // بدلاً من context.read، نستخدم GetIt
+                repository: GetIt.I<CampaignRepository>(),
+              ),
         );
       case Routes.donorsScreen:
         return MaterialPageRoute(builder: (_) => DonorsScreen());
@@ -200,10 +196,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => AskScreen(question: question));
       case Routes.charityProfScreen:
         return MaterialPageRoute(builder: (_) => const CharityProf());
-        case Routes.adminHome:
+      case Routes.adminHome:
         return MaterialPageRoute(builder: (_) => const AdminHome());
 
-    /// SETTINGS
+      /// SETTINGS
       case Routes.settings:
         return MaterialPageRoute(builder: (_) => const Settings());
 
@@ -231,48 +227,48 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder:
               (context) => ZakatGold(
-            onSeeMorePressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                Routes.homePage,
+                onSeeMorePressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Routes.homePage,
                     (route) => false,
-                arguments: 1,
-              );
-            },
-          ),
+                    arguments: 1,
+                  );
+                },
+              ),
         );
       case Routes.zakatSliver:
         return MaterialPageRoute(
           builder:
               (context) => ZakatSliver(
-            onSeeMorePressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                Routes.homePage,
+                onSeeMorePressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Routes.homePage,
                     (route) => false,
-                arguments: 1,
-              );
-            },
-          ),
+                    arguments: 1,
+                  );
+                },
+              ),
         );
       case Routes.zakatMoney:
         return MaterialPageRoute(
           builder:
               (context) => ZakatMoney(
-            onSeeMorePressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                Routes.homePage,
+                onSeeMorePressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Routes.homePage,
                     (route) => false,
-                arguments: 1,
-              );
-            },
-          ),
+                    arguments: 1,
+                  );
+                },
+              ),
         );
       case Routes.caseManagement:
         return MaterialPageRoute(builder: (_) => const CaseManagement());
 
-    /// AUTH
+      /// AUTH
       case Routes.userTypeScreen:
         return MaterialPageRoute(
           builder: (_) => const GeneralLoginChoicePage(),
@@ -306,7 +302,7 @@ class RouteGenerator {
       case Routes.changePasswordScreen:
         return MaterialPageRoute(builder: (_) => const ChangePassword());
 
-    /// ONBOARDING
+      /// ONBOARDING
       case Routes.onBoard1:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen1());
 
@@ -316,11 +312,11 @@ class RouteGenerator {
       case Routes.onBoard3:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
 
-    /// SPLASH
+      /// SPLASH
       case Routes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
 
-    /// Services
+      /// Services
       case Routes.fatwasOnZakatScreen:
         return MaterialPageRoute(builder: (_) => const FatawsOnZakat());
 
@@ -336,9 +332,9 @@ class RouteGenerator {
     return MaterialPageRoute(
       builder:
           (_) => Scaffold(
-        appBar: AppBar(title: const Text('No Route Found')),
-        body: const Center(child: Text('No Route Found')),
-      ),
+            appBar: AppBar(title: const Text('No Route Found')),
+            body: const Center(child: Text('No Route Found')),
+          ),
     );
   }
 }
