@@ -119,9 +119,11 @@ class RouteGenerator {
         );
 
       case Routes.campaignDetails:
-        final args = argument as Map<String, dynamic>;
-        return MaterialPageRoute(builder: (_) => CampaignDetails(args: args));
+        final id = settings.arguments as int;
 
+        return MaterialPageRoute(
+          builder: (_) => CampaignDetails(campaignId: id),
+        );
       /// PAYMENT
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());

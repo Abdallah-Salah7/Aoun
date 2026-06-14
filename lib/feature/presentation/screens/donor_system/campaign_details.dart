@@ -5,10 +5,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
+import '../../../data/data_sources/camp_api_service.dart';
 
 class CampaignDetails extends StatefulWidget {
-  final Map<String, dynamic> args;
-  const CampaignDetails({super.key, required this.args});
+  final int campaignId;
+
+  const CampaignDetails({
+    super.key,
+    required this.campaignId,
+  });
 
   @override
   State<CampaignDetails> createState() => _CampaignDetailsState();
@@ -16,339 +21,518 @@ class CampaignDetails extends StatefulWidget {
 
 class _CampaignDetailsState extends State<CampaignDetails> {
   bool isSaved = false;
+
+  late Future campaignFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    campaignFuture = CampApiService().getCampaignDetails(
+      widget.campaignId,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final image = widget.args["image"];
-    final title = widget.args["title"];
-    final rateValue = widget.args["rateValue"];
-    final collectedValue = widget.args["collectedValue"];
-    final allValue = widget.args["allValue"];
-    final description = widget.args["description"] ?? "";
-    final donorsCount = widget.args["donorsCount"];
-    final daysLeft = widget.args["daysLeft"];
-
     return Scaffold(
-      backgroundColor: Color(0xffE5EBE9),
-      appBar: AppBar(toolbarHeight: 15),
+      backgroundColor: const Color(0xffE5EBE9),
+      appBar: AppBar(
+        toolbarHeight: 15,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
 
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Column(
-                children: [
-                  Stack(
+      body: FutureBuilder(
+        future: campaignFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState ==
+              ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                "حدث خطأ أثناء تحميل البيانات",
+                style: GoogleFonts.cairo(),
+              ),
+            );
+          }
+
+          if (!snapshot.hasData ||
+              snapshot.data == null ||
+              snapshot.data!.data == null) {
+            return const Center(
+              child: Text("لا توجد بيانات"),
+            );
+          }
+
+          final data = snapshot.data!.data;
+
+          final String title = data["title"] ?? "";
+          final String image = data["imageUrl"] ?? "";
+          final String description =
+              data["description"] ?? "";
+
+          final int donorsCount =
+              data["donorsCount"] ?? 0;
+
+          final int daysLeft =
+              data["daysLeft"] ?? 0;
+
+          final num collected =
+              data["collectedAmount"] ?? 0;
+
+          final num required =
+              data["requiredAmount"] ?? 1;
+
+          final double rateValue =
+          (collected / required)
+              .clamp(0.0, 1.0)
+              .toDouble();
+
+          return ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Column(
                     children: [
-                      buildImage(image),
-
-                      Row(
+                      /// IMAGE
+                      Stack(
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xff387056),
-                              borderRadius: BorderRadius.circular(45),
-                            ),
-                            margin: EdgeInsets.all(8),
-                            child: IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: Icon(
-                                Icons.arrow_back_ios_new,
-                                color: Colors.white,
-                                size: 35,
-                              ),
-                            ),
-                          ),
-                          Spacer(),
+                          buildImage(image),
 
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xff387056),
-                              borderRadius: BorderRadius.circular(45),
-                            ),
-                            margin: EdgeInsets.all(8),
-                            child: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  isSaved = !isSaved;
-                                });
-                              },
-                              icon: Icon(
-                                isSaved
-                                    ? Icons.bookmark
-                                    : Icons.bookmark_border,
-                                color: Colors.white,
-                                size: 35,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 18.0,
-                          vertical: 8,
-                        ),
-                        child: Text(
-                          title,
-                          textAlign: TextAlign.right,
-                          style: GoogleFonts.cairo(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      padding: EdgeInsets.all(8),
-                      child: Column(
-                        children: [
                           Row(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 18.0),
-                                child: Image(
-                                  image: AssetImage(ImageAssets.iconDate),
-                                  height: 34,
-                                  width: 34,
+                              Container(
+                                margin:
+                                const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color:
+                                  const Color(0xff387056),
+                                  borderRadius:
+                                  BorderRadius.circular(
+                                    45,
+                                  ),
+                                ),
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: const Icon(
+                                    Icons.arrow_back_ios_new,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "$daysLeft يوم متبقى",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black45,
+
+                              const Spacer(),
+
+                              Container(
+                                margin:
+                                const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color:
+                                  const Color(0xff387056),
+                                  borderRadius:
+                                  BorderRadius.circular(
+                                    45,
+                                  ),
+                                ),
+                                child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isSaved = !isSaved;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    isSaved
+                                        ? Icons.bookmark
+                                        : Icons
+                                        .bookmark_border,
+                                    color: Colors.white,
+                                    size: 30,
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(18.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: LinearProgressIndicator(
+                        ],
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      /// TITLE
+                      Padding(
+                        padding:
+                        const EdgeInsets.symmetric(
+                          horizontal: 18,
+                        ),
+                        child: Align(
+                          alignment:
+                          Alignment.centerRight,
+                          child: Text(
+                            title,
+                            style:
+                            GoogleFonts.cairo(
+                              fontSize: 20,
+                              fontWeight:
+                              FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      /// INFO CARD
+                      Container(
+                        margin:
+                        const EdgeInsets.all(18),
+                        padding:
+                        const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                          BorderRadius.circular(
+                            15,
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Image.asset(
+                                  ImageAssets.iconDate,
+                                  width: 30,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "$daysLeft يوم متبقي",
+                                  style:
+                                  GoogleFonts.manrope(
+                                    fontSize: 16,
+                                    fontWeight:
+                                    FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            const SizedBox(
+                              height: 15,
+                            ),
+
+                            ClipRRect(
+                              borderRadius:
+                              BorderRadius.circular(
+                                10,
+                              ),
+                              child:
+                              LinearProgressIndicator(
                                 value: rateValue,
                                 minHeight: 8,
-                                backgroundColor: Color(0xffD9D9D9),
-                                color: Color(0xff255A41),
-                                borderRadius: BorderRadius.circular(10),
+                                backgroundColor:
+                                const Color(
+                                  0xffD9D9D9,
+                                ),
+                                color:
+                                const Color(
+                                  0xff255A41,
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 18.0,
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "تم جمع $collectedValue ج.م",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xff255A41),
-                                  ),
-                                ),
-                                Spacer(),
-                                Text(
-                                  "من $allValue",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xff757575),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image(
-                                    image: AssetImage(ImageAssets.vector),
-                                  ),
-                                ),
-                                Text(
-                                  " $donorsCountمتبرع",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xff757575),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    width: double.infinity,
-                    padding: EdgeInsets.all(18),
-                    margin: EdgeInsets.all(18),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "تفاصيل الحملة",
-                          style: GoogleFonts.manrope(
-                            fontSize: 23,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                    Text(
-                      description.isEmpty ? "لا يوجد وصف متاح" : description,
-                          style: GoogleFonts.manrope(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff757575),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
 
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.charityProfileScreen);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      padding: EdgeInsets.all(12),
-                      margin: EdgeInsets.all(18),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12.0,
+                            const SizedBox(
+                              height: 15,
                             ),
-                            child: Text(
-                              "مقدمة من ",
-                              style: GoogleFonts.manrope(
-                                fontSize: 23,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xff757575),
+
+                            Row(
+                              children: [
+                                Text(
+                                  "تم جمع $collected ج.م",
+                                  style:
+                                  GoogleFonts.manrope(
+                                    fontWeight:
+                                    FontWeight.bold,
+                                    color:
+                                    const Color(
+                                      0xff255A41,
+                                    ),
+                                  ),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  "من $required",
+                                  style:
+                                  GoogleFonts.manrope(
+                                    fontWeight:
+                                    FontWeight.bold,
+                                    color:
+                                    Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            const SizedBox(
+                              height: 10,
+                            ),
+
+                            Row(
+                              children: [
+                                Image.asset(
+                                  ImageAssets.vector,
+                                  width: 20,
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  "$donorsCount متبرع",
+                                  style:
+                                  GoogleFonts.manrope(
+                                    fontWeight:
+                                    FontWeight.bold,
+                                    color:
+                                    Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      /// DESCRIPTION
+                      Container(
+                        margin:
+                        const EdgeInsets.all(18),
+                        padding:
+                        const EdgeInsets.all(18),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                          BorderRadius.circular(
+                            15,
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "تفاصيل الحملة",
+                              style:
+                              GoogleFonts.manrope(
+                                fontSize: 22,
+                                fontWeight:
+                                FontWeight.bold,
                               ),
+                            ),
+
+                            const SizedBox(
+                              height: 10,
+                            ),
+
+                            Text(
+                              description.isEmpty
+                                  ? "لا يوجد وصف متاح"
+                                  : description,
+                              style:
+                              GoogleFonts.manrope(
+                                fontSize: 16,
+                                color:
+                                Colors.grey[700],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      /// CHARITY CARD
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            Routes.charityProfileScreen,
+                          );
+                        },
+                        child: Container(
+                          margin:
+                          const EdgeInsets.all(
+                            18,
+                          ),
+                          padding:
+                          const EdgeInsets.all(
+                            12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                            BorderRadius.circular(
+                              15,
                             ),
                           ),
-                          Row(
+                          child: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment
+                                .start,
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(45),
-                                child: Image(
-                                  image: AssetImage(ImageAssets.ghaith),
-                                  fit: BoxFit.cover,
+                              Text(
+                                "مقدمة من",
+                                style:
+                                GoogleFonts.manrope(
+                                  fontSize: 20,
+                                  fontWeight:
+                                  FontWeight.bold,
+                                  color:
+                                  Colors.grey,
                                 ),
                               ),
-                              SizedBox(width: 8),
-                              Text(
-                                "غيث للتنمية المجتمعية",
-                                style: GoogleFonts.manrope(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xff757575),
-                                ),
+
+                              const SizedBox(
+                                height: 10,
+                              ),
+
+                              Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius:
+                                    BorderRadius
+                                        .circular(
+                                      40,
+                                    ),
+                                    child: Image.asset(
+                                      ImageAssets
+                                          .ghaith,
+                                      width: 60,
+                                      height: 60,
+                                      fit:
+                                      BoxFit.cover,
+                                    ),
+                                  ),
+
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+
+                                  Text(
+                                    "غيث للتنمية المجتمعية",
+                                    style:
+                                    GoogleFonts
+                                        .manrope(
+                                      fontSize: 18,
+                                      fontWeight:
+                                      FontWeight
+                                          .bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: Center(
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xff2F674D),
-                            foregroundColor: Colors.white,
-                            padding: EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+
+                      /// DONATE BUTTON
+                      Padding(
+                        padding:
+                        const EdgeInsets.all(18),
+                        child: SizedBox(
+                          width:
+                          double.infinity,
+                          child: ElevatedButton(
+                            style:
+                            ElevatedButton
+                                .styleFrom(
+                              backgroundColor:
+                              const Color(
+                                0xff2F674D,
+                              ),
+                              foregroundColor:
+                              Colors.white,
+                              padding:
+                              const EdgeInsets
+                                  .symmetric(
+                                vertical: 14,
+                              ),
+                              shape:
+                              RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius
+                                    .circular(
+                                  20,
+                                ),
+                              ),
                             ),
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, Routes.paymentScreen);
-                          },
-                          child: Text(
-                            "تبرع الآن",
-                            style: GoogleFonts.manrope(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes
+                                    .paymentScreen,
+                              );
+                            },
+                            child: Text(
+                              "تبرع الآن",
+                              style:
+                              GoogleFonts
+                                  .manrope(
+                                fontSize: 22,
+                                fontWeight:
+                                FontWeight
+                                    .bold,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
 
-  int getRemainingDays() {
-    final endDate = widget.args["endDate"] as DateTime?;
-    if (endDate == null) return 0;
-
-    final now = DateTime.now();
-    return endDate.difference(now).inDays.clamp(0, 9999);
-  }
-
   Widget buildImage(String image) {
-    if (image.startsWith('http')) {
+    if (image.startsWith("http")) {
       return Image.network(
         image,
         width: double.infinity,
         height: 292,
         fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => Container(
+        errorBuilder:
+            (_, __, ___) => Container(
           height: 292,
-          color: Colors.grey,
-          child: const Icon(Icons.broken_image),
+          color: Colors.grey.shade300,
+          child: const Icon(
+            Icons.broken_image,
+          ),
         ),
       );
     }
 
-    if (image.startsWith('/') || image.startsWith('file://')) {
+    if (image.startsWith("/")) {
+      return Image.network(
+        "https://aounplatform.runasp.net$image",
+        width: double.infinity,
+        height: 292,
+        fit: BoxFit.cover,
+      );
+    }
+
+    if (image.startsWith("file://")) {
       return Image.file(
         File(image),
         width: double.infinity,

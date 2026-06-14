@@ -25,9 +25,15 @@ class CampApiService {
   }
 
   Future<Response> getCampaignDetails(int campaignId) async {
-    return await dio.get(
-      '/api/Campaigns/charity/details/$campaignId',
+    print("ID = $campaignId");
+
+    final response = await dio.get(
+      '/api/Campaigns/$campaignId',
     );
+
+    print("DETAIL RESPONSE = ${response.data}");
+
+    return response;
   }
 
 

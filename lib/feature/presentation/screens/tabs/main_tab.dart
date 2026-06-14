@@ -228,17 +228,11 @@ class MainTab extends StatelessWidget {
                                     horizontal: 6,
                                   ),
                                   child: CradlesItem(
-                                  image: campaign.imageUrl,
-                                  title: campaign.title,
-                                  description: campaign.description,
-                                  rateValue: campaign.rateValue,
-                                  collectedValue: campaign.collectedAmount.toString(),
-                                  allValue: campaign.requiredAmount.toString(),
-                                  startDate: campaign.startDate,
-                                  endDate: campaign.endDate,
-                                    donorsCount: campaign.donorsCount,
-                                    daysLeft: campaign.daysLeft,
-                                )
+                                    campaignId: campaign.id,
+                                    image: campaign.imageUrl,
+                                    title: campaign.title,
+
+                                  )
                                 );
                               },
                             );
