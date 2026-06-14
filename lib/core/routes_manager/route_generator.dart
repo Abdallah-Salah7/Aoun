@@ -106,10 +106,10 @@ class RouteGenerator {
       case Routes.currentCampaignsScreen:
         return MaterialPageRoute(builder: (_) => CurrentCampaignsScreen());
       case Routes.caseDetailsScreen:
-        final caseEntity = settings.arguments as CaseEntity;
+        final id = settings.arguments as int;
 
         return MaterialPageRoute(
-          builder: (_) => CaseDetailsScreen(caseEntity: caseEntity),
+          builder: (_) => CaseDetailsScreen(caseId: id,),
         );
       case Routes.donationFieldScreen:
         final categoryId = argument as int;

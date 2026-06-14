@@ -28,7 +28,9 @@ class CaseItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => CaseDetailsScreen(caseEntity: caseEntity),
+            builder: (_) => CaseDetailsScreen(
+              caseId: caseEntity.id,
+            ),
           ),
         );
       },
