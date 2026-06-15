@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../../data/data_sources/case_api_service.dart';
 import '../../../domain/entities/case_entity.dart';
 import '../../state_management/cubit/case_cubit.dart';
 import '../../state_management/cubit/case_state.dart';
@@ -45,7 +46,6 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
         matchFilter = urgent;
 
       } else {
-        // الكل = غير المكتملة فقط
         matchFilter = !completed;
       }
 
@@ -69,6 +69,32 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
     9: "الغارمين",
     10: "الاطعام",
   };
+
+  int totalDonors = 0;
+  bool isLoadingDonors = true;
+
+  Future<void> loadDonorsCount(List<CaseEntity> cases) async {
+    int total = 0;
+
+    for (final c in cases) {
+      try {
+        final response = await CaseApiService().getCaseById(c.id);
+
+        final data = response.data["data"];
+
+        total += (data["donorsCount"] ?? 0) as int;
+      } catch (e) {
+        print("Error loading donors for case ${c.id}: $e");
+      }
+    }
+
+    if (mounted) {
+      setState(() {
+        totalDonors = total;
+        isLoadingDonors = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,14 +128,16 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
             padding: const EdgeInsets.only(top: 38.0),
             child: Row(
               children: [
-                const Image(image: AssetImage(ImageAssets.icon)),
-                const SizedBox(width: 8),
-                Text(
-                  "مجال ${categoryNames[widget.categoryId]}" ?? "المجالات",
-                  style: GoogleFonts.manrope(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                // const Image(image: AssetImage(ImageAssets.icon)),
+                // const SizedBox(width: 8),
+                Center(
+                  child: Text(
+                    "مجال ${categoryNames[widget.categoryId]}" ?? "المجالات",
+                    style: GoogleFonts.manrope(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
@@ -126,6 +154,16 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
             final categoryCases = context.read<CaseCubit>().getCasesByCategory(
                 widget.categoryId,
             );
+            if (isLoadingDonors) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                loadDonorsCount(categoryCases);
+              });
+            }
+            final completedCasesCount = categoryCases.where((c) {
+              return c.progress >= 1.0 ||
+                  c.collectedAmount >= c.requiredAmount ||
+                  c.status == "مكتملة";
+            }).length;
 
             final filteredCases = _applyFilter(categoryCases);
             return ListView(
@@ -136,53 +174,53 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
                       padding: const EdgeInsets.all(18.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xff287A54),
-                          borderRadius: BorderRadius.circular(15),
+                          color: const Color(0xff2F7D57),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        padding: const EdgeInsets.all(8),
-                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 24,
+                        ),
                         child: Column(
                           children: [
                             Text(
-                              "نعمل على توفير الرعاية الطبية والأدوية \nاللازمة والعمليات الجراحية العاجلة لمن \nهم فى أمس الحاجة إليها ، مساهمتك\n  تنقذ حياة !",
-                              style: GoogleFonts.manrope(
+                              "نعمل على توفير الرعاية الطبية والأدوية\n"
+                                  "اللازمة والعمليات الجراحية العاجلة لمن\n"
+                                  "هم في أمس الحاجة إليها، مساهمتك\n"
+                                  "تنقذ حياة!",
+                              textAlign: TextAlign.right,
+                              style: GoogleFonts.saira(
                                 fontSize: 20,
                                 color: Colors.white,
+                                height: 1.6,
                               ),
                             ),
 
-                            _infoRow("حالات مكتملة", "240 حالة"),
+                            const SizedBox(height: 25),
 
-                            _infoRow("متبرع", "1800+"),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: _statCard(
+                                    value: "$completedCasesCount",
+                                    title: "حالات مكتملة",
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: _statCard(
+                                    value: isLoadingDonors ? "..." : "$totalDonors",
+                                    title: "متبرع",
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
-                      ),
+                      )
                     ),
 
-                    Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: TextField(
-                        textAlign: TextAlign.right,
-                        onChanged: (value) {
-                          setState(() {
-                            searchText = value;
-                          });
-                        },
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: const Color(0xffB0BDB2),
-                          hintText: "البحث",
-                          prefixIcon: const Icon(
-                            Icons.search,
-                            color: Color(0xff2F674D),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
+
 
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -246,25 +284,42 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
       ),
     );
   }
-
-  Widget _infoRow(String title, String value) {
+  Widget _statCard({
+    required String value,
+    required String title,
+  }) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+      height: 82,
       decoration: BoxDecoration(
-        color: const Color(0xFF8FAF9A),
-        borderRadius: BorderRadius.circular(45),
+        color: const Color(0xffE0FBEE),
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      child: Row(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            title,
-            style: GoogleFonts.manrope(color: const Color(0xff287A54)),
-          ),
-          const Spacer(),
-          Text(
             value,
-            style: GoogleFonts.manrope(color: const Color(0xff287A54)),
+            style: GoogleFonts.cairo(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xff386E5C),
+            ),
+          ),
+
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.cairo(
+              fontSize: 18,
+              color: const Color(0xff386E5C),
+            ),
           ),
         ],
       ),
