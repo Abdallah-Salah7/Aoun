@@ -24,7 +24,11 @@ import '../../feature/data/models/camp_model.dart';
 import '../../feature/data/repositories/camp_repository.dart';
 import '../../feature/domain/entities/camp_entity.dart';
 import '../../feature/domain/entities/case_entity.dart';
+import '../../feature/presentation/screens/admin_system/accept_charity.dart';
 import '../../feature/presentation/screens/admin_system/admin_home.dart';
+import '../../feature/presentation/screens/admin_system/req_charity.dart';
+import '../../feature/presentation/screens/admin_system/setting.dart';
+import '../../feature/presentation/screens/admin_system/unaccept_charity.dart';
 import '../../feature/presentation/screens/charity_system/add_campaign.dart';
 import '../../feature/presentation/screens/charity_system/add_case.dart';
 import '../../feature/presentation/screens/charity_system/campaign_management.dart';
@@ -102,15 +106,14 @@ class RouteGenerator {
 
       case Routes.fundsZakat:
         return MaterialPageRoute(builder: (_) => const FundsZakat());
+
       /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
         return MaterialPageRoute(builder: (_) => CurrentCampaignsScreen());
       case Routes.caseDetailsScreen:
         final id = settings.arguments as int;
 
-        return MaterialPageRoute(
-          builder: (_) => CaseDetailsScreen(caseId: id,),
-        );
+        return MaterialPageRoute(builder: (_) => CaseDetailsScreen(caseId: id));
       case Routes.donationFieldScreen:
         final categoryId = argument as int;
 
@@ -124,6 +127,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => CampaignDetails(campaignId: id),
         );
+
       /// PAYMENT
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
@@ -324,6 +328,15 @@ class RouteGenerator {
 
       case Routes.zakatScreen:
         return MaterialPageRoute(builder: (_) => const ZakatScreen());
+
+      case Routes.reqCharity:
+        return MaterialPageRoute(builder: (_) => const ReqCharity());
+        case Routes.acceptCharity:
+        return MaterialPageRoute(builder: (_) => const AcceptCharity());
+        case Routes.unacceptCharity:
+        return MaterialPageRoute(builder: (_) => const UnacceptCharity());
+        case Routes.setting:
+        return MaterialPageRoute(builder: (_) => const Setting());
 
       default:
         return unDefinedRoute();

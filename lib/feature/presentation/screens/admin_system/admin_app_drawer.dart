@@ -49,7 +49,7 @@ class AdminAppDrawer extends StatelessWidget {
                   ImageAssets.homee,
                   "الرئيسية",
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.homeCharity);
+                    Navigator.pushNamed(context, Routes.adminHome);
                   },
                 ),
                 _buildDrawerItem(
@@ -57,7 +57,7 @@ class AdminAppDrawer extends StatelessWidget {
                   ImageAssets.reqCharity,
                   "طلبات الجمعيات",
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.caseManagement);
+                    Navigator.pushNamed(context, Routes.reqCharity);
                   },
                 ),
                 _buildDrawerItem(
@@ -65,7 +65,7 @@ class AdminAppDrawer extends StatelessWidget {
                   ImageAssets.acceptCharity,
                   "الجمعيات المقبولة ",
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.campaignManagement);
+                    Navigator.pushNamed(context, Routes.acceptCharity);
                   },
                 ),
                 _buildDrawerItem(
@@ -73,7 +73,7 @@ class AdminAppDrawer extends StatelessWidget {
                   ImageAssets.deleteCharity,
                   "الجمعيات المرفوضة ",
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.charityReportsScreen);
+                    Navigator.pushNamed(context, Routes.unacceptCharity);
                   },
                 ),
                 _buildDrawerItem(
@@ -82,7 +82,7 @@ class AdminAppDrawer extends StatelessWidget {
                   "الاعدادات",
 
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.charityProfScreen);
+                    Navigator.pushNamed(context, Routes.setting);
                   },
                 ),
 
@@ -114,9 +114,11 @@ class AdminAppDrawer extends StatelessWidget {
     return ListTile(
       leading: Image.asset(
         imagePath,
-        width: 24,
-        height: 24,
-        color: Color(0xff6C7072),
+        width: 28,
+        height: 28,
+        color: title == "تسجيل الخروج"
+            ? Color(0xffDC2626)
+            : const Color(0xff6C7072),
       ),
 
       title: Text(

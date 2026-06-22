@@ -65,4 +65,8 @@ class Routes {
   static const String charityProfScreen = "/charityProfScreen";
   static const String onBoard4 = "/onBoard4";
   static const String adminHome = "/adminHome";
+  static const String reqCharity = "/reqCharity";
+  static const String acceptCharity = "/acceptCharity";
+  static const String unacceptCharity = "/unacceptCharity";
+  static const String setting = "/setting";
 }

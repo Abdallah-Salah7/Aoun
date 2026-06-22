@@ -181,8 +181,7 @@ class AdminHome extends StatelessWidget {
                                 margin: EdgeInsets.only(left: 8),
                                 padding: const EdgeInsets.all(8),
                                 child: Image(
-                                  // image: AssetImage(ImageAssets.totalCharity),
-                                  image: AssetImage(ImageAssets.numCamps),
+                                  image: AssetImage(ImageAssets.totalCharity),
                                   height: 36,
                                   width: 36,
                                 ),
@@ -376,8 +375,7 @@ class AdminHome extends StatelessWidget {
                                 margin: EdgeInsets.only(left: 8),
                                 padding: const EdgeInsets.all(8),
                                 child: Image(
-                                  image: AssetImage(ImageAssets.numCamps),
-                                  // image: AssetImage(ImageAssets.stopCharity),
+                                  image: AssetImage(ImageAssets.stopCharity),
                                   height: 40,
                                   width: 40,
                                   color: Color(0xff255A41),
