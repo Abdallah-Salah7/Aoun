@@ -279,10 +279,14 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => const GeneralLoginChoicePage(),
         );
-
       case Routes.loginChoiceScreen:
+        final userType =
+            (settings.arguments as String?) ?? "donor";
+
         return MaterialPageRoute(
-          builder: (_) => LoginChoiceScreen(userType: argument as String),
+          builder: (_) => LoginChoiceScreen(
+            userType: userType,
+          ),
         );
 
       case Routes.donorLoginScreen:

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
 import '../../../data/data_sources/camp_api_service.dart';
+import '../../../data/data_sources/favorite_api_service.dart';
 
 class CampaignDetails extends StatefulWidget {
   final int campaignId;
@@ -21,15 +22,22 @@ class CampaignDetails extends StatefulWidget {
 
 class _CampaignDetailsState extends State<CampaignDetails> {
   bool isSaved = false;
-
   late Future campaignFuture;
+  Future<void> checkSaved() async {
+    final list = await FavoriteApiService().getFavoriteCampaigns();
+
+    setState(() {
+      isSaved = list.any((e) => e["id"] == widget.campaignId);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    campaignFuture = CampApiService().getCampaignDetails(
-      widget.campaignId,
-    );
+
+    campaignFuture = CampApiService().getCampaignDetails(widget.campaignId);
+
+    checkSaved();
   }
 
   @override
@@ -93,6 +101,7 @@ class _CampaignDetailsState extends State<CampaignDetails> {
               .clamp(0.0, 1.0)
               .toDouble();
 
+
           return ListView(
             children: [
               Padding(
@@ -145,10 +154,20 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                                   ),
                                 ),
                                 child: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      isSaved = !isSaved;
-                                    });
+                                  onPressed: () async {
+                                    final service = FavoriteApiService();
+
+                                    try {
+                                      if (isSaved) {
+                                        await service.removeCampaignFromFavorites(widget.campaignId);
+                                      } else {
+                                        await service.addCampaignToFavorites(widget.campaignId);
+                                      }
+
+                                      await checkSaved(); // 🔥 يرجّع الحالة من السيرفر
+                                    } catch (e) {
+                                      debugPrint("Favorite error: $e");
+                                    }
                                   },
                                   icon: Icon(
                                     isSaved
@@ -158,6 +177,7 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                                     color: Colors.white,
                                     size: 30,
                                   ),
+
                                 ),
                               ),
                             ],

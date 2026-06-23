@@ -254,9 +254,16 @@ class _LoginFormState extends State<LoginForm> {
 
                             else {
 
+                              final token = data["token"];
+
                               await prefs.setString(
                                 "donorToken",
-                                data["token"],
+                                token,
+                              );
+
+                              await prefs.setString(
+                                "userRole",
+                                data["role"] ?? "",
                               );
 
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -269,8 +276,7 @@ class _LoginFormState extends State<LoginForm> {
                                 context,
                                 Routes.homePage,
                               );
-                            }
-                          }
+                            }                          }
 
                           else {
 

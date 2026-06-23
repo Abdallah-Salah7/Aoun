@@ -59,6 +59,7 @@
 //   static const String dataSourcesCampApiService = 'lib/feature/data/data_sources/camp_api_service.dart';
 //   static const String dataSourcesCaseApiService = 'lib/feature/data/data_sources/case_api_service.dart';
 //   static const String dataSourcesCharityDashboardService = 'lib/feature/data/data_sources/charity_dashboard_service.dart';
+//   static const String dataSourcesFavoriteApiService = 'lib/feature/data/data_sources/favorite_api_service.dart';
 //   static const String donorChangePassword = 'lib/feature/presentation/screens/donor_system/donor/change_password.dart';
 //   static const String donorEmailVerfication = 'lib/feature/presentation/screens/donor_system/donor/email_verfication.dart';
 //   static const String donorForgetPassword = 'lib/feature/presentation/screens/donor_system/donor/forget_password.dart';
@@ -87,6 +88,7 @@
 //   static const String donorSystemPlantPage = 'lib/feature/presentation/screens/donor_system/plant_page.dart';
 //   static const String donorSystemPrivacyAndSecurity = 'lib/feature/presentation/screens/donor_system/privacy_and_security.dart';
 //   static const String donorSystemSavedCases = 'lib/feature/presentation/screens/donor_system/saved_cases.dart';
+//   static const String donorSystemSavedCasesManager = 'lib/feature/presentation/screens/donor_system/saved_cases_manager.dart';
 //   static const String donorSystemSearchScreen = 'lib/feature/presentation/screens/donor_system/Search_screen.dart';
 //   static const String donorSystemSendEmail = 'lib/feature/presentation/screens/donor_system/sendEmail.dart';
 //   static const String donorSystemSettings = 'lib/feature/presentation/screens/donor_system/settings.dart';
@@ -234,6 +236,7 @@
 //   static const String modelsCaseModel = 'lib/feature/data/models/case_model.dart';
 //   static const String modelsCategoryDistributionModel = 'lib/feature/data/models/category_distribution_model.dart';
 //   static const String modelsCharityDashboardModel = 'lib/feature/data/models/charity_dashboard_model.dart';
+//   static const String modelsFavoriteCase = 'lib/feature/data/models/favorite_case.dart';
 //   static const String modelsGrowthCampModel = 'lib/feature/data/models/growth_camp_model.dart';
 //   static const String modelsGrowthCaseModel = 'lib/feature/data/models/growth_case_model.dart';
 //   static const String modelsGrowthModel = 'lib/feature/data/models/growth_model.dart';
