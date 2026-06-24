@@ -1,4 +1,5 @@
 import 'package:aoun/core/routes_manager/routes.dart';
+import 'package:aoun/feature/data/data_sources/api_services.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -21,7 +22,10 @@ import 'feature/presentation/state_management/cubit/dashboard_cubit.dart';
 import 'feature/presentation/state_management/cubit/get_dashboard_stats_usecase.dart';
 import 'feature/presentation/state_management/provider/my_provider.dart';
 final getIt = GetIt.instance;
-void main() {
+void main() async{
+   WidgetsFlutterBinding.ensureInitialized();
+
+  await ApiServices.loadSavedToken();
   getIt.registerLazySingleton(() => CampApiService());
   getIt.registerLazySingleton(() => CampaignRepository(getIt<CampApiService>()));
   runApp(
@@ -82,7 +86,7 @@ class MainApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: child,
         onGenerateRoute: RouteGenerator.getRoute,
-        initialRoute: Routes.homePage,
+        initialRoute: Routes.accountStateScreen,
       ),
     );
   }

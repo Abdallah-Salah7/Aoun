@@ -10,13 +10,11 @@ import '../../../../../data/models/register_model.dart';
 
 class LoginForm extends StatefulWidget {
   final bool isLogin;
+  final bool istempLogin;
   final String userType;
 
-  const LoginForm({
-    super.key,
-    required this.isLogin,
-    required this.userType,
-  });
+
+  const LoginForm({super.key, required this.isLogin,  required this.istempLogin, required this.userType});
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -32,7 +30,61 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController passwordController = TextEditingController();
 
   final TextEditingController confirmPasswordController =
-  TextEditingController();
+      TextEditingController();
+
+  String? validateEmail(String email) {
+    if (email.trim().isEmpty) {
+      return "البريد الإلكتروني مطلوب";
+    }
+
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+    if (!emailRegex.hasMatch(email)) {
+      return "البريد الإلكتروني غير صحيح";
+    }
+
+    return null;
+  }
+
+  String? validatePassword(String password) {
+    if (password.isEmpty) {
+      return "كلمة المرور مطلوبة";
+    }
+
+    if (password.length < 8) {
+      return "كلمة المرور يجب أن تكون 8 أحرف على الأقل";
+    }
+
+    if (!RegExp(r'[A-Z]').hasMatch(password)) {
+      return "يجب أن تحتوي على حرف كبير (A-Z)";
+    }
+
+    if (!RegExp(r'[a-z]').hasMatch(password)) {
+      return "يجب أن تحتوي على حرف صغير (a-z)";
+    }
+
+    if (!RegExp(r'[0-9]').hasMatch(password)) {
+      return "يجب أن تحتوي على رقم";
+    }
+
+    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>_\-+=/\\[\]]').hasMatch(password)) {
+      return "يجب أن تحتوي على رمز خاص";
+    }
+
+    return null;
+  }
+
+  String? validateConfirmPassword(String password, String confirmPassword) {
+    if (confirmPassword.isEmpty) {
+      return "تأكيد كلمة المرور مطلوب";
+    }
+
+    if (password != confirmPassword) {
+      return "كلمتا المرور غير متطابقتين";
+    }
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +103,10 @@ class _LoginFormState extends State<LoginForm> {
             children: [
               (!widget.isLogin)
                   ? CustomFormField(
-                controller: nameController,
-                label: "اسم المستخدم",
-                hint: "اسم المستخدم",
-              )
+                    controller: nameController,
+                    label: "اسم المستخدم",
+                    hint: "اسم المستخدم",
+                  )
                   : const SizedBox(),
 
               CustomFormField(
@@ -74,32 +126,29 @@ class _LoginFormState extends State<LoginForm> {
 
               (!widget.isLogin)
                   ? CustomFormField(
-                controller: confirmPasswordController,
-                label: "تأكيد كلمة المرور",
-                hint: "أعد إدخال كلمة المرور",
-                isPassword: true,
-              )
+                    controller: confirmPasswordController,
+                    label: "تأكيد كلمة المرور",
+                    hint: "أعد إدخال كلمة المرور",
+                    isPassword: true,
+                  )
                   : const SizedBox(),
 
               SizedBox(height: spacing * 0.6),
 
               (widget.isLogin)
                   ? InkWell(
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.forgetPasswordScreen,
-                  );
-                },
-                child: Text(
-                  "هل نسيت كلمة المرور؟",
-                  style: TextStyle(
-                    color: PrimaryColors.primaryColor,
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              )
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.forgetPasswordScreen);
+                    },
+                    child: Text(
+                      "هل نسيت كلمة المرور؟",
+                      style: TextStyle(
+                        color: PrimaryColors.primaryColor,
+                        fontSize: fontSize,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  )
                   : const SizedBox(),
 
               SizedBox(height: spacing),
@@ -123,9 +172,7 @@ class _LoginFormState extends State<LoginForm> {
                     child: Checkbox(
                       value: remember,
                       activeColor: PrimaryColors.primaryColor,
-                      side: BorderSide(
-                        color: PrimaryColors.secondaryColor,
-                      ),
+                      side: BorderSide(color: PrimaryColors.secondaryColor),
                       onChanged: (v) {
                         setState(() {
                           remember = v!;
@@ -142,20 +189,46 @@ class _LoginFormState extends State<LoginForm> {
                 child: SizedBox(
                   width: double.infinity,
                   child: AuthButton(
-                    text: (widget.isLogin)
-                        ? "تسجيل الدخول"
-                        : "إنشاء حساب",
+                    text: (widget.isLogin) ? "تسجيل الدخول" : "إنشاء حساب",
 
                     onTap: () async {
-
                       // ================= REGISTER =================
+                      final emailError = validateEmail(emailController.text);
 
-                      if (!widget.isLogin &&
-                          widget.userType == "donor") {
+                      if (emailError != null) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text(emailError)));
+                        return;
+                      }
 
+                      final passwordError = validatePassword(
+                        passwordController.text,
+                      );
+
+                      if (passwordError != null) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text(passwordError)));
+                        return;
+                      }
+
+                      if (!widget.isLogin) {
+                        final confirmError = validateConfirmPassword(
+                          passwordController.text,
+                          confirmPasswordController.text,
+                        );
+
+                        if (confirmError != null) {
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text(confirmError)));
+                          return;
+                        }
+                      }
+                      if (!widget.isLogin && widget.userType == "donor") {
                         if (passwordController.text !=
                             confirmPasswordController.text) {
-
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text("كلمة المرور غير متطابقة"),
@@ -166,7 +239,6 @@ class _LoginFormState extends State<LoginForm> {
                         }
 
                         try {
-
                           final model = RegisterModel(
                             fullName: nameController.text,
 
@@ -174,8 +246,7 @@ class _LoginFormState extends State<LoginForm> {
 
                             password: passwordController.text,
 
-                            confirmPassword:
-                            confirmPasswordController.text,
+                            confirmPassword: confirmPasswordController.text,
 
                             accountType: "Donor",
                           );
@@ -196,25 +267,17 @@ class _LoginFormState extends State<LoginForm> {
                             context,
                             Routes.donorLoginScreen,
                           );
-
                         } catch (e) {
-
                           print(e);
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(e.toString()),
-                            ),
-                          );
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text(e.toString())));
                         }
                       }
-
                       // ================= LOGIN =================
-
                       else if (widget.isLogin) {
-
                         try {
-
                           final response = await ApiServices.login(
                             data: {
                               "email": emailController.text,
@@ -225,23 +288,19 @@ class _LoginFormState extends State<LoginForm> {
                           final data = response.data;
 
                           if (data["isSuccess"] == true) {
-
-                            final prefs =
-                            await SharedPreferences.getInstance();
+                            final prefs = await SharedPreferences.getInstance();
 
                             // ===== ADMIN =====
 
                             if (data["role"] == "Admin") {
-
                               await prefs.setString(
                                 "adminToken",
                                 data["token"],
                               );
+                              await ApiServices.setToken(data["token"]);
 
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(data["message"]),
-                                ),
+                                SnackBar(content: Text(data["message"])),
                               );
 
                               Navigator.pushReplacementNamed(
@@ -249,20 +308,31 @@ class _LoginFormState extends State<LoginForm> {
                                 Routes.adminHome,
                               );
                             }
+                            // ===== CHARITY =====
+                            else if (data["role"] == "Charity") {
+                              await prefs.setString(
+                                "charityToken",
+                                data["token"],
+                              );
+                              await ApiServices.setToken(data["token"]);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(data["message"])),
+                              );
 
+                              Navigator.pushReplacementNamed(
+                                context,
+                                (widget.istempLogin)?Routes.charityDataScreen:Routes.homeCharity,
+                              );
+                            }
                             // ===== DONOR =====
-
                             else {
-
                               await prefs.setString(
                                 "donorToken",
                                 data["token"],
                               );
-
+                              await ApiServices.setToken(data["token"]);
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(data["message"]),
-                                ),
+                                SnackBar(content: Text(data["message"])),
                               );
 
                               Navigator.pushReplacementNamed(
@@ -270,24 +340,15 @@ class _LoginFormState extends State<LoginForm> {
                                 Routes.homePage,
                               );
                             }
-                          }
-
-                          else {
-
+                          } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(data["message"]),
-                              ),
+                              SnackBar(content: Text(data["message"])),
                             );
                           }
-
                         } catch (e) {
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Error: $e"),
-                            ),
-                          );
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text("Error: $e")));
                         }
                       }
                     },

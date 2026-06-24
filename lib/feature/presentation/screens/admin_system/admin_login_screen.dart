@@ -1,10 +1,12 @@
 import 'package:aoun/feature/presentation/screens/widget/authentication/login/login_form.dart';
-import 'package:aoun/feature/presentation/screens/widget/authentication/login/social_login.dart';
+
 import 'package:aoun/feature/presentation/screens/widget/authentication/logo_widget.dart';
 import 'package:flutter/material.dart';
 
-class DonorLoginScreen extends StatelessWidget {
-  const DonorLoginScreen({super.key});
+class AdminLoginScreen extends StatelessWidget {
+  AdminLoginScreen({super.key});
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +24,7 @@ class DonorLoginScreen extends StatelessWidget {
                 SizedBox(height: verticalSpacing),
                 const LogoWidget(),
                 SizedBox(height: verticalSpacing),
-                const LoginForm(isLogin: true, userType: 'charity', istempLogin: false,),
-
-                SizedBox(height: verticalSpacing),
-                const SocialLoginSection(isLogin: true),
+                const LoginForm(isLogin: true, userType: 'admin', istempLogin: false,),
                 SizedBox(height: verticalSpacing),
               ],
             ),

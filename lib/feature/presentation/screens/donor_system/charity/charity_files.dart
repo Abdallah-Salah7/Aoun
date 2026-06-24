@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:aoun/core/routes_manager/routes.dart';
+import 'package:aoun/feature/data/data_sources/api_services.dart';
 import 'package:aoun/feature/presentation/screens/widget/charity_register/dialog_widget.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:aoun/core/color_manager/primary_colors.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/login/form_field.dart';
@@ -14,7 +18,38 @@ class CharityFiles extends StatefulWidget {
 }
 
 class _CharityFilesState extends State<CharityFiles> {
+  File? registrationCertificate;
+  File? taxCard;
+  File? bankAccountProof;
+  File? nationalId;
   bool remember = false;
+  Future<void> pickFile(int index) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'],
+    );
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+
+      setState(() {
+        switch (index) {
+          case 0:
+            registrationCertificate = file;
+            break;
+          case 1:
+            taxCard = file;
+            break;
+          case 2:
+            bankAccountProof = file;
+            break;
+          case 3:
+            nationalId = file;
+            break;
+        }
+      });
+    }
+  }
 
   final List<Map<String, String>> documents = [
     {"label": "شهادة تسجيل الجمعية", "image": "assets/images/certificate.png"},
@@ -101,6 +136,7 @@ class _CharityFilesState extends State<CharityFiles> {
                               hint: "اضغط لرفع الملف",
                               downloadIcon: true,
                               imagePath: doc["image"]!,
+                              onTap: () => pickFile(index),
                             ),
                           );
                         }),
@@ -166,32 +202,59 @@ class _CharityFilesState extends State<CharityFiles> {
                         child: SizedBox(
                           height: height * .065,
                           child: ElevatedButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder:
-                                    (_) => DialogWidget(
-                                      markColor: PrimaryColors.primaryColor,
-                                      markColorBacground: Color(0xffA7C0B5),
-                                      accounState: 'تم الإرسال بنجاح!',
-                                      accounStateParagraph: Text(
-                                        "تم إرسال البيانات بنجاح ، سيتم مراجعة الحساب والتحقق من المستندات المرفقة قبل التفعيل",
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          fontSize: scale(17),
-                                          color: const Color(0xff7E7B7B),
+                            onPressed: () async {
+                              if (registrationCertificate == null ||
+                                  taxCard == null ||
+                                  bankAccountProof == null ||
+                                  nationalId == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("يرجى رفع جميع المستندات"),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              try {
+                                final response =
+                                    await ApiServices.uploadDocuments(
+                                      registrationCertificate:
+                                          registrationCertificate!,
+                                      taxCard: taxCard!,
+                                      bankAccountProof: bankAccountProof!,
+                                      nationalId: nationalId!,
+                                    );
+
+                                if (response.statusCode == 200) {
+                                  showDialog(
+                                    context: context,
+                                    builder:
+                                        (_) => DialogWidget(
+                                          markColor: PrimaryColors.primaryColor,
+                                          markColorBacground: const Color(
+                                            0xffA7C0B5,
+                                          ),
+                                          accounState: 'تم الإرسال بنجاح!',
+                                          accounStateParagraph: Text(
+                                            "تم إرسال البيانات بنجاح ، سيتم مراجعة الحساب والتحقق من المستندات المرفقة قبل التفعيل",
+                                            textAlign: TextAlign.end,
+                                          ),
+                                          accountStateButton: 'حسناً',
+                                          icon: Icons.check,
+                                          onTap: () {
+                                            Navigator.pushReplacementNamed(
+                                              context,
+                                              Routes.accountStateScreen,
+                                            );
+                                          },
                                         ),
-                                      ),
-                                      accountStateButton: 'حسناً',
-                                      icon: Icons.check,
-                                      onTap: () {
-                                        Navigator.pushReplacementNamed(
-                                          context,
-                                          Routes.accountStateScreen,
-                                        );
-                                      },
-                                    ),
-                              );
+                                  );
+                                }
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("حدث خطأ: $e")),
+                                );
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: PrimaryColors.primaryColor,

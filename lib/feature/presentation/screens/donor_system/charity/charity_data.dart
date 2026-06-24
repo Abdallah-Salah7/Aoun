@@ -1,5 +1,6 @@
 import 'package:aoun/core/color_manager/primary_colors.dart';
 import 'package:aoun/core/routes_manager/routes.dart';
+import 'package:aoun/feature/data/data_sources/api_services.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/auth_botton.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/login/form_field.dart';
 import 'package:aoun/feature/presentation/screens/widget/charity_register/header_widget.dart';
@@ -7,7 +8,11 @@ import 'package:aoun/feature/presentation/screens/widget/charity_register/progre
 import 'package:flutter/material.dart';
 
 class CharityData extends StatelessWidget {
-  const CharityData({super.key});
+  CharityData({super.key});
+  final TextEditingController charityNameController = TextEditingController();
+  final TextEditingController licenseController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,16 +69,19 @@ class CharityData extends StatelessWidget {
                         CustomFormField(
                           label: "اسم الجمعية",
                           hint: "أدخل اسم الجمعية",
+                          controller: charityNameController,
                         ),
                         SizedBox(height: height * 0.02),
                         CustomFormField(
                           label: "رقم القيد/الترخيص",
                           hint: "أدخل رقم القيد",
+                          controller: licenseController,
                         ),
                         SizedBox(height: height * 0.02),
                         CustomFormField(
                           label: "العنوان",
                           hint: "المحافظة . الشارع. الحى ......",
+                          controller: addressController,
                         ),
                         SizedBox(height: height * 0.02),
                         Align(
@@ -89,6 +97,7 @@ class CharityData extends StatelessWidget {
                         ),
                         SizedBox(height: scale(6)),
                         TextField(
+                          controller: descriptionController,
                           textAlign: TextAlign.right,
                           textDirection: TextDirection.rtl,
                           maxLines: width > 600 ? 4 : 3,
@@ -130,11 +139,41 @@ class CharityData extends StatelessWidget {
                           height: height * 0.06,
                           child: AuthButton(
                             text: "التالى",
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                Routes.charityFilesScreen,
-                              );
+                            onTap: () async {
+                              try {
+                                final response =
+                                    await ApiServices.completeProfile(
+                                      data: {
+                                        "charityName":
+                                            charityNameController.text,
+                                        "licenseNumber": licenseController.text,
+                                        "address": addressController.text,
+                                        "description":
+                                            descriptionController.text,
+                                      },
+                                    );
+
+                                if (response.statusCode == 200) {
+                                  // نجاح
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        "تم حفظ بيانات الجمعية بنجاح",
+                                      ),
+                                    ),
+                                  );
+
+                                  // الانتقال للصفحة التالية
+                                  Navigator.pushNamed(
+                                    context,
+                                    Routes.charityFilesScreen,
+                                  );
+                                }
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Error: $e")),
+                                );
+                              }
                             },
                           ),
                         ),

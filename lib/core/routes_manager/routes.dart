@@ -65,4 +65,6 @@ class Routes {
   static const String charityProfScreen = "/charityProfScreen";
   static const String onBoard4 = "/onBoard4";
   static const String adminHome = "/adminHome";
+  static const String adminLoginScreen = "/adminLoginScreen";
+  static const String loginToCompleteDataScreen = "/loginToCompleteDataScreen";
 }

@@ -1,10 +1,75 @@
 import 'package:aoun/core/routes_manager/routes.dart';
+import 'package:aoun/feature/data/data_sources/api_services.dart';
 import 'package:aoun/feature/presentation/screens/widget/charity_register/dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:aoun/core/color_manager/primary_colors.dart';
 
-class AccountState extends StatelessWidget {
+class AccountState extends StatefulWidget {
   const AccountState({super.key});
+
+  @override
+  State<AccountState> createState() => _AccountStateState();
+}
+
+class _AccountStateState extends State<AccountState> {
+  // Pending = حسابك قيد المراجعة
+  // Approved = تم تفعيل الحساب
+  // Rejected = لم يتم تفعيل الحساب
+
+  Future<void> checkStatus() async {
+    try {
+      final response = await ApiServices.getCharityStatus();
+
+      final status = response.data["data"]["status"];
+
+      if (status == "Pending") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("الحساب مازال قيد المراجعة")),
+        );
+      } else if (status == "Approved") {
+        showDialog(
+          context: context,
+          builder:
+              (context) => DialogWidget(
+                markColor: PrimaryColors.primaryColor,
+                markColorBacground: const Color(0xffA7C0B5),
+                accounState: 'تم تفعيل الحساب!',
+                accounStateParagraph: const Text(
+                  "تمت الموافقة على حساب الجمعية ويمكنك الآن استخدام المنصة.",
+                  textAlign: TextAlign.end,
+                ),
+                accountStateButton: 'تسجيل الدخول الآن',
+                icon: Icons.check,
+                onTap: () {
+                  Navigator.pushReplacementNamed(
+                    context,
+                    Routes.charityLoginScreen,
+                  );
+                },
+              ),
+        );
+      } else if (status == "Rejected") {
+        showDialog(
+          context: context,
+          builder:
+              (context) => DialogWidget(
+                markColor: const Color(0xffAF3F3F),
+                markColorBacground: Colors.red.withAlpha(50),
+                accounState: 'لم يتم تفعيل الحساب!',
+                accounStateParagraph: const Text(
+                  "يرجى مراجعة البيانات والمستندات وإعادة التقديم.",
+                  textAlign: TextAlign.end,
+                ),
+                accountStateButton: 'التواصل مع الدعم',
+                icon: Icons.close,
+                onTap: () {},
+              ),
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,94 +151,7 @@ class AccountState extends StatelessWidget {
                         color: PrimaryColors.primaryColor,
                         icon: Icons.refresh,
                         text: "تحديث الحالة",
-                        onPressed:
-                            () => showDialog(
-                              context: context,
-                              builder:
-                                  (context) => DialogWidget(
-                                    markColor: PrimaryColors.primaryColor,
-                                    markColorBacground: const Color(0xffA7C0B5),
-                                    accounState: 'تم تفعيل الحساب!',
-                                    accounStateParagraph: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          "تهانينا! تمت الموافقة على حساب الجمعية الخاص بك. يمكنك الآن تسجيل الدخول والبدء فى إدارة حملاتك الخيرية.",
-                                          textDirection: TextDirection.rtl,
-                                          style: TextStyle(
-                                            fontSize: scale(17),
-                                            color: const Color(0xff7E7B7B),
-                                          ),
-                                        ),
-                                        Text(
-                                          "نتطلع للعمل معكم فى نشر الخير!",
-                                          textAlign: TextAlign.end,
-                                          textDirection: TextDirection.rtl,
-                                          style: TextStyle(
-                                            fontSize: scale(18),
-                                            color: const Color(0xff383A39),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    accountStateButton: 'تسجيل الدخول الآن',
-                                    icon: Icons.check,
-                                    onTap: () {
-                                      Navigator.pushReplacementNamed(
-                                        context,
-                                        Routes.charityLoginScreen,
-                                      );
-                                    },
-                                  ),
-                            ),
-                      ),
-
-                      SizedBox(height: vSpace(0.02)),
-
-                      _buildStatusButton(
-                        context,
-                        scale,
-                        color: PrimaryColors.primaryColor,
-                        icon: Icons.refresh,
-                        text: "تحديث الحالة",
-                        onPressed:
-                            () => showDialog(
-                              context: context,
-                              builder:
-                                  (context) => DialogWidget(
-                                    markColor: const Color(0xffAF3F3F),
-                                    markColorBacground: Colors.red.withAlpha(
-                                      50,
-                                    ),
-                                    accounState: 'لم يتم تفعيل الحساب!',
-                                    accounStateParagraph: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          "نأسف لإبلاغكم بأنه لم تتم الموافقة على طلب تسجيل الجمعية في الوقت الحالي. يرجى مراجعة البيانات والمستندات المرفوعة والتأكد من استيفاء جميع الشروط المطلوبة، ثم إعادة التقديم مرة أخرى.",
-                                          textDirection: TextDirection.rtl,
-                                          style: TextStyle(
-                                            fontSize: scale(17),
-                                            color: const Color(0xff7E7B7B),
-                                          ),
-                                        ),
-                                        Text(
-                                          "في حال وجود أي استفسار، يمكنكم التواصل مع فريق الدعم.",
-                                          textDirection: TextDirection.rtl,
-                                          style: TextStyle(
-                                            fontSize: scale(18),
-                                            color: const Color(0xff383A39),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    accountStateButton: 'التواصل مع الدعم',
-                                    icon: Icons.close,
-                                    onTap: () {},
-                                  ),
-                            ),
+                        onPressed: checkStatus,
                       ),
 
                       SizedBox(height: vSpace(0.02)),

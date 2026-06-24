@@ -2,10 +2,11 @@ import 'package:aoun/core/color_manager/primary_colors.dart';
 import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/login/login_form.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/logo_widget.dart';
+import 'package:aoun/feature/presentation/screens/widget/charity_register/header_widget.dart';
 import 'package:flutter/material.dart';
 
-class CharityLoginScreen extends StatelessWidget {
-  const CharityLoginScreen({super.key});
+class LoginToCompleteData extends StatelessWidget {
+  const LoginToCompleteData({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +22,14 @@ class CharityLoginScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
             child: Column(
               children: [
+                Header(
+                  width: size.width * 0.9,
+                  subTitle: 'سجل الدخول مؤقتا لاستكمال باقي البيانات ',
+                ),
                 SizedBox(height: verticalSpacing),
                 const LogoWidget(),
                 SizedBox(height: verticalSpacing),
-                const LoginForm(isLogin: true, userType: 'charity', istempLogin: false,),
+                const LoginForm(isLogin: true, userType: 'charity',istempLogin: true,),
                 SizedBox(height: verticalSpacing),
                 InkWell(
                   onTap: () {

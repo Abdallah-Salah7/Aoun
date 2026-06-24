@@ -18,7 +18,7 @@ class LoginChoiceScreen extends StatelessWidget {
           builder: (context, constraints) {
             double cardWidth;
             if (constraints.maxWidth > 1200) {
-              cardWidth = 500; // Desktop / Web كبير
+              cardWidth = 500; // Desktop / Web
             } else if (constraints.maxWidth > 900) {
               cardWidth = 450; // Web / Large Tablet
             } else if (constraints.maxWidth > 600) {
@@ -45,9 +45,14 @@ class LoginChoiceScreen extends StatelessWidget {
                               context,
                               Routes.donorLoginScreen,
                             )
-                            : Navigator.pushNamed(
+                            : (userType == "charity")
+                            ? Navigator.pushNamed(
                               context,
                               Routes.charityLoginScreen,
+                            )
+                            : Navigator.pushNamed(
+                              context,
+                              Routes.adminLoginScreen,
                             );
                       },
                       onTap2: () {
@@ -56,9 +61,17 @@ class LoginChoiceScreen extends StatelessWidget {
                               context,
                               Routes.donorRegisteScreen,
                             )
-                            : Navigator.pushNamed(
+                            : (userType == "charity")
+                            ? Navigator.pushNamed(
                               context,
                               Routes.charityRegisteScreen,
+                            )
+                            : ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  "يوجد حساب واحد فقط للأدمن لا يمكن انشاء اخر",
+                                ),
+                              ),
                             );
                       },
                     ),
