@@ -12,8 +12,8 @@ class CaseApiService {
 
   Future<Response> getCases() async {
     final response = await dio.get(
-      '/api/Cases/charity/${1}/cases',
-      // '/api/Cases',
+      // '/api/Cases/charity/${1}/cases',
+      '/api/Cases',
       queryParameters: {
         'status': 'نشطة',
         'page': 1,

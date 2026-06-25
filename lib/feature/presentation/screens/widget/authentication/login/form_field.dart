@@ -9,6 +9,7 @@ class CustomFormField extends StatefulWidget {
   final bool downloadIcon;
   final bool? filled;
   final TextEditingController? controller;
+  final VoidCallback? onTap;
 
   const CustomFormField({
     super.key,
@@ -20,6 +21,7 @@ class CustomFormField extends StatefulWidget {
     this.controller,
     this.imagePath,
     this.filled = true,
+    this.onTap,
   });
 
   @override
@@ -85,7 +87,8 @@ class _CustomFormFieldState extends State<CustomFormField> {
                         : widget.downloadIcon
                         ? IconButton(
                           icon: Image.asset("assets/images/upload.png"),
-                          onPressed: () {},
+
+                          onPressed: widget.onTap,
                         )
                         : null,
                 filled: widget.filled,

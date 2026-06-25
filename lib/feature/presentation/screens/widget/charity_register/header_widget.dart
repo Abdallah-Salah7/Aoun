@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 
 class Header extends StatelessWidget {
   final double width;
-  final String title;
+  final String ?title;
   final String subTitle;
 
   const Header({
     super.key,
     required this.width,
-    required this.title,
-    required this.subTitle,
+     this.title,
+     required this.subTitle,
   });
 
   @override
@@ -18,7 +18,7 @@ class Header extends StatelessWidget {
     return Column(
       children: [
         Text(
-          title,
+          title??" ",
           style: TextStyle(
             fontSize: width * 0.07,
             fontWeight: FontWeight.w600,

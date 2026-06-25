@@ -69,4 +69,6 @@ class Routes {
   static const String acceptCharity = "/acceptCharity";
   static const String unacceptCharity = "/unacceptCharity";
   static const String setting = "/setting";
+  static const String adminLoginScreen = "/adminLoginScreen";
+  static const String loginToCompleteDataScreen = "/loginToCompleteDataScreen";
 }

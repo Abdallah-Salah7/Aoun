@@ -24,7 +24,7 @@ class CharityLoginScreen extends StatelessWidget {
                 SizedBox(height: verticalSpacing),
                 const LogoWidget(),
                 SizedBox(height: verticalSpacing),
-                const LoginForm(isLogin: true, userType: 'charity',),
+                const LoginForm(isLogin: true, userType: 'charity', istempLogin: false,),
                 SizedBox(height: verticalSpacing),
                 InkWell(
                   onTap: () {

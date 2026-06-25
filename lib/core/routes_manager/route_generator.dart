@@ -1,8 +1,10 @@
 import 'package:aoun/core/routes_manager/routes.dart';
+import 'package:aoun/feature/presentation/screens/admin_system/admin_login_screen.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/charity_profile/charity_prof.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/charity_reports.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/chatbot/ask_screen.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/chatbot/welcome_screen.dart';
+import 'package:aoun/feature/presentation/screens/donor_system/charity/login_to_complete_data.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/zakat_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/charity/login_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/charity/register_screen.dart';
@@ -146,7 +148,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const CharityProfileScreen());
 
       case Routes.charityDataScreen:
-        return MaterialPageRoute(builder: (_) => const CharityData());
+        return MaterialPageRoute(builder: (_) =>  CharityData());
 
       case Routes.charityFilesScreen:
         return MaterialPageRoute(builder: (_) => const CharityFiles());
@@ -299,7 +301,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const CharityLoginScreen());
 
       case Routes.charityRegisteScreen:
-        return MaterialPageRoute(builder: (_) => const CharityRegisterScreen());
+        return MaterialPageRoute(builder: (_) =>  CharityRegisterScreen());
 
       case Routes.forgetPasswordScreen:
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
@@ -311,6 +313,9 @@ class RouteGenerator {
 
       case Routes.changePasswordScreen:
         return MaterialPageRoute(builder: (_) => const ChangePassword());
+      case Routes.loginToCompleteDataScreen:
+        return MaterialPageRoute(builder: (_) => const LoginToCompleteData());
+
 
       /// ONBOARDING
       case Routes.onBoard1:
@@ -325,6 +330,9 @@ class RouteGenerator {
       /// SPLASH
       case Routes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
+    /// Admin
+      case Routes.adminLoginScreen:
+        return MaterialPageRoute(builder: (_) =>  AdminLoginScreen());
 
       /// Services
       case Routes.fatwasOnZakatScreen:
