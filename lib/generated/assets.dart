@@ -60,6 +60,7 @@
 //   static const String dataSourcesCaseApiService = 'lib/feature/data/data_sources/case_api_service.dart';
 //   static const String dataSourcesCharityDashboardService = 'lib/feature/data/data_sources/charity_dashboard_service.dart';
 //   static const String dataSourcesFavoriteApiService = 'lib/feature/data/data_sources/favorite_api_service.dart';
+//   static const String dataSourcesProfileApiService = 'lib/feature/data/data_sources/profile_api_service.dart';
 //   static const String donorChangePassword = 'lib/feature/presentation/screens/donor_system/donor/change_password.dart';
 //   static const String donorEmailVerfication = 'lib/feature/presentation/screens/donor_system/donor/email_verfication.dart';
 //   static const String donorForgetPassword = 'lib/feature/presentation/screens/donor_system/donor/forget_password.dart';
@@ -112,8 +113,8 @@
 //   static const String entitiesRecentDonationEntity = 'lib/feature/domain/entities/recent_donation_entity.dart';
 //   static const String entitiesTopDonorEntity = 'lib/feature/domain/entities/top_donor_entity.dart';
 //   static const String generatedAssets = 'lib/generated/assets.dart';
-//   static const String images0a72c076b22658e77070c0d563195b0e3c83dcc8 = 'assets/images/0a72c076b22658e77070c0d563195b0e3c83dcc8.jpg';
-//   static const String images17b5d25de0d5b7b416eef337c8582906f70b39a8 = 'assets/images/17b5d25de0d5b7b416eef337c8582906f70b39a8.jpg';
+//   static const String images0a72c076b22658e77070c0d563195b0e3c83dcc8 = 'assets/images/ca1.jpg';
+//   static const String images17b5d25de0d5b7b416eef337c8582906f70b39a8 = 'assets/images/ca3.jpg';
 //   static const String images65ce7baae332db3f9d4dd50e92541f52eacd3d39 = 'assets/images/65ce7baae332db3f9d4dd50e92541f52eacd3d39.jpg';
 //   static const String imagesAcceptCharity = 'assets/images/acceptCharity.png';
 //   static const String imagesAccountRevision = 'assets/images/account_revision.png';

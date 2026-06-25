@@ -19,50 +19,6 @@ class CharityProfileScreen extends StatefulWidget {
 }
 
 class _CharityProfileScreenState extends State<CharityProfileScreen> {
-  final List<Map<String, dynamic>> camps = [
-    {
-      "image": ImageAssets.gaza,
-      "title": "حملة إغاثة غزة",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-    },
-    {
-      "image": ImageAssets.water,
-      "title": "حملة إغاثة غزة",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-    },
-    {
-      "image": ImageAssets.camp1,
-      "title": "حملة دفء الشتاء",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-    },
-    {
-      "image": ImageAssets.water,
-      "title": "حملة سقيا الماء ",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-    },
-    {
-      "image": ImageAssets.camp2,
-      "title": "حملة بناء وتعمير",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-    },
-    {
-      "image": ImageAssets.gaza,
-      "title": "حملة إغاثة غزة",
-      "rateValue": 0.6,
-      "collectedValue": "٨٩٠٠",
-      "allValue": "١٨,٠٠٠",
-    },
-  ];
 
   String selectedFilter = "الحالات";
   @override

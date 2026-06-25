@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
+import '../../../data/data_sources/profile_api_service.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
@@ -15,6 +16,41 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
+  String userName = "";
+  Map<String, dynamic>? activityData;
+  bool isLoading = true;
+  double totalAmount = 0;
+  final ProfileApiService _profileApiService = ProfileApiService();
+  Future<void> getUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      userName = prefs.getString("userName") ?? "";
+    });
+  }
+  Future<void> getActivityData() async {
+    try {
+      final data = await _profileApiService.getActivity();
+
+      double sum = 0;
+
+      for (var item in data['history']) {
+        sum += item['amount'];
+      }
+
+      setState(() {
+        activityData = data;
+        totalAmount = sum;
+        isLoading = false;
+      });
+    } catch (e) {
+      print(e);
+
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
   File? _image;
   final ImagePicker _picker = ImagePicker();
 
@@ -22,6 +58,8 @@ class _ProfileTabState extends State<ProfileTab> {
   void initState() {
     super.initState();
     _loadImage();
+    getActivityData();
+    getUserName();
   }
 
   Future<void> _pickImage() async {
@@ -115,7 +153,7 @@ class _ProfileTabState extends State<ProfileTab> {
                       ],
                     ),
                     Text(
-                      "  ندى عدلى مراد",
+                        userName,
                       style: GoogleFonts.saira(
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
@@ -143,7 +181,8 @@ class _ProfileTabState extends State<ProfileTab> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    "    12\nمرة تبرع",
+                                    "${activityData?['totalDonations'] ?? 0}\nمرة تبرع",
+                                    textAlign: TextAlign.center,
                                     style: GoogleFonts.manrope(
                                       fontSize: 17,
                                       fontWeight: FontWeight.w700,
@@ -168,7 +207,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    " 5,800 ج.م\nإجمالى التبرعات",
+                                    "$totalAmount ج.م\nإجمالى التبرعات",
                                     style: GoogleFonts.manrope(
                                       fontSize: 17,
                                       fontWeight: FontWeight.w700,
@@ -301,7 +340,16 @@ class _ProfileTabState extends State<ProfileTab> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async{
+                                final result = await Navigator.pushNamed(
+                                  context,
+                                  Routes.personalInformation,
+                                );
+
+                                if (result == true) {
+                                  getUserName();
+                                  _loadImage();
+                                }
                                 Navigator.pushNamed(context, Routes.settings);
                               },
                               child: Container(

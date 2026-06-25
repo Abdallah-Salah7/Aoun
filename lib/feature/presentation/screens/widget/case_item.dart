@@ -25,6 +25,7 @@ class CaseItem extends StatelessWidget {
 
     return InkWell(
       onTap: () {
+        print("Pressed Case ID = ${caseEntity.id}");
         Navigator.push(
           context,
           MaterialPageRoute(

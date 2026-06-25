@@ -12,7 +12,8 @@ class CaseApiService {
 
   Future<Response> getCases() async {
     final response = await dio.get(
-      '/api/Cases',
+      '/api/Cases/charity/${1}/cases',
+      // '/api/Cases',
       queryParameters: {
         'status': 'نشطة',
         'page': 1,
@@ -58,6 +59,15 @@ class CaseApiService {
           "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImNjZTA0OGU5LTY2ZTAtNGRjOC05ZGYxLWUzZTUyNGU4MDhlNyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6IkhheWFoQGdtYWlsLmNvbSIsInVpZCI6ImNjZTA0OGU5LTY2ZTAtNGRjOC05ZGYxLWUzZTUyNGU4MDhlNyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkNoYXJpdHkiLCJleHAiOjE3ODI3ODQ0ODQsImlzcyI6IkFvdW5BcGkiLCJhdWQiOiJBb3VuQXBwVXNlcnMifQ.mfvNzj_pSKI9Zu7dhcyzoYCICT5MU9CXBOikYZXzvjI"
 
         },
+      ),
+    );
+  }
+
+  Future<Response> getPublicCaseById(int id) async {
+    return await dio.get(
+      '/api/Cases/public/$id',
+      options: Options(
+        validateStatus: (_) => true,
       ),
     );
   }

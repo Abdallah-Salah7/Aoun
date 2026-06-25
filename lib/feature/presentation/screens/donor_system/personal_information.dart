@@ -13,12 +13,21 @@ class PersonalInformation extends StatefulWidget {
 }
 
 class _PersonalInformationState extends State<PersonalInformation> {
+  final TextEditingController nameController = TextEditingController();
   File? _image;
   final ImagePicker _picker = ImagePicker();
   @override
   void initState() {
     super.initState();
     _loadImage();
+    _loadUserName();
+  }
+  Future<void> _loadUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      nameController.text = prefs.getString("userName") ?? "";
+    });
   }
 
   Future<void> _pickImage() async {
@@ -78,120 +87,133 @@ class _PersonalInformationState extends State<PersonalInformation> {
           ),
         ),
 
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 91.0, bottom: 18),
-              child: InkWell(
+        
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 91.0, bottom: 18),
+                child: InkWell(
+                  onTap: _pickImage,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xffDDE5E2),
+                    ),
+                    width: 145,
+                    height: 145,
+                    child: CircleAvatar(
+                      radius: 65,
+                      backgroundColor: Colors.white,
+                      backgroundImage: _image != null ? FileImage(_image!) : null,
+                      child:
+                          _image == null
+                              ? const Icon(
+                                Icons.person,
+                                size: 70,
+                                color: Colors.grey,
+                              )
+                              : null,
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
                 onTap: _pickImage,
                 child: Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xffDDE5E2),
-                  ),
-                  width: 145,
-                  height: 145,
-                  child: CircleAvatar(
-                    radius: 65,
-                    backgroundColor: Colors.white,
-                    backgroundImage: _image != null ? FileImage(_image!) : null,
-                    child:
-                        _image == null
-                            ? const Icon(
-                              Icons.person,
-                              size: 70,
-                              color: Colors.grey,
-                            )
-                            : null,
-                  ),
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: _pickImage,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Color(0xff76605485), width: 1.5),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 8),
-                child: Text(
-                  "تعديل الصورة",
-                  style: GoogleFonts.saira(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 45),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 38.0),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  "اسم المستحدم",
-                  style: GoogleFonts.saira(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: TextField(
-                textDirection: TextDirection.rtl,
-                textAlign: TextAlign.right,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 18,
-                    horizontal: 20,
-                  ),
-                  enabledBorder: OutlineInputBorder(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Color(0xff76605485), width: 1.5),
                     borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(color: Color(0xff76605485)),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
-                    borderSide: const BorderSide(color: Color(0xffE0E0E0)),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 28.0,
-                vertical: 90,
-              ),
-              child: Center(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff2F674D),
-                      foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: Text(
-                      "حفظ",
-                      style: GoogleFonts.manrope(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                  child: Text(
+                    "تعديل الصورة",
+                    style: GoogleFonts.saira(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(height: 45),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 38.0),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "اسم المستحدم",
+                    style: GoogleFonts.saira(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 28),
+                child: TextField(
+                      controller: nameController,
+                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 18,
+                      horizontal: 20,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(color: Color(0xff76605485)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(18),
+                      borderSide: const BorderSide(color: Color(0xffE0E0E0)),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 28.0,
+                  vertical: 90,
+                ),
+                child: Center(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff2F674D),
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                        onPressed: () async {
+                          final prefs = await SharedPreferences.getInstance();
+          
+                          await prefs.setString(
+                            "userName",
+                            nameController.text,
+                          );
+          
+                          Navigator.pop(context, true);
+                        },
+                      child: Text(
+                        "حفظ",
+                        style: GoogleFonts.manrope(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

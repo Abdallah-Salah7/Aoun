@@ -36,9 +36,9 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
   void initState() {
     super.initState();
 
-    caseFuture = CaseApiService().getCaseById(widget.caseId);
+    caseFuture = CaseApiService().getPublicCaseById(widget.caseId);
 
-    checkSaved(); // 👈 لازم تتنادي هنا
+    checkSaved();
   }
 
   @override
@@ -70,15 +70,14 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
             return const Center(child: Text("لا توجد بيانات"));
           }
 
-          final data = snapshot.data!.data['data'];
+          final Map<String, dynamic> data =
+          Map<String, dynamic>.from(snapshot.data!.data);
 
           print("CASE DETAILS = $data");
+
           final String title = data["title"] ?? "";
-
           final String description = data["description"] ?? "";
-
           final String image = data["imageUrl"] ?? "";
-
           final int donorsCount = data["donorsCount"] ?? 0;
 
           final double collected =

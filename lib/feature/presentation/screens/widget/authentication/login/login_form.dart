@@ -179,10 +179,18 @@ class _LoginFormState extends State<LoginForm> {
 
                             accountType: "Donor",
                           );
-
                           final response = await ApiServices.register(
                             data: model.toJson(),
                           );
+
+                          final prefs = await SharedPreferences.getInstance();
+
+                          await prefs.setString(
+                            "userName",
+                            nameController.text,
+                          );
+
+                          print(response.data);
 
                           print(response.data);
 
@@ -223,7 +231,7 @@ class _LoginFormState extends State<LoginForm> {
                           );
 
                           final data = response.data;
-
+                          print("LOGIN RESPONSE = $data");
                           if (data["isSuccess"] == true) {
 
                             final prefs =
@@ -276,6 +284,7 @@ class _LoginFormState extends State<LoginForm> {
                                 context,
                                 Routes.homePage,
                               );
+                              print("LOGIN RESPONSE = $data");
                             }                          }
 
                           else {
