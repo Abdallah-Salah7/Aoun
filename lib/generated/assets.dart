@@ -113,8 +113,6 @@
 //   static const String entitiesRecentDonationEntity = 'lib/feature/domain/entities/recent_donation_entity.dart';
 //   static const String entitiesTopDonorEntity = 'lib/feature/domain/entities/top_donor_entity.dart';
 //   static const String generatedAssets = 'lib/generated/assets.dart';
-//   static const String images0a72c076b22658e77070c0d563195b0e3c83dcc8 = 'assets/images/ca1.jpg';
-//   static const String images17b5d25de0d5b7b416eef337c8582906f70b39a8 = 'assets/images/ca3.jpg';
 //   static const String images65ce7baae332db3f9d4dd50e92541f52eacd3d39 = 'assets/images/65ce7baae332db3f9d4dd50e92541f52eacd3d39.jpg';
 //   static const String imagesAcceptCharity = 'assets/images/acceptCharity.png';
 //   static const String imagesAccountRevision = 'assets/images/account_revision.png';
@@ -127,6 +125,8 @@
 //   static const String imagesBrickWall = 'assets/images/BrickWall.png';
 //   static const String imagesBsa = 'assets/images/bsa.jpg';
 //   static const String imagesC1 = 'assets/images/c1.jpg';
+//   static const String imagesCa1 = 'assets/images/ca1.jpg';
+//   static const String imagesCa3 = 'assets/images/ca3.jpg';
 //   static const String imagesCalc = 'assets/images/calc.png';
 //   static const String imagesCalcZakat = 'assets/images/calcZakat.png';
 //   static const String imagesCaliber = 'assets/images/caliber.png';
