@@ -14,19 +14,16 @@ class CaseApiService {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString("charityToken");
   }
-  Future<Response> getCases() async {
+  Future<Response> getCases({String status = "all"}) async {
     final prefs = await SharedPreferences.getInstance();
 
-    final charityId =
-    prefs.getInt("charityId");
-
-    final token =
-    prefs.getString("charityToken");
+    final charityId = prefs.getInt("charityId");
+    final token = prefs.getString("charityToken");
 
     return await dio.get(
       '/api/Cases/charity/$charityId/cases',
       queryParameters: {
-        'status': 'all',
+        'status': status,
         'page': 1,
         'pageSize': 30,
       },
@@ -37,7 +34,6 @@ class CaseApiService {
       ),
     );
   }
-
   Future<Response> updateCase(
       int id,
       FormData data,

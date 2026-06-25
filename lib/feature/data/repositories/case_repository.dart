@@ -12,22 +12,29 @@ class CaseRepository {
   CaseRepository(this.api);
 
   Future<List<CaseEntity>> getCases() async {
-    final response = await api.getCases();
+    final activeResponse = await api.getCases(status: "all");
+    final completedResponse = await api.getCases(status: "completed");
 
-    print("GET CASES RESPONSE:");
-    print(response.data);
+    final activeData = activeResponse.data['cases'] as List? ?? [];
+    final completedData = completedResponse.data['cases'] as List? ?? [];
 
-    final data = response.data['cases'];
-
-    if (data == null || data is! List) {
-      return [];
-    }
-
-    return data
+    final activeCases = activeData
         .map((e) => CaseModel.fromJson(e).toEntity())
         .toList();
-  }
 
+    final completedCases = completedData
+        .map((e) => CaseModel.fromJson(e).toEntity())
+        .toList();
+
+    // منع التكرار لو الـ API رجع حالات مكتملة ضمن all مستقبلاً
+    final Map<int, CaseEntity> uniqueCases = {};
+
+    for (final c in [...activeCases, ...completedCases]) {
+      uniqueCases[c.id] = c;
+    }
+
+    return uniqueCases.values.toList();
+  }
   Future<CaseEntity> updateCase(
       CaseEntity caseEntity, {
         File? imageFile,
