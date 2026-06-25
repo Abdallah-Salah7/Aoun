@@ -7,6 +7,7 @@ import 'package:aoun/feature/presentation/screens/widget/authentication/login/fo
 import 'package:aoun/feature/presentation/screens/widget/charity_register/header_widget.dart';
 import 'package:aoun/feature/presentation/screens/widget/charity_register/progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CharityRegisterScreen extends StatelessWidget {
   CharityRegisterScreen({super.key});
@@ -226,6 +227,13 @@ class CharityRegisterScreen extends StatelessWidget {
 
                               final response = await ApiServices.register(
                                 data: model.toJson(),
+                              );
+
+                              final prefs = await SharedPreferences.getInstance();
+
+                              await prefs.setString(
+                                "charityName",
+                                nameController.text.trim(),
                               );
 
                               print(response.data);

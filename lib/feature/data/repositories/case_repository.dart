@@ -17,7 +17,7 @@ class CaseRepository {
     print("GET CASES RESPONSE:");
     print(response.data);
 
-    final data = response.data['data'];
+    final data = response.data['cases'];
 
     if (data == null || data is! List) {
       return [];

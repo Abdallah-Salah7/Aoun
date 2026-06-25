@@ -72,7 +72,6 @@ class CampaignCubit extends Cubit<CampaignState> {
       await repository.addCampaign(formData);
 
       if (_charityId == null) {
-        _charityId = 1; // أو احفظيها من login
       }
 
       final result = await repository.getCampaigns(_charityId!);
@@ -121,8 +120,8 @@ class CampaignCubit extends Cubit<CampaignState> {
 
 
   void clearError() {
-    if (state is CampaignError) {
-      fetchCampaigns(1);
+    if (state is CampaignError && _charityId != null) {
+      fetchCampaigns(_charityId!);
     }
   }
 }

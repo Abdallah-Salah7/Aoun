@@ -18,6 +18,7 @@ class CaseEntity {
   final String status;
 
   final int donorsCount;
+  final String categoryName;
 
   final DateTime? createdAt;
   final DateTime? completedAt;
@@ -48,6 +49,7 @@ class CaseEntity {
     required this.lastDonations,
     required this.weeklyGrowth,
     required this.monthlyGrowth,
+    required this.categoryName,
   });
 
   // ⭐ أهم إضافة في المشروع كله
@@ -75,6 +77,7 @@ class CaseEntity {
     List<DonationEntity>? lastDonations,
     List<GrowthCaseEntity>? weeklyGrowth,
     List<GrowthCaseEntity>? monthlyGrowth,
+    String? categoryName,
   }) {
     return CaseEntity(
       id: id ?? this.id,
@@ -95,6 +98,7 @@ class CaseEntity {
       lastDonations: lastDonations ?? this.lastDonations,
       weeklyGrowth: weeklyGrowth ?? this.weeklyGrowth,
       monthlyGrowth: monthlyGrowth ?? this.monthlyGrowth,
+      categoryName: categoryName ?? this.categoryName,
     );
   }
 }

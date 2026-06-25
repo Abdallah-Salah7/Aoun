@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 
 import '../../domain/entities/camp_entity.dart';
 import '../../domain/entities/campaigns_response_entity.dart';
@@ -59,10 +60,11 @@ class CampaignRepository {
   Future<CampaignEntity> getDetails(int id) async {
     final response = await api.getCampaignDetails(id);
 
-    final data = response.data;
+    print("DETAIL API = ${response.data}");
 
-    final model = CampaignModel.fromJson(data);
+    final model = CampaignModel.fromJson(response.data);
 
+    print(model.weeklyDonations.first.toJson());
     return CampaignEntity(
       id: model.id,
       title: model.title ?? "",
@@ -75,13 +77,18 @@ class CampaignRepository {
       isCompleted: model.completedAt != null,
       startDate: model.startDate ?? DateTime.now(),
       endDate: model.endDate ?? DateTime.now(),
-      weeklyCampDonations: model.weeklyDonations
-          .map((e) => GrowthCampModel.fromJson(e.toJson()))
-          .toList(),
-
-      monthlyCampDonations: model.monthlyDonations
-          .map((e) => GrowthCampModel.fromJson(e.toJson()))
-          .toList(),
+      weeklyCampDonations: model.weeklyDonations.map((e) {
+        return GrowthCampModel(
+          label: DateFormat('dd/MM').format(e.date),
+          amount: e.amount,
+        );
+      }).toList(),
+      monthlyCampDonations: model.monthlyDonations.map((e) {
+        return GrowthCampModel(
+          label: DateFormat('dd/MM').format(e.date),
+          amount: e.amount,
+        );
+      }).toList(),
 
       lastCampDonations: model.lastDonations
           .map((e) => LastDonationModel.fromJson(e.toJson()))

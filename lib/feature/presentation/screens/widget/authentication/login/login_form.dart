@@ -3,10 +3,13 @@ import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/auth_botton.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/login/form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../data/data_sources/api_services.dart';
 import '../../../../../data/models/register_model.dart';
+import '../../../../state_management/cubit/camp_cubit.dart';
+import '../../../../state_management/cubit/case_cubit.dart';
 
 class LoginForm extends StatefulWidget {
   final bool isLogin;
@@ -327,10 +330,28 @@ class _LoginFormState extends State<LoginForm> {
 
                               await ApiServices.setToken(data["token"]);
 
+                              // جلب بيانات الجمعية الحالية
+                              final charityResponse =
+                              await ApiServices.getCharityStatus();
+
+                              await prefs.setInt(
+                                "charityId",
+                                charityResponse.data["data"]["id"],
+                              );
+
+                              await prefs.setString(
+                                "charityName",
+                                charityResponse.data["data"]["charityName"],
+                              );
+
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text(data["message"])),
                               );
+                              final charityId = charityResponse.data["data"]["id"];
 
+                              await context.read<CaseCubit>().fetchCases();
+
+                              await context.read<CampaignCubit>().fetchCampaigns(charityId);
                               Navigator.pushReplacementNamed(
                                 context,
                                 widget.istempLogin

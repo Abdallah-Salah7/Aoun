@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../data/models/charity_dashboard_model.dart';
@@ -20,12 +21,27 @@ class HomeCharity extends StatefulWidget {
 
 
 class _HomeCharityState extends State<HomeCharity> {
+
+  String charityName = "اسم الجمعية";
+
   @override
   void initState() {
     super.initState();
 
+    loadCharityName();
+
     Future.microtask(() {
       context.read<DashboardCubit>().getDashboardStats();
+    });
+  }
+
+  Future<void> loadCharityName() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      charityName =
+          prefs.getString("charityName") ??
+              "اسم الجمعية";
     });
   }
 
@@ -138,7 +154,7 @@ class _HomeCharityState extends State<HomeCharity> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "غيث للتنمية المجتمعية",
+                                    charityName,
                                     style: GoogleFonts.manrope(
                                       fontSize: 23,
                                       fontWeight: FontWeight.w800,

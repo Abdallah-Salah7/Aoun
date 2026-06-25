@@ -2,6 +2,7 @@ import 'package:aoun/feature/presentation/screens/widget/charity_campaign_item.d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
@@ -24,8 +25,14 @@ class _CampaignManagementState extends State<CampaignManagement> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<CampaignCubit>().fetchCampaigns(1);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final prefs = await SharedPreferences.getInstance();
+
+      final charityId = prefs.getInt("charityId");
+
+      if (charityId != null) {
+        context.read<CampaignCubit>().fetchCampaigns(charityId);
+      }
     });
   }
 

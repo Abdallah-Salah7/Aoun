@@ -133,7 +133,7 @@ class CaseModel {
       isCompleted: isCompleted,
       progress: progress,
       donorsCount: donorsCount,
-
+      categoryName: categoryName,
       createdAt: createdAt,
       completedAt: completedAt,
       charityName: charityName,

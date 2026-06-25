@@ -53,11 +53,6 @@ class _CharityCampaignDetailsState extends State<CharityCampaignDetails> {
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
 
     final data = fullDetails ?? widget.campaignData;
 

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CampApiService {
   final Dio dio = Dio(
@@ -12,8 +13,24 @@ class CampApiService {
       },
     ),
   );
+  Future<String?> _getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString("charityToken");
+  }
+
+  Future<Options> getOptions() async {
+    final token = await _getToken();
+
+    return Options(
+      headers: {
+        "accept": "*/*",
+        "Authorization": "Bearer $token",
+      },
+    );
+  }
 
   Future<Response> getCampaignsByCharity(int charityId) async {
+
     return await dio.get(
       '/api/Campaigns/charity/$charityId',
       queryParameters: {
@@ -21,38 +38,47 @@ class CampApiService {
         'page': 1,
         'pageSize': 20,
       },
+      options: await getOptions(),
     );
   }
 
+
   Future<Response> getCampaignDetails(int campaignId) async {
-    print("ID = $campaignId");
+    print("CAMPAIGN ID = $campaignId");
 
-    final response = await dio.get(
-      '/api/Campaigns/$campaignId',
-    );
+    try {
+      final response = await dio.get(
+        '/api/Campaigns/charity/details/$campaignId',
+        options: await getOptions(),
+      );
 
-    print("DETAIL RESPONSE = ${response.data}");
+      print("DETAIL RESPONSE:");
+      print(response.data);
 
-    return response;
+      return response;
+    } on DioException catch (e) {
+      print("STATUS CODE: ${e.response?.statusCode}");
+      print("ERROR DATA: ${e.response?.data}");
+      print("ERROR MESSAGE: ${e.message}");
+
+      rethrow;
+    }
   }
 
 
   Future<Response> updateCampaign(int id, FormData formData) async {
-    print("FIELDS:");
-    print(formData.fields);
-
-    print("FILES:");
-    print(formData.files);
+    final token = await _getToken();
 
     try {
       final response = await dio.put(
         "/api/Campaigns/$id",
         data: formData,
-        options: Options(
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        ),
+      options: Options(
+        headers: {
+          "Authorization": "Bearer $token",
+          "Content-Type": "multipart/form-data",
+        },
+      ),
       );
 
       print("SUCCESS:");
@@ -66,20 +92,41 @@ class CampApiService {
 
       rethrow;
     }
-  }  Future<Response> addCampaign(FormData formData) async {
-    return await dio.post(
-      "/api/Campaigns",
-      data: formData,
-      options: Options(
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      ),
-    );
   }
 
+  Future<Response> addCampaign(FormData formData) async {
+    final token = await _getToken();
+
+    print("TOKEN = $token");
+
+    try {
+      final response = await dio.post(
+        "/api/Campaigns",
+        data: formData,
+        options: Options(
+          headers: {
+            "accept": "*/*",
+            "Authorization": "Bearer $token",
+            "Content-Type": "multipart/form-data",
+          },
+        ),
+      );
+
+      print("ADD CAMPAIGN SUCCESS:");
+      print(response.data);
+
+      return response;
+    } on DioException catch (e) {
+      print("STATUS CODE: ${e.response?.statusCode}");
+      print("ERROR DATA: ${e.response?.data}");
+      print("ERROR MESSAGE: ${e.message}");
+
+      rethrow;
+    }
+  }
   Future<Response> deleteCampaign(int id) async {
-    return await dio.delete("/api/Campaigns/$id");
+    return await dio.delete(
+        "/api/Campaigns/$id");
   }
 
 }

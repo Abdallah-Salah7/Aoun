@@ -65,20 +65,24 @@ class _CaseManagementState extends State<CaseManagement> {
         backgroundColor: const Color(0xffC7CDCD),
         body: BlocBuilder<CaseCubit, CaseState>(
           builder: (context, state) {
+
             if (state is CaseLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const SizedBox(height: 300, child: Center(child: CircularProgressIndicator()));
             }
+
 
             if (state is CaseError) {
               return Center(child: Text(state.message, style: const TextStyle(color: Colors.red)));
             }
 
             if (state is CaseLoaded) {
+
               final totalDonations = state.cases.fold<double>(
                 0.0, (sum, item) => sum + item.collectedAmount,
               );
-
+              print("Total Cases = ${state.cases.length}");
               // تصفية وفلترة الحالات بناءً على النصوص القادمة من السيرفر مباشرة
+
               final filteredCases = state.cases.where((c) {
                 // 1. فلترة نوع الحالة (مكتملة / عاجلة / الكل)
                 bool statusMatch = false;
@@ -131,6 +135,8 @@ class _CaseManagementState extends State<CaseManagement> {
 
                 return statusMatch && categoryMatch;
               }).toList();
+              print("Filtered Cases = ${filteredCases.length}");
+
 
               return ListView(
                 children: [
