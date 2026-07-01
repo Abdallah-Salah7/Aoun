@@ -1,11 +1,52 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../data/models/top_charity_model.dart';
+import '../../state_management/cubit/top_charities_cubit.dart';
 
 class DataChart extends StatelessWidget {
   const DataChart({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<TopCharitiesCubit, TopCharitiesState>(
+      builder: (context, state) {
+        if (state is TopCharitiesLoading) {
+          return const SizedBox(
+            height: 450,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        if (state is TopCharitiesError) {
+          return SizedBox(
+            height: 450,
+            child: Center(
+              child: Text(state.message),
+            ),
+          );
+        }
+
+        if (state is TopCharitiesSuccess) {
+          return _buildChart(state.charities);
+        }
+
+        return const SizedBox();
+      },
+    );
+  }
+
+  Widget _buildChart(List<TopCharityModel> charities) {
+    final double maxValue = charities.isEmpty
+        ? 100.0
+        : charities
+        .map((e) => e.total.toDouble())
+        .reduce((a, b) => a > b ? a : b) +
+        5000.0;
+
     return Container(
       height: 450,
       padding: const EdgeInsets.all(20),
@@ -21,129 +62,136 @@ class DataChart extends StatelessWidget {
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
             ),
           ),
+
           const SizedBox(height: 30),
 
-          /// Scroll أفقي
           Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: SizedBox(
-                width: 1000, // زود العرض علشان يظهر السكرول
-                child: BarChart(
-                  BarChartData(
-                    maxY: 100,
-                    minY: 0,
-                    alignment: BarChartAlignment.spaceAround,
+            child: SizedBox(
+              width: charities.length * 140,
+              child: BarChart(
+                BarChartData(
+                  maxY: maxValue,
+                  minY: 0,
+                  alignment: BarChartAlignment.spaceAround,
 
-                    /// الأرقام فوق الأعمدة
-                    barTouchData: BarTouchData(
-                      enabled: false,
-                      touchTooltipData: BarTouchTooltipData(
-                        getTooltipColor: (group) => Colors.transparent,
-                        tooltipPadding: EdgeInsets.zero,
-                        tooltipMargin: 8,
-                        getTooltipItem:
-                            (group, groupIndex, rod, rodIndex) {
-                          return BarTooltipItem(
-                            rod.toY.round().toString(),
-                            const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                  /// Tooltip فوق الأعمدة
+                  barTouchData: BarTouchData(
+                    enabled: false,
+                    touchTooltipData: BarTouchTooltipData(
+                      getTooltipColor: (_) => Colors.transparent,
+                      tooltipPadding: EdgeInsets.zero,
+                      tooltipMargin: 8,
+                      getTooltipItem:
+                          (group, groupIndex, rod, rodIndex) {
+                        return BarTooltipItem(
+                          rod.toY.toInt().toString(),
+                          const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  /// أسماء الجمعيات
+                  titlesData: FlTitlesData(
+                    show: true,
+
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 60,
+                        getTitlesWidget: (value, meta) {
+                          if (value.toInt() >= charities.length) {
+                            return const SizedBox();
+                          }
+
+                          return SideTitleWidget(
+                            axisSide: meta.axisSide,
+                            space: 10,
+                            child: SizedBox(
+                              width: 80,
+                              child: Text(
+                                charities[value.toInt()].name,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
                             ),
                           );
                         },
                       ),
                     ),
 
-                    /// المحاور
-                    titlesData: FlTitlesData(
-                      show: true,
-
-                      /// أسماء الشهور
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          reservedSize: 45,
-                          getTitlesWidget: (value, meta) {
-                            const titles = [
-                              'يناير',
-                              'فبراير',
-                              'مارس',
-                              'أبريل',
-                              'مايو',
-                              'يونيو',
-                              'يوليو',
-                              'أغسطس',
-                              'سبتمبر',
-                              'أكتوبر',
-                              'نوفمبر',
-                              'ديسمبر',
-                            ];
-
-                            return SideTitleWidget(
-                              axisSide: meta.axisSide,
-                              space: 10,
-                              child: Text(
-                                titles[value.toInt()],
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-
-                      /// الأرقام الجانبية
-                      leftTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          reservedSize: 40,
-                          interval: 20,
-                          getTitlesWidget: (value, meta) {
-                            return Text(
-                              value.toInt().toString(),
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-
-                      topTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      rightTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 55,
+                        interval: maxValue / 5,
+                        getTitlesWidget: (value, meta) {
+                          return Text(
+                            value.toInt().toString(),
+                            style: const TextStyle(
+                                color: Colors.black54,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold
+                            ),
+                          );
+                        },
                       ),
                     ),
 
-                    /// الخطوط الخلفية
-                    gridData: FlGridData(
-                      show: true,
-                      drawVerticalLine: false,
-                      horizontalInterval: 20,
-                      getDrawingHorizontalLine: (value) {
-                        return FlLine(
-                          color: Colors.grey.shade300,
-                          strokeWidth: 1,
-                          dashArray: [5, 5],
-                        );
-                      },
+                    topTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
                     ),
 
-                    borderData: FlBorderData(show: false),
-
-                    /// البيانات
-                    barGroups: _getBarGroups(),
+                    rightTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
                   ),
+
+                  /// خطوط الخلفية
+                  gridData: FlGridData(
+                    show: true,
+                    drawVerticalLine: false,
+                    horizontalInterval: maxValue / 5,
+                    getDrawingHorizontalLine: (value) {
+                      return FlLine(
+                        color: Colors.grey.shade300,
+                        strokeWidth: 1,
+                        dashArray: [5, 5],
+                      );
+                    },
+                  ),
+
+                  borderData: FlBorderData(show: false),
+
+                  /// الأعمدة
+                  barGroups:
+                  charities.asMap().entries.map((entry) {
+                    return BarChartGroupData(
+                      x: entry.key,
+                      showingTooltipIndicators: [0],
+                      barRods: [
+                        BarChartRodData(
+                          toY: entry.value.total.toDouble(),
+                          width: 40,
+                          color: const Color(0xFF6DA28D),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(4),
+                            topRight: Radius.circular(4),
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
                 ),
               ),
             ),
@@ -151,40 +199,5 @@ class DataChart extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  List<BarChartGroupData> _getBarGroups() {
-    final data = [
-      69.0,
-      45.0,
-      17.0,
-      32.0,
-      50.0,
-      75.0,
-      80.0,
-      65.0,
-      40.0,
-      55.0,
-      90.0,
-      70.0,
-    ];
-
-    return data.asMap().entries.map((entry) {
-      return BarChartGroupData(
-        x: entry.key,
-        barRods: [
-          BarChartRodData(
-            toY: entry.value,
-            color: const Color(0xFF6DA28D),
-            width: 40,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(4),
-              topRight: Radius.circular(4),
-            ),
-          ),
-        ],
-        showingTooltipIndicators: [0],
-      );
-    }).toList();
   }
 }

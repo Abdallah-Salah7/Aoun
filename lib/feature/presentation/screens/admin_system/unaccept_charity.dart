@@ -1,8 +1,11 @@
 import 'package:aoun/feature/presentation/screens/admin_system/unaccept_charity_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../state_management/cubit/rejected_charities_cubit.dart';
+import '../../state_management/cubit/rejected_charities_state.dart';
 import 'admin_app_drawer.dart';
 
 class UnacceptCharity extends StatelessWidget {
@@ -131,38 +134,34 @@ class UnacceptCharity extends StatelessWidget {
             ),
 
             SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  UnacceptCharityItem(
-                    charityName: "جمعية غيث للتنمية المجتمعية",
-                    rejectDate: "12/11/2026",
-                    onDetailsPressed: () {
-                      // Navigate to details screen
-                    },
-                  ),
-                  UnacceptCharityItem(
-                    charityName: "جمعية غيث للتنمية المجتمعية",
-                    rejectDate: "12/11/2026",
-                    onDetailsPressed: () {
-                      // Navigate to details screen
-                    },
-                  ),
-                  UnacceptCharityItem(
-                    charityName: "جمعية غيث للتنمية المجتمعية",
-                    rejectDate: "12/11/2026",
-                    onDetailsPressed: () {
-                      // Navigate to details screen
-                    },
-                  ),
-                  UnacceptCharityItem(
-                    charityName: "جمعية غيث للتنمية المجتمعية",
-                    rejectDate: "12/11/2026",
-                    onDetailsPressed: () {
-                      // Navigate to details screen
-                    },
-                  ),
+              child: BlocBuilder<RejectedCharitiesCubit, RejectedCharitiesState>(
+                builder: (context, state) {
+                  if (state is RejectedCharitiesLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-                ],
+                  if (state is RejectedCharitiesError) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  }
+
+                  if (state is RejectedCharitiesSuccess) {
+                    return Column(
+                      children: state.charities.map((charity) {
+                        return UnacceptCharityItem(
+                          charityName: charity.charityName,
+                          rejectDate: charity.createdAt.substring(0, 10),
+                          onDetailsPressed: () {},
+                        );
+                      }).toList(),
+                    );
+                  }
+
+                  return const SizedBox();
+                },
               ),
             ),
           ],

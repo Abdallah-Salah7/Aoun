@@ -1,434 +1,257 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../../data/data_sources/admin_service.dart';
+import '../../../data/models/admin_stats_model.dart';
+import '../../state_management/cubit/admin_cubit.dart';
+import '../../state_management/cubit/admin_state.dart';
 import 'admin_app_drawer.dart';
 import 'data_chart.dart';
 
-class AdminHome extends StatelessWidget {
+class AdminHome extends StatefulWidget {
   const AdminHome({super.key});
 
   @override
+  State<AdminHome> createState() => _AdminHomeState();
+}
+
+class _AdminHomeState extends State<AdminHome> {
+
+
+
+  @override
   Widget build(BuildContext context) {
-    return  Directionality(
+    return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         drawer: const AdminAppDrawer(),
         backgroundColor: const Color(0xffC7CDCD),
 
         body: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+
           slivers: [
-
-            SliverAppBar(
-              pinned: true,
-              automaticallyImplyLeading: false,
-              backgroundColor: const Color(0xff2F674D),
-              expandedHeight: 120,
-              toolbarHeight: 120,
-              elevation: 0,
-              clipBehavior: Clip.hardEdge,
-
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(25),
-                  bottomRight: Radius.circular(25),
-                ),
-              ),
-
-              flexibleSpace: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 22,
-                  ),
-
-                  child: Row(
-                    textDirection: TextDirection.rtl,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-
-                      /// menu icon
-                      Builder(
-                        builder: (context) {
-                          return InkWell(
-                            onTap: () {
-                              Scaffold.of(context).openDrawer();
-                            },
-                            child: Image.asset(
-                              ImageAssets.charityIcon,
-                              width: 32,
-                              height: 32,
-                              color: Colors.white,
-                            ),
-                          );
-                        },
-                      ),
-
-                      const SizedBox(width: 22),
-
-
-                      /// title
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "إدارة الجمعيات",
-                            style: GoogleFonts.manrope(
-                              fontSize: 23,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.white,
-                            ),
-                          ),
-
-                          const SizedBox(height: 4),
-
-                          Text(
-                            "لوحة التحكم",
-                            style: GoogleFonts.manrope(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const Spacer(),
-
-                      /// notification
-                      Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Image.asset(
-                            ImageAssets.bell,
-                            width: 30,
-                            height: 30,
-                            color: Colors.white,
-                          ),
-
-                          Positioned(
-                            left: 1,
-                            top: -1,
-                            child: Container(
-                              width: 10,
-                              height: 10,
-                              decoration: const BoxDecoration(
-                                color: Color(0xff6DDA6F),
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-
-
-
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            _buildAppBar(),
 
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
-
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 18.0),
-                      child: Text(
-                        "الإحصائيات",
-                        style: GoogleFonts.manrope(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                        ),
+
+                    Text(
+                      "الإحصائيات",
+                      style: GoogleFonts.manrope(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
 
-                    const SizedBox(height: 18),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.25),
-                              blurRadius: 10,
-                              spreadRadius: 1,
-                              offset: const Offset(0, 6),
-                            ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 28,vertical: 12),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 12.0,
-                                horizontal: 8,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xffE3F0EA),
-                                  borderRadius: BorderRadius.circular(45),
-                                ),
-                                margin: EdgeInsets.only(left: 8),
-                                padding: const EdgeInsets.all(8),
-                                child: Image(
-                                  image: AssetImage(ImageAssets.totalCharity),
-                                  height: 36,
-                                  width: 36,
-                                ),
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                    const SizedBox(height: 16),
 
-                              children: [
-                                Text(
-                                  "إجمالى عدد الجمعيات",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w800,
-                                    color: const Color(0xff6A6969),
-                                  ),
-                                ),
-                                Text(
-                                  "8 جمعيات",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    _buildStatsSection(),
 
-                    const SizedBox(height: 18),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.25),
-                              blurRadius: 10,
-                              spreadRadius: 1,
-                              offset: const Offset(0, 6),
-                            ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 28,vertical: 12),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 12.0,
-                                horizontal: 8,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xffE3F0EA),
-                                  borderRadius: BorderRadius.circular(45),
-                                ),
-                                margin: EdgeInsets.only(left: 8),
-                                padding: const EdgeInsets.all(8),
-                                child: Image(
-                                  image: AssetImage(ImageAssets.acceptCharity),
-                                  height: 40,
-                                  width: 40,
-                                  color: Color(0xff255A41),
-                                ),
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-
-                              children: [
-                                Text(
-                                  "عدد الجمعيات المقبولة",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w800,
-                                    color: const Color(0xff6A6969),
-                                  ),
-                                ),
-                                Text(
-                                  "8 جمعيات",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 18),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.25),
-                              blurRadius: 10,
-                              spreadRadius: 1,
-                              offset: const Offset(0, 6),
-                            ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 28,vertical: 12),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 12.0,
-                                horizontal: 8,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xffE3F0EA),
-                                  borderRadius: BorderRadius.circular(45),
-                                ),
-                                margin: EdgeInsets.only(left: 8),
-                                padding: const EdgeInsets.all(8),
-                                child: Image(
-                                  image: AssetImage(ImageAssets.deleteCharity),
-                                  height: 40,
-                                  width: 40,
-                                  color: Color(0xff255A41),
-                                ),
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-
-                              children: [
-                                Text(
-                                  "عدد الجمعيات المرفوضة",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w800,
-                                    color: const Color(0xff6A6969),
-                                  ),
-                                ),
-                                Text(
-                                  "8 جمعيات",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 18),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.25),
-                              blurRadius: 10,
-                              spreadRadius: 1,
-                              offset: const Offset(0, 6),
-                            ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 28,vertical: 12),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 12.0,
-                                horizontal: 8,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xffE3F0EA),
-                                  borderRadius: BorderRadius.circular(45),
-                                ),
-                                margin: EdgeInsets.only(left: 8),
-                                padding: const EdgeInsets.all(8),
-                                child: Image(
-                                  image: AssetImage(ImageAssets.stopCharity),
-                                  height: 40,
-                                  width: 40,
-                                  color: Color(0xff255A41),
-                                ),
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-
-                              children: [
-                                Text(
-                                  "عدد الجمعيات الموقوفة",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w800,
-                                    color: const Color(0xff6A6969),
-                                  ),
-                                ),
-                                Text(
-                                  "8 جمعيات",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                     const SizedBox(height: 28),
 
-                    Padding(
-                      padding: const EdgeInsets.only(right: 18.0),
-                      child: Text(
-                        "عدد التسجيلات الجديدة ",
-                        style: GoogleFonts.manrope(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w800,
-                        ),
+                    Text(
+                      "عدد التسجيلات الجديدة",
+                      style: GoogleFonts.manrope(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
+
                     const SizedBox(height: 18),
 
-                    DataChart(),
+                    const DataChart(),
                   ],
                 ),
               ),
-
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  /// 🔥 AppBar separated = lighter rebuild
+  SliverAppBar _buildAppBar() {
+    return SliverAppBar(
+      pinned: true,
+      automaticallyImplyLeading: false,
+      backgroundColor: const Color(0xff2F674D),
+      expandedHeight: 120,
+      toolbarHeight: 120,
+      elevation: 0,
+      clipBehavior: Clip.hardEdge,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(25),
+          bottomRight: Radius.circular(25),
+        ),
+      ),
+
+      flexibleSpace: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 22),
+          child: Row(
+            children: [
+
+              Builder(
+                builder: (context) {
+                  return InkWell(
+                    onTap: () => Scaffold.of(context).openDrawer(),
+                    child: Image.asset(
+                      ImageAssets.charityIcon,
+                      width: 32,
+                      height: 32,
+                      color: Colors.white,
+                    ),
+                  );
+                },
+              ),
+
+              const SizedBox(width: 22),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "إدارة الجمعيات",
+                    style: GoogleFonts.manrope(
+                      fontSize: 23,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "لوحة التحكم",
+                    style: GoogleFonts.manrope(
+                      fontSize: 17,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+
+              const Spacer(),
+
+              const Icon(Icons.notifications, color: Colors.white),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatsSection() {
+    return BlocBuilder<AdminStatsCubit, AdminStatsState>(
+      builder: (context, state) {
+        if (state is AdminStatsLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (state is AdminStatsError) {
+          return Center(
+            child: Text(state.message),
+          );
+        }
+
+        if (state is AdminStatsSuccess) {
+          final stats = state.stats;
+
+          return Column(
+            children: [
+              _card(
+                "إجمالى عدد الجمعيات",
+                "${stats.totalCharities} جمعية",
+                ImageAssets.totalCharity,
+              ),
+
+              const SizedBox(height: 14),
+
+              _card(
+                "عدد الجمعيات المقبولة",
+                "${stats.approvedCharities} جمعية",
+                ImageAssets.acceptCharity,
+              ),
+
+              const SizedBox(height: 14),
+
+              _card(
+                "عدد الجمعيات المرفوضة",
+                "${stats.rejectedCharities} جمعية",
+                ImageAssets.deleteCharity,
+              ),
+
+              const SizedBox(height: 14),
+
+              _card(
+                "عدد الجمعيات الموقوفة",
+                "${stats.suspendedCharities} جمعية",
+                ImageAssets.stopCharity,
+              ),
+            ],
+          );
+        }
+
+        return const SizedBox();
+      },
+    );
+  }
+
+  /// 🔥 lighter widget (const style reduced rebuild cost)
+  Widget _card(String title, String value, String icon) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15), // lighter shadow
+            blurRadius: 6, // reduced
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: const Color(0xffE3F0EA),
+              borderRadius: BorderRadius.circular(45),
+            ),
+            padding: const EdgeInsets.all(8),
+            child: Image.asset(icon, height: 35, width: 35),
+          ),
+
+          const SizedBox(width: 12),
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title,
+                  style: GoogleFonts.manrope(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xff6A6969),
+                  )),
+              Text(value,
+                  style: GoogleFonts.manrope(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  )),
+            ],
+          ),
+        ],
       ),
     );
   }

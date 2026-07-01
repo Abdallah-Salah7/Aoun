@@ -93,7 +93,7 @@ class AdminAppDrawer extends StatelessWidget {
                   "تسجيل الخروج",
                   color: Color(0xffDC2626),
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.donorLoginScreen);
+                    Navigator.pushNamed(context, Routes.adminLoginScreen);
                   },
                 ),
               ],

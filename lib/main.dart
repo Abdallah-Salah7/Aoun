@@ -11,15 +11,23 @@ import 'core/routes_manager/route_generator.dart';
 import 'core/theme/base_theme.dart';
 import 'core/theme/dark_theme.dart';
 import 'core/theme/light_theme.dart';
+import 'feature/data/data_sources/admin_service.dart';
 import 'feature/data/data_sources/camp_api_service.dart';
 import 'feature/data/data_sources/case_api_service.dart';
 import 'feature/data/data_sources/charity_dashboard_service.dart';
+import 'feature/data/repositories/admin_repository_impl.dart';
 import 'feature/data/repositories/camp_repository.dart';
 import 'feature/data/repositories/case_repository.dart';
+import 'feature/domain/repositories/admin_repository.dart';
+import 'feature/presentation/state_management/cubit/accept_charities_cubit.dart';
+import 'feature/presentation/state_management/cubit/admin_cubit.dart';
 import 'feature/presentation/state_management/cubit/camp_cubit.dart';
 import 'feature/presentation/state_management/cubit/case_cubit.dart';
 import 'feature/presentation/state_management/cubit/dashboard_cubit.dart';
 import 'feature/presentation/state_management/cubit/get_dashboard_stats_usecase.dart';
+import 'feature/presentation/state_management/cubit/pending_charity_cubit.dart';
+import 'feature/presentation/state_management/cubit/rejected_charities_cubit.dart';
+import 'feature/presentation/state_management/cubit/top_charities_cubit.dart';
 import 'feature/presentation/state_management/provider/my_provider.dart';
 final getIt = GetIt.instance;
 void main() async{
@@ -28,6 +36,17 @@ void main() async{
   await ApiServices.loadSavedToken();
   getIt.registerLazySingleton(() => CampApiService());
   getIt.registerLazySingleton(() => CampaignRepository(getIt<CampApiService>()));
+   getIt.registerLazySingleton(() => Dio());
+
+   getIt.registerLazySingleton(
+         () => AdminRemoteDataSource(getIt<Dio>()),
+   );
+
+   getIt.registerLazySingleton<AdminRepository>(
+         () => AdminRepositoryImpl(
+       getIt<AdminRemoteDataSource>(),
+     ),
+   );
   runApp(
     MultiProvider(
       providers: [
@@ -40,24 +59,49 @@ void main() async{
               CaseRepository(CaseApiService()),
             )..fetchCases(),
           ),
-          // BlocProvider(
-          //   create: (_) => CampaignCubit(
-          //     CampaignRepository(CampApiService()),
-          //   )..fetchCampaigns(1),
-          // ),
+
           BlocProvider(
-            create: (_) => CampaignCubit(getIt<CampaignRepository>())
-              ..fetchCampaigns(1), // ← مهم جداً
+            create: (_) => CampaignCubit(
+              getIt<CampaignRepository>(),
+            )..fetchCampaigns(1),
           ),
-          // BlocProvider(
-          //   create: (_) => CampaignCubit(getIt<CampaignRepository>()),
-          // ),
+
           BlocProvider(
             create: (_) => DashboardCubit(
               GetDashboardStatsUseCase(
                 CharityDashboardService(Dio()),
               ),
             )..getDashboardStats(),
+          ),
+
+          BlocProvider(
+            create: (_) => AdminStatsCubit(
+              getIt<AdminRepository>(),
+            )..getStats(),
+          ),
+
+          BlocProvider(
+            create: (_) => TopCharitiesCubit(
+              getIt<AdminRepository>(),
+            )..getTopCharities(),
+          ),
+
+          BlocProvider(
+            create: (_) => PendingCharitiesCubit(
+              getIt<AdminRepository>(),
+            )..getPendingCharities(),
+          ),
+
+          BlocProvider(
+            create: (_) => AcceptCharitiesCubit(
+              getIt<AdminRepository>(),
+            )..getAcceptCharities(),
+          ),
+
+          BlocProvider(
+            create: (_) => RejectedCharitiesCubit(
+              getIt<AdminRepository>(),
+            )..getRejectedCharities(),
           ),
         ],
         child: const MainApp(),
@@ -86,7 +130,7 @@ class MainApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: child,
         onGenerateRoute: RouteGenerator.getRoute,
-        initialRoute: Routes.homeCharity,
+        initialRoute: Routes.adminLoginScreen,
       ),
     );
   }

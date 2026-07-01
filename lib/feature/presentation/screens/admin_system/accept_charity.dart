@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../state_management/cubit/accept_charities_state.dart';
+import '../../state_management/cubit/accept_charities_cubit.dart';
 import 'accept_charity_item.dart';
 import 'admin_app_drawer.dart';
 
@@ -131,28 +134,48 @@ class AcceptCharity extends StatelessWidget {
             ),
 
             SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  AcceptCharityItem(
-                    charityName: "جمعية غيث للتنمية المجتمعية",
-                    onDetailsPressed: () {},
-                  ),
-                  AcceptCharityItem(
-                    charityName: "جمعية غيث للتنمية المجتمعية",
-                    onDetailsPressed: () {},
-                  ),
-                  AcceptCharityItem(
-                    charityName: "جمعية غيث للتنمية المجتمعية",
-                    onDetailsPressed: () {},
-                  ),
+              child: BlocBuilder<
+                  AcceptCharitiesCubit,
+                  AcceptCharitiesState>(
+                builder: (context, state) {
 
-                  AcceptCharityItem(
-                    charityName: "جمعية غيث للتنمية المجتمعية",
-                    onDetailsPressed: () {},
-                  ),
+                  if (state is AcceptCharitiesLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-                ],
-              ),
+                  if (state is AcceptCharitiesError) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  }
+
+                  if (state is AcceptCharitiesSuccess) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics:
+                      const NeverScrollableScrollPhysics(),
+                      itemCount: state.charities.length,
+                      itemBuilder: (context, index) {
+
+                        final charity =
+                        state.charities[index];
+
+                        return AcceptCharityItem(
+                          charityName:
+                          charity.charityName,
+                          onDetailsPressed: () {},
+                        );
+                      },
+                    );
+                  }
+
+                  return const SizedBox();
+                },
+              )
+
+
             ),
           ],
         ),

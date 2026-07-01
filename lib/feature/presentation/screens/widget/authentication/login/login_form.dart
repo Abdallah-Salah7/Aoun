@@ -2,14 +2,21 @@ import 'package:aoun/core/color_manager/primary_colors.dart';
 import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/auth_botton.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/login/form_field.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../../../main.dart';
+import '../../../../../data/data_sources/admin_service.dart';
 import '../../../../../data/data_sources/api_services.dart';
 import '../../../../../data/models/register_model.dart';
+import '../../../../../data/repositories/admin_repository_impl.dart';
+import '../../../../../domain/repositories/admin_repository.dart';
+import '../../../../state_management/cubit/admin_cubit.dart';
 import '../../../../state_management/cubit/camp_cubit.dart';
 import '../../../../state_management/cubit/case_cubit.dart';
+import '../../../admin_system/admin_home.dart';
 
 class LoginForm extends StatefulWidget {
   final bool isLogin;
@@ -315,9 +322,16 @@ class _LoginFormState extends State<LoginForm> {
                                 SnackBar(content: Text(data["message"])),
                               );
 
-                              Navigator.pushReplacementNamed(
+                              Navigator.push(
                                 context,
-                                Routes.adminHome,
+                                MaterialPageRoute(
+                                  builder: (_) => BlocProvider(
+                                    create: (_) => AdminStatsCubit(
+                                      getIt<AdminRepository>(),
+                                    )..getStats(),
+                                    child: const AdminHome(),
+                                  ),
+                                ),
                               );
                             }
 

@@ -50,6 +50,10 @@
 //   static const String chatbotResponseScreen = 'lib/feature/presentation/screens/charity_system/chatbot/response_screen.dart';
 //   static const String chatbotWelcomeScreen = 'lib/feature/presentation/screens/charity_system/chatbot/welcome_screen.dart';
 //   static const String colorManagerPrimaryColors = 'lib/core/color_manager/primary_colors.dart';
+//   static const String cubitAcceptCharitiesCubit = 'lib/feature/presentation/state_management/cubit/accept_charities_cubit.dart';
+//   static const String cubitAcceptCharitiesState = 'lib/feature/presentation/state_management/cubit/accept_charities_state.dart';
+//   static const String cubitAdminCubit = 'lib/feature/presentation/state_management/cubit/admin_cubit.dart';
+//   static const String cubitAdminState = 'lib/feature/presentation/state_management/cubit/admin_state.dart';
 //   static const String cubitCampCubit = 'lib/feature/presentation/state_management/cubit/camp_cubit.dart';
 //   static const String cubitCampState = 'lib/feature/presentation/state_management/cubit/camp_state.dart';
 //   static const String cubitCaseCubit = 'lib/feature/presentation/state_management/cubit/case_cubit.dart';
@@ -57,6 +61,12 @@
 //   static const String cubitDashboardCubit = 'lib/feature/presentation/state_management/cubit/dashboard_cubit.dart';
 //   static const String cubitDashboardState = 'lib/feature/presentation/state_management/cubit/dashboard_state.dart';
 //   static const String cubitGetDashboardStatsUsecase = 'lib/feature/presentation/state_management/cubit/get_dashboard_stats_usecase.dart';
+//   static const String cubitPendingCharityCubit = 'lib/feature/presentation/state_management/cubit/pending_charity_cubit.dart';
+//   static const String cubitRejectedCharitiesCubit = 'lib/feature/presentation/state_management/cubit/rejected_charities_cubit.dart';
+//   static const String cubitRejectedCharitiesState = 'lib/feature/presentation/state_management/cubit/rejected_charities_state.dart';
+//   static const String cubitTopCharitiesCubit = 'lib/feature/presentation/state_management/cubit/top_charities_cubit.dart';
+//   static const String cubitTopCharitiesState = 'lib/feature/presentation/state_management/cubit/top_charities_state.dart';
+//   static const String dataSourcesAdminService = 'lib/feature/data/data_sources/admin_service.dart';
 //   static const String dataSourcesApiServices = 'lib/feature/data/data_sources/api_services.dart';
 //   static const String dataSourcesCampApiService = 'lib/feature/data/data_sources/camp_api_service.dart';
 //   static const String dataSourcesCaseApiService = 'lib/feature/data/data_sources/case_api_service.dart';
@@ -235,11 +245,13 @@
 //   static const String loginLoginForm = 'lib/feature/presentation/screens/widget/authentication/login/login_form.dart';
 //   static const String loginOtpBoxes = 'lib/feature/presentation/screens/widget/authentication/login/otp_boxes.dart';
 //   static const String loginSocialLogin = 'lib/feature/presentation/screens/widget/authentication/login/social_login.dart';
+//   static const String modelsAdminStatsModel = 'lib/feature/data/models/admin_stats_model.dart';
 //   static const String modelsCampDonationModel = 'lib/feature/data/models/camp_donation_model.dart';
 //   static const String modelsCampModel = 'lib/feature/data/models/camp_model.dart';
 //   static const String modelsCaseModel = 'lib/feature/data/models/case_model.dart';
 //   static const String modelsCategoryDistributionModel = 'lib/feature/data/models/category_distribution_model.dart';
 //   static const String modelsCharityDashboardModel = 'lib/feature/data/models/charity_dashboard_model.dart';
+//   static const String modelsCharityModel = 'lib/feature/data/models/charity_model.dart';
 //   static const String modelsFavoriteCase = 'lib/feature/data/models/favorite_case.dart';
 //   static const String modelsGrowthCampModel = 'lib/feature/data/models/growth_camp_model.dart';
 //   static const String modelsGrowthCaseModel = 'lib/feature/data/models/growth_case_model.dart';
@@ -249,6 +261,7 @@
 //   static const String modelsPaymentModel = 'lib/feature/data/models/payment_model.dart';
 //   static const String modelsRecentDonationModel = 'lib/feature/data/models/recent_donation_model.dart';
 //   static const String modelsRegisterModel = 'lib/feature/data/models/register_model.dart';
+//   static const String modelsTopCharityModel = 'lib/feature/data/models/top_charity_model.dart';
 //   static const String modelsTopDonorModel = 'lib/feature/data/models/top_donor_model.dart';
 //   static const String modelsZakatModel = 'lib/feature/data/models/zakat_model.dart';
 //   static const String onboardScreensOnboardScreen1 = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboard_screen1.dart';
@@ -266,6 +279,8 @@
 //   static const String paymentsSuccessPayment = 'lib/feature/presentation/screens/donor_system/payments/success_payment.dart';
 //   static const String pdfsReport = 'assets/pdfs/report.pdf';
 //   static const String providerMyProvider = 'lib/feature/presentation/state_management/provider/my_provider.dart';
+//   static const String repositoriesAdminRepository = 'lib/feature/domain/repositories/admin_repository.dart';
+//   static const String repositoriesAdminRepositoryImpl = 'lib/feature/data/repositories/admin_repository_impl.dart';
 //   static const String repositoriesCampRepository = 'lib/feature/data/repositories/camp_repository.dart';
 //   static const String repositoriesCaseRepository = 'lib/feature/data/repositories/case_repository.dart';
 //   static const String repositoriesDashboardRepository = 'lib/feature/domain/repositories/dashboard_repository.dart';

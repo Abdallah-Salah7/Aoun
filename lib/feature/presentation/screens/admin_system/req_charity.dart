@@ -1,8 +1,12 @@
 import 'package:aoun/feature/presentation/screens/admin_system/req_charity_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../state_management/cubit/admin_state.dart';
+import '../../state_management/cubit/pending_charity_cubit.dart';
+import '../../state_management/cubit/top_charities_cubit.dart';
 import 'admin_app_drawer.dart';
 
 class ReqCharity extends StatelessWidget {
@@ -131,40 +135,55 @@ class ReqCharity extends StatelessWidget {
             ),
 
             SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  ReqCharityItem(
-                    charityName: "جمعية غيث للتنمية المجتمعية",
-                    applicationDate: "12/11/2026",
-                    onDetailsPressed: () {
-                      // Navigate to details screen
-                    },
-                  ),
-                  ReqCharityItem(
-                    charityName: "جمعية غيث للتنمية المجتمعية",
-                    applicationDate: "12/11/2026",
-                    onDetailsPressed: () {
-                      // Navigate to details screen
-                    },
-                  ),
-                  ReqCharityItem(
-                    charityName: "جمعية غيث للتنمية المجتمعية",
-                    applicationDate: "12/11/2026",
-                    onDetailsPressed: () {
-                      // Navigate to details screen
-                    },
-                  ),
-                  ReqCharityItem(
-                    charityName: "جمعية غيث للتنمية المجتمعية",
-                    applicationDate: "12/11/2026",
-                    onDetailsPressed: () {
-                      // Navigate to details screen
-                    },
-                  ),
 
-                ],
-              ),
+child: BlocBuilder<
+    PendingCharitiesCubit,
+    PendingCharitiesState>(
+  builder: (context, state) {
 
+    if (state is PendingCharitiesLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (state is PendingCharitiesError) {
+      return Center(
+        child: Text(state.message),
+      );
+    }
+
+    if (state is PendingCharitiesSuccess) {
+
+      return ListView.builder(
+        shrinkWrap: true,
+        physics:
+        const NeverScrollableScrollPhysics(),
+        itemCount: state.charities.length,
+
+        itemBuilder: (context, index) {
+
+          final charity =
+          state.charities[index];
+
+          return ReqCharityItem(
+            charityName:
+            charity.charityName,
+
+            applicationDate:
+            charity.createdAt.split('T')[0],
+
+            onDetailsPressed: () {
+
+            },
+          );
+        },
+      );
+    }
+
+    return const SizedBox();
+  },
+),
             ),
           ],
         ),
