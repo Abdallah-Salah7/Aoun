@@ -11,6 +11,27 @@ class ApiServices {
     ),
   );
 
+  static final Dio aiDio = Dio(
+  BaseOptions(
+    baseUrl: "https://abdallah-salah-aoun-ai-engine.hf.space",
+    headers: {
+      "Content-Type": "application/json",
+      "accept": "application/json",
+    },
+  ),
+);
+
+static Future<String> askAdmin(String question) async {
+  final response = await aiDio.post(
+    "/api/ai/user-chat",
+    data: {
+      "question": question,
+    },
+  );
+
+  return response.data["answer"];
+}
+
   /// ================= INIT TOKEN =================
   static Future<void> setToken(String token) async {
     dio.options.headers['Authorization'] = 'Bearer $token';
@@ -79,6 +100,11 @@ class ApiServices {
     return prefs.getString("adminToken");
   }
 
+  Future<String?> getCharityToken() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString("charityToken");
+}
+
 
 
   Future<Map<String, dynamic>> calculateZakat(
@@ -91,9 +117,7 @@ class ApiServices {
 
     return response.data;
   }
+
 }
-Future<String?> getCharityToken() async {
-  final prefs = await SharedPreferences.getInstance();
-  return prefs.getString("charityToken");
-}
+
 

@@ -72,4 +72,5 @@ class Routes {
   static const String adminLoginScreen = "/adminLoginScreen";
   static const String loginToCompleteDataScreen = "/loginToCompleteDataScreen";
   static const String emergencyFundScreen = "/emergencyFundScreen";
+  static const String chatBotScreen = "/chatBotScreen";
 }
