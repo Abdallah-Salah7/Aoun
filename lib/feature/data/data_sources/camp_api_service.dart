@@ -125,8 +125,29 @@ class CampApiService {
     }
   }
   Future<Response> deleteCampaign(int id) async {
-    return await dio.delete(
-        "/api/Campaigns/$id");
+    final token = await _getToken();
+
+    try {
+      final response = await dio.delete(
+        "/api/Campaigns/$id",
+        options: Options(
+          headers: {
+            "accept": "*/*",
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+
+      print("DELETE SUCCESS");
+      print(response.data);
+
+      return response;
+    } on DioException catch (e) {
+      print("DELETE STATUS = ${e.response?.statusCode}");
+      print("DELETE DATA = ${e.response?.data}");
+      print("DELETE MESSAGE = ${e.message}");
+      rethrow;
+    }
   }
 
 }

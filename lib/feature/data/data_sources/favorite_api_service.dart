@@ -22,12 +22,25 @@ class FavoriteApiService {
   Future<void> addCaseToFavorites(int id) async {
     final token = await ApiServices.getDonorToken();
 
-    await ApiServices.dio.post(
-      '/api/Favorites/case/$id',
-      options: Options(
-        headers: {"Authorization": "Bearer $token"},
-      ),
-    );
+    try {
+      final response = await ApiServices.dio.post(
+        '/api/Favorites/case/$id',
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+
+      print(response.data);
+    } on DioException catch (e) {
+      print("STATUS: ${e.response?.statusCode}");
+      print("BODY: ${e.response?.data}");
+      print("PATH: ${e.requestOptions.path}");
+      print("TOKEN: $token");
+
+      rethrow;
+    }
   }
 
   Future<void> removeCaseFromFavorites(int id) async {

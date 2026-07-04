@@ -16,6 +16,7 @@ class CampaignItem extends StatelessWidget {
   final DateTime? endDate;
   final int daysLeft;
   final int donorsCount;
+  final int campaignId;
 
   const CampaignItem({
     super.key,
@@ -29,6 +30,7 @@ class CampaignItem extends StatelessWidget {
     required this.endDate,
     required this.daysLeft,
     required this.donorsCount,
+    required this.campaignId,
   });
 
   // إضافة دعم للروابط الشبكية (http) بجانب الملفات المحلية
@@ -42,18 +44,7 @@ class CampaignItem extends StatelessWidget {
         Navigator.pushNamed(
           context,
           Routes.campaignDetails,
-          arguments: {
-            "image": image,
-            "title": title,
-            "description": description,
-            "rateValue": rateValue,
-            "collectedValue": collectedValue,
-            "allValue": allValue,
-            "startDate": startDate,
-            "endDate": endDate,
-            "daysLeft": daysLeft,
-            "donorsCount": donorsCount,
-          },
+          arguments: campaignId,
         );
       },
       child: Padding(

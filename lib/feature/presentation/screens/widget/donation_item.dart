@@ -18,13 +18,15 @@ class DonationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          Routes.donationFieldScreen,
-          arguments: categoryId,
-        );
-      },
+        onTap: () {
+          print("Pressed categoryId = $categoryId");
+
+          Navigator.pushNamed(
+            context,
+            Routes.donationFieldScreen,
+            arguments: categoryId,
+          );
+        },
       child: Column(
         children: [
           Container(

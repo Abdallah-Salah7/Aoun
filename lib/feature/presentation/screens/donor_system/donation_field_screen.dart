@@ -1,13 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
-import '../../../data/data_sources/case_api_service.dart';
-import '../../../domain/entities/case_entity.dart';
-import '../../state_management/cubit/case_cubit.dart';
-import '../../state_management/cubit/case_state.dart';
-import '../widget/case_item.dart';
+import '../../../data/data_sources/donor_case_api_service.dart';
+import '../../../domain/entities/donor_case_entity.dart';
+import '../../state_management/cubit/donor_case_cubit.dart';
+import '../../state_management/cubit/donor_case_state.dart';
+import '../widget/donor_case_item.dart';
 
 class DonationFieldScreen extends StatefulWidget {
   final int categoryId;
@@ -21,13 +22,11 @@ class DonationFieldScreen extends StatefulWidget {
 class _DonationFieldScreenState extends State<DonationFieldScreen> {
   String selectedFilter = "الكل";
   String searchText = "";
-  List<CaseEntity> _applyFilter(List<CaseEntity> cases) {
-    bool isCompleted(CaseEntity c) {
-      return c.progress >= 1.0 ||
-          c.collectedAmount >= c.requiredAmount ||
-          c.status == "مكتملة";
+  List<DonorCaseEntity> _applyFilter(List<DonorCaseEntity> cases) {
+    bool isCompleted(DonorCaseEntity c) {
+      return c.progress >= 1;
     }
-    bool isUrgent(CaseEntity c) {
+    bool isUrgent(DonorCaseEntity c) {
       final completed = isCompleted(c);
 
       return c.isUrgent == true && !completed;
@@ -50,8 +49,8 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
       }
 
       final matchSearch =
-          c.title.contains(searchText) ||
-              c.description.contains(searchText);
+          c.title.toLowerCase().contains(searchText.toLowerCase()) ||
+              c.description.toLowerCase().contains(searchText.toLowerCase());
 
       return matchFilter && matchSearch;
     }).toList();
@@ -73,18 +72,27 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
   int totalDonors = 0;
   bool isLoadingDonors = true;
 
-  Future<void> loadDonorsCount(List<CaseEntity> cases) async {
+  Future<void> loadDonorsCount(List<DonorCaseEntity> cases) async {
     int total = 0;
 
     for (final c in cases) {
+      print("Loading case id = ${c.id}");
+
       try {
-        final response = await CaseApiService().getCaseById(c.id);
+        final response = await DonorCaseApiService().getCaseDetails(c.id);
 
-        final data = response.data["data"];
+        print("Success for case ${c.id}");
+        print(response.data);
 
+        final data = response.data;
         total += (data["donorsCount"] ?? 0) as int;
-      } catch (e) {
-        print("Error loading donors for case ${c.id}: $e");
+
+      } on DioException catch (e) {
+        print("========== ERROR ==========");
+        print("Case id = ${c.id}");
+        print("Status = ${e.response?.statusCode}");
+        print("Response = ${e.response?.data}");
+        print("===========================");
       }
     }
 
@@ -94,6 +102,18 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
         isLoadingDonors = false;
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<DonorCaseCubit>().getCases(
+      categoryName: categoryNames[widget.categoryId]!,
+    );
+
+    print("DonationFieldScreen opened");
+    print("CategoryId = ${widget.categoryId}");
   }
 
   @override
@@ -145,25 +165,21 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
           ),
         ),
 
-        body: BlocBuilder<CaseCubit, CaseState>(
+        body: BlocBuilder<DonorCaseCubit, DonorCaseState>(
           builder: (context, state) {
-            if (state is! CaseLoaded) {
+            if (state is! DonorCaseLoaded) {
               return const Center(child: CircularProgressIndicator());
             }
 
-            final categoryCases = context.read<CaseCubit>().getCasesByCategory(
-                widget.categoryId,
-            );
+            final categoryCases = state.cases;
             if (isLoadingDonors) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 loadDonorsCount(categoryCases);
               });
             }
-            final completedCasesCount = categoryCases.where((c) {
-              return c.progress >= 1.0 ||
-                  c.collectedAmount >= c.requiredAmount ||
-                  c.status == "مكتملة";
-            }).length;
+            final completedCasesCount = categoryCases
+                .where((c) => c.progress >= 1)
+                .length;
 
             final filteredCases = _applyFilter(categoryCases);
             return ListView(
@@ -243,8 +259,8 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
                       itemBuilder: (context, index) {
                         final c = filteredCases[index];
 
-                        return CaseItem(
-                          caseEntity: c,
+                        return DonorCaseItem(
+                          donorCaseEntity: c,
                         );
                       },
                     ),

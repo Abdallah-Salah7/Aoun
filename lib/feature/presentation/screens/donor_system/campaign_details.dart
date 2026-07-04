@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
-import '../../../data/data_sources/camp_api_service.dart';
+import '../../../data/data_sources/donor_campaign_api_service.dart';
 import '../../../data/data_sources/favorite_api_service.dart';
 
 class CampaignDetails extends StatefulWidget {
@@ -35,8 +35,8 @@ class _CampaignDetailsState extends State<CampaignDetails> {
   void initState() {
     super.initState();
 
-    campaignFuture = CampApiService().getCampaignDetails(widget.campaignId);
-
+    campaignFuture =
+        DonorCampaignApiService().getCampaignDetails(widget.campaignId);
     checkSaved();
   }
 
@@ -83,7 +83,7 @@ class _CampaignDetailsState extends State<CampaignDetails> {
           final String image = data["imageUrl"] ?? "";
           final String description =
               data["description"] ?? "";
-
+          final String charityName = data["charityName"] ?? "";
           final int donorsCount =
               data["donorsCount"] ?? 0;
 
@@ -383,6 +383,7 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                           Navigator.pushNamed(
                             context,
                             Routes.charityProfileScreen,
+
                           );
                         },
                         child: Container(
@@ -445,7 +446,7 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                                   ),
 
                                   Text(
-                                    "غيث للتنمية المجتمعية",
+          charityName,
                                     style:
                                     GoogleFonts
                                         .manrope(

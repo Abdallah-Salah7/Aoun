@@ -11,7 +11,6 @@ import '../../../../../../main.dart';
 import '../../../../../data/data_sources/admin_service.dart';
 import '../../../../../data/data_sources/api_services.dart';
 import '../../../../../data/models/register_model.dart';
-import '../../../../../data/repositories/admin_repository_impl.dart';
 import '../../../../../domain/repositories/admin_repository.dart';
 import '../../../../state_management/cubit/admin_cubit.dart';
 import '../../../../state_management/cubit/camp_cubit.dart';

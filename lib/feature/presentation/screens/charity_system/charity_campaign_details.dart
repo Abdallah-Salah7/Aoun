@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
-import '../../../data/repositories/camp_repository.dart';
+import '../../../data/repositories_imp/camp_repository.dart';
 import '../../../domain/entities/camp_entity.dart';
 import '../widget/weekly_chart.dart';
 import '../widget/weekly_chart_camp.dart';

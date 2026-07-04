@@ -4,7 +4,10 @@ import 'package:aoun/feature/presentation/screens/tabs/profile_tab.dart';
 import 'package:aoun/feature/presentation/screens/tabs/zakat_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/resources/assets_manager.dart';
+import '../../../data/data_sources/api_services.dart';
+import '../../state_management/cubit/recommend_cubit.dart';
 
 class HomePage extends StatefulWidget {
   final int? initialIndex;
@@ -21,6 +24,12 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     currentIndex = widget.initialIndex ?? 0;
+
+    ApiServices.getDonorToken().then((token) {
+      if (token != null) {
+        context.read<RecommendCubit>().fetchRecommendCases(token);
+      }
+    });
   }
 
   final labels = ["الرئيسية", " التبرعات", "الزكاة", "حسابي"];

@@ -6,10 +6,13 @@ import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
 import '../../state_management/cubit/camp_cubit.dart';
 import '../../state_management/cubit/camp_state.dart';
+import '../../state_management/cubit/recommend_cubit.dart';
+import '../../state_management/cubit/recommend_state.dart';
 import '../donor_system/current_campaigns_screen.dart';
 import '../widget/case_item.dart';
 import '../widget/cradles_item.dart';
 import '../widget/donation_item.dart';
+import '../widget/recommend_case_item.dart';
 import '../widget/title_item.dart';
 
 class MainTab extends StatelessWidget {
@@ -244,20 +247,36 @@ class MainTab extends StatelessWidget {
                     ),
                     SizedBox(height: 26),
 
-    // CaseItem(
-    // caseEntity: caseItem,
-    // ),
-    //                 SizedBox(height: 30),
-    //
-    //                 CaseItem(
-    //                   caseEntity: caseItem,
-    //                 ),
-    //                 SizedBox(height: 30),
-    //
-    //                 CaseItem(
-    //                   caseEntity: caseItem,
-    //                 ),
-    //                 SizedBox(height: 30),
+                    BlocBuilder<RecommendCubit, RecommendState>(
+                      builder: (context, state) {
+                        if (state is RecommendLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        if (state is RecommendError) {
+                          return Center(
+                            child: Text(state.message),
+                          );
+                        }
+
+                        if (state is RecommendLoaded) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: state.recommendCases.length,
+                            itemBuilder: (context, index) {
+                              return RecommendCaseItem(
+                                recommendCaseEntity: state.recommendCases[index],
+                              );
+                            },
+                          );
+                        }
+
+                        return const SizedBox();
+                      },
+                    )
                   ],
                 ),
               ),

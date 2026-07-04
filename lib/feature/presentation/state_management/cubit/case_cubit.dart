@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/repositories/case_repository.dart';
+import '../../../data/repositories_imp/case_repository.dart';
 import '../../../domain/entities/case_entity.dart';
 import 'case_state.dart';
 

@@ -69,14 +69,6 @@ class CaseApiService {
     );
   }
 
-  Future<Response> getPublicCaseById(int id) async {
-    return await dio.get(
-      '/api/Cases/public/$id',
-      options: Options(
-        validateStatus: (_) => true,
-      ),
-    );
-  }
 
   Future<Response> deleteCase(int id) async {
     final token = await _getToken();

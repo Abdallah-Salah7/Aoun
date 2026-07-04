@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 
-import '../../../data/repositories/camp_repository.dart';
+import '../../../data/repositories_imp/camp_repository.dart';
 import 'camp_state.dart';
 
 class CampaignCubit extends Cubit<CampaignState> {
@@ -89,25 +89,36 @@ class CampaignCubit extends Cubit<CampaignState> {
   /// DELETE CAMPAIGN
   /// =========================
   Future<void> deleteCampaign(int id) async {
+    print("DELETE ID = $id");
+
     emit(CampaignLoading());
 
     try {
       await repository.deleteCampaign(id);
+
+      print("DELETE SUCCESS");
 
       emit(CampaignDeletedSuccess());
 
       if (_charityId != null) {
         final result = await repository.getCampaigns(_charityId!);
 
-        emit(CampaignLoaded(
-          campaigns: result.campaigns,
-          stats: result.stats,
-        ));
+        emit(
+          CampaignLoaded(
+            campaigns: result.campaigns,
+            stats: result.stats,
+          ),
+        );
       }
     } catch (e) {
+      print("DELETE ERROR = $e");
+
       String message = "حدث خطأ أثناء الحذف";
 
       if (e is DioException) {
+        print("STATUS = ${e.response?.statusCode}");
+        print("BODY = ${e.response?.data}");
+
         final data = e.response?.data;
         if (data != null && data["message"] != null) {
           message = data["message"];

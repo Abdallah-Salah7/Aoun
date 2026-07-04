@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../../../core/routes_manager/routes.dart';
 import '../../state_management/cubit/camp_cubit.dart';
 import '../../state_management/cubit/camp_state.dart';
 import '../../state_management/cubit/case_cubit.dart';
@@ -48,7 +49,7 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
             ),
           ),
           titleSpacing: 0,
-          centerTitle: false,
+          centerTitle: true,
         ),
 
         body: ListView(
@@ -72,12 +73,14 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                       ),
                     ),
                   ),
-                  Text(
-                    "غيث للتنمية المجتمعية",
-                    style: GoogleFonts.manrope(
-                      fontSize: 27,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff2C5240),
+                  Center(
+                    child: Text(
+                      "غيث للتنمية المجتمعية",
+                      style: GoogleFonts.manrope(
+                        fontSize: 27,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff2C5240),
+                      ),
                     ),
                   ),
                   Row(
@@ -85,7 +88,7 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Color(0xFFD4E1DB),
+                            color: Color(0xff276D4C),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           width: 172,
@@ -97,7 +100,7 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                               style: GoogleFonts.manrope(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w700,
-                                color: Color(0xff2C5240),
+                                color: Color(0xffFFFFFF),
                               ),
                             ),
                           ),
@@ -106,7 +109,7 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Color(0xFFD4E1DB),
+                            color: Color(0xff276D4C),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           width: 172,
@@ -118,7 +121,7 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                               style: GoogleFonts.manrope(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w700,
-                                color: Color(0xff2C5240),
+                                color: Color(0xffFFFFFF),
                               ),
                             ),
                           ),
@@ -156,182 +159,96 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                       ],
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xFFD4E1DB),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 13, horizontal: 30),
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                      children: [
-                        Text(
-                          "خزنة الطوارئ",
-                          style: GoogleFonts.manrope(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w800,
-                            color: Color(0xff2C5240),
-                          ),
+                  InkWell(
+                    onTap: (){
+                      Navigator.pushNamed(
+                        context,
+                        Routes.emergencyFundScreen,
+
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 35.0,
+                        horizontal: 7,
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(20.0),
+                        decoration: BoxDecoration(
+                          color: const Color(0xff1A593B),
+                          borderRadius:
+                          BorderRadius.circular(16.0),
                         ),
-                        Spacer(),
-                        Image(
-                          image: AssetImage(ImageAssets.emergency),
-                          height: 71,
-                          width: 82,
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.info_outline,
+                                  color: Colors.white,
+                                  size: 40,
+                                ),
+                                SizedBox(width: 12),
+
+                                Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "خزنة  الطوارئ",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight:
+                                        FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      "دعم فوري للحالات العاجلة",
+                                      style: TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 17,
+                                        fontWeight:
+                                        FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+
+                            const Row(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.end,
+                              children: [
+
+                                Text(
+                                  "عرض التفاصيل",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(height: 22),
+
+                                Icon(
+                                  Icons.north_west,
+                                  color: Colors.white,
+                                  size: 24,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0,
-                      vertical: 15,
-                    ),
-                    child: Text(
-                      "مجالات العمل",
-                      style: GoogleFonts.manrope(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
                       ),
                     ),
                   ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xffBFDCCF),
-                              borderRadius: BorderRadius.circular(45),
-                            ),
-                            padding: const EdgeInsets.only(
-                              top: 6.0,
-                              bottom: 8,
-                              right: 15,
-                              left: 40,
-                            ),
 
-                            child: Center(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Image(
-                                    image: AssetImage((ImageAssets.siren)),
-                                    width: 20,
-                                    height: 25,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 8.0,
-                                      right: 8,
-                                    ),
-                                    child: Text(
-                                      "الإغاثة",
-                                      style: GoogleFonts.manrope(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xffBFDCCF),
-                              borderRadius: BorderRadius.circular(45),
-                            ),
-                            padding: const EdgeInsets.only(
-                              top: 6.0,
-                              bottom: 8,
-                              right: 15,
-                              left: 40,
-                            ),
-
-                            child: Center(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Image(
-                                    image: AssetImage((ImageAssets.elderly)),
-                                    width: 20,
-                                    height: 25,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 8.0,
-                                      right: 8,
-                                    ),
-                                    child: Text(
-                                      "ذوى الاحتياجات",
-                                      style: GoogleFonts.manrope(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xffBFDCCF),
-                              borderRadius: BorderRadius.circular(45),
-                            ),
-                            padding: const EdgeInsets.only(
-                              top: 6.0,
-                              bottom: 8,
-                              right: 15,
-                              left: 40,
-                            ),
-
-                            child: Center(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Image(
-                                    image: AssetImage((ImageAssets.brickWall)),
-                                    width: 20,
-                                    height: 25,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 8.0,
-                                      right: 8,
-                                    ),
-                                    child: Text(
-                                      "مشاريع بناء",
-                                      style: GoogleFonts.manrope(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      vertical: 45.0,
+                      vertical: 15.0,
                       horizontal: 5,
                     ),
                     child: Container(
@@ -396,20 +313,19 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                               itemBuilder: (context, index) {
                                 final campaign = campaigns[index];
 
-                                return CampaignItem(
+                       return CampaignItem(
+                                  campaignId: campaign.id,
                                   image: campaign.imageUrl,
                                   title: campaign.title,
                                   rateValue: campaign.rateValue,
                                   collectedValue: campaign.collectedAmount.toString(),
                                   allValue: campaign.requiredAmount.toString(),
                                   description: campaign.description,
-                                  // status: campaign.status,
                                   startDate: campaign.startDate,
                                   endDate: campaign.endDate,
                                   daysLeft: campaign.daysLeft,
                                   donorsCount: campaign.donorsCount,
-
-                                );                              },
+                                );               },
                             );
                           }
 

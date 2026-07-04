@@ -8,12 +8,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/resources/assets_manager.dart';
-import '../../../data/repositories/camp_repository.dart';
-import '../../../domain/entities/camp_entity.dart';
+import '../../state_management/cubit/ai_description_cubit.dart';
+import '../../state_management/cubit/ai_description_state.dart';
 import '../../state_management/cubit/camp_cubit.dart';
 
 class AddCampaign extends StatefulWidget {
-
   const AddCampaign({super.key});
   @override
   State<AddCampaign> createState() => _AddCampaignState();
@@ -105,7 +104,11 @@ class _AddCampaignState extends State<AddCampaign> {
         endDate == null ||
         _image == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("من فضلك املي كل البيانات بما فيها صورة الحملة والتواريخ")),
+        const SnackBar(
+          content: Text(
+            "من فضلك املي كل البيانات بما فيها صورة الحملة والتواريخ",
+          ),
+        ),
       );
       return;
     }
@@ -125,6 +128,7 @@ class _AddCampaignState extends State<AddCampaign> {
     await context.read<CampaignCubit>().addCampaign(formData);
     Navigator.pop(context);
   }
+
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<CampaignCubit>();
@@ -152,187 +156,241 @@ class _AddCampaignState extends State<AddCampaign> {
           ),
         ),
 
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        body: BlocListener<AiDescriptionCubit, AiDescriptionState>(
+          listener: (context, state) {
+            if (state is AiDescriptionLoaded) {
+              descController.text = state.entity.result;
+            }
 
-              /// صورة الحملة
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Text(
-                  "صورة الحملة",
-                  style: GoogleFonts.manrope(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 22,
+            if (state is AiDescriptionError) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
+            }
+          },
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// صورة الحملة
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Text(
+                    "صورة الحملة",
+                    style: GoogleFonts.manrope(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 22,
+                    ),
                   ),
                 ),
-              ),
 
-              const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-              GestureDetector(
-                onTap: _pickImage,
-                child: Container(
-                  height: 200,
-                  width: double.infinity,
+                GestureDetector(
+                  onTap: _pickImage,
+                  child: Container(
+                    height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: const Color(0xffC4C4C4),
+                        width: 1.5,
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child:
+                          _image != null
+                              ? Image.file(_image!, fit: BoxFit.fill)
+                              : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image(
+                                    image: AssetImage(ImageAssets.upload),
+                                    height: 59,
+                                    width: 59,
+                                    color: Colors.grey,
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    "اضغط لتحميل الصورة",
+                                    style: GoogleFonts.manrope(
+                                      color: Colors.grey,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  Text(
+                                    "JPG, PNG (حد أقصى 5MB)",
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                /// عنوان الحملة
+                _buildField(
+                  "عنوان الحملة",
+                  "مثال: حملة اغاثة غزة",
+                  controller: titleController,
+                ),
+
+                const SizedBox(height: 15),
+
+                /// المبلغ
+                _buildField(
+                  "المبلغ المستهدف",
+                  "20000 ج.م",
+                  controller: amountController,
+                  isNumber: true,
+                ),
+
+                const SizedBox(height: 25),
+
+                /// التاريخ
+                _buildDateField(
+                  title: "بداية الحملة",
+                  hint: "تاريخ البداية",
+                  date: startDate,
+                  onTap: () => _pickDate(isStart: true),
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildDateField(
+                  title: "نهاية الحملة",
+                  hint: "تاريخ النهاية",
+                  date: endDate,
+                  onTap: () => _pickDate(isStart: false),
+                ),
+
+                const SizedBox(height: 25),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                    children: [
+                      Text(
+                        "وصف الحالة",
+                        style: GoogleFonts.manrope(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 22,
+                        ),
+                      ),
+
+                      InkWell(
+                        onTap: () {
+                          context
+                              .read<AiDescriptionCubit>()
+                              .generateDescription(
+                                title: titleController.text,
+                                category: selectedCategory,
+                                amount:
+                                    double.tryParse(amountController.text) ?? 0,
+                              );
+                        },
+
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.auto_awesome_outlined,
+                              size: 25,
+                              color: Color(0xff2F674D),
+                            ),
+
+                            const SizedBox(width: 5),
+
+                            Text(
+                              "توليد بالذكاء الاصطناعي",
+                              style: GoogleFonts.manrope(
+                                fontSize: 16,
+                                color: const Color(0xff2F674D),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                Container(
+                  height: 300,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(15),
                     border: Border.all(
                       color: const Color(0xffC4C4C4),
                       width: 1.5,
                     ),
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: _image != null
-                        ? Image.file(_image!, fit: BoxFit.fill)
-                        : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image(
-                          image: AssetImage(ImageAssets.upload),
-                          height: 59,
-                          width: 59,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          "اضغط لتحميل الصورة",
-                          style: GoogleFonts.manrope(
-                            color: Colors.grey,
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          "JPG, PNG (حد أقصى 5MB)",
-                          style: GoogleFonts.manrope(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
+                  child: TextField(
+                    controller: descController,
+                    expands: true,
+                    maxLines: null,
+                    textAlign: TextAlign.right,
+                    textAlignVertical: TextAlignVertical.top,
+                    decoration: InputDecoration(
+                      hintText: "اكتب وصف تفصيلي للحملة",
+                      hintStyle: GoogleFonts.manrope(
+                        fontSize: 20,
+                        color: const Color(0xff737373),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.all(15),
                     ),
                   ),
                 ),
-              ),
 
-              const SizedBox(height: 20),
+                const SizedBox(height: 30),
 
-              /// عنوان الحملة
-              _buildField(
-                "عنوان الحملة",
-                "مثال: حملة اغاثة غزة",
-                controller: titleController,
-              ),
-
-              const SizedBox(height: 15),
-
-              /// المبلغ
-              _buildField(
-                "المبلغ المستهدف",
-                "20000 ج.م",
-                controller: amountController,
-                isNumber: true,
-              ),
-
-              const SizedBox(height: 25),
-
-              /// التاريخ
-              _buildDateField(
-                title: "بداية الحملة",
-                hint: "تاريخ البداية",
-                date: startDate,
-                onTap: () => _pickDate(isStart: true),
-              ),
-
-              const SizedBox(height: 20),
-
-              _buildDateField(
-                title: "نهاية الحملة",
-                hint: "تاريخ النهاية",
-                date: endDate,
-                onTap: () => _pickDate(isStart: false),
-              ),
-
-              const SizedBox(height: 25),
-
-              /// الوصف
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Text(
-                  "وصف الحملة",
-                  style: GoogleFonts.manrope(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 22,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              Container(
-                height: 300,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(
-                    color: const Color(0xffC4C4C4),
-                    width: 1.5,
-                  ),
-                ),
-                child: TextField(
-                  controller: descController,
-                  expands: true,
-                  maxLines: null,
-                  textAlign: TextAlign.right,
-                  textAlignVertical: TextAlignVertical.top,
-                  decoration: InputDecoration(
-                    hintText: "اكتب وصف تفصيلي للحملة",
-                    hintStyle: GoogleFonts.manrope(
-                      fontSize: 20,
-                      color: const Color(0xff737373),
+                /// زرار الإرسال
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _submitCase();
+                      // هتستدعي Cubit جوهها
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff2F674D),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                     ),
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.all(15),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 30),
-
-              /// زرار الإرسال
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _submitCase();
-                    // هتستدعي Cubit جوهها
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff2F674D),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                  child: Text(
-                    "رفع الحملة",
-                    style: GoogleFonts.manrope(
-                      fontSize: 26,
-                      color: Colors.white,
+                    child: Text(
+                      "رفع الحملة",
+                      style: GoogleFonts.manrope(
+                        fontSize: 26,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
   Widget _buildField(
     String title,
     String hint, {

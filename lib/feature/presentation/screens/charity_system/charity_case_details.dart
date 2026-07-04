@@ -378,17 +378,12 @@ class _CharityCaseDetailsState
                             children: [
                               Text(
                                 description,
-
-                                style:
-                                GoogleFonts.manrope(
+                                softWrap: true,
+                                overflow: TextOverflow.visible,
+                                style: GoogleFonts.manrope(
                                   fontSize: 17,
-
-                                  fontWeight:
-                                  FontWeight.bold,
-
-                                  color: const Color(
-                                    0xff757575,
-                                  ),
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color(0xff757575),
                                 ),
                               ),
                             ],

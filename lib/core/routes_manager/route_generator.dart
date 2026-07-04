@@ -23,7 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import '../../feature/data/models/camp_model.dart';
-import '../../feature/data/repositories/camp_repository.dart';
+import '../../feature/data/repositories_imp/camp_repository.dart';
 import '../../feature/domain/entities/camp_entity.dart';
 import '../../feature/domain/entities/case_entity.dart';
 import '../../feature/presentation/screens/admin_system/accept_charity.dart';
@@ -51,6 +51,7 @@ import '../../feature/presentation/screens/donor_system/case_details_screen.dart
 import '../../feature/presentation/screens/donor_system/donor/change_password.dart';
 import '../../feature/presentation/screens/donor_system/donor/email_verfication.dart';
 import '../../feature/presentation/screens/donor_system/charity_profile_screen.dart';
+import '../../feature/presentation/screens/donor_system/emergency_fund_screen.dart';
 import '../../feature/presentation/screens/donor_system/onboard_screens/onboard_screen4.dart';
 import '../../feature/presentation/screens/donor_system/payments/credit_details.dart';
 import '../../feature/presentation/screens/donor_system/current_campaigns_screen.dart';
@@ -129,7 +130,8 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => CampaignDetails(campaignId: id),
         );
-
+      case Routes.emergencyFundScreen:
+        return MaterialPageRoute(builder: (_) => const EmergencyFundScreen());
       /// PAYMENT
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());

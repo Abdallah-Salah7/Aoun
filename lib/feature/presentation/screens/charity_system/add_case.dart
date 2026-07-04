@@ -2,12 +2,15 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../data/data_sources/case_api_service.dart';
-import '../../../data/repositories/case_repository.dart';
+import '../../../data/repositories_imp/case_repository.dart';
+import '../../state_management/cubit/ai_description_cubit.dart';
+import '../../state_management/cubit/ai_description_state.dart';
 import '../widget/field_dropdown.dart';
 
 class AddCase extends StatefulWidget {
@@ -194,7 +197,21 @@ class _AddCaseState extends State<AddCase> {
           ),
         ),
 
-        body: SingleChildScrollView(
+        body: BlocListener<AiDescriptionCubit, AiDescriptionState>(
+    listener: (context, state) {
+    if (state is AiDescriptionLoaded) {
+    descController.text = state.entity.result;
+    }
+
+    if (state is AiDescriptionError) {
+    ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+    content: Text(state.message),
+    ),
+    );
+    }
+    },
+    child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
 
           child: Column(
@@ -413,7 +430,13 @@ class _AddCaseState extends State<AddCase> {
                     ),
 
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        context.read<AiDescriptionCubit>().generateDescription(
+                          title: titleController.text,
+                          category: selectedCategory,
+                          amount: double.tryParse(amountController.text) ?? 0,
+                        );
+                      },
 
                       child: Row(
                         children: [
@@ -517,6 +540,7 @@ class _AddCaseState extends State<AddCase> {
           ),
         ),
       ),
+      )
     );
   }
 

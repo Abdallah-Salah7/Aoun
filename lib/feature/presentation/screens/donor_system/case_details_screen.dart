@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
-import '../../../data/data_sources/case_api_service.dart';
+import '../../../data/data_sources/donor_case_api_service.dart';
 import '../../../data/data_sources/favorite_api_service.dart';
 import '../../state_management/cubit/case_cubit.dart';
 import 'charity_profile_screen.dart';
@@ -35,9 +35,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
   @override
   void initState() {
     super.initState();
-
-    caseFuture = CaseApiService().getPublicCaseById(widget.caseId);
-
+    caseFuture = DonorCaseApiService().getCaseDetails(widget.caseId);
     checkSaved();
   }
 
@@ -74,7 +72,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
           Map<String, dynamic>.from(snapshot.data!.data);
 
           print("CASE DETAILS = $data");
-
+          final String charityName = data["charityName"] ?? "";
           final String title = data["title"] ?? "";
           final String description = data["description"] ?? "";
           final String image = data["imageUrl"] ?? "";
@@ -365,12 +363,17 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
 
                                   const SizedBox(width: 8),
 
-                                  Text(
-                                    "غيث للتنمية المجتمعية",
-                                    style: GoogleFonts.manrope(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xff757575),
+                                  Expanded(
+                                    child: Text(
+                                      charityName,
+                                      maxLines: 2,
+                                      softWrap: true,
+                                      overflow: TextOverflow.visible,
+                                      style: GoogleFonts.manrope(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(0xff757575),
+                                      ),
                                     ),
                                   ),
                                 ],

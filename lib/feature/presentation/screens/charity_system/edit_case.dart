@@ -7,6 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
 import '../../../domain/entities/case_entity.dart';
+import '../../state_management/cubit/ai_description_cubit.dart';
+import '../../state_management/cubit/ai_description_state.dart';
 import '../../state_management/cubit/case_cubit.dart';
 import '../widget/field_dropdown.dart';
 
@@ -23,7 +25,32 @@ class _EditCaseState extends State<EditCase> {
   late TextEditingController titleController;
   late TextEditingController amountController;
   late TextEditingController descriptionController;
-
+  String getCategoryName(int id) {
+    switch (id) {
+      case 1:
+        return "الصحة";
+      case 2:
+        return "التعليم";
+      case 3:
+        return "الإغاثة";
+      case 4:
+        return "كفالات";
+      case 5:
+        return "مشاريع بناء";
+      case 6:
+        return "التنمية";
+      case 7:
+        return "ذوي الاحتياجات";
+      case 8:
+        return "كفارات";
+      case 9:
+        return "الغارمين";
+      case 10:
+        return "الإطعام";
+      default:
+        return "الصحة";
+    }
+  }
   File? _image;
   final ImagePicker _picker = ImagePicker();
 
@@ -63,9 +90,21 @@ class _EditCaseState extends State<EditCase> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
+    return BlocListener<AiDescriptionCubit, AiDescriptionState>(
+        listener: (context, state) {
+          if (state is AiDescriptionLoaded) {
+            descriptionController.text = state.entity.result;
+          }
+
+          if (state is AiDescriptionError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          }
+        },
+    child: Directionality(
+    textDirection: TextDirection.rtl,
+    child: Scaffold(
         backgroundColor: const Color(0xffE5EBE9),
         appBar: AppBar(
           title: Text(
@@ -260,29 +299,40 @@ class _EditCaseState extends State<EditCase> {
                             fontSize: 22,
                           ),
                         ),
-                        InkWell(
-                          onTap: () {},
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.auto_awesome_outlined,
-                                size: 20,
-                                color: Color(0xff2F674D),
-                              ),
-                              const SizedBox(width: 5),
+    BlocBuilder<AiDescriptionCubit, AiDescriptionState>(
+    builder: (context, state) {
+    if (state is AiDescriptionLoading) {
+    return const CircularProgressIndicator();
+    }
 
-                              Text(
-                                "تحسين بالذكاء الاصطناعى",
-                                style: GoogleFonts.manrope(
-                                  fontSize: 16,
-                                  color: const Color(0xff2F674D),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+    return InkWell(
+    onTap: () {
+    context.read<AiDescriptionCubit>().generateDescription(
+    title: titleController.text,
+    category: getCategoryName(selectedCategory),
+    amount: double.tryParse(amountController.text) ?? 0,
+    );},
+    child: Row(
+    children: [
+    const Icon(
+    Icons.auto_awesome_outlined,
+    size: 20,
+    color: Color(0xff2F674D),
+    ),
+    const SizedBox(width: 5),
+
+    Text(
+    "تحسين بالذكاء الاصطناعى",
+    style: GoogleFonts.manrope(
+    fontSize: 16,
+    color: const Color(0xff2F674D),
+    fontWeight: FontWeight.w500,
+    ),
+    ),
+    ],
+    ),
+    );
+    })],
                     ),
                   ),
 
@@ -467,7 +517,7 @@ class _EditCaseState extends State<EditCase> {
           ),
         ),
       ),
-    );
+    ));
   }
 
   Widget _buildField(

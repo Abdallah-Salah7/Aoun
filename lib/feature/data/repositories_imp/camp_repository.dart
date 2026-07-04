@@ -64,7 +64,6 @@ class CampaignRepository {
 
     final model = CampaignModel.fromJson(response.data);
 
-    print(model.weeklyDonations.first.toJson());
     return CampaignEntity(
       id: model.id,
       title: model.title ?? "",
