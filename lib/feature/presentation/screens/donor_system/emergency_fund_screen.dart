@@ -1,5 +1,8 @@
+import 'package:aoun/feature/presentation/screens/donor_system/payments/payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../core/routes_manager/routes.dart';
 
 class EmergencyFundScreen extends StatefulWidget {
   const EmergencyFundScreen({super.key});
@@ -69,7 +72,10 @@ class _EmergencyFundScreenState extends State<EmergencyFundScreen> {
                   child: Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                         child: Row(
                           children: [
                             Container(
@@ -101,21 +107,32 @@ class _EmergencyFundScreenState extends State<EmergencyFundScreen> {
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(16),
+                        margin: EdgeInsets.symmetric(horizontal: 12),
                         decoration: BoxDecoration(
                           color: const Color(0xffF3F1E9),
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: Colors.green.shade100),
+                          border: Border.all(
+                            color: Color(0xffCEBF3D),
+                            width: 2,
+                          ),
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.info_outline, color: Colors.green.shade700, size: 20),
+                            Icon(
+                              Icons.info_outline,
+                              color: Color(0xff2C7956),
+                              size: 25,
+                            ),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
-                                "خزنة الطوارئ هي رصيد إنساني داخل الجمعية، يُستخدم فقط في الحالات العاجلة التي تتطلب تدخل سريع دون تأخير.\nتبرعك هنا ليس مجرد مساهمة... بل هو إنقاذ فوري لحياة قد تكون في خطر...\nاجعل عطائك حاضرًا وقت الحاجة... وكن سببًا في نجاة إنسان.. 💚",
+                                "خزنة الطوارئ هي رصيد إنساني داخل\nالجمعية، يُستخدم فقط في الحالات\nالعاجلة التي تتطلب تدخل سريع دون\nتأخير.\nتبرعك هنا ليس مجرد مساهمة…\nبل هو إنقاذ فوري لحياة قد تكون في\nخطر...\nاجعل عطائك حاضرًا وقت الحاجة… وكن\nسببًا في نجاة إنسان.. 💚",
                                 textAlign: TextAlign.right,
-                                style: GoogleFonts.cairo(fontSize: 12, height: 1.6),
+                                style: GoogleFonts.cairo(
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ],
@@ -127,68 +144,135 @@ class _EmergencyFundScreenState extends State<EmergencyFundScreen> {
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(20),
+                        margin: EdgeInsets.symmetric(horizontal: 12),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.grey.shade200),
+                          border: Border.all(color: Colors.black54, width: 2),
                         ),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("ساهم في صندوق الطوارئ", style: GoogleFonts.cairo(fontSize: 16, fontWeight: FontWeight.bold)),
-                            Text("(جنيه مصري)", style: GoogleFonts.cairo(color: Colors.grey, fontSize: 12)),
+                            Text(
+                              "ساهم في صندوق الطوارئ",
+                              style: GoogleFonts.cairo(
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff393838)
+                              ),
+                            ),
                             const SizedBox(height: 15),
+
+                            Text(
+                              "  مبلغ التبرع (جنيه مصرى)",
+                              style: GoogleFonts.cairo(
+                                color: Color(0xff393838),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400
+                              ),
+                            ),
+                            const SizedBox(height: 8),
                             TextField(
                               controller: amountController,
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
                               decoration: InputDecoration(
-                                hintText: "أدخل مبلغ التبرع",
-                                hintStyle: GoogleFonts.cairo(color: Colors.grey),
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: const EdgeInsets.symmetric(vertical: 15),
-                                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide(color: Colors.grey.shade300)),
-                                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: const BorderSide(color: Color(0xff2F6F4F))),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 15,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: BorderSide(
+                                    color: Color(0xffC4C4C4),
+                                    width: 2
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: BorderSide(
+                                      color: Color(0xffC4C4C4),
+                                      width: 2)
+                                ),
                               ),
                             ),
                             const SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: amounts.map((amount) {
-                                final selected = selectedAmount == amount;
-                                return GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      selectedAmount = amount;
-                                      amountController.text = amount.toString();
-                                    });
-                                  },
-                                  child: Container(
-                                    width: 65,
-                                    height: 45,
-                                    decoration: BoxDecoration(
-                                      color: selected ? const Color(0xff2F6F4F) : Colors.white,
-                                      borderRadius: BorderRadius.circular(25),
-                                      border: Border.all(color: const Color(0xff2F6F4F)),
-                                    ),
-                                    child: Center(
-                                      child: Text(amount.toString(), style: GoogleFonts.cairo(color: selected ? Colors.white : const Color(0xff2F6F4F), fontWeight: FontWeight.bold)),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
+                              children:
+                                  amounts.map((amount) {
+                                    final selected = selectedAmount == amount;
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedAmount = amount;
+                                          amountController.text =
+                                              amount.toString();
+                                        });
+                                      },
+                                      child: Container(
+                                        width: 65,
+                                        height: 65,
+                                        decoration: BoxDecoration(
+                                          color:
+                                              selected
+                                                  ? const Color(0xff2F674D)
+                                                  : Colors.white,
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
+                                          border: Border.all(
+                                            color: const Color(0xff2F674D),
+                                            width: 1.4
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            amount.toString(),
+                                            style: GoogleFonts.cairo(
+                                              color:
+                                                  selected
+                                                      ? Colors.white
+                                                      : const Color(0xff2F6F4F),
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 22
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
                             ),
                             const SizedBox(height: 25),
                             SizedBox(
                               width: double.infinity,
-                              height: 50,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xff2F6F4F),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                  backgroundColor: const Color(0xff2F674D),
+                                  padding: const EdgeInsets.symmetric(vertical: 14),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
                                 ),
-                                onPressed: () {},
-                                child: Text("تبرع الآن", style: GoogleFonts.cairo(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => PaymentScreen(
+                                        initialAmount: int.tryParse(amountController.text),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  "تبرع الآن",
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -198,11 +282,25 @@ class _EmergencyFundScreenState extends State<EmergencyFundScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.info_outline, size: 16, color: Colors.green.shade700),
+                          Icon(
+                            Icons.info_outline,
+                            size: 22,
+                            color: Color(0xff2C7956),
+                          ),
                           const SizedBox(width: 6),
-                          Text("تبرعك آمن ويستخدم للحالات العاجلة فقط", style: GoogleFonts.cairo(fontSize: 12, color: Colors.grey.shade700)),
+                          Text(
+                            "تبرعك آمن ويستخدم للحالات العاجلة فقط",
+                            style: GoogleFonts.cairo(
+                              fontSize: 19,
+                              color: Color(0xff2D2D2D),
+                              fontWeight: FontWeight.w700
+                            ),
+                          ),
                         ],
-                      )
+                      ),
+
+                      const SizedBox(height: 30),
+
                     ],
                   ),
                 ),

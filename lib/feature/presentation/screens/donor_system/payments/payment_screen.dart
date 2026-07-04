@@ -3,7 +3,12 @@ import 'package:aoun/feature/presentation/screens/widget/authentication/auth_bot
 import 'package:flutter/material.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
+  final int? initialAmount;
+
+  const PaymentScreen({
+    super.key,
+    this.initialAmount,
+  });
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -13,7 +18,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
   String? selectedPaymentMethod;
   int? selectedAmount;
 
-  final TextEditingController customAmountController = TextEditingController();
+  final TextEditingController customAmountController =
+  TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    selectedAmount = widget.initialAmount;
+
+    if (selectedAmount != null) {
+      customAmountController.text = selectedAmount.toString();
+    }
+  }
+
+
 
   bool isGift = false;
 

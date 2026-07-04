@@ -188,7 +188,7 @@ class MainApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: child,
         onGenerateRoute: RouteGenerator.getRoute,
-        initialRoute: Routes.charityLoginScreen,
+        initialRoute: Routes.emergencyFundScreen,
       ),
     );
   }
