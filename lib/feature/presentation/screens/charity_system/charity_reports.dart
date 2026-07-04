@@ -17,7 +17,6 @@ class CharityReports extends StatefulWidget {
 }
 
 class _CharityReportsState extends State<CharityReports> {
-
   @override
   void initState() {
     super.initState();
@@ -45,21 +44,15 @@ class _CharityReportsState extends State<CharityReports> {
 
         body: BlocBuilder<DashboardCubit, DashboardState>(
           builder: (context, state) {
-
             if (state is DashboardLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const Center(child: CircularProgressIndicator());
             }
 
             if (state is DashboardError) {
-              return Center(
-                child: Text(state.message),
-              );
+              return Center(child: Text(state.message));
             }
 
             if (state is DashboardSuccess) {
-
               final dashboard = state.dashboard;
 
               return ListView(
@@ -70,7 +63,6 @@ class _CharityReportsState extends State<CharityReports> {
                     crossAxisAlignment: CrossAxisAlignment.start,
 
                     children: [
-
                       /// HEADER
                       Container(
                         height: height * 0.1,
@@ -92,12 +84,11 @@ class _CharityReportsState extends State<CharityReports> {
 
                           child: Row(
                             children: [
-
                               Builder(
                                 builder: (context) {
                                   return InkWell(
-                                    onTap: () =>
-                                        Scaffold.of(context).openDrawer(),
+                                    onTap:
+                                        () => Scaffold.of(context).openDrawer(),
 
                                     child: Image(
                                       image: AssetImage(
@@ -113,8 +104,7 @@ class _CharityReportsState extends State<CharityReports> {
                               SizedBox(width: width * 0.05),
 
                               Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
 
                                 children: [
                                   Text(
@@ -147,11 +137,9 @@ class _CharityReportsState extends State<CharityReports> {
                         padding: EdgeInsets.all(width * 0.04),
 
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
 
                           children: [
-
                             /// today donations
                             infoCard(
                               width,
@@ -159,8 +147,7 @@ class _CharityReportsState extends State<CharityReports> {
 
                               title: "إجمالى التبرعات اليوم",
 
-                              value:
-                              "${dashboard.todayDonations} ج.م",
+                              value: "${dashboard.todayDonations} ج.م",
                             ),
 
                             SizedBox(height: height * 0.03),
@@ -172,8 +159,7 @@ class _CharityReportsState extends State<CharityReports> {
 
                               title: "إجمالى رصيد الجمعية",
 
-                              value:
-                              "${dashboard.emergencyFundBalance} ج.م",
+                              value: "${dashboard.emergencyFundBalance} ج.م",
                             ),
 
                             SizedBox(height: height * 0.03),
@@ -191,7 +177,6 @@ class _CharityReportsState extends State<CharityReports> {
 
                             Row(
                               children: [
-
                                 Expanded(
                                   child: statCard(
                                     width,
@@ -224,7 +209,6 @@ class _CharityReportsState extends State<CharityReports> {
 
                             Row(
                               children: [
-
                                 Expanded(
                                   child: statCard(
                                     width,
@@ -263,7 +247,7 @@ class _CharityReportsState extends State<CharityReports> {
                               title: "النمو الشهرى",
 
                               value:
-                              "%${dashboard.monthlyGrowthPercent} من الشهر الماضى",
+                                  "%${dashboard.monthlyGrowthPercent} من الشهر الماضى",
 
                               showTrend: true,
                             ),
@@ -274,11 +258,9 @@ class _CharityReportsState extends State<CharityReports> {
                             WeeklyChart(
                               title: "التبرعات خلال الفترة",
 
-                              weeklyGrowth:
-                              dashboard.weeklyGrowth,
+                              weeklyGrowth: dashboard.weeklyGrowth,
 
-                              monthlyGrowth:
-                              dashboard.monthlyGrowth,
+                              monthlyGrowth: dashboard.monthlyGrowth,
                             ),
 
                             SizedBox(height: height * 0.03),
@@ -291,7 +273,7 @@ class _CharityReportsState extends State<CharityReports> {
                               title: "صندوق الطوارئ",
 
                               value:
-                              "الرصيد المتاح: ${dashboard.emergencyFundBalance} ج.م",
+                                  "الرصيد المتاح: ${dashboard.emergencyFundBalance} ج.م",
                             ),
 
                             SizedBox(height: height * 0.02),
@@ -305,24 +287,24 @@ class _CharityReportsState extends State<CharityReports> {
                               ),
                             ),
 
-                            const DonationsChart(
-categories: [],
+                            DonationsChart(
+                              categories: dashboard.categoryDistribution,
                             ),
 
                             SizedBox(height: height * 0.02),
 
-                            /// top categories
-                            sectionList(
-                              title: "أكثر الحالات تبرعا",
-                              width: width,
-                              dashboard: dashboard,
-                            ),
+                            /// not exist in backend ??
+                            // sectionList(
+                            //   title: "أكثر الحالات تبرعا",
+                            //   width: width,
+                            //   dashboard: dashboard,
+                            // ),
 
-                            sectionList(
-                              title: "أكثر الحملات تبرعا",
-                              width: width,
-                              dashboard: dashboard,
-                            ),
+                            // sectionList(
+                            //   title: "أكثر الحملات تبرعا",
+                            //   width: width,
+                            //   dashboard: dashboard,
+                            // ),
                           ],
                         ),
                       ),
@@ -340,12 +322,12 @@ categories: [],
   }
 
   Widget infoCard(
-      double width,
-      double height, {
-        required String title,
-        required String value,
-        bool showTrend = false,
-      }) {
+    double width,
+    double height, {
+    required String title,
+    required String value,
+    bool showTrend = false,
+  }) {
     return Container(
       padding: EdgeInsets.all(width * 0.04),
 
@@ -355,30 +337,21 @@ categories: [],
       ),
 
       child: Row(
-        mainAxisAlignment:
-        MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
         children: [
-
           Expanded(
             child: Row(
               children: [
-
-                const Icon(
-                  Icons.info_outline,
-                  color: Colors.white,
-                  size: 25,
-                ),
+                const Icon(Icons.info_outline, color: Colors.white, size: 25),
 
                 SizedBox(width: width * 0.03),
 
                 Expanded(
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
 
                     children: [
-
                       Text(
                         title,
 
@@ -391,18 +364,16 @@ categories: [],
 
                       Row(
                         children: [
-
                           showTrend
                               ? const Directionality(
-                            textDirection:
-                            TextDirection.ltr,
+                                textDirection: TextDirection.ltr,
 
-                            child: Icon(
-                              Icons.trending_up,
-                              color: Colors.white,
-                              size: 10,
-                            ),
-                          )
+                                child: Icon(
+                                  Icons.trending_up,
+                                  color: Colors.white,
+                                  size: 10,
+                                ),
+                              )
                               : const SizedBox(),
 
                           Text(
@@ -424,25 +395,15 @@ categories: [],
 
           const Column(
             children: [
-
               Align(
                 alignment: Alignment.topLeft,
 
-                child: Icon(
-                  Icons.north_west,
-                  color: Colors.white,
-                ),
+                child: Icon(Icons.north_west, color: Colors.white),
               ),
 
               SizedBox(height: 8),
 
-              Text(
-                "عرض التفاصيل",
-
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
+              Text("عرض التفاصيل", style: TextStyle(color: Colors.white)),
             ],
           ),
         ],
@@ -450,16 +411,9 @@ categories: [],
     );
   }
 
-  Widget statCard(
-      double width,
-      String image,
-      String title,
-      String value,
-      ) {
+  Widget statCard(double width, String image, String title, String value) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: width * 0.03,
-      ),
+      padding: EdgeInsets.symmetric(vertical: width * 0.03),
 
       decoration: BoxDecoration(
         color: Colors.white,
@@ -468,7 +422,6 @@ categories: [],
 
       child: Column(
         children: [
-
           Container(
             padding: const EdgeInsets.all(8),
 
@@ -477,10 +430,7 @@ categories: [],
               borderRadius: BorderRadius.circular(45),
             ),
 
-            child: Image(
-              image: AssetImage(image),
-              height: 30,
-            ),
+            child: Image(image: AssetImage(image), height: 30),
           ),
 
           SizedBox(height: width * 0.02),
@@ -518,22 +468,16 @@ categories: [],
       crossAxisAlignment: CrossAxisAlignment.start,
 
       children: [
-
         SizedBox(height: width * 0.04),
 
         Text(
           title,
 
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
-          ),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
         ),
 
         Container(
-          margin: EdgeInsets.symmetric(
-            vertical: width * 0.04,
-          ),
+          margin: EdgeInsets.symmetric(vertical: width * 0.04),
 
           padding: const EdgeInsets.all(16),
 
@@ -541,49 +485,33 @@ categories: [],
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
 
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 10,
-              ),
-            ],
+            boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10)],
           ),
 
           child: ListView.separated(
             shrinkWrap: true,
 
-            physics:
-            const NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
 
-            itemCount:
-            dashboard.categoryDistribution.length,
+            itemCount: dashboard.categoryDistribution.length,
 
-            separatorBuilder:
-                (_, __) => const Divider(),
+            separatorBuilder: (_, __) => const Divider(),
 
             itemBuilder: (_, index) {
-
-              final item =
-              dashboard.categoryDistribution[index];
+              final item = dashboard.categoryDistribution[index];
 
               return ListTile(
                 contentPadding: EdgeInsets.zero,
 
-                leading: const CircleAvatar(
-                  backgroundColor: Color(0xffDAEAE5),
-                ),
+                leading: const CircleAvatar(backgroundColor: Color(0xffDAEAE5)),
 
                 title: Text(
                   item.categoryName,
 
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
 
-                subtitle: Text(
-                  "${item.percentage.toStringAsFixed(1)}%",
-                ),
+                subtitle: Text("${item.percentage.toStringAsFixed(1)}%"),
 
                 trailing: Text(
                   "${item.amount} ج.م",

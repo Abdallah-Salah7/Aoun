@@ -1,3 +1,4 @@
+import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,7 +11,7 @@ class AcceptCharity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Directionality(
+    return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         drawer: const AdminAppDrawer(),
@@ -18,7 +19,6 @@ class AcceptCharity extends StatelessWidget {
 
         body: CustomScrollView(
           slivers: [
-
             SliverAppBar(
               pinned: true,
               automaticallyImplyLeading: false,
@@ -37,15 +37,12 @@ class AcceptCharity extends StatelessWidget {
 
               flexibleSpace: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 22,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 22),
 
                   child: Row(
                     textDirection: TextDirection.rtl,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-
                       /// menu icon
                       Builder(
                         builder: (context) {
@@ -64,7 +61,6 @@ class AcceptCharity extends StatelessWidget {
                       ),
 
                       const SizedBox(width: 22),
-
 
                       /// title
                       Column(
@@ -120,10 +116,6 @@ class AcceptCharity extends StatelessWidget {
                           ),
                         ],
                       ),
-
-
-
-
                     ],
                   ),
                 ),
@@ -135,22 +127,27 @@ class AcceptCharity extends StatelessWidget {
                 children: [
                   AcceptCharityItem(
                     charityName: "جمعية غيث للتنمية المجتمعية",
-                    onDetailsPressed: () {},
+                    onDetailsPressed: () {
+                      Navigator.pushNamed(context, Routes.acceptCharityDetails);
+                    },
                   ),
                   AcceptCharityItem(
                     charityName: "جمعية غيث للتنمية المجتمعية",
-                    onDetailsPressed: () {},
+                    onDetailsPressed: () {
+                      Navigator.pushNamed(context, Routes.detaineeCharity);
+                    },
                   ),
                   AcceptCharityItem(
                     charityName: "جمعية غيث للتنمية المجتمعية",
-                    onDetailsPressed: () {},
+                    onDetailsPressed: () {
+                      Navigator.pushNamed(context, Routes.detaineeCharity);
+                    },
                   ),
 
                   AcceptCharityItem(
                     charityName: "جمعية غيث للتنمية المجتمعية",
                     onDetailsPressed: () {},
                   ),
-
                 ],
               ),
             ),
@@ -158,6 +155,5 @@ class AcceptCharity extends StatelessWidget {
         ),
       ),
     );
-
   }
 }

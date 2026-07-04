@@ -2,7 +2,6 @@ import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:aoun/feature/data/data_sources/api_services.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
@@ -21,24 +20,25 @@ import 'feature/presentation/state_management/cubit/case_cubit.dart';
 import 'feature/presentation/state_management/cubit/dashboard_cubit.dart';
 import 'feature/presentation/state_management/cubit/get_dashboard_stats_usecase.dart';
 import 'feature/presentation/state_management/provider/my_provider.dart';
+
 final getIt = GetIt.instance;
-void main() async{
-   WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
   await ApiServices.loadSavedToken();
   getIt.registerLazySingleton(() => CampApiService());
-  getIt.registerLazySingleton(() => CampaignRepository(getIt<CampApiService>()));
+  getIt.registerLazySingleton(
+    () => CampaignRepository(getIt<CampApiService>()),
+  );
   runApp(
     MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => MyProvider()),
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => MyProvider())],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) => CaseCubit(
-              CaseRepository(CaseApiService()),
-            )..fetchCases(),
+            create:
+                (_) =>
+                    CaseCubit(CaseRepository(CaseApiService()))..fetchCases(),
           ),
           // BlocProvider(
           //   create: (_) => CampaignCubit(
@@ -46,18 +46,19 @@ void main() async{
           //   )..fetchCampaigns(1),
           // ),
           BlocProvider(
-            create: (_) => CampaignCubit(getIt<CampaignRepository>())
-              ..fetchCampaigns(1), // ← مهم جداً
+            create:
+                (_) =>
+                    CampaignCubit(getIt<CampaignRepository>())
+                      ..fetchCampaigns(1), // ← مهم جداً
           ),
           // BlocProvider(
           //   create: (_) => CampaignCubit(getIt<CampaignRepository>()),
           // ),
           BlocProvider(
-            create: (_) => DashboardCubit(
-              GetDashboardStatsUseCase(
-                CharityDashboardService(Dio()),
-              ),
-            )..getDashboardStats(),
+            create:
+                (_) => DashboardCubit(
+                  GetDashboardStatsUseCase(CharityDashboardService(Dio())),
+                )..getDashboardStats(),
           ),
         ],
         child: const MainApp(),
@@ -80,14 +81,14 @@ class MainApp extends StatelessWidget {
       splitScreenMode: true,
       builder:
           (context, child) => MaterialApp(
-        theme: lightTheme.themeData,
-        darkTheme: darkTheme.themeData,
-        themeMode: provider.themeMode,
-        debugShowCheckedModeBanner: false,
-        home: child,
-        onGenerateRoute: RouteGenerator.getRoute,
-        initialRoute: Routes.homeCharity,
-      ),
+            theme: lightTheme.themeData,
+            darkTheme: darkTheme.themeData,
+            themeMode: provider.themeMode,
+            debugShowCheckedModeBanner: false,
+            home: child,
+            onGenerateRoute: RouteGenerator.getRoute,
+            initialRoute: Routes.detaineeCharity,
+          ),
     );
   }
 }

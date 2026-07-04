@@ -20,11 +20,7 @@ class AdminAppDrawer extends StatelessWidget {
           const SizedBox(height: 60),
           CircleAvatar(
             radius: 40, // نص 73
-                child: Icon(
-                  Icons.person,
-                  color: Color(0xff9CA3AF),
-                  size: 36,
-              )
+            child: Icon(Icons.person, color: Color(0xff9CA3AF), size: 36),
           ),
           const SizedBox(height: 15),
 
@@ -82,7 +78,7 @@ class AdminAppDrawer extends StatelessWidget {
                   "الاعدادات",
 
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.setting);
+                    Navigator.pushNamed(context, Routes.adminSettings);
                   },
                 ),
 
@@ -116,9 +112,10 @@ class AdminAppDrawer extends StatelessWidget {
         imagePath,
         width: 28,
         height: 28,
-        color: title == "تسجيل الخروج"
-            ? Color(0xffDC2626)
-            : const Color(0xff6C7072),
+        color:
+            title == "تسجيل الخروج"
+                ? Color(0xffDC2626)
+                : const Color(0xff6C7072),
       ),
 
       title: Text(

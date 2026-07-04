@@ -3,7 +3,15 @@ import 'package:aoun/feature/presentation/screens/widget/authentication/auth_bot
 import 'package:flutter/material.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
+  const PaymentScreen({
+    super.key,
+    required this.isCase,
+    required this.targetId,
+    required this.targetAmount,
+  });
+  final bool isCase;
+  final int targetId;
+  final int targetAmount;
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -19,7 +27,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   final TextEditingController recipientNameController = TextEditingController();
   final TextEditingController recipientPhoneController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController messageController = TextEditingController();
 
   final List<int> amounts = [50, 100, 500, 10];
@@ -56,29 +64,29 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 spacing: 16,
                 runSpacing: 10,
                 children:
-                amounts.map((amt) {
-                  bool isSelected = selectedAmount == amt;
-                  return ChoiceChip(
-                    labelStyle: const TextStyle(color: Color(0xff255A41)),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 3,
-                    ),
-                    color: const WidgetStatePropertyAll(Color(0xffE5EBE9)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      side: const BorderSide(color: Color(0xff255A41)),
-                    ),
-                    label: Text('$amt'),
-                    selected: isSelected,
-                    onSelected: (selected) {
-                      setState(() {
-                        selectedAmount = selected ? amt : null;
-                        customAmountController.clear();
-                      });
-                    },
-                  );
-                }).toList(),
+                    amounts.map((amt) {
+                      bool isSelected = selectedAmount == amt;
+                      return ChoiceChip(
+                        labelStyle: const TextStyle(color: Color(0xff255A41)),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 3,
+                        ),
+                        color: const WidgetStatePropertyAll(Color(0xffE5EBE9)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          side: const BorderSide(color: Color(0xff255A41)),
+                        ),
+                        label: Text('$amt'),
+                        selected: isSelected,
+                        onSelected: (selected) {
+                          setState(() {
+                            selectedAmount = selected ? amt : null;
+                            customAmountController.clear();
+                          });
+                        },
+                      );
+                    }).toList(),
               ),
               const SizedBox(height: 12),
               const Text(
@@ -196,21 +204,95 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 onTap: () {
                   int? finalAmount;
 
+                  /// 1- VALIDATION: AMOUNT
                   if (selectedAmount != null) {
                     finalAmount = selectedAmount;
-                  } else if (customAmountController.text.isNotEmpty) {
-                    finalAmount = int.tryParse(customAmountController.text);
+                  } else if (customAmountController.text.trim().isNotEmpty) {
+                    finalAmount = int.tryParse(
+                      customAmountController.text.trim(),
+                    );
                   }
-                  if (finalAmount == null || finalAmount <= 0) {
+
+                  /// لم يدخل مبلغ
+                  if (finalAmount == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("من فضلك أدخل مبلغ صحيح")),
+                      const SnackBar(content: Text("من فضلك أدخل مبلغ التبرع")),
                     );
                     return;
                   }
+
+                  /// المبلغ صفر أو سالب
+                  if (finalAmount <= 0) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("يجب أن يكون مبلغ التبرع أكبر من صفر"),
+                      ),
+                    );
+                    return;
+                  }
+
+                  /// أكبر من المطلوب
+                  if (finalAmount > widget.targetAmount) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "لا يمكن التبرع بأكثر من ${widget.targetAmount.toInt()} جنيه",
+                        ),
+                      ),
+                    );
+                    return;
+                  }
+
+                  /// 2- VALIDATION: PAYMENT METHOD
+                  if (selectedPaymentMethod == null ||
+                      selectedPaymentMethod!.trim().isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("من فضلك اختر طريقة الدفع")),
+                    );
+                    return;
+                  }
+
+                  /// 3- VALIDATION: GIFT MODE
+                  if (isGift) {
+                    final name = recipientNameController.text.trim();
+                    final phone = recipientPhoneController.text.trim();
+
+                    if (name.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("من فضلك أدخل اسم المستلم"),
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (phone.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("من فضلك أدخل رقم المستلم"),
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (phone.length < 10) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("رقم الهاتف غير صحيح")),
+                      );
+                      return;
+                    }
+                  }
+
+                  /// 4- SUCCESS NAVIGATION
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => CreditDetails(amount: finalAmount!),
+                      builder:
+                          (_) => CreditDetails(
+                            amount: finalAmount!,
+                            targetId: widget.targetId,
+                            targetType: widget.isCase ? "Case" : "Campaign",
+                          ),
                     ),
                   );
                 },
@@ -223,10 +305,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildGiftField(
-      String label,
-      TextEditingController controller, {
-        int maxLines = 1,
-      }) {
+    String label,
+    TextEditingController controller, {
+    int maxLines = 1,
+  }) {
     return SizedBox(
       width: double.infinity,
       height: maxLines == 1 ? 35 : 65,

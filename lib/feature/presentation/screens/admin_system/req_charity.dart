@@ -1,3 +1,4 @@
+import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:aoun/feature/presentation/screens/admin_system/req_charity_item.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +11,7 @@ class ReqCharity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Directionality(
+    return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         drawer: const AdminAppDrawer(),
@@ -18,7 +19,6 @@ class ReqCharity extends StatelessWidget {
 
         body: CustomScrollView(
           slivers: [
-
             SliverAppBar(
               pinned: true,
               automaticallyImplyLeading: false,
@@ -37,15 +37,12 @@ class ReqCharity extends StatelessWidget {
 
               flexibleSpace: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 22,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 22),
 
                   child: Row(
                     textDirection: TextDirection.rtl,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-
                       /// menu icon
                       Builder(
                         builder: (context) {
@@ -64,7 +61,6 @@ class ReqCharity extends StatelessWidget {
                       ),
 
                       const SizedBox(width: 22),
-
 
                       /// title
                       Column(
@@ -120,10 +116,6 @@ class ReqCharity extends StatelessWidget {
                           ),
                         ],
                       ),
-
-
-
-
                     ],
                   ),
                 ),
@@ -137,7 +129,7 @@ class ReqCharity extends StatelessWidget {
                     charityName: "جمعية غيث للتنمية المجتمعية",
                     applicationDate: "12/11/2026",
                     onDetailsPressed: () {
-                      // Navigate to details screen
+                      Navigator.pushNamed(context, Routes.reqCharityReview);
                     },
                   ),
                   ReqCharityItem(
@@ -158,13 +150,11 @@ class ReqCharity extends StatelessWidget {
                     charityName: "جمعية غيث للتنمية المجتمعية",
                     applicationDate: "12/11/2026",
                     onDetailsPressed: () {
-                      // Navigate to details screen
+                      Navigator.pushNamed(context, Routes.reqCharityReview);
                     },
                   ),
-
                 ],
               ),
-
             ),
           ],
         ),

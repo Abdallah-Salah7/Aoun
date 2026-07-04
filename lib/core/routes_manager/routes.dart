@@ -71,4 +71,12 @@ class Routes {
   static const String setting = "/setting";
   static const String adminLoginScreen = "/adminLoginScreen";
   static const String loginToCompleteDataScreen = "/loginToCompleteDataScreen";
+  static const String charitySettingsScreen = "/charitySettingsScreen";
+  static const String charityInfoScreen = "/charityInfoScreen";
+  static const String privacyAndSafetyScreen = "/privacyAndSafetyScreen";
+  static const String reqCharityReview = "/reqCharityReview";
+  static const String acceptCharityDetails = "/acceptCharityDetails";
+  static const String detaineeCharity = "/detaineeCharity";
+  static const String rejectedCharity = "/rejectedCharity";
+  static const String adminSettings = "/adminSettings";
 }

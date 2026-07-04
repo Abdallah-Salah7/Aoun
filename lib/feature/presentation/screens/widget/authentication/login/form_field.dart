@@ -10,7 +10,6 @@ class CustomFormField extends StatefulWidget {
   final bool? filled;
   final TextEditingController? controller;
   final VoidCallback? onTap;
-
   const CustomFormField({
     super.key,
     required this.label,
