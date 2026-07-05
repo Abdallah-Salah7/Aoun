@@ -77,7 +77,7 @@ class AppDrawer extends StatelessWidget {
                   ImageAssets.chatIcon,
                   "مساعد عون",
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.chatbotWelcomeScreen);
+                    Navigator.pushNamed(context, Routes.chatBotScreen);
                   },
                 ),
                 _buildDrawerItem(

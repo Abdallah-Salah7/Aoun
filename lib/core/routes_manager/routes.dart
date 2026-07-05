@@ -80,4 +80,5 @@ class Routes {
   static const String detaineeCharity = "/detaineeCharity";
   static const String rejectedCharity = "/rejectedCharity";
   static const String adminSettings = "/adminSettings";
+  static const String chatBotScreen = "/chatBotScreen";
 }

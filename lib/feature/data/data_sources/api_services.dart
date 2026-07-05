@@ -11,6 +11,27 @@ class ApiServices {
     ),
   );
 
+  static final Dio aiDio = Dio(
+    BaseOptions(
+      baseUrl: "https://abdallah-salah-aoun-ai-engine.hf.space",
+      headers: {
+        "Content-Type": "application/json",
+        "accept": "application/json",
+      },
+    ),
+  );
+
+  static Future<String> askAdmin(String question) async {
+    final response = await aiDio.post(
+      "/api/ai/user-chat",
+      data: {
+        "question": question,
+      },
+    );
+
+    return response.data["answer"];
+  }
+
   /// ================= INIT TOKEN =================
   static Future<void> setToken(String token) async {
     dio.options.headers['Authorization'] = 'Bearer $token';
@@ -21,8 +42,8 @@ class ApiServices {
 
     final token =
         prefs.getString("charityToken") ??
-        prefs.getString("donorToken") ??
-        prefs.getString("adminToken");
+            prefs.getString("donorToken") ??
+            prefs.getString("adminToken");
 
     if (token != null) {
       await setToken(token);
@@ -100,70 +121,75 @@ class ApiServices {
     return prefs.getString("charityToken");
   }
 
-  /// ================= Donor =================
-  static Future<Response> searchCases({required String keyword}) async {
-    return await dio.get(
-      "/api/Cases/search",
-      queryParameters: {
-        "status": "all",
-        "keyword": keyword,
-        "page": 1,
-        "pageSize": 10,
-      },
-    );
-  }
 
-  static Future<Response> getNotifications() async {
-    return await dio.get('/api/Notifications');
-  }
-
-  static Future<Response> createDonation({
-    required String donorName,
-    required double amount,
-    required int targetId,
-    required String targetType,
-  }) {
-    return dio.post(
-      "/api/Donations",
-      data: {
-        "donorName": donorName,
-        "amount": amount,
-        "targetType": targetType,
-        "targetId": targetId,
-        "isGift": false,
-        "giftReceiverName": "",
-        "giftReceiverPhone": "",
-        "giftMessage": "",
-      },
-    );
-  }
-
-  static Future<Response> payDonation({
-    required int donationId,
-    required String cardNumber,
-    required String expiryDate,
-    required String cvv,
-    required String cardHolderName,
-  }) {
-    return dio.post(
-      "/api/Donations/pay",
-      data: {
-        "donationId": donationId,
-        "paymentMethod": "credit",
-        "cardNumber": cardNumber,
-        "expiryDate": expiryDate,
-        "cvv": cvv,
-        "cardHolderName": cardHolderName,
-      },
-    );
-  }
-
-  Future<Map<String, dynamic>> calculateZakat(ZakatModel request) async {
-    final response = await dio.post(
-      '/api/zakat/calculate',
-      data: request.toJson(),
-    );
-
-    return response.data;
-  }
+/// ================= Donor =================
+static Future<Response> searchCases({required String keyword}) async {
+return await dio.get(
+"/api/Cases/search",
+queryParameters: {
+"status": "all",
+"keyword": keyword,
+"page": 1,
+"pageSize": 10,
+},
+);
 }
+
+static Future<Response> getNotifications() async {
+return await dio.get('/api/Notifications');
+}
+
+static Future<Response> createDonation({
+required String donorName,
+required double amount,
+required int targetId,
+required String targetType,
+}) {
+return dio.post(
+"/api/Donations",
+data: {
+"donorName": donorName,
+"amount": amount,
+"targetType": targetType,
+"targetId": targetId,
+"isGift": false,
+"giftReceiverName": "",
+"giftReceiverPhone": "",
+"giftMessage": "",
+},
+);
+}
+
+static Future<Response> payDonation({
+required int donationId,
+required String cardNumber,
+required String expiryDate,
+required String cvv,
+required String cardHolderName,
+}) {
+return dio.post(
+"/api/Donations/pay",
+data: {
+"donationId": donationId,
+"paymentMethod": "credit",
+"cardNumber": cardNumber,
+"expiryDate": expiryDate,
+"cvv": cvv,
+"cardHolderName": cardHolderName,
+},
+);
+}
+
+Future<Map<String, dynamic>> calculateZakat(ZakatModel request) async {
+final response = await dio.post(
+'/api/zakat/calculate',
+data: request.toJson(),
+);
+
+return response.data;
+}
+}
+
+
+
+

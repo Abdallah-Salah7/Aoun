@@ -10,8 +10,7 @@ import 'package:aoun/feature/presentation/screens/charity_system/charity_profile
 import 'package:aoun/feature/presentation/screens/charity_system/charity_profile/charity_settings.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/charity_profile/privacy_and_safty.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/charity_reports.dart';
-import 'package:aoun/feature/presentation/screens/charity_system/chatbot/ask_screen.dart';
-import 'package:aoun/feature/presentation/screens/charity_system/chatbot/welcome_screen.dart';
+import 'package:aoun/feature/presentation/screens/charity_system/chatbot/chatbot_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/charity/login_to_complete_data.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/zakat_screen.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/charity/login_screen.dart';
@@ -224,13 +223,18 @@ class RouteGenerator {
 
       case Routes.charityReportsScreen:
         return MaterialPageRoute(builder: (_) => const CharityReports());
-      case Routes.chatbotWelcomeScreen:
-        return MaterialPageRoute(builder: (_) => const WelcomeScreen());
-      case Routes.chatbotAskScreen:
-        final question = argument as String;
-        return MaterialPageRoute(builder: (_) => AskScreen(question: question));
+      // case Routes.chatbotWelcomeScreen:
+      //   return MaterialPageRoute(builder: (_) => const WelcomeScreen());
+      // case Routes.chatbotAskScreen:
+      //   final question = argument as String;
+      //   return MaterialPageRoute(builder: (_) => AskScreen(question: question));
       case Routes.charitySettingsScreen:
         return MaterialPageRoute(builder: (_) => const CharitySettings());
+      case Routes.chatBotScreen:
+        return MaterialPageRoute(builder: (_) => const ChatbotScreen());
+
+      // case Routes.charityProfScreen:
+      //   return MaterialPageRoute(builder: (_) => const CharityProf());
       case Routes.adminHome:
         return MaterialPageRoute(builder: (_) => const AdminHome());
       case Routes.charityInfoScreen:
