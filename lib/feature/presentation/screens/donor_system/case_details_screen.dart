@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:aoun/feature/data/models/payment_args.dart';
 import 'package:aoun/feature/presentation/screens/donor_system/saved_cases_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,8 +69,9 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
             return const Center(child: Text("لا توجد بيانات"));
           }
 
-          final Map<String, dynamic> data =
-          Map<String, dynamic>.from(snapshot.data!.data);
+          final Map<String, dynamic> data = Map<String, dynamic>.from(
+            snapshot.data!.data,
+          );
 
           print("CASE DETAILS = $data");
           final String charityName = data["charityName"] ?? "";
@@ -83,6 +85,8 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
 
           final double required =
               (data["requiredAmount"] as num?)?.toDouble() ?? 0.0;
+
+          final double remaining = required - collected;
 
           final bool isCompleted = data["isCompleted"] ?? false;
 
@@ -439,6 +443,12 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                                         Navigator.pushNamed(
                                           context,
                                           Routes.paymentScreen,
+                                          arguments: PaymentArgs(
+                                            isCase: true,
+                                            targetId: widget.caseId,
+                                            amount: remaining.toInt(),
+                                            targetType: "Case",
+                                          ),
                                         );
                                       },
                                       child: Text(

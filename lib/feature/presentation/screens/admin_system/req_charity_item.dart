@@ -1,7 +1,9 @@
+import 'package:aoun/feature/presentation/screens/admin_system/request_charity_review.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import 'detainee_charity.dart';
 
 class ReqCharityItem extends StatelessWidget {
   final String charityName;
@@ -98,7 +100,14 @@ class ReqCharityItem extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: onDetailsPressed,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const RequestCharityReview(),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff1F6A43),
                     foregroundColor: Colors.white,
@@ -107,6 +116,7 @@ class ReqCharityItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
+
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

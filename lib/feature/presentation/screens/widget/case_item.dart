@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/routes_manager/routes.dart';
+import '../../../data/models/payment_args.dart';
 import '../../../domain/entities/case_entity.dart';
 import '../donor_system/case_details_screen.dart';
 
@@ -20,6 +21,7 @@ class CaseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isCompleted = caseEntity.isReallyCompleted;
+    final remaining = caseEntity.requiredAmount - caseEntity.collectedAmount;
 
     print("Case Image = ${caseEntity.imageUrl}");
 
@@ -198,7 +200,9 @@ class CaseItem extends StatelessWidget {
                 )
                     : SizedBox(
                   width: double.infinity,
+
                   child: ElevatedButton(
+
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff2F674D),
                       padding: const EdgeInsets.symmetric(vertical: 14),
@@ -210,8 +214,15 @@ class CaseItem extends StatelessWidget {
                       Navigator.pushNamed(
                         context,
                         Routes.paymentScreen,
+                        arguments: PaymentArgs(
+                          isCase: true,
+                          targetId: caseEntity.id,
+                          amount: remaining.toInt(),
+                          targetType: "Case",
+                        ),
                       );
                     },
+
                     child: Text(
                       "تبرع الآن",
                       style: GoogleFonts.manrope(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/routes_manager/routes.dart';
+import '../../../data/models/payment_args.dart';
 import '../../../domain/entities/case_entity.dart';
 import '../../../domain/entities/donor_case_entity.dart';
 import '../donor_system/case_details_screen.dart';
@@ -20,6 +21,8 @@ class DonorCaseItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final remaining = donorCaseEntity.requiredAmount - donorCaseEntity.collectedAmount;
+
     final isCompleted =
         donorCaseEntity.collectedAmount >= donorCaseEntity.requiredAmount;
     print("Case Image = ${donorCaseEntity.imageUrl}");
@@ -211,8 +214,15 @@ class DonorCaseItem extends StatelessWidget {
                       Navigator.pushNamed(
                         context,
                         Routes.paymentScreen,
+                        arguments: PaymentArgs(
+                          isCase: true,
+                          targetId:donorCaseEntity.id,
+                          amount: remaining.toInt(),
+                          targetType: "Case",
+                        ),
                       );
                     },
+
                     child: Text(
                       "تبرع الآن",
                       style: GoogleFonts.manrope(

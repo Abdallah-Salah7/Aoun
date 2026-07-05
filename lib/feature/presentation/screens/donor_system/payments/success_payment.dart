@@ -3,7 +3,8 @@ import 'package:aoun/feature/presentation/screens/widget/authentication/auth_bot
 import 'package:flutter/material.dart';
 
 class SuccessPaymentScreen extends StatelessWidget {
-  const SuccessPaymentScreen({super.key});
+  final int amount;
+  const SuccessPaymentScreen({super.key, required this.amount});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +80,7 @@ class SuccessPaymentScreen extends StatelessWidget {
                       Directionality(
                         textDirection: TextDirection.rtl,
                         child: Text(
-                          "100 جنيه",
+                          "$amount جنيه",
                           style: TextStyle(
                             fontSize: size.width * 0.07,
                             fontWeight: FontWeight.bold,

@@ -4,46 +4,32 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
+import '../../../data/models/payment_args.dart';
+import '../../../domain/entities/camp_entity.dart';
 
 class CampaignItem extends StatelessWidget {
-  final String image;
-  final String title;
-  final String description;
-  final double rateValue;
-  final String collectedValue;
-  final String allValue;
-  final DateTime? startDate;
-  final DateTime? endDate;
-  final int daysLeft;
-  final int donorsCount;
-  final int campaignId;
+  final CampaignEntity campEntity;
+
 
   const CampaignItem({
     super.key,
-    required this.image,
-    required this.title,
-    required this.description,
-    required this.rateValue,
-    required this.collectedValue,
-    required this.allValue,
-    required this.startDate,
-    required this.endDate,
-    required this.daysLeft,
-    required this.donorsCount,
-    required this.campaignId,
+    required this.campEntity,
+
   });
 
-  bool get isFileImage => image.startsWith('/') || image.startsWith('file://');
-  bool get isNetworkImage => image.startsWith('http');
+  bool get isFileImage => campEntity.imageUrl.startsWith('/') || campEntity.imageUrl.startsWith('file://');
+  bool get isNetworkImage => campEntity.imageUrl.startsWith('http');
 
   @override
   Widget build(BuildContext context) {
+    final remaining = campEntity.requiredAmount - campEntity.collectedAmount;
+
     return InkWell(
       onTap: () {
         Navigator.pushNamed(
           context,
           Routes.campaignDetails,
-          arguments: campaignId,
+          arguments: campEntity.id,
         );
       },
       child: Padding(
@@ -63,20 +49,20 @@ class CampaignItem extends StatelessWidget {
                 child:
                     isNetworkImage
                         ? Image.network(
-                          image,
+                      campEntity.imageUrl,
                           width: double.infinity,
                           height: 180,
                           fit: BoxFit.cover,
                         )
                         : (isFileImage
                             ? Image.file(
-                              File(image),
+                              File(campEntity.imageUrl),
                               width: double.infinity,
                               height: 180,
                               fit: BoxFit.cover,
                             )
                             : Image.asset(
-                              image,
+                      campEntity.imageUrl,
                               width: double.infinity,
                               height: 180,
                               fit: BoxFit.cover,
@@ -92,7 +78,7 @@ class CampaignItem extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        title,
+                        campEntity.title,
                         style: GoogleFonts.saira(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -112,7 +98,7 @@ class CampaignItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "${daysLeft} يوم متبقى",
+                          "${campEntity.daysLeft} يوم متبقى",
                           style: GoogleFonts.manrope(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
@@ -130,7 +116,7 @@ class CampaignItem extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: LinearProgressIndicator(
-                    value: rateValue.clamp(0.0, 1.0),
+                    value: campEntity.rateValue.clamp(0.0, 1.0),
                     minHeight: 8,
                     backgroundColor: const Color(0xffD9D9D9),
                     color: const Color(0xff255A41),
@@ -144,7 +130,7 @@ class CampaignItem extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "تم جمع $collectedValue ج.م",
+                      "تم جمع ${campEntity.collectedAmount} ج.م",
                       style: GoogleFonts.manrope(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
@@ -153,7 +139,7 @@ class CampaignItem extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      "من $allValue",
+                      "من ${campEntity.requiredAmount}",
                       style: GoogleFonts.manrope(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
@@ -177,9 +163,19 @@ class CampaignItem extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    onPressed:
-                        () =>
-                            Navigator.pushNamed(context, Routes.paymentScreen),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        Routes.paymentScreen,
+                        arguments: PaymentArgs(
+                          isCase: false,
+                          targetId: campEntity.id,
+                          amount: remaining.toInt(),
+                          targetType: "Campaign",
+                        ),
+                      );
+                    },
+
                     child: Text(
                       "تبرع الآن",
                       style: GoogleFonts.manrope(
@@ -198,7 +194,7 @@ class CampaignItem extends StatelessWidget {
   }
 
   int getRemainingDays() {
-    final date = endDate;
+    final date = campEntity.endDate;
     if (date == null) return 0;
 
     final now = DateTime.now();

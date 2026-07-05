@@ -313,19 +313,10 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                               itemBuilder: (context, index) {
                                 final campaign = campaigns[index];
 
-                       return CampaignItem(
-                                  campaignId: campaign.id,
-                                  image: campaign.imageUrl,
-                                  title: campaign.title,
-                                  rateValue: campaign.rateValue,
-                                  collectedValue: campaign.collectedAmount.toString(),
-                                  allValue: campaign.requiredAmount.toString(),
-                                  description: campaign.description,
-                                  startDate: campaign.startDate,
-                                  endDate: campaign.endDate,
-                                  daysLeft: campaign.daysLeft,
-                                  donorsCount: campaign.donorsCount,
-                                );               },
+
+                                return CampaignItem(
+                                  campEntity: campaign,
+                                );              },
                             );
                           }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/routes_manager/routes.dart';
+import '../../../data/models/payment_args.dart';
 
 class EmergencyFundScreen extends StatefulWidget {
   const EmergencyFundScreen({super.key});
@@ -255,15 +256,18 @@ class _EmergencyFundScreenState extends State<EmergencyFundScreen> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  Navigator.push(
+                                  Navigator.pushNamed(
                                     context,
-                                    MaterialPageRoute(
-                                      builder: (_) => PaymentScreen(
-                                        initialAmount: int.tryParse(amountController.text),
-                                      ),
+                                    Routes.paymentScreen,
+                                    arguments: PaymentArgs(
+                                      isCase: true, // أو false حسب طبيعة خزنة الطوارئ
+                                      targetId: 0,
+                                      amount: int.tryParse(amountController.text) ?? 0,
+                                      targetType: "EmergencyFund",
                                     ),
                                   );
                                 },
+
                                 child: Text(
                                   "تبرع الآن",
                                   style: GoogleFonts.manrope(

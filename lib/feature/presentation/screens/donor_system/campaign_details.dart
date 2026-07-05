@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:aoun/feature/data/models/payment_args.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,10 +12,7 @@ import '../../../data/data_sources/favorite_api_service.dart';
 class CampaignDetails extends StatefulWidget {
   final int campaignId;
 
-  const CampaignDetails({
-    super.key,
-    required this.campaignId,
-  });
+  const CampaignDetails({super.key, required this.campaignId});
 
   @override
   State<CampaignDetails> createState() => _CampaignDetailsState();
@@ -53,11 +51,8 @@ class _CampaignDetailsState extends State<CampaignDetails> {
       body: FutureBuilder(
         future: campaignFuture,
         builder: (context, snapshot) {
-          if (snapshot.connectionState ==
-              ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -72,9 +67,7 @@ class _CampaignDetailsState extends State<CampaignDetails> {
           if (!snapshot.hasData ||
               snapshot.data == null ||
               snapshot.data!.data == null) {
-            return const Center(
-              child: Text("لا توجد بيانات"),
-            );
+            return const Center(child: Text("لا توجد بيانات"));
           }
 
           final data = snapshot.data!.data;
@@ -87,20 +80,16 @@ class _CampaignDetailsState extends State<CampaignDetails> {
           final int donorsCount =
               data["donorsCount"] ?? 0;
 
-          final int daysLeft =
-              data["daysLeft"] ?? 0;
 
-          final num collected =
-              data["collectedAmount"] ?? 0;
+          final int daysLeft = data["daysLeft"] ?? 0;
 
-          final num required =
-              data["requiredAmount"] ?? 1;
+          final double collected = data["collectedAmount"] ?? 0;
+
+          final double required = data["requiredAmount"] ?? 1;
+          final double remaining = required - collected;
 
           final double rateValue =
-          (collected / required)
-              .clamp(0.0, 1.0)
-              .toDouble();
-
+          (collected / required).clamp(0.0, 1.0).toDouble();
 
           return ListView(
             children: [
@@ -118,15 +107,10 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                           Row(
                             children: [
                               Container(
-                                margin:
-                                const EdgeInsets.all(8),
+                                margin: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color:
-                                  const Color(0xff387056),
-                                  borderRadius:
-                                  BorderRadius.circular(
-                                    45,
-                                  ),
+                                  color: const Color(0xff387056),
+                                  borderRadius: BorderRadius.circular(45),
                                 ),
                                 child: IconButton(
                                   onPressed: () {
@@ -143,15 +127,10 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                               const Spacer(),
 
                               Container(
-                                margin:
-                                const EdgeInsets.all(8),
+                                margin: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color:
-                                  const Color(0xff387056),
-                                  borderRadius:
-                                  BorderRadius.circular(
-                                    45,
-                                  ),
+                                  color: const Color(0xff387056),
+                                  borderRadius: BorderRadius.circular(45),
                                 ),
                                 child: IconButton(
                                   onPressed: () async {
@@ -159,9 +138,14 @@ class _CampaignDetailsState extends State<CampaignDetails> {
 
                                     try {
                                       if (isSaved) {
-                                        await service.removeCampaignFromFavorites(widget.campaignId);
+                                        await service
+                                            .removeCampaignFromFavorites(
+                                          widget.campaignId,
+                                        );
                                       } else {
-                                        await service.addCampaignToFavorites(widget.campaignId);
+                                        await service.addCampaignToFavorites(
+                                          widget.campaignId,
+                                        );
                                       }
 
                                       await checkSaved(); // 🔥 يرجّع الحالة من السيرفر
@@ -172,12 +156,10 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                                   icon: Icon(
                                     isSaved
                                         ? Icons.bookmark
-                                        : Icons
-                                        .bookmark_border,
+                                        : Icons.bookmark_border,
                                     color: Colors.white,
                                     size: 30,
                                   ),
-
                                 ),
                               ),
                             ],
@@ -189,20 +171,14 @@ class _CampaignDetailsState extends State<CampaignDetails> {
 
                       /// TITLE
                       Padding(
-                        padding:
-                        const EdgeInsets.symmetric(
-                          horizontal: 18,
-                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 18),
                         child: Align(
-                          alignment:
-                          Alignment.centerRight,
+                          alignment: Alignment.centerRight,
                           child: Text(
                             title,
-                            style:
-                            GoogleFonts.cairo(
+                            style: GoogleFonts.cairo(
                               fontSize: 20,
-                              fontWeight:
-                              FontWeight.bold,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -212,117 +188,73 @@ class _CampaignDetailsState extends State<CampaignDetails> {
 
                       /// INFO CARD
                       Container(
-                        margin:
-                        const EdgeInsets.all(18),
-                        padding:
-                        const EdgeInsets.all(12),
+                        margin: const EdgeInsets.all(18),
+                        padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius:
-                          BorderRadius.circular(
-                            15,
-                          ),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         child: Column(
                           children: [
                             Row(
                               children: [
-                                Image.asset(
-                                  ImageAssets.iconDate,
-                                  width: 30,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
+                                Image.asset(ImageAssets.iconDate, width: 30),
+                                const SizedBox(width: 10),
                                 Text(
                                   "$daysLeft يوم متبقي",
-                                  style:
-                                  GoogleFonts.manrope(
+                                  style: GoogleFonts.manrope(
                                     fontSize: 16,
-                                    fontWeight:
-                                    FontWeight.bold,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ],
                             ),
 
-                            const SizedBox(
-                              height: 15,
-                            ),
+                            const SizedBox(height: 15),
 
                             ClipRRect(
-                              borderRadius:
-                              BorderRadius.circular(
-                                10,
-                              ),
-                              child:
-                              LinearProgressIndicator(
+                              borderRadius: BorderRadius.circular(10),
+                              child: LinearProgressIndicator(
                                 value: rateValue,
                                 minHeight: 8,
-                                backgroundColor:
-                                const Color(
-                                  0xffD9D9D9,
-                                ),
-                                color:
-                                const Color(
-                                  0xff255A41,
-                                ),
+                                backgroundColor: const Color(0xffD9D9D9),
+                                color: const Color(0xff255A41),
                               ),
                             ),
 
-                            const SizedBox(
-                              height: 15,
-                            ),
+                            const SizedBox(height: 15),
 
                             Row(
                               children: [
                                 Text(
                                   "تم جمع $collected ج.م",
-                                  style:
-                                  GoogleFonts.manrope(
-                                    fontWeight:
-                                    FontWeight.bold,
-                                    color:
-                                    const Color(
-                                      0xff255A41,
-                                    ),
+                                  style: GoogleFonts.manrope(
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xff255A41),
                                   ),
                                 ),
                                 const Spacer(),
                                 Text(
                                   "من $required",
-                                  style:
-                                  GoogleFonts.manrope(
-                                    fontWeight:
-                                    FontWeight.bold,
-                                    color:
-                                    Colors.grey,
+                                  style: GoogleFonts.manrope(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
                                   ),
                                 ),
                               ],
                             ),
 
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10),
 
                             Row(
                               children: [
-                                Image.asset(
-                                  ImageAssets.vector,
-                                  width: 20,
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
+                                Image.asset(ImageAssets.vector, width: 20),
+                                const SizedBox(width: 8),
                                 Text(
                                   "$donorsCount متبرع",
-                                  style:
-                                  GoogleFonts.manrope(
-                                    fontWeight:
-                                    FontWeight.bold,
-                                    color:
-                                    Colors.grey,
+                                  style: GoogleFonts.manrope(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
                                   ),
                                 ),
                               ],
@@ -333,44 +265,32 @@ class _CampaignDetailsState extends State<CampaignDetails> {
 
                       /// DESCRIPTION
                       Container(
-                        margin:
-                        const EdgeInsets.all(18),
-                        padding:
-                        const EdgeInsets.all(18),
+                        margin: const EdgeInsets.all(18),
+                        padding: const EdgeInsets.all(18),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius:
-                          BorderRadius.circular(
-                            15,
-                          ),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "تفاصيل الحملة",
-                              style:
-                              GoogleFonts.manrope(
+                              style: GoogleFonts.manrope(
                                 fontSize: 22,
-                                fontWeight:
-                                FontWeight.bold,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
 
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10),
 
                             Text(
                               description.isEmpty
                                   ? "لا يوجد وصف متاح"
                                   : description,
-                              style:
-                              GoogleFonts.manrope(
+                              style: GoogleFonts.manrope(
                                 fontSize: 16,
-                                color:
-                                Colors.grey[700],
+                                color: Colors.grey[700],
                               ),
                             ),
                           ],
@@ -387,73 +307,47 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                           );
                         },
                         child: Container(
-                          margin:
-                          const EdgeInsets.all(
-                            18,
-                          ),
-                          padding:
-                          const EdgeInsets.all(
-                            12,
-                          ),
+                          margin: const EdgeInsets.all(18),
+                          padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius:
-                            BorderRadius.circular(
-                              15,
-                            ),
+                            borderRadius: BorderRadius.circular(15),
                           ),
                           child: Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "مقدمة من",
-                                style:
-                                GoogleFonts.manrope(
+                                style: GoogleFonts.manrope(
                                   fontSize: 20,
-                                  fontWeight:
-                                  FontWeight.bold,
-                                  color:
-                                  Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
                                 ),
                               ),
 
-                              const SizedBox(
-                                height: 10,
-                              ),
+                              const SizedBox(height: 10),
 
                               Row(
                                 children: [
                                   ClipRRect(
-                                    borderRadius:
-                                    BorderRadius
-                                        .circular(
-                                      40,
-                                    ),
+                                    borderRadius: BorderRadius.circular(40),
                                     child: Image.asset(
-                                      ImageAssets
-                                          .ghaith,
+                                      ImageAssets.ghaith,
                                       width: 60,
                                       height: 60,
-                                      fit:
-                                      BoxFit.cover,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
 
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
+                                  const SizedBox(width: 10),
 
                                   Text(
-          charityName,
+                                    charityName,
                                     style:
                                     GoogleFonts
                                         .manrope(
                                       fontSize: 18,
-                                      fontWeight:
-                                      FontWeight
-                                          .bold,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ],
@@ -465,51 +359,35 @@ class _CampaignDetailsState extends State<CampaignDetails> {
 
                       /// DONATE BUTTON
                       Padding(
-                        padding:
-                        const EdgeInsets.all(18),
+                        padding: const EdgeInsets.all(18),
                         child: SizedBox(
-                          width:
-                          double.infinity,
+                          width: double.infinity,
                           child: ElevatedButton(
-                            style:
-                            ElevatedButton
-                                .styleFrom(
-                              backgroundColor:
-                              const Color(
-                                0xff2F674D,
-                              ),
-                              foregroundColor:
-                              Colors.white,
-                              padding:
-                              const EdgeInsets
-                                  .symmetric(
-                                vertical: 14,
-                              ),
-                              shape:
-                              RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius
-                                    .circular(
-                                  20,
-                                ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff2F674D),
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
                               ),
                             ),
                             onPressed: () {
                               Navigator.pushNamed(
                                 context,
-                                Routes
-                                    .paymentScreen,
+                                Routes.paymentScreen,
+                                arguments: PaymentArgs(
+                                  isCase: false,
+                                  targetId: widget.campaignId,
+                                  amount: remaining.toInt(),
+                                  targetType: "Campaign",
+                                ),
                               );
                             },
                             child: Text(
                               "تبرع الآن",
-                              style:
-                              GoogleFonts
-                                  .manrope(
+                              style: GoogleFonts.manrope(
                                 fontSize: 22,
-                                fontWeight:
-                                FontWeight
-                                    .bold,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -537,9 +415,7 @@ class _CampaignDetailsState extends State<CampaignDetails> {
             (_, __, ___) => Container(
           height: 292,
           color: Colors.grey.shade300,
-          child: const Icon(
-            Icons.broken_image,
-          ),
+          child: const Icon(Icons.broken_image),
         ),
       );
     }

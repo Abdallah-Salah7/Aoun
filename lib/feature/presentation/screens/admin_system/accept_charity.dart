@@ -1,3 +1,4 @@
+import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +14,7 @@ class AcceptCharity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Directionality(
+    return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         drawer: const AdminAppDrawer(),
@@ -21,7 +22,6 @@ class AcceptCharity extends StatelessWidget {
 
         body: CustomScrollView(
           slivers: [
-
             SliverAppBar(
               pinned: true,
               automaticallyImplyLeading: false,
@@ -40,15 +40,12 @@ class AcceptCharity extends StatelessWidget {
 
               flexibleSpace: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 22,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 22),
 
                   child: Row(
                     textDirection: TextDirection.rtl,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-
                       /// menu icon
                       Builder(
                         builder: (context) {
@@ -67,7 +64,6 @@ class AcceptCharity extends StatelessWidget {
                       ),
 
                       const SizedBox(width: 22),
-
 
                       /// title
                       Column(
@@ -123,10 +119,6 @@ class AcceptCharity extends StatelessWidget {
                           ),
                         ],
                       ),
-
-
-
-
                     ],
                   ),
                 ),
@@ -134,37 +126,26 @@ class AcceptCharity extends StatelessWidget {
             ),
 
             SliverToBoxAdapter(
-              child: BlocBuilder<
-                  AcceptCharitiesCubit,
-                  AcceptCharitiesState>(
+              child: BlocBuilder<AcceptCharitiesCubit, AcceptCharitiesState>(
                 builder: (context, state) {
-
                   if (state is AcceptCharitiesLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   if (state is AcceptCharitiesError) {
-                    return Center(
-                      child: Text(state.message),
-                    );
+                    return Center(child: Text(state.message));
                   }
 
                   if (state is AcceptCharitiesSuccess) {
                     return ListView.builder(
                       shrinkWrap: true,
-                      physics:
-                      const NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.charities.length,
                       itemBuilder: (context, index) {
-
-                        final charity =
-                        state.charities[index];
+                        final charity = state.charities[index];
 
                         return AcceptCharityItem(
-                          charityName:
-                          charity.charityName,
+                          charityName: charity.charityName,
                           onDetailsPressed: () {},
                         );
                       },
@@ -173,14 +154,11 @@ class AcceptCharity extends StatelessWidget {
 
                   return const SizedBox();
                 },
-              )
-
-
+              ),
             ),
           ],
         ),
       ),
     );
-
   }
 }

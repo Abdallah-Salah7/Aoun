@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import 'accept_charity_details.dart';
 
 class AcceptCharityItem extends StatelessWidget {
   final String charityName;
@@ -120,7 +121,14 @@ class AcceptCharityItem extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: onDetailsPressed,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const AcceptCharityDetails(),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff1F6A43),
                     foregroundColor: Colors.white,

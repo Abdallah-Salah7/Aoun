@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/routes_manager/routes.dart';
+import '../../../data/models/payment_args.dart';
 import '../../../domain/entities/case_entity.dart';
 import '../../../domain/entities/recommend_case_entity.dart';
 import '../donor_system/case_details_screen.dart';
@@ -21,6 +22,7 @@ class RecommendCaseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isCompleted = recommendCaseEntity.isReallyCompleted;
+    final remaining = recommendCaseEntity.requiredAmount - recommendCaseEntity.collectedAmount;
 
     print("Case Image = ${recommendCaseEntity.imageUrl}");
 
@@ -211,8 +213,15 @@ class RecommendCaseItem extends StatelessWidget {
                       Navigator.pushNamed(
                         context,
                         Routes.paymentScreen,
+                        arguments: PaymentArgs(
+                          isCase: true,
+                          targetId: recommendCaseEntity.id,
+                          amount: remaining.toInt(),
+                          targetType: "Case",
+                        ),
                       );
                     },
+
                     child: Text(
                       "تبرع الآن",
                       style: GoogleFonts.manrope(

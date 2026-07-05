@@ -21,8 +21,8 @@ class ApiServices {
 
     final token =
         prefs.getString("charityToken") ??
-            prefs.getString("donorToken") ??
-            prefs.getString("adminToken");
+        prefs.getString("donorToken") ??
+        prefs.getString("adminToken");
 
     if (token != null) {
       await setToken(token);
@@ -68,6 +68,22 @@ class ApiServices {
     return await dio.get('/api/Charity/status');
   }
 
+  /// Charity Report
+  static Future<Response> getCharityDashboard() async {
+    return await dio.get('/api/charity/dashboard');
+  }
+
+  /// Change Password
+  static Future<Response> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    return await dio.put(
+      '/api/Profile/change-password',
+      data: {"currentPassword": currentPassword, "newPassword": newPassword},
+    );
+  }
+
   /// ================= TOKENS STORAGE =================
   static Future<String?> getDonorToken() async {
     final prefs = await SharedPreferences.getInstance();
@@ -79,11 +95,70 @@ class ApiServices {
     return prefs.getString("adminToken");
   }
 
+  Future<String?> getCharityToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString("charityToken");
+  }
 
+  /// ================= Donor =================
+  static Future<Response> searchCases({required String keyword}) async {
+    return await dio.get(
+      "/api/Cases/search",
+      queryParameters: {
+        "status": "all",
+        "keyword": keyword,
+        "page": 1,
+        "pageSize": 10,
+      },
+    );
+  }
 
-  Future<Map<String, dynamic>> calculateZakat(
-      ZakatModel request,
-      ) async {
+  static Future<Response> getNotifications() async {
+    return await dio.get('/api/Notifications');
+  }
+
+  static Future<Response> createDonation({
+    required String donorName,
+    required double amount,
+    required int targetId,
+    required String targetType,
+  }) {
+    return dio.post(
+      "/api/Donations",
+      data: {
+        "donorName": donorName,
+        "amount": amount,
+        "targetType": targetType,
+        "targetId": targetId,
+        "isGift": false,
+        "giftReceiverName": "",
+        "giftReceiverPhone": "",
+        "giftMessage": "",
+      },
+    );
+  }
+
+  static Future<Response> payDonation({
+    required int donationId,
+    required String cardNumber,
+    required String expiryDate,
+    required String cvv,
+    required String cardHolderName,
+  }) {
+    return dio.post(
+      "/api/Donations/pay",
+      data: {
+        "donationId": donationId,
+        "paymentMethod": "credit",
+        "cardNumber": cardNumber,
+        "expiryDate": expiryDate,
+        "cvv": cvv,
+        "cardHolderName": cardHolderName,
+      },
+    );
+  }
+
+  Future<Map<String, dynamic>> calculateZakat(ZakatModel request) async {
     final response = await dio.post(
       '/api/zakat/calculate',
       data: request.toJson(),
@@ -92,8 +167,3 @@ class ApiServices {
     return response.data;
   }
 }
-Future<String?> getCharityToken() async {
-  final prefs = await SharedPreferences.getInstance();
-  return prefs.getString("charityToken");
-}
-

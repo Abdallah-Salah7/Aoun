@@ -91,7 +91,7 @@ class AppDrawer extends StatelessWidget {
                 _buildDrawerItem(context, ImageAssets.setting, "الاعدادات",
 
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.charityProfScreen);
+                    Navigator.pushNamed(context, Routes.charitySettingsScreen);
                   },),
 
                 SizedBox(height: 30),

@@ -22,8 +22,12 @@ class LoginForm extends StatefulWidget {
   final bool istempLogin;
   final String userType;
 
-
-  const LoginForm({super.key, required this.isLogin,  required this.istempLogin, required this.userType});
+  const LoginForm({
+    super.key,
+    required this.isLogin,
+    required this.istempLogin,
+    required this.userType,
+  });
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -39,7 +43,7 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController passwordController = TextEditingController();
 
   final TextEditingController confirmPasswordController =
-  TextEditingController();
+      TextEditingController();
 
   String? validateEmail(String email) {
     if (email.trim().isEmpty) {
@@ -112,10 +116,10 @@ class _LoginFormState extends State<LoginForm> {
             children: [
               (!widget.isLogin)
                   ? CustomFormField(
-                controller: nameController,
-                label: "اسم المستخدم",
-                hint: "اسم المستخدم",
-              )
+                    controller: nameController,
+                    label: "اسم المستخدم",
+                    hint: "اسم المستخدم",
+                  )
                   : const SizedBox(),
 
               CustomFormField(
@@ -135,29 +139,29 @@ class _LoginFormState extends State<LoginForm> {
 
               (!widget.isLogin)
                   ? CustomFormField(
-                controller: confirmPasswordController,
-                label: "تأكيد كلمة المرور",
-                hint: "أعد إدخال كلمة المرور",
-                isPassword: true,
-              )
+                    controller: confirmPasswordController,
+                    label: "تأكيد كلمة المرور",
+                    hint: "أعد إدخال كلمة المرور",
+                    isPassword: true,
+                  )
                   : const SizedBox(),
 
               SizedBox(height: spacing * 0.6),
 
               (widget.isLogin)
                   ? InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.forgetPasswordScreen);
-                },
-                child: Text(
-                  "هل نسيت كلمة المرور؟",
-                  style: TextStyle(
-                    color: PrimaryColors.primaryColor,
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              )
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.forgetPasswordScreen);
+                    },
+                    child: Text(
+                      "هل نسيت كلمة المرور؟",
+                      style: TextStyle(
+                        color: PrimaryColors.primaryColor,
+                        fontSize: fontSize,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  )
                   : const SizedBox(),
 
               SizedBox(height: spacing),
@@ -333,7 +337,6 @@ class _LoginFormState extends State<LoginForm> {
                                 ),
                               );
                             }
-
                             // ===== CHARITY =====
                             else if (data["role"] == "Charity") {
                               await prefs.setString(
@@ -345,7 +348,7 @@ class _LoginFormState extends State<LoginForm> {
 
                               // جلب بيانات الجمعية الحالية
                               final charityResponse =
-                              await ApiServices.getCharityStatus();
+                                  await ApiServices.getCharityStatus();
 
                               await prefs.setInt(
                                 "charityId",
@@ -360,27 +363,59 @@ class _LoginFormState extends State<LoginForm> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text(data["message"])),
                               );
-                              final charityId = charityResponse.data["data"]["id"];
+                              final charityId =
+                                  charityResponse.data["data"]["id"];
 
                               await context.read<CaseCubit>().fetchCases();
 
-                              await context.read<CampaignCubit>().fetchCampaigns(charityId);
-                              Navigator.pushReplacementNamed(
-                                context,
-                                widget.istempLogin
-                                    ? Routes.charityDataScreen
-                                    : Routes.homeCharity,
-                              );
-                            }
+                              await context
+                                  .read<CampaignCubit>()
+                                  .fetchCampaigns(charityId);
+                              try {
+                                final statusResponse =
+                                    await ApiServices.getCharityStatus();
 
+                                final status =
+                                    statusResponse.data["data"]["status"];
+
+                                // Pending = الحساب قيد المراجعة
+                                // Rejected = تم رفض الطلب
+                                // Approved = تم قبول الطلب
+
+                                if (status == "Approved") {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    Routes.homeCharity,
+                                  );
+                                } else {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    Routes.accountStateScreen,
+                                  );
+                                }
+                              } on DioException catch (e) {
+                                if (e.response?.statusCode == 404) {
+                                  //  لم يتم إنشاء ملف الجمعية بعد
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    Routes.charityDataScreen,
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "حدث خطأ: ${e.response?.data["message"] ?? e.message}",
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }
+                            }
                             // ===== DONOR =====
                             else {
                               final token = data["token"];
 
-                              await prefs.setString(
-                                "donorToken",
-                                token,
-                              );
+                              await prefs.setString("donorToken", token);
 
                               await prefs.setString(
                                 "userRole",
@@ -410,11 +445,9 @@ class _LoginFormState extends State<LoginForm> {
                         } catch (e) {
                           print(e);
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Error: $e"),
-                            ),
-                          );
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text("Error: $e")));
                         }
                       }
                     },

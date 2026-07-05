@@ -1,3 +1,4 @@
+import 'package:aoun/feature/presentation/screens/admin_system/rejected_charity.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -132,7 +133,14 @@ class UnacceptCharityItem extends StatelessWidget {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: onDetailsPressed,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const RejectedCharity(),
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff1F6A43),
                       foregroundColor: Colors.white,

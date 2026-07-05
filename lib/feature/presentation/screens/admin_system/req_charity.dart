@@ -1,3 +1,4 @@
+import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:aoun/feature/presentation/screens/admin_system/req_charity_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +15,7 @@ class ReqCharity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Directionality(
+    return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         drawer: const AdminAppDrawer(),
@@ -22,7 +23,6 @@ class ReqCharity extends StatelessWidget {
 
         body: CustomScrollView(
           slivers: [
-
             SliverAppBar(
               pinned: true,
               automaticallyImplyLeading: false,
@@ -41,15 +41,12 @@ class ReqCharity extends StatelessWidget {
 
               flexibleSpace: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 22,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 22),
 
                   child: Row(
                     textDirection: TextDirection.rtl,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-
                       /// menu icon
                       Builder(
                         builder: (context) {
@@ -68,7 +65,6 @@ class ReqCharity extends StatelessWidget {
                       ),
 
                       const SizedBox(width: 22),
-
 
                       /// title
                       Column(
@@ -124,10 +120,6 @@ class ReqCharity extends StatelessWidget {
                           ),
                         ],
                       ),
-
-
-
-
                     ],
                   ),
                 ),
@@ -136,54 +128,54 @@ class ReqCharity extends StatelessWidget {
 
             SliverToBoxAdapter(
 
-child: BlocBuilder<
-    PendingCharitiesCubit,
-    PendingCharitiesState>(
-  builder: (context, state) {
+              child: BlocBuilder<
+                  PendingCharitiesCubit,
+                  PendingCharitiesState>(
+                builder: (context, state) {
 
-    if (state is PendingCharitiesLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
+                  if (state is PendingCharitiesLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-    if (state is PendingCharitiesError) {
-      return Center(
-        child: Text(state.message),
-      );
-    }
+                  if (state is PendingCharitiesError) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  }
 
-    if (state is PendingCharitiesSuccess) {
+                  if (state is PendingCharitiesSuccess) {
 
-      return ListView.builder(
-        shrinkWrap: true,
-        physics:
-        const NeverScrollableScrollPhysics(),
-        itemCount: state.charities.length,
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics:
+                      const NeverScrollableScrollPhysics(),
+                      itemCount: state.charities.length,
 
-        itemBuilder: (context, index) {
+                      itemBuilder: (context, index) {
 
-          final charity =
-          state.charities[index];
+                        final charity =
+                        state.charities[index];
 
-          return ReqCharityItem(
-            charityName:
-            charity.charityName,
+                        return ReqCharityItem(
+                          charityName:
+                          charity.charityName,
 
-            applicationDate:
-            charity.createdAt.split('T')[0],
+                          applicationDate:
+                          charity.createdAt.split('T')[0],
 
-            onDetailsPressed: () {
+                          onDetailsPressed: () {
 
-            },
-          );
-        },
-      );
-    }
+                          },
+                        );
+                      },
+                    );
+                  }
 
-    return const SizedBox();
-  },
-),
+                  return const SizedBox();
+                },
+              ),
             ),
           ],
         ),

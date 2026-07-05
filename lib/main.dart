@@ -2,7 +2,6 @@ import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:aoun/feature/data/data_sources/api_services.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
@@ -38,65 +37,69 @@ import 'feature/presentation/state_management/cubit/recommend_cubit.dart';
 import 'feature/presentation/state_management/cubit/rejected_charities_cubit.dart';
 import 'feature/presentation/state_management/cubit/top_charities_cubit.dart';
 import 'feature/presentation/state_management/provider/my_provider.dart';
+
 final getIt = GetIt.instance;
-void main() async{
-   WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
   await ApiServices.loadSavedToken();
   getIt.registerLazySingleton(() => CampApiService());
   getIt.registerLazySingleton(() => CampaignRepository(getIt<CampApiService>()));
-   getIt.registerLazySingleton(() => Dio());
-   getIt.registerLazySingleton(
-         () => RecommendApiService(getIt<Dio>()),
-   );
+  getIt.registerLazySingleton(() => Dio());
+  getIt.registerLazySingleton(
+        () => RecommendApiService(getIt<Dio>()),
+  );
 
-   getIt.registerLazySingleton(
-         () => RecommendRepository(
-       getIt<RecommendApiService>(),
-     ),
-   );
-   getIt.registerLazySingleton(
-         () => AdminRemoteDataSource(getIt<Dio>()),
-   );
+  getIt.registerLazySingleton(
+        () => RecommendRepository(
+      getIt<RecommendApiService>(),
+    ),
+  );
+  getIt.registerLazySingleton(
+        () => AdminRemoteDataSource(getIt<Dio>()),
+  );
 
-   getIt.registerLazySingleton<AdminRepository>(
-         () => AdminRepositoryImpl(
-       getIt<AdminRemoteDataSource>(),
-     ),
-   );
-   getIt.registerLazySingleton(
-         () => AiDescriptionApiService(getIt<Dio>()),
-   );
+  getIt.registerLazySingleton<AdminRepository>(
+        () => AdminRepositoryImpl(
+      getIt<AdminRemoteDataSource>(),
+    ),
+  );
+  getIt.registerLazySingleton(
+        () => AiDescriptionApiService(getIt<Dio>()),
+  );
 
-   getIt.registerLazySingleton(
-         () => AiDescriptionRepository(
-       getIt<AiDescriptionApiService>(),
-     ),
-   );
+  getIt.registerLazySingleton(
+        () => AiDescriptionRepository(
+      getIt<AiDescriptionApiService>(),
+    ),
+  );
+  // getIt.registerLazySingleton(
+  //       () => CampaignRepository(getIt<CampApiService>()),
+  // );
   runApp(
     MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => MyProvider()),
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => MyProvider())],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) => CaseCubit(
-              CaseRepository(CaseApiService()),
-            )..fetchCases(),
+            create:
+                (_) =>
+            CaseCubit(CaseRepository(CaseApiService()))..fetchCases(),
           ),
 
           BlocProvider(
             create: (_) => CampaignCubit(
               getIt<CampaignRepository>(),
             )..fetchCampaigns(1),
+          //   create: (_) =>
+          //   CampaignCubit(getIt<CampaignRepository>())
+          //     ..fetchCampaigns(1), // ← مهم جداً
           ),
 
           BlocProvider(
-            create: (_) => DashboardCubit(
-              GetDashboardStatsUseCase(
-                CharityDashboardService(Dio()),
-              ),
+            create:
+                (_) => DashboardCubit(
+              GetDashboardStatsUseCase(CharityDashboardService(Dio())),
             )..getDashboardStats(),
           ),
 
@@ -131,13 +134,13 @@ void main() async{
           ),
 
           BlocProvider(
-            create: (_) => DonorCaseCubit(
-              DonorCaseRepository(
-                DonorCaseApiService(),
-              ),
-            )..getCases(
-  categoryName: "الصحة",
-  )
+              create: (_) => DonorCaseCubit(
+                DonorCaseRepository(
+                  DonorCaseApiService(),
+                ),
+              )..getCases(
+                categoryName: "الصحة",
+              )
           ),
 
           BlocProvider(
@@ -188,7 +191,7 @@ class MainApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: child,
         onGenerateRoute: RouteGenerator.getRoute,
-        initialRoute: Routes.homePage,
+        initialRoute: Routes.homeCharity,
       ),
     );
   }
