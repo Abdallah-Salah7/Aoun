@@ -33,7 +33,6 @@ class CampaignItem extends StatelessWidget {
     required this.campaignId,
   });
 
-  // إضافة دعم للروابط الشبكية (http) بجانب الملفات المحلية
   bool get isFileImage => image.startsWith('/') || image.startsWith('file://');
   bool get isNetworkImage => image.startsWith('http');
 
@@ -57,25 +56,47 @@ class CampaignItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // قسم الصورة
               ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-                child: isNetworkImage
-                    ? Image.network(image, width: double.infinity, height: 180, fit: BoxFit.cover)
-                    : (isFileImage
-                    ? Image.file(File(image), width: double.infinity, height: 180, fit: BoxFit.cover)
-                    : Image.asset(image, width: double.infinity, height: 180, fit: BoxFit.cover)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(15),
+                ),
+                child:
+                    isNetworkImage
+                        ? Image.network(
+                          image,
+                          width: double.infinity,
+                          height: 180,
+                          fit: BoxFit.cover,
+                        )
+                        : (isFileImage
+                            ? Image.file(
+                              File(image),
+                              width: double.infinity,
+                              height: 180,
+                              fit: BoxFit.cover,
+                            )
+                            : Image.asset(
+                              image,
+                              width: double.infinity,
+                              height: 180,
+                              fit: BoxFit.cover,
+                            )),
               ),
 
-              // قسم العنوان والأيام المتبقية
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18.0,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     Expanded(
                       child: Text(
                         title,
-                        style: GoogleFonts.saira(fontWeight: FontWeight.bold, fontSize: 20),
+                        style: GoogleFonts.saira(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -84,11 +105,19 @@ class CampaignItem extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(right: 8.0),
-                          child: Image.asset(ImageAssets.iconDate, height: 34, width: 34),
+                          child: Image.asset(
+                            ImageAssets.iconDate,
+                            height: 34,
+                            width: 34,
+                          ),
                         ),
                         Text(
                           "${daysLeft} يوم متبقى",
-                          style: GoogleFonts.manrope(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black45),
+                          style: GoogleFonts.manrope(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black45,
+                          ),
                         ),
                       ],
                     ),
@@ -96,7 +125,6 @@ class CampaignItem extends StatelessWidget {
                 ),
               ),
 
-              // شريط التقدم (يستخدم الـ rateValue الجاهز من الموديل)
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: ClipRRect(
@@ -111,25 +139,31 @@ class CampaignItem extends StatelessWidget {
                 ),
               ),
 
-              // قيم التبرعات
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: Row(
                   children: [
                     Text(
                       "تم جمع $collectedValue ج.م",
-                      style: GoogleFonts.manrope(fontSize: 17, fontWeight: FontWeight.bold, color: const Color(0xff255A41)),
+                      style: GoogleFonts.manrope(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xff255A41),
+                      ),
                     ),
                     const Spacer(),
                     Text(
                       "من $allValue",
-                      style: GoogleFonts.manrope(fontSize: 17, fontWeight: FontWeight.bold, color: const Color(0xff757575)),
+                      style: GoogleFonts.manrope(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xff757575),
+                      ),
                     ),
                   ],
                 ),
               ),
 
-              // زر التبرع
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: SizedBox(
@@ -139,10 +173,20 @@ class CampaignItem extends StatelessWidget {
                       backgroundColor: const Color(0xff2F674D),
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
-                    onPressed: () => Navigator.pushNamed(context, Routes.paymentScreen),
-                    child: Text("تبرع الآن", style: GoogleFonts.manrope(fontSize: 22, fontWeight: FontWeight.bold)),
+                    onPressed:
+                        () =>
+                            Navigator.pushNamed(context, Routes.paymentScreen),
+                    child: Text(
+                      "تبرع الآن",
+                      style: GoogleFonts.manrope(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -152,6 +196,7 @@ class CampaignItem extends StatelessWidget {
       ),
     );
   }
+
   int getRemainingDays() {
     final date = endDate;
     if (date == null) return 0;

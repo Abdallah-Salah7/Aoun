@@ -45,19 +45,16 @@ class _CharityReportsState extends State<CharityReports> {
 
         body: BlocBuilder<DashboardCubit, DashboardState>(
           builder: (context, state) {
-
             if (state is DashboardLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-
             if (state is DashboardError) {
               return Center(
                 child: Text(state.message),
               );
             }
-
             if (state is DashboardSuccess) {
 
               final dashboard = state.dashboard;
@@ -338,7 +335,6 @@ categories: [],
       ),
     );
   }
-
   Widget infoCard(
       double width,
       double height, {
@@ -348,18 +344,14 @@ categories: [],
       }) {
     return Container(
       padding: EdgeInsets.all(width * 0.04),
-
       decoration: BoxDecoration(
         color: const Color(0xff2F674D),
         borderRadius: BorderRadius.circular(16),
       ),
-
       child: Row(
         mainAxisAlignment:
         MainAxisAlignment.spaceBetween,
-
         children: [
-
           Expanded(
             child: Row(
               children: [
@@ -562,13 +554,11 @@ categories: [],
                 (_, __) => const Divider(),
 
             itemBuilder: (_, index) {
-
               final item =
               dashboard.categoryDistribution[index];
 
               return ListTile(
                 contentPadding: EdgeInsets.zero,
-
                 leading: const CircleAvatar(
                   backgroundColor: Color(0xffDAEAE5),
                 ),

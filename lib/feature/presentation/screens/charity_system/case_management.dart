@@ -22,9 +22,9 @@ class _CaseManagementState extends State<CaseManagement> {
   String selectedFilter = "الكل";
   String selectedCategory = "الكل";
 
-  // دالة تنظيف النصوص لتوحيد الحروف المتشابهة في اللغة العربية منعاً لأي خطأ إملائي
   String normalizeText(String text) {
-    return text.trim()
+    return text
+        .trim()
         .replaceAll('أ', 'ا')
         .replaceAll('إ', 'ا')
         .replaceAll('آ', 'ا')
@@ -41,7 +41,6 @@ class _CaseManagementState extends State<CaseManagement> {
           width: 70,
           height: 70,
           child: FloatingActionButton(
-
             onPressed: () async {
               // 1. انتظر نتيجة الإضافة من صفحة AddCase
               final result = await Navigator.pushNamed(context, Routes.addCase);
@@ -53,7 +52,9 @@ class _CaseManagementState extends State<CaseManagement> {
               }
             },
             backgroundColor: const Color(0xff2F674D),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(35),
+            ),
             child: const Icon(Icons.add, size: 40, color: Colors.white),
           ),
         ),
@@ -65,78 +66,94 @@ class _CaseManagementState extends State<CaseManagement> {
         backgroundColor: const Color(0xffC7CDCD),
         body: BlocBuilder<CaseCubit, CaseState>(
           builder: (context, state) {
-
             if (state is CaseLoading) {
-              return const SizedBox(height: 300, child: Center(child: CircularProgressIndicator()));
+              return const SizedBox(
+                height: 300,
+                child: Center(child: CircularProgressIndicator()),
+              );
             }
 
-
             if (state is CaseError) {
-              return Center(child: Text(state.message, style: const TextStyle(color: Colors.red)));
+              return Center(
+                child: Text(
+                  state.message,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              );
             }
 
             if (state is CaseLoaded) {
-
               final totalDonations = state.cases.fold<double>(
-                0.0, (sum, item) => sum + item.collectedAmount,
+                0.0,
+                (sum, item) => sum + item.collectedAmount,
               );
               print("Total Cases = ${state.cases.length}");
               // تصفية وفلترة الحالات بناءً على النصوص القادمة من السيرفر مباشرة
 
-              final filteredCases = state.cases.where((c) {
-                // 1. فلترة نوع الحالة (مكتملة / عاجلة / الكل)
-                bool statusMatch = false;
-                if (selectedFilter == "مكتملة") {
-                  statusMatch = c.isCompleted == true;
-                } else if (selectedFilter == "عاجلة جداً") {
-                  statusMatch = (c.isUrgent == true) && (c.isCompleted != true);
-                } else {
-                  statusMatch = c.isCompleted != true;
-                }
+              final filteredCases =
+                  state.cases.where((c) {
+                    // 1. فلترة نوع الحالة (مكتملة / عاجلة / الكل)
+                    bool statusMatch = false;
+                    if (selectedFilter == "مكتملة") {
+                      statusMatch = c.isCompleted == true;
+                    } else if (selectedFilter == "عاجلة جداً") {
+                      statusMatch =
+                          (c.isUrgent == true) && (c.isCompleted != true);
+                    } else {
+                      statusMatch = c.isCompleted != true;
+                    }
 
-                // 2. فلترة القسم (التصنيف) الاعتماد الكلي على الاسم النصي لأن الـ ID يضيع بعد الـ PUT
-                bool categoryMatch = false;
-                if (selectedCategory == "الكل" || selectedCategory.trim().isEmpty) {
-                  categoryMatch = true;
-                } else {
-                  String currentCaseCategoryName = "";
+                    // 2. فلترة القسم (التصنيف) الاعتماد الكلي على الاسم النصي لأن الـ ID يضيع بعد الـ PUT
+                    bool categoryMatch = false;
+                    if (selectedCategory == "الكل" ||
+                        selectedCategory.trim().isEmpty) {
+                      categoryMatch = true;
+                    } else {
+                      String currentCaseCategoryName = "";
 
-                  // محاولة استخراج الاسم النصي للقسم بأي شكل متاح داخل الـ Entity
-                  try {
-                    // نقرأ الحقل بشكل ديناميكي تماماً حتى لو لم يكن معرّفاً كـ String صريح في الـ Entity
-                    currentCaseCategoryName = (c as dynamic).categoryName?.toString() ?? "";
-                  } catch (_) {
-                    currentCaseCategoryName = "";
-                  }
+                      // محاولة استخراج الاسم النصي للقسم بأي شكل متاح داخل الـ Entity
+                      try {
+                        // نقرأ الحقل بشكل ديناميكي تماماً حتى لو لم يكن معرّفاً كـ String صريح في الـ Entity
+                        currentCaseCategoryName =
+                            (c as dynamic).categoryName?.toString() ?? "";
+                      } catch (_) {
+                        currentCaseCategoryName = "";
+                      }
 
-                  // إذا فشل الاستخراج الديناميكي وكان الـ ID لا يزال متوفراً (كخط دفاع أخير)
-                  if (currentCaseCategoryName.isEmpty && c.categoryId != null && c.categoryId != 0) {
-                    final Map<int, String> categoriesMap = {
-                      1: "الصحة",
-                      2: "التعليم",
-                      3: "الإغاثة",
-                      4: "كفالات",
-                      5: "مشاريع بناء",
-                      6: "التنمية",
-                      7: "ذوى الاحتياجات", // مطابقة لـ "ذوى الاحتياجات" في الـ Log
-                      8: "كفارات",
-                      9: "الغارمين",
-                      10: "الإطعام",
-                    };
-                    currentCaseCategoryName = categoriesMap[c.categoryId] ?? "";
-                  }
+                      // إذا فشل الاستخراج الديناميكي وكان الـ ID لا يزال متوفراً (كخط دفاع أخير)
+                      if (currentCaseCategoryName.isEmpty &&
+                          c.categoryId != null &&
+                          c.categoryId != 0) {
+                        final Map<int, String> categoriesMap = {
+                          1: "الصحة",
+                          2: "التعليم",
+                          3: "الإغاثة",
+                          4: "كفالات",
+                          5: "مشاريع بناء",
+                          6: "التنمية",
+                          7: "ذوى الاحتياجات", // مطابقة لـ "ذوى الاحتياجات" في الـ Log
+                          8: "كفارات",
+                          9: "الغارمين",
+                          10: "الإطعام",
+                        };
+                        currentCaseCategoryName =
+                            categoriesMap[c.categoryId] ?? "";
+                      }
 
-                  // طباعة اختبارية في الـ Console لمعرفة الاسم المستخرج أثناء التنقل بين الأقسام
-                  debugPrint("Case ID: ${c.id} -> Category Name extracted: '$currentCaseCategoryName' vs Selected: '$selectedCategory'");
+                      // طباعة اختبارية في الـ Console لمعرفة الاسم المستخرج أثناء التنقل بين الأقسام
+                      debugPrint(
+                        "Case ID: ${c.id} -> Category Name extracted: '$currentCaseCategoryName' vs Selected: '$selectedCategory'",
+                      );
 
-                  // المقارنة بعد توحيد الحروف المتشابهة (مثل الهاء والتاء المربوطة، والألف اللينة)
-                  categoryMatch = normalizeText(currentCaseCategoryName) == normalizeText(selectedCategory);
-                }
+                      // المقارنة بعد توحيد الحروف المتشابهة (مثل الهاء والتاء المربوطة، والألف اللينة)
+                      categoryMatch =
+                          normalizeText(currentCaseCategoryName) ==
+                          normalizeText(selectedCategory);
+                    }
 
-                return statusMatch && categoryMatch;
-              }).toList();
+                    return statusMatch && categoryMatch;
+                  }).toList();
               print("Filtered Cases = ${filteredCases.length}");
-
 
               return ListView(
                 children: [
@@ -153,14 +170,22 @@ class _CaseManagementState extends State<CaseManagement> {
                         ),
                         height: 148,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 32,
+                            vertical: 32,
+                          ),
                           child: Row(
                             children: [
                               Builder(
                                 builder: (context) {
                                   return InkWell(
-                                    onTap: () => Scaffold.of(context).openDrawer(),
-                                    child: Image(image: AssetImage(ImageAssets.charityIcon)),
+                                    onTap:
+                                        () => Scaffold.of(context).openDrawer(),
+                                    child: Image(
+                                      image: AssetImage(
+                                        ImageAssets.charityIcon,
+                                      ),
+                                    ),
                                   );
                                 },
                               ),
@@ -168,8 +193,22 @@ class _CaseManagementState extends State<CaseManagement> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("إدارة الحالات", style: GoogleFonts.manrope(fontSize: 22, fontWeight: FontWeight.w800, color: Colors.white)),
-                                  Text("لوحة التحكم", style: GoogleFonts.manrope(fontSize: 19, fontWeight: FontWeight.w400, color: Colors.white)),
+                                  Text(
+                                    "إدارة الحالات",
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    "لوحة التحكم",
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],
@@ -178,7 +217,12 @@ class _CaseManagementState extends State<CaseManagement> {
                       ),
                       const SizedBox(height: 20),
                       Padding(
-                        padding: const EdgeInsets.only(right: 18, left: 18, top: 18, bottom: 5),
+                        padding: const EdgeInsets.only(
+                          right: 18,
+                          left: 18,
+                          top: 18,
+                          bottom: 5,
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -207,10 +251,17 @@ class _CaseManagementState extends State<CaseManagement> {
                             borderRadius: BorderRadius.circular(15),
                             color: Colors.white,
                             boxShadow: [
-                              BoxShadow(color: Colors.black.withOpacity(0.25), blurRadius: 10, offset: const Offset(0, 6)),
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.25),
+                                blurRadius: 10,
+                                offset: const Offset(0, 6),
+                              ),
                             ],
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 15),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 28,
+                            vertical: 15,
+                          ),
                           child: Row(
                             children: [
                               Container(
@@ -219,14 +270,31 @@ class _CaseManagementState extends State<CaseManagement> {
                                   borderRadius: BorderRadius.circular(45),
                                 ),
                                 padding: const EdgeInsets.all(8),
-                                child: Image(image: AssetImage(ImageAssets.totalDonation), height: 36, width: 36),
+                                child: Image(
+                                  image: AssetImage(ImageAssets.totalDonation),
+                                  height: 36,
+                                  width: 36,
+                                ),
                               ),
                               const SizedBox(width: 15),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("إجمالى التبرعات", style: GoogleFonts.manrope(fontSize: 19, fontWeight: FontWeight.w800, color: const Color(0xff6A6969))),
-                                  Text("$totalDonations ج.م", style: GoogleFonts.manrope(fontSize: 17, fontWeight: FontWeight.w700)),
+                                  Text(
+                                    "إجمالى التبرعات",
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.w800,
+                                      color: const Color(0xff6A6969),
+                                    ),
+                                  ),
+                                  Text(
+                                    "$totalDonations ج.م",
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],
@@ -240,7 +308,11 @@ class _CaseManagementState extends State<CaseManagement> {
                           child: Center(
                             child: Text(
                               "لا توجد حالات ضمن هذه الفئة حالياً",
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black54),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black54,
+                              ),
                             ),
                           ),
                         )
@@ -251,7 +323,9 @@ class _CaseManagementState extends State<CaseManagement> {
                           itemCount: filteredCases.length,
                           itemBuilder: (context, index) {
                             return CharityCaseItem(
-                              key: ValueKey(filteredCases[index].id), // حماية الكروت لمنع تصفير الـ State أثناء الفلترة
+                              key: ValueKey(
+                                filteredCases[index].id,
+                              ), // حماية الكروت لمنع تصفير الـ State أثناء الفلترة
                               caseEntity: filteredCases[index],
                             );
                           },
@@ -282,7 +356,14 @@ class _CaseManagementState extends State<CaseManagement> {
           color: isSelected ? const Color(0xff2F674D) : Colors.white,
           borderRadius: BorderRadius.circular(15),
         ),
-        child: Text(title, style: GoogleFonts.manrope(fontSize: 20, fontWeight: FontWeight.w600, color: isSelected ? Colors.white : Colors.black)),
+        child: Text(
+          title,
+          style: GoogleFonts.manrope(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: isSelected ? Colors.white : Colors.black,
+          ),
+        ),
       ),
     );
   }

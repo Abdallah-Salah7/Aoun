@@ -162,7 +162,6 @@ class _EmergencyFundScreenState extends State<EmergencyFundScreen> {
                               ),
                             ),
                             const SizedBox(height: 15),
-
                             Text(
                               "  مبلغ التبرع (جنيه مصرى)",
                               style: GoogleFonts.cairo(

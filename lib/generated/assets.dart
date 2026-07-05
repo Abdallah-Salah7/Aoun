@@ -13,8 +13,6 @@
 //   static const String adminSystemSetting = 'lib/feature/presentation/screens/admin_system/setting.dart';
 //   static const String adminSystemUnacceptCharity = 'lib/feature/presentation/screens/admin_system/unaccept_charity.dart';
 //   static const String adminSystemUnacceptCharityItem = 'lib/feature/presentation/screens/admin_system/unaccept_charity_item.dart';
-//   static const String apiApiManager = 'lib/core/api/api_manager.dart';
-//   static const String apiEndPoints = 'lib/core/api/end_points.dart';
 //   static const String assetsImagesEmailIcon = 'assets/images/email_icon.png';
 //   static const String assetsImagesLangIcon = 'assets/images/lang_icon.png';
 //   static const String assetsImagesPhoneIcon = 'assets/images/phone_icon.png';

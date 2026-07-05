@@ -99,7 +99,6 @@ class _AdminHomeState extends State<AdminHome> {
           padding: const EdgeInsets.symmetric(horizontal: 22),
           child: Row(
             children: [
-
               Builder(
                 builder: (context) {
                   return InkWell(
@@ -113,9 +112,7 @@ class _AdminHomeState extends State<AdminHome> {
                   );
                 },
               ),
-
               const SizedBox(width: 22),
-
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
