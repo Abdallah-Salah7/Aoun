@@ -80,6 +80,7 @@ abstract class ImageAssets {
   static const String error = "$imagePath/error.png";
   static const String totalCharity = "$imagePath/totalCharity.png";
   static const String stopCharity = "$imagePath/stopCharity.png";
+  static const String z = "$imagePath/z.png";
 }
 
 class SvgAssets {}

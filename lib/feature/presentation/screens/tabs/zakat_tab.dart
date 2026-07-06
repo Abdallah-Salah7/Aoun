@@ -219,7 +219,7 @@ class ZakatTab extends StatelessWidget {
                                   height: 55,
                                   padding: EdgeInsets.all(8),
                                   child: Image(
-                                    image: AssetImage(ImageAssets.fundsZakat),
+                                    image: AssetImage(ImageAssets.z),
                                     height: 36,
                                     width: 36,
                                   ),
