@@ -19,37 +19,36 @@ class SuccessPaymentScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: size.width * 0.3,
-                  height: size.width * 0.3,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Color(0xff0E8B51), width: 4),
-                  ),
-                  child: Icon(
-                    Icons.check,
-                    size: size.width * 0.15,
-                    color: Color(0xff0E8B51),
+                Center(
+                  child: Image.asset(
+                    "assets/images/success.png",
+                    width: 229,
+                    height: 229,
+                    fit: BoxFit.cover,
                   ),
                 ),
 
                 SizedBox(height: size.height * 0.04),
 
-                Text(
-                  "تم التبرع بنجاح",
-                  style: TextStyle(
-                    fontSize: size.width * 0.07,
-                    fontWeight: FontWeight.w900,
+                Center(
+                  child: Text(
+                    " 🎉 تم التبرع بنجاح",
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xff3E3E3E),
+                      height: 1,
+                    ),
                   ),
                 ),
-
                 SizedBox(height: 8),
 
                 Text(
-                  "شكراً لمساهمتك فى مساعدة الحالة",
+                  "! 💚شكرًا لك\n كل مساهمة مهما كانت بسيطة… تترك\n.أثرًا لا يُنسي",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: size.width * 0.043,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w500,
                     color: Color(0xff4C514F),
                   ),
                 ),
@@ -69,10 +68,10 @@ class SuccessPaymentScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        "المبلغ المتبرع به",
+                        "المبلغ المُتبرع به ",
                         style: TextStyle(
                           color: Color(0xff4C514F),
-                          fontSize: size.width * 0.05,
+                          fontSize: 24,
                           fontWeight: FontWeight.w600,
                         ),
                       ),

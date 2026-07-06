@@ -34,7 +34,6 @@ class LoginChoiceScreen extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: min(size.width * 0.05, 20),
-                      vertical: 20,
                     ),
                     child: Content(
                       textButton1: "تسجيل الدخول",

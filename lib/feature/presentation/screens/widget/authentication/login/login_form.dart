@@ -164,24 +164,25 @@ class _LoginFormState extends State<LoginForm> {
                   )
                   : const SizedBox(),
 
-              SizedBox(height: spacing),
+              SizedBox(height: 30),
 
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: Text(
-                      "باستمرارك، فإنك توافق على شروط الاستخدام وسياسة الخصوصية الخاصة بنا.",
+                      "تذكرنى عند الدخول مرة أخرى",
                       style: TextStyle(
-                        color: PrimaryColors.secondaryColor,
-                        fontSize: fontSize,
+                        color: Color(0xff757575),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500
                       ),
                       textDirection: TextDirection.rtl,
                     ),
                   ),
 
                   Transform.scale(
-                    scale: isLargeScreen ? 1.5 : 1.3,
+                    scale: isLargeScreen ? 1.5 : 1.4,
                     child: Checkbox(
                       value: remember,
                       activeColor: PrimaryColors.primaryColor,

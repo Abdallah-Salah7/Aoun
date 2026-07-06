@@ -1,6 +1,7 @@
 import 'package:aoun/core/color_manager/primary_colors.dart';
 import 'package:aoun/feature/presentation/screens/widget/onboarding/onboard_bottom_controls.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class OnboardingContent extends StatelessWidget {
   final String titleText;
@@ -38,10 +39,10 @@ class OnboardingContent extends StatelessWidget {
                 Text(
                   titleText,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: isTablet ? 28 : size.width * 0.065,
+                  style: GoogleFonts.manrope(
+                    fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: Color(0xff2B2D2C),
                   ),
                 ),
 
@@ -51,15 +52,13 @@ class OnboardingContent extends StatelessWidget {
                 Expanded(
                   child: SingleChildScrollView(
                     child: SizedBox(
-                      width: size.width * 0.7,
                       child: Text(
                         paragraphText,
                         textDirection: TextDirection.rtl,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: isTablet ? 18 : size.width * 0.065,
-                          color: PrimaryColors.secondaryColor,
-                          height: 1.6,
+                        style: GoogleFonts.inder(
+                          fontSize: 25,
+                          color: Color(0xff6A6969),
                         ),
                       ),
                     ),

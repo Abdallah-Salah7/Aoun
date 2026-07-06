@@ -15,20 +15,20 @@ class AuthButton extends StatelessWidget {
     final isTablet = size.width >= 600;
 
     return SizedBox(
-      width: isTablet ? size.width * 0.5 : size.width * 0.8,
-      height: min(size.height * 0.06, 60),
+      width: 335,
+      height: 60,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: PrimaryColors.primaryColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(size.width * 0.035),
+            borderRadius: BorderRadius.circular(16),
           ),
         ),
         child: Text(
           text,
           style: TextStyle(
-            fontSize: (size.width * 0.055) * textScale,
+            fontSize: 30,
             fontWeight: FontWeight.w600,
             color: Colors.white,
           ),

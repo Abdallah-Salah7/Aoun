@@ -2,6 +2,7 @@ import 'package:aoun/core/color_manager/primary_colors.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/auth_botton.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/logo_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Content extends StatelessWidget {
   final String textButton1;
@@ -33,7 +34,7 @@ class Content extends StatelessWidget {
           ),
           child: Column(
             children: [
-              SizedBox(height: size.height * 0.06),
+              // SizedBox(height: size.height * 0.06),
 
               LogoWidget(),
               SizedBox(height: size.height * 0.03),
@@ -41,9 +42,10 @@ class Content extends StatelessWidget {
               Text(
                 "عون … الخير يبدأ بك",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: PrimaryColors.secondaryColor,
-                  fontSize: isTablet ? 20 : size.width * 0.045,
+                style: GoogleFonts.inder(
+                  color: Color(0xff6A6969),
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold
                 ),
               ),
 
@@ -51,9 +53,9 @@ class Content extends StatelessWidget {
 
               Text(
                 "اختر طريقتك للدخول",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: isTablet ? 26 : size.width * 0.06,
+                style: GoogleFonts.inder(
+                fontWeight: FontWeight.w600,
+                  fontSize: 32
                 ),
               ),
 

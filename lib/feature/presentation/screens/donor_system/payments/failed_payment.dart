@@ -2,8 +2,11 @@ import 'package:aoun/core/color_manager/primary_colors.dart';
 import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../data/models/payment_args.dart';
+
 class FailedPaymentScreen extends StatelessWidget {
-  const FailedPaymentScreen({super.key});
+  final PaymentArgs args;
+  const FailedPaymentScreen({super.key, required this.args});
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +20,12 @@ class FailedPaymentScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: size.width * 0.23,
-                height: size.width * 0.23,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Color(0xffBE1119), width: 4),
-                ),
-                child: const Center(
-                  child: Icon(Icons.close, color: Color(0xffBE1119), size: 45),
+              Center(
+                child: Image.asset(
+                  "assets/images/faild_process.png",
+                  width: 127,
+                  height: 127,
+                  fit: BoxFit.cover,
                 ),
               ),
 
@@ -34,10 +34,7 @@ class FailedPaymentScreen extends StatelessWidget {
               Text(
                 "فشل في عملية الدفع",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: size.width * 0.075,
-                  fontWeight: FontWeight.w900,
-                ),
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.w800),
               ),
 
               SizedBox(height: size.height * 0.015),
@@ -46,13 +43,13 @@ class FailedPaymentScreen extends StatelessWidget {
                 "حدث خطأ، حاول مرة أخرى",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: size.width * 0.04,
-                  color: PrimaryColors.secondaryColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff4C514F),
                 ),
               ),
 
               SizedBox(height: size.height * 0.09),
-
               _buildButton(
                 text: "إعادة المحاولة",
                 isPrimary: true,
@@ -60,18 +57,27 @@ class FailedPaymentScreen extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     Routes.creditDetailsScreen,
-                    arguments: 300,
-                  ); // 300 will change
+                    arguments: PaymentArgs(
+                      isCase: false,
+                      amount: 300,
+                      targetId: 1,
+                      targetType: "Campaign", // أو "Case" حسب اللي عندك
+                    ),
+                  );
                 },
               ),
 
-              SizedBox(height: size.height * 0.02),
+              const SizedBox(height: 30),
 
               _buildButton(
-                text: "اختيار طريقة دفع أخرى",
+                text: "العودة للرئيسية",
                 isPrimary: false,
                 onPressed: () {
-                  Navigator.pushNamed(context, Routes.paymentScreen);
+                  Navigator.pushNamed(
+                    context,
+                    Routes.paymentScreen,
+                    arguments: args,
+                  );
                 },
               ),
 
@@ -90,23 +96,24 @@ class FailedPaymentScreen extends StatelessWidget {
   }) {
     return SizedBox(
       width: double.infinity,
-      height: 42,
-      child: OutlinedButton(
+      height: 69,
+      child: ElevatedButton(
         onPressed: onPressed,
-        style: OutlinedButton.styleFrom(
-          backgroundColor: isPrimary ? Colors.white : Colors.transparent,
-          side: BorderSide(color: isPrimary ? Color(0xffBE1119) : Colors.grey),
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          backgroundColor: isPrimary ? Colors.white : const Color(0xff356F52),
+          foregroundColor: isPrimary ? const Color(0xffD41119) : Colors.white,
+          side:
+              isPrimary
+                  ? const BorderSide(color: Color(0xffD41119), width: 1.3)
+                  : BorderSide.none,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(18),
           ),
         ),
         child: Text(
           text,
-          style: TextStyle(
-            color: isPrimary ? Color(0xffBE1119) : Color(0xff272928),
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w500),
         ),
       ),
     );

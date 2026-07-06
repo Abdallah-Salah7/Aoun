@@ -200,10 +200,10 @@ class _DonationFieldScreenState extends State<DonationFieldScreen> {
                         child: Column(
                           children: [
                             Text(
-                              "نعمل على توفير الرعاية الطبية والأدوية\n"
-                                  "اللازمة والعمليات الجراحية العاجلة لمن\n"
-                                  "هم في أمس الحاجة إليها، مساهمتك\n"
-                                  "تنقذ حياة!",
+                              "نعمل على تقديم الدعم والمساعدة للمستحقين\n"
+                                  "من خلال مبادرات وبرامج إنسانية متنوعة\n"
+                                  "تلبي احتياجاتهم في مختلف المجالات،\n"
+                                  "ومساهمتك تُحدث فرقًا حقيقيًا في حياتهم.",
                               textAlign: TextAlign.right,
                               style: GoogleFonts.saira(
                                 fontSize: 20,

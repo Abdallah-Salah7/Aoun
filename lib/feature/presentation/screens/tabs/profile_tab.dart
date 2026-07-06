@@ -567,7 +567,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                                   onPressed: () {
                                                     Navigator.pushNamed(
                                                       context,
-                                                      Routes.donorLoginScreen,
+                                                      Routes.userTypeScreen,
                                                     );
                                                   },
                                                 ),

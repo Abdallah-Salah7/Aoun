@@ -101,7 +101,7 @@ class AppDrawer extends StatelessWidget {
                   "تسجيل الخروج",
                   color: Color(0xffDC2626),
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.charityLoginScreen);
+                    Navigator.pushNamed(context, Routes.userTypeScreen);
                   },
                 ),
               ],

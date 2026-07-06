@@ -167,7 +167,13 @@ class RouteGenerator {
         );
 
       case Routes.failedPaymentScreen:
-        return MaterialPageRoute(builder: (_) => const FailedPaymentScreen());
+        final args = settings.arguments as PaymentArgs;
+
+        return MaterialPageRoute(
+          builder: (_) => FailedPaymentScreen(
+            args: args,
+          ),
+        );
 
     /// CHARITY
       case Routes.charityProfileScreen:

@@ -4,6 +4,9 @@ import 'package:aoun/feature/presentation/screens/donor_system/payments/failed_p
 import 'package:aoun/feature/presentation/screens/donor_system/payments/processing_screen.dart';
 import 'package:aoun/feature/presentation/screens/widget/authentication/auth_botton.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../data/models/payment_args.dart';
 
 class CreditDetails extends StatefulWidget {
   final int amount;
@@ -132,7 +135,16 @@ class _CreditDetailsState extends State<CreditDetails> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const FailedPaymentScreen()),
+        MaterialPageRoute(
+          builder: (_) => FailedPaymentScreen(
+            args: PaymentArgs(
+              isCase: widget.targetType == "Case",
+              targetId: widget.targetId,
+              amount: widget.amount,
+              targetType: widget.targetType,
+            ),
+          ),
+        ),
       );
     }
 
@@ -143,24 +155,37 @@ class _CreditDetailsState extends State<CreditDetails> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: const Color(0xffE5EBE9),
         appBar: AppBar(
-          title: const Text(
-            'الدفع بالبطاقة البنكية',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          toolbarHeight: 100,
+          title: Padding(
+            padding: const EdgeInsets.only(top: 28.0),
+            child: const Text(
+              'الدفع بالبطاقة البنكية',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
           ),
           foregroundColor: const Color(0xff255A41),
           centerTitle: true,
-          leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 18.0, right: 8),
+            child: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+                size: 33,
+              ),
+            ),
           ),
         ),
+
         body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+          padding: EdgeInsets.symmetric(horizontal: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -171,10 +196,16 @@ class _CreditDetailsState extends State<CreditDetails> {
                 text: TextSpan(
                   style: const TextStyle(fontSize: 20, color: Colors.black),
                   children: [
-                    const TextSpan(text: "مبلغ التبرع "),
+                     TextSpan(text: "مبلغ التبرع ",
+                    style: GoogleFonts.sora(
+                      fontSize: 32,fontWeight: FontWeight.w500
+                    )
+                    ),
                     TextSpan(
-                      text: "${widget.amount}",
-                      style: const TextStyle(color: Color(0xff2E7D32)),
+                      text: "${widget.amount}جنيه",
+                      style: const TextStyle(color: Color(0xff137F4C),
+                      fontSize: 32,
+                      fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
@@ -183,26 +214,58 @@ class _CreditDetailsState extends State<CreditDetails> {
               const SizedBox(height: 20),
 
               /// Card Number
-              const Text("رقم البطاقة"),
+               Padding(
+                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                 child: Text("رقم البطاقة",
+                  style: GoogleFonts.manrope(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500
+                  ),),
+               ),
+              const SizedBox(height: 12),
               TextField(
                 controller: cardController,
                 keyboardType: TextInputType.number,
-                decoration: _inputDecoration("رقم البطاقة"),
+                decoration: _inputDecoration(
+                  "رقم البطاقة",
+                  prefix: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Image.asset(
+                      "assets/images/card.png",
+                      width: 36,
+                      height: 24,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
               ),
 
-              const SizedBox(height: 20),
-
-              /// Name
-              const Text("اسم حامل البطاقة"),
+              const SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text("اسم حامل البطاقة",
+                  style: GoogleFonts.manrope(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500
+                  ),),
+              ),
+              const SizedBox(height: 12),
               TextField(
                 controller: nameController,
                 decoration: _inputDecoration("اسم حامل البطاقة"),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text("تاريخ الانتهاء",
+                  style: GoogleFonts.manrope(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500
+                  ),),
+              ),
+              const SizedBox(height: 12),
 
-              /// Expiry
-              const Text("تاريخ الانتهاء"),
               Row(
                 children: [
                   Expanded(
@@ -223,10 +286,17 @@ class _CreditDetailsState extends State<CreditDetails> {
                 ],
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
 
-              /// CVV
-              const Text("CVV"),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(" رقم CVV*",
+                  style: GoogleFonts.manrope(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500
+                  ),),
+              ),
+              const SizedBox(height: 12),
               SizedBox(
                 width: width * 0.4,
                 child: TextField(
@@ -252,21 +322,43 @@ class _CreditDetailsState extends State<CreditDetails> {
     );
   }
 
-  InputDecoration _inputDecoration(String hint) {
+  InputDecoration _inputDecoration(
+      String hint, {
+        Widget? prefix,
+      }) {
     return InputDecoration(
       hintText: hint,
+
+      prefixIcon: prefix,
+      suffixIconConstraints: const BoxConstraints(
+        minWidth: 60,
+        minHeight: 40,
+      ),
+
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 18,
+        vertical: 18,
+      ),
+
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: const BorderSide(color: Color(0xff6E6A6A)),
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(
+          color: Color(0xff6E6A6A),
+          width: 1.3,
+        ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: const BorderSide(color: Color(0xff255A41), width: 1.5),
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(
+          color: Color(0xff6E6A6A),
+          width: 1.3,
+        ),
       ),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
     );
   }
-
   void _showMsg(String msg) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
