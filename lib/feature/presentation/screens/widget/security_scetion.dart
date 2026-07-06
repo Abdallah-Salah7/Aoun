@@ -18,9 +18,7 @@ class _SecuritySctionState extends State<SecuritySction> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
 
@@ -181,5 +179,4 @@ class _SecuritySctionState extends State<SecuritySction> {
       child: child,
     );
   }
-
 }

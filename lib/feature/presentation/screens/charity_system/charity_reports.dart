@@ -247,7 +247,7 @@ class _CharityReportsState extends State<CharityReports> {
                               title: "النمو الشهرى",
 
                               value:
-                              "%${dashboard.monthlyGrowthPercent} من الشهر الماضى",
+                                  "%${dashboard.monthlyGrowthPercent} من الشهر الماضى",
 
                               showTrend: true,
                             ),
@@ -273,7 +273,7 @@ class _CharityReportsState extends State<CharityReports> {
                               title: "صندوق الطوارئ",
 
                               value:
-                              "الرصيد المتاح: ${dashboard.emergencyFundBalance} ج.م",
+                                  "الرصيد المتاح: ${dashboard.emergencyFundBalance} ج.م",
                             ),
 
                             SizedBox(height: height * 0.02),
@@ -322,12 +322,12 @@ class _CharityReportsState extends State<CharityReports> {
   }
 
   Widget infoCard(
-      double width,
-      double height, {
-        required String title,
-        required String value,
-        bool showTrend = false,
-      }) {
+    double width,
+    double height, {
+    required String title,
+    required String value,
+    bool showTrend = false,
+  }) {
     return Container(
       padding: EdgeInsets.all(width * 0.04),
 
@@ -366,14 +366,14 @@ class _CharityReportsState extends State<CharityReports> {
                         children: [
                           showTrend
                               ? const Directionality(
-                            textDirection: TextDirection.ltr,
+                                textDirection: TextDirection.ltr,
 
-                            child: Icon(
-                              Icons.trending_up,
-                              color: Colors.white,
-                              size: 10,
-                            ),
-                          )
+                                child: Icon(
+                                  Icons.trending_up,
+                                  color: Colors.white,
+                                  size: 10,
+                                ),
+                              )
                               : const SizedBox(),
 
                           Text(

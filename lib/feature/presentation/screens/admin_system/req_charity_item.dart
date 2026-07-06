@@ -1,20 +1,21 @@
-import 'package:aoun/feature/presentation/screens/admin_system/request_charity_review.dart';
+import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
-import 'detainee_charity.dart';
 
 class ReqCharityItem extends StatelessWidget {
   final String charityName;
   final String applicationDate;
   final VoidCallback onDetailsPressed;
+  final int charityId;
 
   const ReqCharityItem({
     super.key,
     required this.charityName,
     required this.applicationDate,
     required this.onDetailsPressed,
+    required this.charityId,
   });
 
   @override
@@ -25,10 +26,7 @@ class ReqCharityItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2),
         child: Container(
-          margin: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 10,
-          ),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -65,13 +63,13 @@ class ReqCharityItem extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-
-                    Image(image: AssetImage(ImageAssets.iconDate),
-                    height: 28,
-                    width: 28,
+                    Image(
+                      image: AssetImage(ImageAssets.iconDate),
+                      height: 28,
+                      width: 28,
                       color: Color(0xff3F7C5E),
                     ),
-                      const SizedBox(width: 8),
+                    const SizedBox(width: 8),
 
                     Text(
                       "تاريخ التقديم",
@@ -101,11 +99,10 @@ class ReqCharityItem extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (_) => const RequestCharityReview(),
-                      ),
+                      Routes.reqCharityReview,
+                      arguments: charityId,
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -136,7 +133,8 @@ class ReqCharityItem extends StatelessWidget {
                     ],
                   ),
                 ),
-              )          ],
+              ),
+            ],
           ),
         ),
       ),

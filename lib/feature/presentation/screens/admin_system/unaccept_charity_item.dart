@@ -1,3 +1,4 @@
+import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:aoun/feature/presentation/screens/admin_system/rejected_charity.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +7,7 @@ import '../../../../core/resources/assets_manager.dart';
 
 class UnacceptCharityItem extends StatelessWidget {
   final String charityName;
+  final int charityId;
   final String rejectDate;
   final VoidCallback onDetailsPressed;
 
@@ -13,7 +15,7 @@ class UnacceptCharityItem extends StatelessWidget {
     super.key,
     required this.charityName,
     required this.rejectDate,
-    required this.onDetailsPressed,
+    required this.onDetailsPressed, required this.charityId,
   });
 
   @override
@@ -134,12 +136,11 @@ class UnacceptCharityItem extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const RejectedCharity(),
-                        ),
-                      );
+                    Navigator.pushNamed(
+  context,
+  Routes.rejectedCharity,
+  arguments: charityId,
+);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff1F6A43),

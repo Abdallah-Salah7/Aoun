@@ -146,7 +146,7 @@ class AcceptCharity extends StatelessWidget {
 
                         return AcceptCharityItem(
                           charityName: charity.charityName,
-                          onDetailsPressed: () {},
+                    onDetailsPressed: () {}, charityId:charity.id,
                         );
                       },
                     );

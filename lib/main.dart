@@ -44,34 +44,24 @@ void main() async {
 
   await ApiServices.loadSavedToken();
   getIt.registerLazySingleton(() => CampApiService());
-  getIt.registerLazySingleton(() => CampaignRepository(getIt<CampApiService>()));
-  getIt.registerLazySingleton(() => Dio());
   getIt.registerLazySingleton(
-        () => RecommendApiService(getIt<Dio>()),
+    () => CampaignRepository(getIt<CampApiService>()),
   );
+  getIt.registerLazySingleton(() => Dio());
+  getIt.registerLazySingleton(() => RecommendApiService(getIt<Dio>()));
 
   getIt.registerLazySingleton(
-        () => RecommendRepository(
-      getIt<RecommendApiService>(),
-    ),
+    () => RecommendRepository(getIt<RecommendApiService>()),
   );
-  getIt.registerLazySingleton(
-        () => AdminRemoteDataSource(getIt<Dio>()),
-  );
+  getIt.registerLazySingleton(() => AdminRemoteDataSource(getIt<Dio>()));
 
   getIt.registerLazySingleton<AdminRepository>(
-        () => AdminRepositoryImpl(
-      getIt<AdminRemoteDataSource>(),
-    ),
+    () => AdminRepositoryImpl(getIt<AdminRemoteDataSource>()),
   );
-  getIt.registerLazySingleton(
-        () => AiDescriptionApiService(getIt<Dio>()),
-  );
+  getIt.registerLazySingleton(() => AiDescriptionApiService(getIt<Dio>()));
 
   getIt.registerLazySingleton(
-        () => AiDescriptionRepository(
-      getIt<AiDescriptionApiService>(),
-    ),
+    () => AiDescriptionRepository(getIt<AiDescriptionApiService>()),
   );
   // getIt.registerLazySingleton(
   //       () => CampaignRepository(getIt<CampApiService>()),
@@ -84,70 +74,69 @@ void main() async {
           BlocProvider(
             create:
                 (_) =>
-            CaseCubit(CaseRepository(CaseApiService()))..fetchCases(),
+                    CaseCubit(CaseRepository(CaseApiService()))..fetchCases(),
           ),
 
           BlocProvider(
-            create: (_) => CampaignCubit(
-              getIt<CampaignRepository>(),
-            )..fetchCampaigns(1),
-          //   create: (_) =>
-          //   CampaignCubit(getIt<CampaignRepository>())
-          //     ..fetchCampaigns(1), // ← مهم جداً
+            create:
+                (_) =>
+                    CampaignCubit(getIt<CampaignRepository>())
+                      ..fetchCampaigns(1),
+            //   create: (_) =>
+            //   CampaignCubit(getIt<CampaignRepository>())
+            //     ..fetchCampaigns(1), // ← مهم جداً
           ),
 
           BlocProvider(
             create:
                 (_) => DashboardCubit(
-              GetDashboardStatsUseCase(CharityDashboardService(Dio())),
-            )..getDashboardStats(),
+                  GetDashboardStatsUseCase(CharityDashboardService(Dio())),
+                )..getDashboardStats(),
           ),
 
           BlocProvider(
-            create: (_) => AdminStatsCubit(
-              getIt<AdminRepository>(),
-            )..getStats(),
+            create:
+                (_) => AdminStatsCubit(getIt<AdminRepository>())..getStats(),
           ),
 
           BlocProvider(
-            create: (_) => TopCharitiesCubit(
-              getIt<AdminRepository>(),
-            )..getTopCharities(),
+            create:
+                (_) =>
+                    TopCharitiesCubit(getIt<AdminRepository>())
+                      ..getTopCharities(),
           ),
 
           BlocProvider(
-            create: (_) => PendingCharitiesCubit(
-              getIt<AdminRepository>(),
-            )..getPendingCharities(),
+            create:
+                (_) =>
+                    PendingCharitiesCubit(getIt<AdminRepository>())
+                      ..getPendingCharities(),
           ),
 
           BlocProvider(
-            create: (_) => AcceptCharitiesCubit(
-              getIt<AdminRepository>(),
-            )..getAcceptCharities(),
+            create:
+                (_) =>
+                    AcceptCharitiesCubit(getIt<AdminRepository>())
+                      ..getAcceptCharities(),
           ),
 
           BlocProvider(
-            create: (_) => RejectedCharitiesCubit(
-              getIt<AdminRepository>(),
-            )..getRejectedCharities(),
+            create:
+                (_) =>
+                    RejectedCharitiesCubit(getIt<AdminRepository>())
+                      ..getRejectedCharities(),
           ),
 
           BlocProvider(
-              create: (_) => DonorCaseCubit(
-                DonorCaseRepository(
-                  DonorCaseApiService(),
-                ),
-              )..getCases(
-                categoryName: "الصحة",
-              )
+            create:
+                (_) =>
+                    DonorCaseCubit(DonorCaseRepository(DonorCaseApiService()))
+                      ..getCases(categoryName: "الصحة"),
           ),
 
           BlocProvider(
             create: (_) {
-              final cubit = RecommendCubit(
-                getIt<RecommendRepository>(),
-              );
+              final cubit = RecommendCubit(getIt<RecommendRepository>());
 
               ApiServices.getDonorToken().then((token) {
                 if (token != null) {
@@ -160,9 +149,7 @@ void main() async {
           ),
 
           BlocProvider(
-            create: (_) => AiDescriptionCubit(
-              getIt<AiDescriptionRepository>(),
-            ),
+            create: (_) => AiDescriptionCubit(getIt<AiDescriptionRepository>()),
           ),
         ],
         child: const MainApp(),
@@ -185,14 +172,14 @@ class MainApp extends StatelessWidget {
       splitScreenMode: true,
       builder:
           (context, child) => MaterialApp(
-        theme: lightTheme.themeData,
-        darkTheme: darkTheme.themeData,
-        themeMode: provider.themeMode,
-        debugShowCheckedModeBanner: false,
-        home: child,
-        onGenerateRoute: RouteGenerator.getRoute,
-        initialRoute: Routes.homeCharity,
-      ),
+            theme: lightTheme.themeData,
+            darkTheme: darkTheme.themeData,
+            themeMode: provider.themeMode,
+            debugShowCheckedModeBanner: false,
+            home: child,
+            onGenerateRoute: RouteGenerator.getRoute,
+            initialRoute: Routes.adminLoginScreen,
+          ),
     );
   }
 }

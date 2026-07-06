@@ -23,10 +23,8 @@ class ApiServices {
 
   static Future<String> askAdmin(String question) async {
     final response = await aiDio.post(
-      "/api/ai/user-chat",
-      data: {
-        "question": question,
-      },
+      "/api/ai/admin-chat",
+      data: {"question": question},
     );
 
     return response.data["answer"];
@@ -42,8 +40,8 @@ class ApiServices {
 
     final token =
         prefs.getString("charityToken") ??
-            prefs.getString("donorToken") ??
-            prefs.getString("adminToken");
+        prefs.getString("donorToken") ??
+        prefs.getString("adminToken");
 
     if (token != null) {
       await setToken(token);
@@ -105,6 +103,20 @@ class ApiServices {
     );
   }
 
+  static Future<Response> getCharityDetails(int charityId) async {
+    return await dio.get('/api/Admin/charities/$charityId');
+  }
+
+  static Future<Response> updateCharityStatus({
+    required int charityId,
+    required String status,
+  }) async {
+    return await dio.put(
+      '/api/Admin/charities/$charityId/status',
+      data: {"status": status},
+    );
+  }
+
   /// ================= TOKENS STORAGE =================
   static Future<String?> getDonorToken() async {
     final prefs = await SharedPreferences.getInstance();
@@ -121,75 +133,70 @@ class ApiServices {
     return prefs.getString("charityToken");
   }
 
+  /// ================= Donor =================
+  static Future<Response> searchCases({required String keyword}) async {
+    return await dio.get(
+      "/api/Cases/search",
+      queryParameters: {
+        "status": "all",
+        "keyword": keyword,
+        "page": 1,
+        "pageSize": 10,
+      },
+    );
+  }
 
-/// ================= Donor =================
-static Future<Response> searchCases({required String keyword}) async {
-return await dio.get(
-"/api/Cases/search",
-queryParameters: {
-"status": "all",
-"keyword": keyword,
-"page": 1,
-"pageSize": 10,
-},
-);
+  static Future<Response> getNotifications() async {
+    return await dio.get('/api/Notifications');
+  }
+
+  static Future<Response> createDonation({
+    required String donorName,
+    required double amount,
+    required int targetId,
+    required String targetType,
+  }) {
+    return dio.post(
+      "/api/Donations",
+      data: {
+        "donorName": donorName,
+        "amount": amount,
+        "targetType": targetType,
+        "targetId": targetId,
+        "isGift": false,
+        "giftReceiverName": "",
+        "giftReceiverPhone": "",
+        "giftMessage": "",
+      },
+    );
+  }
+
+  static Future<Response> payDonation({
+    required int donationId,
+    required String cardNumber,
+    required String expiryDate,
+    required String cvv,
+    required String cardHolderName,
+  }) {
+    return dio.post(
+      "/api/Donations/pay",
+      data: {
+        "donationId": donationId,
+        "paymentMethod": "credit",
+        "cardNumber": cardNumber,
+        "expiryDate": expiryDate,
+        "cvv": cvv,
+        "cardHolderName": cardHolderName,
+      },
+    );
+  }
+
+  Future<Map<String, dynamic>> calculateZakat(ZakatModel request) async {
+    final response = await dio.post(
+      '/api/zakat/calculate',
+      data: request.toJson(),
+    );
+
+    return response.data;
+  }
 }
-
-static Future<Response> getNotifications() async {
-return await dio.get('/api/Notifications');
-}
-
-static Future<Response> createDonation({
-required String donorName,
-required double amount,
-required int targetId,
-required String targetType,
-}) {
-return dio.post(
-"/api/Donations",
-data: {
-"donorName": donorName,
-"amount": amount,
-"targetType": targetType,
-"targetId": targetId,
-"isGift": false,
-"giftReceiverName": "",
-"giftReceiverPhone": "",
-"giftMessage": "",
-},
-);
-}
-
-static Future<Response> payDonation({
-required int donationId,
-required String cardNumber,
-required String expiryDate,
-required String cvv,
-required String cardHolderName,
-}) {
-return dio.post(
-"/api/Donations/pay",
-data: {
-"donationId": donationId,
-"paymentMethod": "credit",
-"cardNumber": cardNumber,
-"expiryDate": expiryDate,
-"cvv": cvv,
-"cardHolderName": cardHolderName,
-},
-);
-}
-
-Future<Map<String, dynamic>> calculateZakat(ZakatModel request) async {
-final response = await dio.post(
-'/api/zakat/calculate',
-data: request.toJson(),
-);
-
-return response.data;
-}
-}
-
-
-
-

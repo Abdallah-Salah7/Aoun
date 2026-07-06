@@ -170,9 +170,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                           ),
                                     ),
                                   ),
-                          
+
                                   const SizedBox(width: 12),
-                          
+
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
@@ -185,25 +185,25 @@ class _SearchScreenState extends State<SearchScreen> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                          
+
                                         const SizedBox(height: 6),
-                          
+
                                         Text(
                                           item["description"],
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                         ),
-                          
+
                                         const SizedBox(height: 8),
-                          
+
                                         Row(
                                           children: [
                                             Container(
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                horizontal: 8,
-                                                vertical: 4,
-                                              ),
+                                                    horizontal: 8,
+                                                    vertical: 4,
+                                                  ),
                                               decoration: BoxDecoration(
                                                 color: Colors.green.shade100,
                                                 borderRadius:
@@ -216,9 +216,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                                 ),
                                               ),
                                             ),
-                          
+
                                             const Spacer(),
-                          
+
                                             Text(
                                               "${item["requiredAmount"]} ج.م",
                                               style: const TextStyle(

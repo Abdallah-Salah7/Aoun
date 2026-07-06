@@ -1,20 +1,48 @@
-import 'package:aoun/core/resources/assets_manager.dart';
+import 'package:aoun/core/color_manager/app_color.dart';
+import 'package:aoun/core/routes_manager/routes.dart';
+import 'package:aoun/feature/data/data_sources/api_services.dart';
+import 'package:aoun/feature/data/models/charity_details_model.dart';
 import 'package:aoun/feature/presentation/screens/admin_system/admin_app_drawer.dart';
+import 'package:aoun/feature/presentation/screens/widget/document_card.dart';
+import 'package:aoun/feature/presentation/screens/widget/header.dart';
+import 'package:aoun/feature/presentation/screens/widget/info_card.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 /// Centralized design tokens so colors / spacing are defined once
 /// and stay consistent across the screen.
-class _AppColors {
-  static const primary = Color(0xff2F674D);
-  static const primaryDark = Color(0xff255A41);
-  static const danger = Color(0xffC30B0B);
-  static const background = Color(0xffEEF2EE);
-  static const chipBg = Color(0xffE8F1EC);
+
+class RequestCharityReview extends StatefulWidget {
+  final int charityId;
+  const RequestCharityReview({super.key, required this.charityId});
+
+  @override
+  State<RequestCharityReview> createState() => _RequestCharityReviewState();
 }
 
-class RequestCharityReview extends StatelessWidget {
-  const RequestCharityReview({super.key});
+class _RequestCharityReviewState extends State<RequestCharityReview> {
+  CharityDetailsModel? charity;
+  bool isLoading = true;
+
+  Future<void> getCharityData() async {
+    try {
+      final response = await ApiServices.getCharityDetails(widget.charityId);
+
+      setState(() {
+        charity = CharityDetailsModel.fromJson(response.data["data"]);
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCharityData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +56,19 @@ class RequestCharityReview extends StatelessWidget {
     // Cap content width on large screens (tablet/desktop/web) so
     // cards don't stretch edge-to-edge unnaturally.
     final maxContentWidth = width > 700 ? 700.0 : double.infinity;
-
+    if (isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         drawer: const AdminAppDrawer(),
-        backgroundColor: _AppColors.background,
-        appBar: AppBar(backgroundColor: _AppColors.primary, toolbarHeight: 0),
+        backgroundColor: AppColors.background,
+        appBar: AppBar(backgroundColor: AppColors.primary, toolbarHeight: 0),
         body: SafeArea(
           child: Column(
             children: [
-              _Header(
+              Header(
                 titleFontSize: titleFontSize,
                 subtitleFontSize: subtitleFontSize,
               ),
@@ -48,13 +78,17 @@ class RequestCharityReview extends StatelessWidget {
                   child: Center(
                     child: ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: maxContentWidth),
-                      child: const Column(
+                      child: Column(
                         children: [
-                          _BasicInfoCard(),
-                          SizedBox(height: 18),
-                          _DocumentsCard(),
-                          SizedBox(height: 24),
-                          _ActionButtons(),
+                          BasicInfoCard(charity: charity!),
+
+                          const SizedBox(height: 18),
+
+                          DocumentsCard(documents: charity!.documents),
+
+                          const SizedBox(height: 24),
+
+                          _ActionButtons(charityId: charity!.id, charityName: charity!.charityName),
                           SizedBox(height: 25),
                         ],
                       ),
@@ -70,208 +104,10 @@ class RequestCharityReview extends StatelessWidget {
   }
 }
 
-class _Header extends StatelessWidget {
-  final double titleFontSize;
-  final double subtitleFontSize;
-
-  const _Header({required this.titleFontSize, required this.subtitleFontSize});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // Intrinsic height driven by content + padding instead of a fixed
-      // height, so it won't overflow when the user increases text scale.
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      decoration: const BoxDecoration(
-        color: _AppColors.primary,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(25),
-          bottomRight: Radius.circular(25),
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Builder(
-            builder:
-                (context) => InkWell(
-                  onTap: () => Scaffold.of(context).openDrawer(),
-                  child: Image.asset(
-                    ImageAssets.charityIcon,
-                    width: 30,
-                    height: 30,
-                  ),
-                ),
-          ),
-          const Spacer(),
-          Flexible(
-            flex: 3,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "بيانات الجمعية",
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.manrope(
-                    fontSize: titleFontSize * 0.9,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "لوحة التحكم",
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.manrope(
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Spacer(),
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.notifications_none,
-                  color: Colors.white,
-                  size: 28,
-                ),
-              ),
-              Positioned(
-                top: 11,
-                right: 25,
-                child: Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: _AppColors.primary, width: 2),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Reusable white rounded card with a colored accent bar + section title.
-class _SectionCard extends StatelessWidget {
-  final String title;
-  final double titleFontSize;
-  final Widget child;
-
-  const _SectionCard({
-    required this.title,
-    required this.child,
-    this.titleFontSize = 20,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(height: 20, width: 4, color: _AppColors.primary),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  title,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: _AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: titleFontSize,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          child,
-        ],
-      ),
-    );
-  }
-}
-
-class _BasicInfoCard extends StatelessWidget {
-  const _BasicInfoCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return _SectionCard(
-      title: "البيانات الأساسية",
-      child: const Column(
-        children: [
-          InfoColumn(
-            title: "اسم الجمعية",
-            value: "جمعية عين للتنمية المجتمعية",
-          ),
-          InfoColumn(title: "رقم القيد", value: "REG-2024-001"),
-          InfoColumn(title: "البريد الإلكتروني", value: "info@charity.org"),
-          InfoColumn(title: "العنوان", value: "القاهرة"),
-          InfoColumn(title: "المسؤول عن الجمعية", value: "أحمد محمد علي"),
-          InfoColumn(title: "تاريخ التقديم", value: "2025/02/15"),
-          InfoColumn(
-            title: "نبذة عن الجمعية",
-            value:
-                "جمعية خيرية تعمل على دعم الأسر المحتاجة ومساعدة المرضى والأيتام.",
-            multiLine: true,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _DocumentsCard extends StatelessWidget {
-  const _DocumentsCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return _SectionCard(
-      title: "المستندات الرسمية",
-      titleFontSize: 22,
-      child: const Column(
-        children: [
-          DocumentItem(title: "شهادة تسجيل الجمعية"),
-          SizedBox(height: 12),
-          DocumentItem(title: "البطاقة الضريبية"),
-          SizedBox(height: 12),
-          DocumentItem(title: "إثبات حساب بنكي"),
-          SizedBox(height: 12),
-          DocumentItem(title: "بطاقة الرقم القومي للمسؤول"),
-        ],
-      ),
-    );
-  }
-}
-
 class _ActionButtons extends StatelessWidget {
-  const _ActionButtons();
+  final int charityId;
+  final String charityName;
+  const _ActionButtons({required this.charityId, required this.charityName});
 
   @override
   Widget build(BuildContext context) {
@@ -282,14 +118,14 @@ class _ActionButtons extends StatelessWidget {
       children: [
         Expanded(
           child: _ActionButton(
-            color: _AppColors.primary,
-            iconColor: _AppColors.primaryDark,
+            color: AppColors.primary,
+            iconColor: AppColors.primaryDark,
             icon: Icons.check,
             label: "قبول الجمعية",
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (_) => const AcceptCharityDialog(),
+                builder: (_) => AcceptCharityDialog(charityId: charityId, charityName: charityName,),
               );
             },
           ),
@@ -297,14 +133,14 @@ class _ActionButtons extends StatelessWidget {
         const SizedBox(width: 15),
         Expanded(
           child: _ActionButton(
-            color: _AppColors.danger,
-            iconColor: _AppColors.danger,
+            color: AppColors.danger,
+            iconColor: AppColors.danger,
             icon: Icons.close,
             label: "رفض الجمعية",
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (_) => const RejectCharityDialog(),
+                builder: (_) => RejectCharityDialog(charityId: charityId, charityName: charityName,),
               );
             },
           ),
@@ -373,130 +209,10 @@ class _ActionButton extends StatelessWidget {
   }
 }
 
-class InfoColumn extends StatelessWidget {
-  final String title;
-  final String value;
-  final bool multiLine;
-
-  const InfoColumn({
-    super.key,
-    required this.title,
-    required this.value,
-    this.multiLine = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 10),
-          Text(
-            title,
-            style: const TextStyle(
-              color: _AppColors.primary,
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            value,
-            textAlign: TextAlign.right,
-            style: const TextStyle(
-              color: Colors.black87,
-              fontSize: 15,
-              height: 1.6,
-            ),
-            maxLines: multiLine ? null : 1,
-            overflow: multiLine ? null : TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class DocumentItem extends StatelessWidget {
-  final String title;
-  final VoidCallback? onDownload;
-
-  const DocumentItem({super.key, required this.title, this.onDownload});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: _AppColors.chipBg,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Icon(
-              Icons.description_outlined,
-              color: _AppColors.primary,
-              size: 15,
-            ),
-          ),
-          const SizedBox(width: 12),
-          // Flexible so long document titles wrap/ellipsize instead of
-          // pushing the "تحميل" download action off-screen.
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "PDF",
-                  style: TextStyle(color: Colors.grey.shade600, fontSize: 10),
-                ),
-              ],
-            ),
-          ),
-          InkWell(
-            onTap: onDownload,
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "تحميل",
-                  style: TextStyle(
-                    color: _AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-                Icon(Icons.download, color: _AppColors.primary, size: 15),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class AcceptCharityDialog extends StatelessWidget {
-  const AcceptCharityDialog({super.key});
+  final String charityName;
+  final int charityId;
+  const AcceptCharityDialog({super.key, required this.charityId, required this.charityName});
 
   @override
   Widget build(BuildContext context) {
@@ -526,8 +242,8 @@ class AcceptCharityDialog extends StatelessWidget {
 
               SizedBox(height: width * .04),
 
-              const Text(
-                """هل أنت متأكد من قبول جمعية “غيث للتنمية المجتمعية “؟
+               Text(
+                """هل أنت متأكد من قبول جمعية “$charityName “؟
 سيتم تفيعل حسابها وإرسال إشعار بالقبول""",
                 textAlign: TextAlign.right,
                 style: TextStyle(
@@ -543,7 +259,26 @@ class AcceptCharityDialog extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        try {
+                          await ApiServices.updateCharityStatus(
+                            charityId: charityId,
+                            status: "Approved",
+                          );
+
+                          Navigator.pop(context); // يقفل الـ Dialog
+
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            Routes.adminHome,
+                            (route) => false,
+                          );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("حدث خطأ")),
+                          );
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xff2F674D),
                         minimumSize: const Size.fromHeight(45),
@@ -564,7 +299,9 @@ class AcceptCharityDialog extends StatelessWidget {
 
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       style: OutlinedButton.styleFrom(
                         minimumSize: const Size.fromHeight(45),
                         shape: RoundedRectangleBorder(
@@ -588,7 +325,9 @@ class AcceptCharityDialog extends StatelessWidget {
 }
 
 class RejectCharityDialog extends StatelessWidget {
-  const RejectCharityDialog({super.key});
+  final int charityId;
+  final String charityName;
+  const RejectCharityDialog({super.key, required this.charityId, required this.charityName});
 
   @override
   Widget build(BuildContext context) {
@@ -618,11 +357,11 @@ class RejectCharityDialog extends StatelessWidget {
 
               SizedBox(height: width * 0.04),
 
-              const Directionality(
+               Directionality(
                 textDirection: TextDirection.rtl,
                 child: Text(
                   """
-يرجى إدخال سبب رفض جمعية غيث للتنمية المجتمعية , هذا السبب سيتم إرساله للجمعية
+يرجى إدخال سبب رفض جمعية $charityName , هذا السبب سيتم إرساله للجمعية
 """,
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -663,7 +402,25 @@ class RejectCharityDialog extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        try {
+                          await ApiServices.updateCharityStatus(
+                            charityId: charityId,
+                            status: "Rejected",
+                          );
+                          Navigator.pop(context); // يقفل الـ Dialog
+
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            Routes.adminHome,
+                            (route) => false,
+                          );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("حدث خطأ")),
+                          );
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
                         backgroundColor: const Color(0xffC30B0B),
@@ -714,5 +471,24 @@ class RejectCharityDialog extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+String getDocumentName(String type) {
+  switch (type) {
+    case "RegistrationCertificate":
+      return "شهادة تسجيل الجمعية";
+
+    case "TaxCard":
+      return "البطاقة الضريبية";
+
+    case "BankAccountProof":
+      return "إثبات حساب  بنكي";
+
+    case "NationalId":
+      return "بطاقة الرقم القومي للمسؤول";
+
+    default:
+      return type;
   }
 }
