@@ -329,12 +329,14 @@ class _LoginFormState extends State<LoginForm> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => BlocProvider(
-                                    create: (_) => AdminStatsCubit(
-                                      getIt<AdminRepository>(),
-                                    )..getStats(),
-                                    child: const AdminHome(),
-                                  ),
+                                  builder:
+                                      (_) => BlocProvider(
+                                        create:
+                                            (_) => AdminStatsCubit(
+                                              getIt<AdminRepository>(),
+                                            )..getStats(),
+                                        child: const AdminHome(),
+                                      ),
                                 ),
                               );
                             }

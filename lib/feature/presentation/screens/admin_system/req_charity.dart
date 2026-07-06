@@ -1,4 +1,3 @@
-import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:aoun/feature/presentation/screens/admin_system/req_charity_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../state_management/cubit/admin_state.dart';
 import '../../state_management/cubit/pending_charity_cubit.dart';
-import '../../state_management/cubit/top_charities_cubit.dart';
 import 'admin_app_drawer.dart';
 
 class ReqCharity extends StatelessWidget {
@@ -161,6 +159,7 @@ class ReqCharity extends StatelessWidget {
                         return ReqCharityItem(
                           charityName:
                           charity.charityName,
+                          charityId: charity.id,
 
                           applicationDate:
                           charity.createdAt.split('T')[0],

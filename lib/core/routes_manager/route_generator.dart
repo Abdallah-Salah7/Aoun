@@ -28,7 +28,6 @@ import 'package:aoun/feature/presentation/screens/donor_system/payments/success_
 import 'package:aoun/feature/presentation/screens/donor_system/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import '../../feature/data/models/camp_model.dart';
 import '../../feature/data/repositories_imp/camp_repository.dart';
 import '../../feature/domain/entities/camp_entity.dart';
 import '../../feature/domain/entities/case_entity.dart';
@@ -87,7 +86,7 @@ class RouteGenerator {
     final argument = settings.arguments;
 
     switch (settings.name) {
-    /// HOME
+      /// HOME
       case Routes.homePage:
         final index = settings.arguments as int?;
         return MaterialPageRoute(builder: (_) => HomePage(initialIndex: index));
@@ -106,15 +105,15 @@ class RouteGenerator {
 
       case Routes.notificationScreen:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
-    // case Routes.fundsZakat:
-    //   return MaterialPageRoute(builder: (_) => const ZakatTab());
+      // case Routes.fundsZakat:
+      //   return MaterialPageRoute(builder: (_) => const ZakatTab());
       case Routes.onBoard4:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen4());
 
       case Routes.fundsZakat:
         return MaterialPageRoute(builder: (_) => const FundsZakat());
 
-    /// CAMPAIGNS
+      /// CAMPAIGNS
       case Routes.currentCampaignsScreen:
         return MaterialPageRoute(builder: (_) => CurrentCampaignsScreen());
       case Routes.caseDetailsScreen:
@@ -136,17 +135,18 @@ class RouteGenerator {
         );
       case Routes.emergencyFundScreen:
         return MaterialPageRoute(builder: (_) => const EmergencyFundScreen());
-    /// PAYMENT
+
+      /// PAYMENT
       case Routes.paymentScreen:
         final args = argument as PaymentArgs;
 
         return MaterialPageRoute(
           builder:
               (_) => PaymentScreen(
-            isCase: args.isCase,
-            targetId: args.targetId,
-            targetAmount: args.amount,
-          ),
+                isCase: args.isCase,
+                targetId: args.targetId,
+                targetAmount: args.amount,
+              ),
         );
       case Routes.creditDetailsScreen:
         final args = argument as PaymentArgs;
@@ -154,10 +154,10 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder:
               (_) => CreditDetails(
-            amount: args.amount,
-            targetId: args.targetId,
-            targetType: args.targetType,
-          ),
+                amount: args.amount,
+                targetId: args.targetId,
+                targetType: args.targetType,
+              ),
         );
       case Routes.successPaymentScreen:
         final amount = argument as int;
@@ -175,7 +175,7 @@ class RouteGenerator {
           ),
         );
 
-    /// CHARITY
+      /// CHARITY
       case Routes.charityProfileScreen:
         return MaterialPageRoute(builder: (_) => const CharityProfileScreen());
 
@@ -219,10 +219,10 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder:
               (_) => CharityCampaignDetails(
-            campaignData: args,
-            // بدلاً من context.read، نستخدم GetIt
-            repository: GetIt.I<CampaignRepository>(),
-          ),
+                campaignData: args,
+                // بدلاً من context.read، نستخدم GetIt
+                repository: GetIt.I<CampaignRepository>(),
+              ),
         );
       case Routes.donorsScreen:
         return MaterialPageRoute(builder: (_) => DonorsScreen());
@@ -252,7 +252,7 @@ class RouteGenerator {
           builder: (_) => const PrivacyAndSafetyScreen(),
         );
 
-    /// SETTINGS
+      /// SETTINGS
       case Routes.settings:
         return MaterialPageRoute(builder: (_) => const Settings());
 
@@ -280,48 +280,48 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder:
               (context) => ZakatGold(
-            onSeeMorePressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                Routes.homePage,
+                onSeeMorePressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Routes.homePage,
                     (route) => false,
-                arguments: 1,
-              );
-            },
-          ),
+                    arguments: 1,
+                  );
+                },
+              ),
         );
       case Routes.zakatSliver:
         return MaterialPageRoute(
           builder:
               (context) => ZakatSliver(
-            onSeeMorePressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                Routes.homePage,
+                onSeeMorePressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Routes.homePage,
                     (route) => false,
-                arguments: 1,
-              );
-            },
-          ),
+                    arguments: 1,
+                  );
+                },
+              ),
         );
       case Routes.zakatMoney:
         return MaterialPageRoute(
           builder:
               (context) => ZakatMoney(
-            onSeeMorePressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                Routes.homePage,
+                onSeeMorePressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Routes.homePage,
                     (route) => false,
-                arguments: 1,
-              );
-            },
-          ),
+                    arguments: 1,
+                  );
+                },
+              ),
         );
       case Routes.caseManagement:
         return MaterialPageRoute(builder: (_) => const CaseManagement());
 
-    /// AUTH
+      /// AUTH
       case Routes.userTypeScreen:
         return MaterialPageRoute(
           builder: (_) => const GeneralLoginChoicePage(),
@@ -358,7 +358,7 @@ class RouteGenerator {
       case Routes.loginToCompleteDataScreen:
         return MaterialPageRoute(builder: (_) => const LoginToCompleteData());
 
-    /// ONBOARDING
+      /// ONBOARDING
       case Routes.onBoard1:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen1());
 
@@ -368,25 +368,46 @@ class RouteGenerator {
       case Routes.onBoard3:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
 
-    /// SPLASH
+      /// SPLASH
       case Routes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
 
-    /// Admin
+      /// Admin
       case Routes.adminLoginScreen:
         return MaterialPageRoute(builder: (_) => AdminLoginScreen());
       case Routes.reqCharityReview:
-        return MaterialPageRoute(builder: (_) => RequestCharityReview());
-      case Routes.acceptCharityDetails:
-        return MaterialPageRoute(builder: (_) => AcceptCharityDetails());
-      case Routes.detaineeCharity:
-        return MaterialPageRoute(builder: (_) => DetaineeCharity());
-      case Routes.rejectedCharity:
-        return MaterialPageRoute(builder: (_) => RejectedCharity());
+        final charityId = settings.arguments as int;
+
+        return MaterialPageRoute(
+          builder: (_) => RequestCharityReview(charityId: charityId),
+        );
+     case Routes.acceptCharityDetails:
+  final charityId = settings.arguments as int;
+  return MaterialPageRoute(
+    builder: (_) => AcceptCharityDetails(
+      charityId: charityId,
+    ),
+  );
+
+case Routes.detaineeCharity:
+  final charityId = settings.arguments as int;
+  return MaterialPageRoute(
+    builder: (_) => DetaineeCharity(
+      charityId: charityId,
+    ),
+  );
+
+case Routes.rejectedCharity:
+  final charityId = settings.arguments as int;
+  return MaterialPageRoute(
+    builder: (_) => RejectedCharity(
+      charityId: charityId,
+    ),
+  );
       case Routes.adminSettings:
         return MaterialPageRoute(builder: (_) => AdminSettings());
 
-    /// Services
+      /// Services
       case Routes.fatwasOnZakatScreen:
         return MaterialPageRoute(builder: (_) => const FatawsOnZakat());
 
@@ -411,9 +432,9 @@ class RouteGenerator {
     return MaterialPageRoute(
       builder:
           (_) => Scaffold(
-        appBar: AppBar(title: const Text('No Route Found')),
-        body: const Center(child: Text('No Route Found')),
-      ),
+            appBar: AppBar(title: const Text('No Route Found')),
+            body: const Center(child: Text('No Route Found')),
+          ),
     );
   }
 }

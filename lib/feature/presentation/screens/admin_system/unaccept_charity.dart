@@ -146,7 +146,7 @@ class UnacceptCharity extends StatelessWidget {
                         return UnacceptCharityItem(
                           charityName: charity.charityName,
                           rejectDate: charity.createdAt.substring(0, 10),
-                          onDetailsPressed: () {},
+                          onDetailsPressed: () {}, charityId: charity.id,
                         );
                       }).toList(),
                     );

@@ -1,3 +1,4 @@
+import 'package:aoun/core/routes_manager/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -6,12 +7,13 @@ import 'accept_charity_details.dart';
 
 class AcceptCharityItem extends StatelessWidget {
   final String charityName;
+  final int charityId;
   final VoidCallback onDetailsPressed;
 
   const AcceptCharityItem({
     super.key,
     required this.charityName,
-    required this.onDetailsPressed,
+    required this.onDetailsPressed, required this.charityId,
   });
 
   @override
@@ -122,12 +124,11 @@ class AcceptCharityItem extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const AcceptCharityDetails(),
-                      ),
-                    );
+                    Navigator.pushNamed(
+  context,
+  Routes.acceptCharityDetails,
+  arguments: charityId,
+);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff1F6A43),

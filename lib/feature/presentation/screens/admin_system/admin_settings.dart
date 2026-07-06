@@ -1,5 +1,6 @@
 import 'package:aoun/core/resources/assets_manager.dart';
 import 'package:aoun/core/routes_manager/routes.dart';
+import 'package:aoun/feature/presentation/screens/admin_system/admin_app_drawer.dart';
 import 'package:aoun/feature/presentation/screens/charity_system/app_drawer.dart';
 import 'package:aoun/feature/presentation/screens/widget/custom_switch.dart';
 import 'package:aoun/feature/presentation/screens/widget/security_scetion.dart';
@@ -35,7 +36,7 @@ class _AdminSettingsState extends State<AdminSettings> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        drawer: const AppDrawer(),
+        drawer: const AdminAppDrawer(),
         appBar: AppBar(backgroundColor: _backgroundColor, toolbarHeight: 0),
 
         backgroundColor: _backgroundColor,
@@ -204,7 +205,7 @@ class _AdminSettingsState extends State<AdminSettings> {
           SizedBox(height: height * 0.005),
 
           Text(
-            "admin@example.com",
+            "admin@test.com",
             style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: width * 0.037,
