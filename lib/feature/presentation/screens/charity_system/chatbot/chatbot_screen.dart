@@ -58,7 +58,9 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
     controller.clear();
 
     try {
-      final answer = await ApiServices.askAdmin(question);
+      final answer = await ApiServices.askCharityAI(
+        question: question,
+      );
 
       setState(() {
         messages.add(ChatMessage(text: answer, isUser: false));
@@ -89,121 +91,151 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: const Color(0xFFD9DDDA),
-        body: SafeArea(
-          child: Column(
-            children: [
-              _buildHeader(h, w, context),
-              SizedBox(height: h * 0.02),
+        body: Column(
+          children: [
+            _buildHeader(context),
+            SizedBox(height: h * 0.02),
 
-              Expanded(
-                child: ListView.builder(
-                  controller: scrollController,
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    final msg = messages[index];
+            Expanded(
+              child: ListView.builder(
+                controller: scrollController,
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  final msg = messages[index];
 
-                    return MessageBubble(text: msg.text, isUser: msg.isUser);
-                  },
-                ),
+                  return MessageBubble(text: msg.text, isUser: msg.isUser);
+                },
               ),
-              if (isLoading)
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Text(
-                      "جاري كتابة الرد...",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontStyle: FontStyle.italic,
-                      ),
+            ),
+            if (isLoading)
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Text(
+                    "جاري كتابة الرد...",
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontStyle: FontStyle.italic,
+                      fontSize: 19
                     ),
                   ),
                 ),
-              SuggestionsSection(
-                isExpanded: isSuggestionsExpanded,
-                onExpand: () {
-                  setState(() {
-                    isSuggestionsExpanded = !isSuggestionsExpanded;
-                  });
-                },
-                onSuggestionTap: (text) {
-                  controller.text = text;
-                  sendMessage();
-                },
               ),
-              _buildInputBar(h, w),
-            ],
-          ),
+            SuggestionsSection(
+              isExpanded: isSuggestionsExpanded,
+              onExpand: () {
+                setState(() {
+                  isSuggestionsExpanded = !isSuggestionsExpanded;
+                });
+              },
+              onSuggestionTap: (text) {
+                controller.text = text;
+                sendMessage();
+              },
+            ),
+            _buildInputBar(h, w),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildHeader(double h, double w, BuildContext context) {
+  Widget _buildHeader(BuildContext context) {
     return Container(
-      height: h * 0.12,
+      height: 150,
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: w * 0.04),
       decoration: const BoxDecoration(
         color: Color(0xFF1E5E4F),
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
+          bottomLeft: Radius.circular(22),
+          bottomRight: Radius.circular(22),
         ),
       ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
-                "AI Assistant",
-                style: TextStyle(color: Colors.white, fontSize: 18),
+      padding: EdgeInsets.only(top: 30),
+      child: SafeArea(
+        child: Stack(
+          children: [
+            /// Close Button
+            Positioned(
+              left: 20,
+              top: 14,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.homeCharity);
+                },
+                child: Container(
+                  width: 34,
+                  height: 34,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 1.5),
+                  ),
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
               ),
-              SizedBox(height: 4),
-              Text(
-                "مساعد عون الذكى",
-                style: TextStyle(color: Colors.white70, fontSize: 14),
-              ),
-            ],
-          ),
-
-          // left icon
-          Positioned(
-            left: 0,
-            child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, Routes.homeCharity);
-              },
-              child: Image.asset("assets/images/x.png", height: h * 0.03),
             ),
-          ),
 
-          // right icon
-          Positioned(
-            right: w * 0.1,
-            child: Image.asset("assets/images/star.png", height: h * 0.055),
-          ),
-        ],
+            /// Center Title
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 68.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Text(
+                    "AI Assistant",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Text(
+                    "مساعد عون الذكى",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            /// Star Icon
+            Positioned(
+              right: 22,
+              top: 16,
+              child: Image.asset(
+                "assets/images/star.png",
+                width: 36,
+                height: 36,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
-
   Widget _buildInputBar(double h, double w) {
     return Padding(
-      padding: EdgeInsets.all(w * 0.03),
+      padding: EdgeInsets.only(right: 13,left:13,top: 10,bottom: 60),
       child: Row(
         children: [
           Expanded(
             child: Container(
-              height: h * 0.055,
+              height: 56,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
               ),
+
               child: TextField(
                 controller: controller,
                 textInputAction: TextInputAction.send,
@@ -211,6 +243,11 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                 textDirection: TextDirection.rtl,
                 decoration: InputDecoration(
                   hintText: "اكتب سؤالك هنا...",
+                  hintStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xff838181)
+                  ),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(horizontal: 12),
                 ),
@@ -274,19 +311,16 @@ class SuggestionsSection extends StatelessWidget {
               padding: const EdgeInsets.all(14),
               child: Row(
                 children: [
-                  AnimatedRotation(
-                    turns: isExpanded ? 0.5 : 0,
-                    duration: const Duration(milliseconds: 250),
-                    child: const Icon(Icons.keyboard_arrow_down),
-                  ),
 
                   const SizedBox(width: 8),
 
                   Text(
-                    "اقتراحات",
+                    "اقتراحات:",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: PrimaryColors.secondaryColor,
+                      color: Color(0xff3E403F),
+                      fontSize: 22,
+
                     ),
                   ),
                 ],
@@ -294,31 +328,50 @@ class SuggestionsSection extends StatelessWidget {
             ),
           ),
 
+
           if (isExpanded)
             ...suggestions.map(
-              (item) => InkWell(
-                onTap: () {
-                  onSuggestionTap(item["text"] as String);
-                },
-                child: Container(
-                  margin: const EdgeInsets.fromLTRB(12, 0, 12, 10),
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF6F6F6),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        item["icon"] as IconData,
-                        color: const Color(0xFF1E5E4F),
+                  (item) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(35),
+                      onTap: () {
+                        onSuggestionTap(item["text"] as String);
+                      },
+                      child: Container(
+                        height: 60,
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        decoration: BoxDecoration(
+                          color: const Color(0xffE0E0E0),
+                          borderRadius: BorderRadius.circular(35),
+                          border: Border.all(
+                            color: const Color(0xffCCCCCC),
+                            width: 1,
+                          ),
+                        ),
+                        child: Row(
+                          textDirection: TextDirection.rtl,
+                          children: [
+                            Icon(
+                              item["icon"] as IconData,
+                              color: const Color(0xff2F6B52),
+                              size: 34,
+                            ),
+                    SizedBox(width: 8),
+                            Text(
+                              item["text"] as String,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 19,
+                                color: Color(0xff3E403F),
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(width: 10),
-                      Expanded(child: Text(item["text"] as String)),
-                    ],
+                    ),
                   ),
-                ),
-              ),
             ),
         ],
       ),

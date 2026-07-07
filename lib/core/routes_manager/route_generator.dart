@@ -146,6 +146,8 @@ class RouteGenerator {
                 isCase: args.isCase,
                 targetId: args.targetId,
                 targetAmount: args.amount,
+                image: args.image,
+                title: args.title,
               ),
         );
       case Routes.creditDetailsScreen:
@@ -157,7 +159,9 @@ class RouteGenerator {
                 amount: args.amount,
                 targetId: args.targetId,
                 targetType: args.targetType,
-              ),
+                image: args.image,
+                title: args.title,
+              )
         );
       case Routes.successPaymentScreen:
         final amount = argument as int;

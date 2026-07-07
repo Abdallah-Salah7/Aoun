@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
 import '../../../data/data_sources/api_services.dart';
+import '../../../data/data_sources/donation_local_storage.dart';
 
 class DonationRecord extends StatefulWidget {
   const DonationRecord({super.key});
@@ -109,15 +110,44 @@ class _DonationRecordState extends State<DonationRecord> {
                       vertical: 10,
                     ),
 
-                    leading: ClipOval(
-                      child: Image.asset(
-                        ImageAssets.caseRec,
-                        width: 55,
-                        height: 55,
-                        fit: BoxFit.cover,
+                    leading: FutureBuilder<String?>(
+                      future: DonationLocalStorage().getDonationImage(
+                        donation["targetTitle"],
                       ),
-                    ),
+                      builder: (context, snapshot) {
+                        final image = snapshot.data ?? "";
 
+                        String imageUrl = "";
+
+                        if (image.startsWith("http")) {
+                          imageUrl = image;
+                        } else if (image.startsWith("/")) {
+                          imageUrl = "https://aounplatform.runasp.net$image";
+                        }
+
+                        return ClipOval(
+                          child: imageUrl.isEmpty
+                              ? Image.asset(
+                            ImageAssets.caseRec,
+                            width: 55,
+                            height: 55,
+                            fit: BoxFit.cover,
+                          )
+                              : Image.network(
+                            imageUrl,
+                            width: 55,
+                            height: 55,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) => Image.asset(
+                              ImageAssets.caseRec,
+                              width: 55,
+                              height: 55,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     title: Text(
                       donation["targetTitle"] ?? "",
                       style: GoogleFonts.saira(

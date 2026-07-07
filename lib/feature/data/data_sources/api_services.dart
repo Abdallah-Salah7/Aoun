@@ -1,3 +1,4 @@
+
 import 'package:aoun/feature/data/models/zakat_model.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
@@ -20,16 +21,43 @@ class ApiServices {
       },
     ),
   );
+  static Future<String> askCharityAI({
+    required String question,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
 
-  static Future<String> askAdmin(String question) async {
-    final response = await aiDio.post(
-      "/api/ai/admin-chat",
-      data: {"question": question},
-    );
+    final email = prefs.getString("email") ?? "";
+    final password = prefs.getString("password") ?? "";
 
-    return response.data["answer"];
+    print("EMAIL = $email");
+    print("PASSWORD = $password");
+
+    final body = {
+      "question": question,
+      "email": email,
+      "password": password,
+    };
+
+    print("REQUEST = $body");
+
+    try {
+      final response = await aiDio.post(
+        "/api/ai/charity-chat",
+        data: body,
+      );
+
+      print("STATUS = ${response.statusCode}");
+      print("RESPONSE = ${response.data}");
+
+      return response.data["answer"];
+    } on DioException catch (e) {
+      print("STATUS = ${e.response?.statusCode}");
+      print("ERROR = ${e.response?.data}");
+      print("MESSAGE = ${e.message}");
+
+      rethrow;
+    }
   }
-
   /// ================= INIT TOKEN =================
   static Future<void> setToken(String token) async {
     dio.options.headers['Authorization'] = 'Bearer $token';

@@ -347,6 +347,8 @@ class _LoginFormState extends State<LoginForm> {
                                 data["token"],
                               );
 
+                              await prefs.setString("email", emailController.text.trim());
+                              await prefs.setString("password", passwordController.text.trim());
                               await ApiServices.setToken(data["token"]);
 
                               // جلب بيانات الجمعية الحالية

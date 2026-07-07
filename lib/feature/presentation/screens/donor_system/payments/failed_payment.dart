@@ -61,7 +61,9 @@ class FailedPaymentScreen extends StatelessWidget {
                       isCase: false,
                       amount: 300,
                       targetId: 1,
-                      targetType: "Campaign", // أو "Case" حسب اللي عندك
+                      targetType: "Campaign",
+                        image: "assets/images/emergency_fund.png",
+                      title: "فشل التبرع"
                     ),
                   );
                 },

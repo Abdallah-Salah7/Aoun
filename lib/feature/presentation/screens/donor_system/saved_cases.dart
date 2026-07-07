@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/resources/assets_manager.dart';
+import '../../../data/data_sources/favorite_local_storage.dart';
 
 class SavedCases extends StatefulWidget {
   const SavedCases({super.key});
@@ -114,7 +115,7 @@ class _SavedCasesState extends State<SavedCases> {
                 final String title = item["title"] ?? "";
                 final String description = item["description"] ?? "";
 
-                final String imageUrl = buildImageUrl(item["image"] ?? "");
+
 
                 return Column(
                   children: [
@@ -131,28 +132,37 @@ class _SavedCasesState extends State<SavedCases> {
                         children: [
 
                           /// IMAGE
-                          ClipOval(
-                            child: imageUrl.isEmpty
-                                ? Image.asset(
-                              ImageAssets.caseRec,
-                              height: 77,
-                              width: 77,
-                              fit: BoxFit.cover,
-                            )
-                                : Image.network(
-                              imageUrl,
-                              height: 77,
-                              width: 77,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) {
-                                return Image.asset(
+                          FutureBuilder<String?>(
+                            future: type == "campaign"
+                                ? FavoriteLocalStorage().getCampaignImage(id)
+                                : FavoriteLocalStorage().getCaseImage(id),
+                            builder: (context, snapshot) {
+                              final imageUrl = buildImageUrl(snapshot.data ?? "");
+
+                              return ClipOval(
+                                child: imageUrl.isEmpty
+                                    ? Image.asset(
                                   ImageAssets.caseRec,
                                   height: 77,
                                   width: 77,
                                   fit: BoxFit.cover,
-                                );
-                              },
-                            ),
+                                )
+                                    : Image.network(
+                                  imageUrl,
+                                  height: 77,
+                                  width: 77,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, __, ___) {
+                                    return Image.asset(
+                                      ImageAssets.caseRec,
+                                      height: 77,
+                                      width: 77,
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                ),
+                              );
+                            },
                           ),
 
                           const SizedBox(width: 12),
@@ -196,11 +206,11 @@ class _SavedCasesState extends State<SavedCases> {
                             onTap: () async {
                               try {
                                 if (type == "case") {
-                                  await FavoriteApiService()
-                                      .removeCaseFromFavorites(id);
+                                  await FavoriteApiService().removeCaseFromFavorites(id);
+                                  await FavoriteLocalStorage().removeCaseImage(id);
                                 } else {
-                                  await FavoriteApiService()
-                                      .removeCampaignFromFavorites(id);
+                                  await FavoriteApiService().removeCampaignFromFavorites(id);
+                                  await FavoriteLocalStorage().removeCampaignImage(id);
                                 }
 
                                 await _refreshFavorites();

@@ -218,6 +218,8 @@ class RecommendCaseItem extends StatelessWidget {
                           targetId: recommendCaseEntity.id,
                           amount: remaining.toInt(),
                           targetType: "Case",
+                          image: recommendCaseEntity.imageUrl,
+                          title: recommendCaseEntity.title
                         ),
                       );
                     },

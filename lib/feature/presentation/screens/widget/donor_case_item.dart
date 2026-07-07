@@ -219,6 +219,8 @@ class DonorCaseItem extends StatelessWidget {
                           targetId:donorCaseEntity.id,
                           amount: remaining.toInt(),
                           targetType: "Case",
+                          image: donorCaseEntity.imageUrl,
+                          title: donorCaseEntity.title
                         ),
                       );
                     },

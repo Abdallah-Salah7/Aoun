@@ -172,6 +172,8 @@ class CampaignItem extends StatelessWidget {
                           targetId: campEntity.id,
                           amount: remaining.toInt(),
                           targetType: "Campaign",
+                          image: campEntity.imageUrl,
+                          title: campEntity.title
                         ),
                       );
                     },

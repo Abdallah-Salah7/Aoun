@@ -10,6 +10,7 @@ import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
 import '../../../data/data_sources/donor_case_api_service.dart';
 import '../../../data/data_sources/favorite_api_service.dart';
+import '../../../data/data_sources/favorite_local_storage.dart';
 import '../../state_management/cubit/case_cubit.dart';
 import 'charity_profile_screen.dart';
 
@@ -142,9 +143,12 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                                         widget.caseId,
                                       );
 
+
+                                      await FavoriteLocalStorage().removeCaseImage(widget.caseId);
+
                                       SavedCasesManager.savedCases.removeWhere(
-                                        (e) =>
-                                            e["id"] == widget.caseId &&
+                                            (e) =>
+                                        e["id"] == widget.caseId &&
                                             e["type"] == "case",
                                       );
                                     } else {
@@ -152,12 +156,17 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                                         widget.caseId,
                                       );
 
+                                      await FavoriteLocalStorage().saveCaseImage(
+                                        widget.caseId,
+                                        image,
+                                      );
+
                                       SavedCasesManager.savedCases.add({
                                         "id": widget.caseId,
                                         "type": "case",
                                         "title": title,
                                         "description": description,
-                                        "image": image, // 👈 هنا المشكلة بتتحل
+                                        "image": image,
                                       });
                                     }
 
@@ -448,6 +457,8 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                                             targetId: widget.caseId,
                                             amount: remaining.toInt(),
                                             targetType: "Case",
+                                            image: image,
+                                            title: title
                                           ),
                                         );
                                       },

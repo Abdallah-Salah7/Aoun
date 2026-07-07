@@ -153,12 +153,19 @@ class _HomeCharityState extends State<HomeCharity> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    charityName,
-                                    style: GoogleFonts.manrope(
-                                      fontSize: 23,
-                                      fontWeight: FontWeight.w800,
-                                      color: Colors.white,
+                                  SizedBox(
+                                    width: 220,
+                                    child: Text(
+                                      charityName,
+                                      textAlign: TextAlign.start,
+                                      softWrap: true,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.manrope(
+                                        fontSize: 23,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
 

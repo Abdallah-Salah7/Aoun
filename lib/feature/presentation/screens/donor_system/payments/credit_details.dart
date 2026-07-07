@@ -6,18 +6,23 @@ import 'package:aoun/feature/presentation/screens/widget/authentication/auth_bot
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../data/data_sources/donation_local_storage.dart';
 import '../../../../data/models/payment_args.dart';
 
 class CreditDetails extends StatefulWidget {
   final int amount;
   final int targetId;
   final String targetType;
+  final String title;
+  final String image;
 
   const CreditDetails({
     super.key,
     required this.amount,
     required this.targetId,
     required this.targetType,
+    required this.image,
+    required this.title,
   });
 
   @override
@@ -111,10 +116,13 @@ class _CreditDetailsState extends State<CreditDetails> {
         targetId: widget.targetId,
         targetType: widget.targetType,
       );
-
       final donationId = createRes.data["donationId"];
 
-      /// 7- Pay Donation
+      await DonationLocalStorage().saveDonationImage(
+        widget.title,
+        widget.image,
+      );
+
       await ApiServices.payDonation(
         donationId: donationId,
         cardNumber: cardController.text.trim(),
@@ -142,7 +150,8 @@ class _CreditDetailsState extends State<CreditDetails> {
               targetId: widget.targetId,
               amount: widget.amount,
               targetType: widget.targetType,
-            ),
+                image: widget.image,
+              title:widget.title),
           ),
         ),
       );

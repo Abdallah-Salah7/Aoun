@@ -9,10 +9,16 @@ class PaymentScreen extends StatefulWidget {
     required this.isCase,
     required this.targetId,
     required this.targetAmount,
+    required this.image,
+    required this.title,
+
   });
+
   final bool isCase;
   final int targetId;
   final int targetAmount;
+  final String title;
+  final String image;
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -399,12 +405,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder:
-                          (_) => CreditDetails(
-                            amount: finalAmount!,
-                            targetId: widget.targetId,
-                            targetType: widget.isCase ? "Case" : "Campaign",
-                          ),
+                      builder: (_) => CreditDetails(
+                        amount: finalAmount!,
+                        targetId: widget.targetId,
+                        targetType: widget.isCase ? "Case" : "Campaign",
+                        image: widget.image,
+                        title: widget.title,
+                      ),
                     ),
                   );
                 },

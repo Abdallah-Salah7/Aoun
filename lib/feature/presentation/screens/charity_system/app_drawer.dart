@@ -3,8 +3,32 @@ import 'package:flutter/material.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
 
-class AppDrawer extends StatelessWidget {
+import 'package:shared_preferences/shared_preferences.dart';
+
+class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
+
+  @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
+  String charityName = "اسم الجمعية";
+
+  @override
+  void initState() {
+    super.initState();
+    loadCharityName();
+  }
+
+  Future<void> loadCharityName() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      charityName =
+          prefs.getString("charityName") ?? "اسم الجمعية";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +48,19 @@ class AppDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 15),
 
-          const Text(
-            "غيث للتنمية المجتمعية",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
-              color: Color(0xFF333333),
+          SizedBox(
+            width: 220,
+            child: Text(
+              charityName,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+                color: Color(0xFF333333),
+              ),
             ),
           ),
 

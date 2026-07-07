@@ -219,6 +219,8 @@ class CaseItem extends StatelessWidget {
                           targetId: caseEntity.id,
                           amount: remaining.toInt(),
                           targetType: "Case",
+                          image: caseEntity.imageUrl,
+                          title: caseEntity.title
                         ),
                       );
                     },

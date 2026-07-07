@@ -8,6 +8,7 @@ import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/routes_manager/routes.dart';
 import '../../../data/data_sources/donor_campaign_api_service.dart';
 import '../../../data/data_sources/favorite_api_service.dart';
+import '../../../data/data_sources/favorite_local_storage.dart';
 
 class CampaignDetails extends StatefulWidget {
   final int campaignId;
@@ -138,17 +139,24 @@ class _CampaignDetailsState extends State<CampaignDetails> {
 
                                     try {
                                       if (isSaved) {
-                                        await service
-                                            .removeCampaignFromFavorites(
+                                        await service.removeCampaignFromFavorites(
                                           widget.campaignId,
                                         );
+
+                                        await FavoriteLocalStorage()
+                                            .removeCampaignImage(widget.campaignId);
                                       } else {
                                         await service.addCampaignToFavorites(
                                           widget.campaignId,
                                         );
+
+                                        await FavoriteLocalStorage().saveCampaignImage(
+                                          widget.campaignId,
+                                          image,
+                                        );
                                       }
 
-                                      await checkSaved(); // 🔥 يرجّع الحالة من السيرفر
+                                      await checkSaved();
                                     } catch (e) {
                                       debugPrint("Favorite error: $e");
                                     }
@@ -380,6 +388,9 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                                   targetId: widget.campaignId,
                                   amount: remaining.toInt(),
                                   targetType: "Campaign",
+                                  image: image,
+                                  title: title
+
                                 ),
                               );
                             },

@@ -264,6 +264,8 @@ class _EmergencyFundScreenState extends State<EmergencyFundScreen> {
                                       targetId: 0,
                                       amount: int.tryParse(amountController.text) ?? 0,
                                       targetType: "EmergencyFund",
+                                        image: "assets/images/emergency_fund.png",
+                                      title: "خزنة الطوارئ",
                                     ),
                                   );
                                 },
