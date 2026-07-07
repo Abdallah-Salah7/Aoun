@@ -3,6 +3,9 @@ import 'package:aoun/feature/presentation/screens/widget/onboarding/onboard_back
 import 'package:aoun/feature/presentation/screens/widget/onboarding/onboard_content.dart';
 import 'package:flutter/material.dart';
 
+import 'onboarding_video.dart';
+
+
 class OnboardingScreen2 extends StatelessWidget {
   const OnboardingScreen2({super.key});
 
@@ -17,12 +20,15 @@ class OnboardingScreen2 extends StatelessWidget {
           /// Content
           Positioned.fill(
             child: OnboardingContent(
+              image: const OnboardingVideo(
+                videoPath: "assets/videos/onb2.mp4",
+              ),
               titleText: "فُرص تَبرع مُتنوعة",
               paragraphText:
                   "تُغطي جميع مجالات الخير وتصل إلى من يستحقها من الفئات الأكثر حاجة،لتمنحهم فرصة جديدة للحياة وتمدّ لهم يد العون.",
               skipFunction: () {
                 Navigator.pushNamed(context, Routes.userTypeScreen);
-              }, followFunction: () { 
+              }, followFunction: () {
                 Navigator.pushNamed(context, Routes.onBoard3);
                },
             ),

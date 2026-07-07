@@ -132,8 +132,8 @@ class _AcceptCharityDetailsState extends State<AcceptCharityDetails> {
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
-                                          fontSize: width < 600 ? 15 : 18,
-                                          color: const Color(0xff666666),
+                                          fontSize: 19,
+                                          color: const Color(0xff6A6969),
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -143,9 +143,9 @@ class _AcceptCharityDetailsState extends State<AcceptCharityDetails> {
                                       Text(
                                         "20,000 ج.م",
                                         style: TextStyle(
-                                          fontSize: width < 600 ? 13 : 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color(0xff3B3B3B),
+                                          fontSize: 19,
+                                          color: const Color(0xff6A6969),
+                                          fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                     ],
@@ -197,7 +197,7 @@ class _ActionButtons extends StatelessWidget {
           width: MediaQuery.sizeOf(context).width * 0.4,
           child: _ActionButton(
             color: AppColors.danger,
-            iconColor: AppColors.danger,
+            iconColor: Colors.white,
             icon: Icons.block,
             label: "إيقاف الحساب",
             onPressed: () {
@@ -238,23 +238,15 @@ class _ActionButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         minimumSize: const Size.fromHeight(45),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        padding: const EdgeInsets.symmetric(horizontal: 22,vertical: 14),
       ),
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 15,
-            height: 15,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-            child: Center(child: Icon(icon, color: iconColor, size: 14)),
-          ),
+          Center(child: Icon(icon, color: iconColor, size: 24)),
           const SizedBox(width: 8),
           Flexible(
             child: FittedBox(
@@ -263,9 +255,9 @@ class _ActionButton extends StatelessWidget {
                 label,
                 maxLines: 1,
                 style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: 28,
                   color: Colors.white,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -305,7 +297,7 @@ class StopCharityDialog extends StatelessWidget {
                 "إيقاف حساب الجمعية",
                 textAlign: TextAlign.right,
                 style: TextStyle(
-                  fontSize: width < 600 ? 22 : 24,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xff3B3B3B),
                 ),
@@ -322,9 +314,9 @@ class StopCharityDialog extends StatelessWidget {
 """,
                   textAlign: TextAlign.right,
                   style: TextStyle(
-                    fontSize: 15,
-                    height: 1.7,
-                    color: Color(0xff666666),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xff4C4747),
                   ),
                 ),
               ),
@@ -341,7 +333,10 @@ class StopCharityDialog extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: "اكتب سبب الإيقاف هنا ...",
                     hintTextDirection: TextDirection.rtl,
-                    hintStyle: const TextStyle(color: Color(0xffD9D9D9)),
+                    hintStyle:  TextStyle(color: Color(0xff6B6666),
+                    fontWeight: FontWeight.w500,
+                      fontSize: 19,
+                    ),
                     filled: true,
                     fillColor: const Color(0xffF3F3F3),
                     contentPadding: const EdgeInsets.all(16),
@@ -391,6 +386,7 @@ class StopCharityDialog extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
+                            fontSize: 19
                           ),
                         ),
                       ),
@@ -404,7 +400,7 @@ class StopCharityDialog extends StatelessWidget {
                       onPressed: () => Navigator.pop(context),
                       style: OutlinedButton.styleFrom(
                         minimumSize: const Size.fromHeight(45),
-                        side: const BorderSide(color: Color(0xffBDBDBD)),
+                        side: const BorderSide(color: Color(0xffBDBDBD),width: 2),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -415,6 +411,7 @@ class StopCharityDialog extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.black87,
                             fontWeight: FontWeight.w500,
+                            fontSize: 19
                           ),
                         ),
                       ),

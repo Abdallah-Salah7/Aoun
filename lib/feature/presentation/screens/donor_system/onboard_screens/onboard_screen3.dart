@@ -3,6 +3,9 @@ import 'package:aoun/feature/presentation/screens/widget/onboarding/onboard_back
 import 'package:aoun/feature/presentation/screens/widget/onboarding/onboard_content.dart';
 import 'package:flutter/material.dart';
 
+import 'onboarding_video.dart';
+
+
 class OnboardingScreen3 extends StatelessWidget {
   const OnboardingScreen3({super.key});
 
@@ -17,6 +20,9 @@ class OnboardingScreen3 extends StatelessWidget {
           /// Content
           Positioned.fill(
             child: OnboardingContent(
+              image: const OnboardingVideo(
+                videoPath: "assets/videos/onb3.mp4",
+              ),
               titleText: "طُرق دفع آمنة وسهلة",
               paragraphText: "عَبر خياراتٍ متعددة تُسهل عملية التبرع والعطاء.",
               skipFunction: () {

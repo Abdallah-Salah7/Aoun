@@ -25,9 +25,9 @@ class InfoColumn extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              color: AppColors.primary,
+              color: Color(0xff134F33),
               fontWeight: FontWeight.bold,
-              fontSize: 15,
+              fontSize: 19,
             ),
           ),
           const SizedBox(height: 6),
@@ -35,9 +35,10 @@ class InfoColumn extends StatelessWidget {
             value,
             textAlign: TextAlign.right,
             style: const TextStyle(
-              color: Colors.black87,
-              fontSize: 15,
+              color: Color(0xff1F2937),
+              fontSize: 16,
               height: 1.6,
+              fontWeight: FontWeight.w600
             ),
             maxLines: multiLine ? null : 1,
             overflow: multiLine ? null : TextOverflow.ellipsis,

@@ -28,7 +28,8 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
   String selectedFilter = "الحالات";
   @override
   Widget build(BuildContext context) {
-
+    final size = MediaQuery.of(context).size;
+    final isTablet = size.width >= 600;
     print("Received = $widget.charityName");
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -165,6 +166,7 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                       ],
                     ),
                   ),
+
                   InkWell(
                     onTap: (){
                       Navigator.pushNamed(
@@ -173,6 +175,7 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
 
                       );
                     },
+
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         vertical: 35.0,
@@ -185,70 +188,76 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                           borderRadius:
                           BorderRadius.circular(16.0),
                         ),
-                        child: Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.info_outline,
-                                  color: Colors.white,
-                                  size: 40,
-                                ),
-                                SizedBox(width: 12),
 
-                                Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "خزنة  الطوارئ",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight:
-                                        FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      "دعم فوري للحالات العاجلة",
-                                      style: TextStyle(
-                                        color: Colors.white70,
-                                        fontSize: 17,
-                                        fontWeight:
-                                        FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
 
-                            const Row(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.end,
-                              children: [
+    child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+    Expanded(
+    child: Row(
+    children: [
+    Icon(
+    Icons.info_outline,
+    color: Colors.white,
+    size: isTablet ? 42 : size.width * 0.09,
+    ),
+    SizedBox(width: size.width * 0.03),
 
-                                Text(
-                                  "عرض التفاصيل",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                SizedBox(height: 22),
+    Expanded(
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+    Text(
+    "خزنة الطوارئ",
+    overflow: TextOverflow.ellipsis,
+    style: TextStyle(
+    color: Colors.white,
+    fontSize: isTablet ? 22 : size.width * 0.05,
+    fontWeight: FontWeight.bold,
+    ),
+    ),
+    SizedBox(height: size.height * 0.004),
+    Text(
+    "دعم فوري للحالات العاجلة",
+    maxLines: 2,
+    overflow: TextOverflow.ellipsis,
+    style: TextStyle(
+    color: Colors.white70,
+    fontSize: isTablet ? 17 : size.width * 0.038,
+    fontWeight: FontWeight.w400,
+    ),
+    ),
+    ],
+    ),
+    ),
+    ],
+    ),
+    ),
 
-                                Icon(
-                                  Icons.north_west,
-                                  color: Colors.white,
-                                  size: 24,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+    SizedBox(width: size.width * 0.03),
+
+    Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+    Text(
+    "عرض التفاصيل",
+    style: TextStyle(
+    color: Colors.white,
+    fontSize: isTablet ? 16 : size.width * 0.036,
+    ),
+    ),
+    SizedBox(width: size.width * 0.015),
+    Icon(
+    Icons.north_west,
+    color: Colors.white,
+    size: isTablet ? 24 : size.width * 0.05,
+    ),
+    ],
+    ),
+    ],
+    ),                      ),
                     ),
                   ),
 

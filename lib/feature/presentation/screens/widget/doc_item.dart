@@ -27,7 +27,7 @@ class DocumentItem extends StatelessWidget {
             child: const Icon(
               Icons.description_outlined,
               color: AppColors.primary,
-              size: 16,
+              size: 35,
             ),
           ),
           const SizedBox(width: 12),
@@ -44,13 +44,14 @@ class DocumentItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 10,
+                    fontSize: 20,
+                    color: Color(0xff1F2937)
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "PDF",
-                  style: TextStyle(color: Colors.grey.shade600, fontSize: 10),
+                  "doc1.pdf",
+                  style: TextStyle(color: Color(0xff9CA3AF), fontSize: 16,fontWeight: FontWeight.w400),
                 ),
               ],
             ),
@@ -67,18 +68,20 @@ class DocumentItem extends StatelessWidget {
                 ).showSnackBar(const SnackBar(content: Text("تعذر فتح الملف")));
               }
             },
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                const Text(
                   "تحميل",
                   style: TextStyle(
-                    color: AppColors.primary,
+                    color: Color(0xff256A4A),
                     fontWeight: FontWeight.bold,
-                    fontSize: 12,
+                    fontSize: 18,
                   ),
                 ),
-                Icon(Icons.download, color: AppColors.primary, size: 15),
+                Image.asset(
+                  "assets/images/download.png",width: 30,height: 30,
+                ),
               ],
             ),
           ),

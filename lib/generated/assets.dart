@@ -146,6 +146,10 @@
 //   static const String entitiesRecommendCaseEntity = 'lib/feature/domain/entities/recommend_case_entity.dart';
 //   static const String entitiesTopDonorEntity = 'lib/feature/domain/entities/top_donor_entity.dart';
 //   static const String generatedAssets = 'lib/generated/assets.dart';
+//   static const String gifsOn1 = 'assets/gifs/on1.gif';
+//   static const String gifsOn2 = 'assets/gifs/on2.gif';
+//   static const String gifsOn3 = 'assets/gifs/on3.gif';
+//   static const String gifsOn4 = 'assets/gifs/on4.gif';
 //   static const String images65ce7baae332db3f9d4dd50e92541f52eacd3d39 = 'assets/images/65ce7baae332db3f9d4dd50e92541f52eacd3d39.jpg';
 //   static const String imagesAcceptCharity = 'assets/images/acceptCharity.png';
 //   static const String imagesAccountRevision = 'assets/images/account_revision.png';
@@ -185,6 +189,7 @@
 //   static const String imagesDeleteCharity = 'assets/images/deleteCharity.png';
 //   static const String imagesDeliveryMan = 'assets/images/delivery-man.png';
 //   static const String imagesDonIcon = 'assets/images/donIcon.png';
+//   static const String imagesDownload = 'assets/images/download.png';
 //   static const String imagesElderly = 'assets/images/elderly.png';
 //   static const String imagesEmailIcon = 'assets/images/emailIcon.png';
 //   static const String imagesEmailVerify = 'assets/images/email_verify.png';
@@ -315,6 +320,7 @@
 //   static const String onboardScreensOnboardScreen2 = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboard_screen2.dart';
 //   static const String onboardScreensOnboardScreen3 = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboard_screen3.dart';
 //   static const String onboardScreensOnboardScreen4 = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboard_screen4.dart';
+//   static const String onboardScreensOnboardingVideo = 'lib/feature/presentation/screens/donor_system/onboard_screens/onboarding_video.dart';
 //   static const String onboardingOnboardBackground = 'lib/feature/presentation/screens/widget/onboarding/onboard_background.dart';
 //   static const String onboardingOnboardBottomControls = 'lib/feature/presentation/screens/widget/onboarding/onboard_bottom_controls.dart';
 //   static const String onboardingOnboardContent = 'lib/feature/presentation/screens/widget/onboarding/onboard_content.dart';
@@ -348,6 +354,10 @@
 //   static const String themeBaseTheme = 'lib/core/theme/base_theme.dart';
 //   static const String themeDarkTheme = 'lib/core/theme/dark_theme.dart';
 //   static const String themeLightTheme = 'lib/core/theme/light_theme.dart';
+//   static const String videosOnb1 = 'assets/videos/onb1.mp4';
+//   static const String videosOnb2 = 'assets/videos/onb2.mp4';
+//   static const String videosOnb3 = 'assets/videos/onb3.mp4';
+//   static const String videosOnb4 = 'assets/videos/onb4.mp4';
 //   static const String widgetCall107 = 'lib/feature/presentation/screens/widget/call107.dart';
 //   static const String widgetCampaignItem = 'lib/feature/presentation/screens/widget/campaign_item.dart';
 //   static const String widgetCaseItem = 'lib/feature/presentation/screens/widget/case_item.dart';

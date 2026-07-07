@@ -5,12 +5,7 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiServices {
-  static final Dio dio = Dio(
-    BaseOptions(
-      baseUrl: 'https://aounplatform.runasp.net',
-      headers: {'Content-Type': 'application/json'},
-    ),
-  );
+
 
   static final Dio aiDio = Dio(
     BaseOptions(
@@ -21,6 +16,22 @@ class ApiServices {
       },
     ),
   );
+
+  static final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: 'https://aounplatform.runasp.net',
+      headers: {'Content-Type': 'application/json'},
+    ),
+  )
+    ..interceptors.add(
+      LogInterceptor(
+        request: true,
+        requestBody: true,
+        requestHeader: true,
+        responseBody: true,
+        error: true,
+      ),
+    );
   static Future<String> askCharityAI({
     required String question,
   }) async {

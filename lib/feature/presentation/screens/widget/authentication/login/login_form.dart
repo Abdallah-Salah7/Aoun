@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../../main.dart';
-import '../../../../../data/data_sources/admin_service.dart';
 import '../../../../../data/data_sources/api_services.dart';
 import '../../../../../data/models/register_model.dart';
 import '../../../../../domain/repositories/admin_repository.dart';
@@ -175,7 +174,7 @@ class _LoginFormState extends State<LoginForm> {
                       style: TextStyle(
                         color: Color(0xff757575),
                         fontSize: 20,
-                        fontWeight: FontWeight.w500
+                        fontWeight: FontWeight.w500,
                       ),
                       textDirection: TextDirection.rtl,
                     ),
@@ -347,47 +346,37 @@ class _LoginFormState extends State<LoginForm> {
                                 data["token"],
                               );
 
-                              await prefs.setString("email", emailController.text.trim());
-                              await prefs.setString("password", passwordController.text.trim());
+                              await prefs.setString(
+                                "email",
+                                emailController.text.trim(),
+                              );
+                              await prefs.setString(
+                                "password",
+                                passwordController.text.trim(),
+                              );
                               await ApiServices.setToken(data["token"]);
 
                               // جلب بيانات الجمعية الحالية
-                              final charityResponse =
-                                  await ApiServices.getCharityStatus();
-
-                              await prefs.setInt(
-                                "charityId",
-                                charityResponse.data["data"]["id"],
-                              );
-
-                              await prefs.setString(
-                                "charityName",
-                                charityResponse.data["data"]["charityName"],
-                              );
-
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(data["message"])),
-                              );
-                              final charityId =
-                                  charityResponse.data["data"]["id"];
-
-                              await context.read<CaseCubit>().fetchCases();
-
-                              await context
-                                  .read<CampaignCubit>()
-                                  .fetchCampaigns(charityId);
                               try {
-                                final statusResponse =
+                                final charityResponse =
                                     await ApiServices.getCharityStatus();
 
-                                final status =
-                                    statusResponse.data["data"]["status"];
+                                final data = charityResponse.data["data"];
 
-                                // Pending = الحساب قيد المراجعة
-                                // Rejected = تم رفض الطلب
-                                // Approved = تم قبول الطلب
+                                await prefs.setInt("charityId", data["id"]);
+                                await prefs.setString(
+                                  "charityName",
+                                  data["charityName"],
+                                );
+
+                                final status = data["status"];
 
                                 if (status == "Approved") {
+                                  await context.read<CaseCubit>().fetchCases();
+                                  await context
+                                      .read<CampaignCubit>()
+                                      .fetchCampaigns(data["id"]);
+
                                   Navigator.pushReplacementNamed(
                                     context,
                                     Routes.homeCharity,
@@ -400,19 +389,12 @@ class _LoginFormState extends State<LoginForm> {
                                 }
                               } on DioException catch (e) {
                                 if (e.response?.statusCode == 404) {
-                                  //  لم يتم إنشاء ملف الجمعية بعد
                                   Navigator.pushReplacementNamed(
                                     context,
                                     Routes.charityDataScreen,
                                   );
                                 } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        "حدث خطأ: ${e.response?.data["message"] ?? e.message}",
-                                      ),
-                                    ),
-                                  );
+                                  rethrow;
                                 }
                               }
                             }

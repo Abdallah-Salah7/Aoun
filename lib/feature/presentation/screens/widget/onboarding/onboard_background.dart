@@ -14,7 +14,7 @@ class BackgroundDecoration extends StatelessWidget {
         final isTablet = width >= 600;
 
         return Container(
-          color: const Color(0xFFD9DDDA),
+          color: const Color(0xffFFFFFF),
           child: Stack(
             children: [
               /// Top Left Big Circle

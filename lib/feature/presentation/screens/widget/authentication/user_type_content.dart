@@ -26,7 +26,8 @@ class Content extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final isTablet = size.width >= 600;
 
-    return Center(
+    return Directionality(
+      textDirection: TextDirection.rtl,
       child: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -55,7 +56,7 @@ class Content extends StatelessWidget {
                 "اختر طريقتك للدخول",
                 style: GoogleFonts.inder(
                 fontWeight: FontWeight.w600,
-                  fontSize: 32
+                  fontSize: 26
                 ),
               ),
 
