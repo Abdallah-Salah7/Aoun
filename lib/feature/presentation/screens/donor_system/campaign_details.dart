@@ -308,10 +308,12 @@ class _CampaignDetailsState extends State<CampaignDetails> {
                       /// CHARITY CARD
                       InkWell(
                         onTap: () {
+                          print("Charity Name = $charityName");
+
                           Navigator.pushNamed(
                             context,
                             Routes.charityProfileScreen,
-
+                            arguments: charityName,
                           );
                         },
                         child: Container(

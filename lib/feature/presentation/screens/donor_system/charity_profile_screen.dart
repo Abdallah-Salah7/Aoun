@@ -11,19 +11,25 @@ import '../../state_management/cubit/camp_state.dart';
 import '../../state_management/cubit/case_cubit.dart';
 import '../../state_management/cubit/case_state.dart'
     show CaseLoaded, CaseState;
-
 class CharityProfileScreen extends StatefulWidget {
-  const CharityProfileScreen({super.key});
+  final String charityName;
+
+  const CharityProfileScreen({
+    super.key,
+    required this.charityName,
+  });
 
   @override
-  State<CharityProfileScreen> createState() => _CharityProfileScreenState();
+  State<CharityProfileScreen> createState() =>
+      _CharityProfileScreenState();
 }
-
 class _CharityProfileScreenState extends State<CharityProfileScreen> {
 
   String selectedFilter = "الحالات";
   @override
   Widget build(BuildContext context) {
+
+    print("Received = $widget.charityName");
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -41,7 +47,7 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
             },
           ),
           title: Text(
-            "غيث للتنمية المجتمعية",
+         widget.charityName,
             style: GoogleFonts.manrope(
               fontSize: 27,
               fontWeight: FontWeight.bold,
@@ -75,7 +81,7 @@ class _CharityProfileScreenState extends State<CharityProfileScreen> {
                   ),
                   Center(
                     child: Text(
-                      "غيث للتنمية المجتمعية",
+                      widget.charityName,
                       style: GoogleFonts.manrope(
                         fontSize: 27,
                         fontWeight: FontWeight.bold,

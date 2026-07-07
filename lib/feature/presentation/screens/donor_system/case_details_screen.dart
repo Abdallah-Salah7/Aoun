@@ -338,7 +338,9 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                               builder:
                                   (_) => BlocProvider.value(
                                     value: context.read<CaseCubit>(),
-                                    child: const CharityProfileScreen(),
+                                    child:  CharityProfileScreen(
+                                      charityName: charityName,
+                                    ),
                                   ),
                             ),
                           );

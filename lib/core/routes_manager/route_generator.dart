@@ -181,8 +181,13 @@ class RouteGenerator {
 
       /// CHARITY
       case Routes.charityProfileScreen:
-        return MaterialPageRoute(builder: (_) => const CharityProfileScreen());
+        final charityName = settings.arguments as String;
 
+        return MaterialPageRoute(
+          builder: (_) => CharityProfileScreen(
+            charityName: charityName,
+          ),
+        );
       case Routes.charityDataScreen:
         return MaterialPageRoute(builder: (_) => CharityData());
 
