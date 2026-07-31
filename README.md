@@ -8,6 +8,9 @@
   <img alt="Issues" src="https://img.shields.io/github/issues/Abdallah-Salah7/Aoun">
   <img alt="Forks" src="https://img.shields.io/github/forks/Abdallah-Salah7/Aoun">
 </p>
+<p align="center">
+  <img src="./docs/assets/banner.png" alt="Aoun UI showcase" width="100%">
+</p>
 
 ## 1. Project Overview
 
@@ -179,9 +182,9 @@ See [`docs/FUTURE-IMPROVEMENTS.md`](./docs/FUTURE-IMPROVEMENTS.md) — push noti
 Graduation project — Faculty of Computer & Artificial Intelligence, Beni-Suef University. Supervised by **Dr. Farid Ali** (Teaching Assistant: Taha Mahmoud).
 
 - **Abdallah Salah Abdallah** — Backend (.NET / Clean Architecture), AI Gateway integration — [GitHub](https://github.com/Abdallah-Salah7)
-- **Mohab Mohamed Abdel-Tawab**
-- **Nada Adly Mourad**
-- **Reham Khalil Ibrahim**
+- **Mohab Mohamed Abdel-Tawab** — Backend (.NET / Clean Architecture)
+- **Reham Khalil Ibrahim** — Backend (.NET / Clean Architecture)
+- **Nada Adly Mourad** — Mobile (Flutter) , UI and UX
 - **Shorouq Rabie Ali** — Mobile (Flutter)
 - **Basmala Gaber Mohamed** — Mobile (Flutter)
 
