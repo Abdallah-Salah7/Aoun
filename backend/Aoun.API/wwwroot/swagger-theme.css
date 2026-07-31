@@ -27,11 +27,18 @@ body.dark-theme .swagger-ui .response-col_status, body.dark-theme .swagger-ui .r
     transition: all 0.3s ease;
 }
 
+/* تأثير التمرير (hover) في الوضع الفاتح */
+#theme-toggle:hover {
+    background-color: #00d8ff;
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 216, 255, 0.5);
+}
+
 /* تصميم الزر في الوضع الداكن */
 body.dark-theme #theme-toggle {
-    background-color: #333333; /* خلفية داكنة للزر */
-    color: #fff;  /* نص الزر أبيض */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);  /* ظل خفيف للزر */
+    background-color: #333333;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* تأثير التمرير (hover) في الوضع الداكن */
@@ -41,17 +48,6 @@ body.dark-theme #theme-toggle:hover {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
 }
 
-/* تأثير التمرير (hover) في الوضع الفاتح */
-#theme-toggle:hover {
-    background-color: #00d8ff;
-    transform: scale(1.1);
-    box-shadow: 0 6px 15px rgba(0, 216, 255, 0.5);
-}
-#theme-toggle:hover { 
-    background-color: #00d8ff; 
-    transform: scale(1.1); 
-    box-shadow: 0 6px 15px rgba(0,216,255,0.5);
-}
 body.dark-theme {
     background-color: #121212 !important;
     color: #ffffff !important;
@@ -83,12 +79,10 @@ body.dark-theme .swagger-ui .opblock-tag {
     color: #ffffff !important;
 }
 
-/* الـ endpoint path نفسه */
 body.dark-theme .swagger-ui .opblock-summary-path {
     color: #ffffff !important;
 }
 
-/* اسم الـ scheme (http / https) */
 body.dark-theme .swagger-ui .scheme-container,
 body.dark-theme .swagger-ui .scheme-container * {
     color: #ffffff !important;
@@ -97,15 +91,10 @@ body.dark-theme .swagger-ui section.models .model-title {
     color: #ffffff !important;
 }
 
-/* أسماء الحقول داخل الـ schema */
 body.dark-theme .swagger-ui section.models .property-row .property-name {
     color: #ffffff !important;
 }
 
-/* نوع البيانات (اختياري لو عايزه أبيض) */
-body.dark-theme .swagger-ui section.models .property-type {
-    color: #ffffff !important;
-}
 body.dark-theme .swagger-ui section.models .property-name {
     color: #ffffff !important;
 }
@@ -113,26 +102,23 @@ body.dark-theme .swagger-ui section.models .property-name {
 body.dark-theme .swagger-ui section.models .property-type {
     color: #bbbbbb !important;
 }
-/* النص داخل الجزء الغامق */
+
 body.dark-theme .swagger-ui .opblock-body,
 body.dark-theme .swagger-ui .opblock-description-wrapper,
 body.dark-theme .swagger-ui .responses-inner {
-    color: #e6e6e6 !important; /* أبيض مريح مش حاد */
+    color: #e6e6e6 !important;
 }
 
-/* العناوين زي Parameters / Responses */
 body.dark-theme .swagger-ui .opblock-body .opblock-section-header,
 body.dark-theme .swagger-ui .responses-inner h4 {
     color: #ffffff !important;
 }
 
-/* الجزء الرمادي (زي request body header) */
 body.dark-theme .swagger-ui .opblock .opblock-section-header {
     background: #2a2a40 !important;
     color: #ffffff !important;
 }
 
-/* النصوص الثانوية */
 body.dark-theme .swagger-ui .parameter__name,
 body.dark-theme .swagger-ui .parameter__type,
 body.dark-theme .swagger-ui .response-col_description {
@@ -142,14 +128,13 @@ body.dark-theme .swagger-ui .highlight-code,
 body.dark-theme .swagger-ui pre {
     color: #f1f1f1 !important;
 }
-/* اسم الـ endpoint (GET / POST + path) */
+
 body.dark-theme .swagger-ui .opblock-summary-path {
     font-weight: 700 !important;
     font-size: 15px;
     color: #ffffff !important;
 }
 
-/* العنوان الرئيسي (tag) */
 body.dark-theme .swagger-ui .opblock-tag {
     font-weight: 800 !important;
     font-size: 18px;
@@ -165,13 +150,12 @@ body.dark-theme .swagger-ui .btn {
     transition: all 0.25s ease;
 }
 
-/* hover */
 body.dark-theme .swagger-ui .btn:hover {
     background: #3a3a60 !important;
     border-color: #4da3ff !important;
     color: #ffffff !important;
 }
-/* زر Try it out */
+
 body.dark-theme .swagger-ui .try-out__btn {
     background: linear-gradient(135deg, #4da3ff, #0066ff) !important;
     color: #fff !important;
@@ -179,7 +163,6 @@ body.dark-theme .swagger-ui .try-out__btn {
     font-weight: 700;
 }
 
-/* hover */
 body.dark-theme .swagger-ui .try-out__btn:hover {
     background: linear-gradient(135deg, #66b3ff, #3385ff) !important;
     box-shadow: 0 0 8px rgba(77,163,255,0.6);
@@ -206,57 +189,21 @@ body.dark-theme .swagger-ui .execute:hover {
     background: linear-gradient(135deg, #ffb74d, #ff9800) !important;
     box-shadow: 0 0 8px rgba(255,152,0,0.5);
 }
-/* خلفية الـ modal */
-body.dark-theme .swagger-ui .dialog-ux {
-    background: #1e1e2f !important;
-    color: #ffffff !important;
+
+/* =========================
+   Authorize Modal Fixes
+========================= */
+
+/* تم إضافة body.dark-theme لمنعها من التأثير على اللايت مود */
+body.dark-theme .swagger-ui .dialog-ux .modal-ux-content {
+    background: #23233a !important;
 }
 
-/* العنوان */
-body.dark-theme .swagger-ui .dialog-ux .modal-ux-header h3 {
-    color: #ffffff !important;
-}
-
-/* النصوص داخل المودال */
-body.dark-theme .swagger-ui .dialog-ux .modal-ux-content,
-body.dark-theme .swagger-ui .dialog-ux label,
-body.dark-theme .swagger-ui .dialog-ux p {
-    color: #e6e6e6 !important;
-}
-
-/* input fields */
-body.dark-theme .swagger-ui .dialog-ux input {
-    background: #2a2a40 !important;
-    color: #ffffff !important;
-    border: 1px solid #3a3a55 !important;
-}
-
-/* placeholder */
-body.dark-theme .swagger-ui .dialog-ux input::placeholder {
-    color: #aaaaaa !important;
-}
-.modal-ux-content{
-	background: #23233a !important;
-}
-
-/* select dropdown */
-body.dark-theme .swagger-ui .dialog-ux select {
-    background: #2a2a40 !important;
-    color: #ffffff !important;
-    border: 1px solid #3a3a55 !important;
-}
-
-/* close button (X) */
-body.dark-theme .swagger-ui .dialog-ux .close-modal {
-    color: #ffffff !important;
-}
-/* الخلفية العامة للمودال */
 body.dark-theme .swagger-ui .dialog-ux {
     background-color: #1b1b2b !important;
     color: #ffffff !important;
 }
 
-/* الهيدر */
 body.dark-theme .swagger-ui .dialog-ux .modal-ux-header {
     background: #23233a !important;
     border-bottom: 1px solid #3a3a55 !important;
@@ -266,7 +213,6 @@ body.dark-theme .swagger-ui .dialog-ux .modal-ux-header h3 {
     color: #ffffff !important;
 }
 
-/* النصوص كلها جوه */
 body.dark-theme .swagger-ui .dialog-ux,
 body.dark-theme .swagger-ui .dialog-ux p,
 body.dark-theme .swagger-ui .dialog-ux label,
@@ -275,50 +221,42 @@ body.dark-theme .swagger-ui .dialog-ux div {
     color: #e8e8e8 !important;
 }
 
-/* اللينكات */
 body.dark-theme .swagger-ui .dialog-ux a {
     color: #4da3ff !important;
 }
 
-/* input */
 body.dark-theme .swagger-ui .dialog-ux input[type="text"],
 body.dark-theme .swagger-ui .dialog-ux input[type="password"] {
     background-color: #2a2a40 !important;
     color: #ffffff !important;
     border: 1px solid #4a4a6a !important;
+    font-size: 14px !important;
 }
 
-/* placeholder */
 body.dark-theme .swagger-ui .dialog-ux input::placeholder {
     color: #bbbbbb !important;
 }
 
-/* select */
 body.dark-theme .swagger-ui .dialog-ux select {
     background-color: #2a2a40 !important;
     color: #ffffff !important;
     border: 1px solid #4a4a6a !important;
 }
 
-/* أي نص باهت Swagger بيحطه */
 body.dark-theme .swagger-ui .dialog-ux .auth-container {
-    color: #ffffff !important;
-}
-
-/* زر الإغلاق */
-body.dark-theme .swagger-ui .dialog-ux .close-modal {
-    color: #ffffff !important;
-}
-/* النص الأساسي داخل auth (Bearer - Name - In - Value) */
-body.dark-theme .swagger-ui .dialog-ux .auth-container,
-body.dark-theme .swagger-ui .dialog-ux .auth-container p,
-body.dark-theme .swagger-ui .dialog-ux .auth-container div {
+    background: #1e1e2f;
+    border: 1px solid #3a3a55;
+    padding: 10px;
+    border-radius: 8px;
     color: #ffffff !important;
     font-size: 14px !important;
     font-weight: 500;
 }
 
-/* العناوين زي Bearer (apiKey) */
+body.dark-theme .swagger-ui .dialog-ux .close-modal {
+    color: #ffffff !important;
+}
+
 body.dark-theme .swagger-ui .dialog-ux .auth-container h4,
 body.dark-theme .swagger-ui .dialog-ux .auth-container strong {
     color: #ffffff !important;
@@ -326,7 +264,6 @@ body.dark-theme .swagger-ui .dialog-ux .auth-container strong {
     font-weight: 700;
 }
 
-/* Example */
 body.dark-theme .swagger-ui .dialog-ux .auth-container code {
     color: #4da3ff !important;
     font-size: 13px;
@@ -335,26 +272,15 @@ body.dark-theme .swagger-ui .dialog-ux .auth-container code {
     border-radius: 4px;
 }
 
-/* labels (Name / In / Value) */
 body.dark-theme .swagger-ui .dialog-ux label {
     color: #cccccc !important;
     font-size: 13px;
 }
 
-/* input */
-body.dark-theme .swagger-ui .dialog-ux input {
-    font-size: 14px !important;
-}
-body.dark-theme .swagger-ui .dialog-ux .auth-container {
-    background: #1e1e2f;
-    border: 1px solid #3a3a55;
-    padding: 10px;
-    border-radius: 8px;
-}
 /* =========================
    OAS3 + VERSION OVERRIDE FIX
+========================= */
 
-/* كل اللي فوق الهيدر (OAS3 / v1 / swagger.json) */
 body.dark-theme .swagger-ui .info .link,
 body.dark-theme .swagger-ui .info a,
 body.dark-theme .swagger-ui .info .renderedMarkdown a,
@@ -364,7 +290,6 @@ body.dark-theme .swagger-ui .info .renderedMarkdown code {
     background: transparent !important;
 }
 
-/* تحديد الـ badges الصغيرة */
 body.dark-theme .swagger-ui .info .version,
 body.dark-theme .swagger-ui .info .title small,
 body.dark-theme .swagger-ui .info span {
@@ -372,14 +297,10 @@ body.dark-theme .swagger-ui .info span {
     opacity: 1 !important;
 }
 
-/* تحديد /swagger/v1/swagger.json */
 body.dark-theme .swagger-ui .info a[href*="swagger"] {
     color: #4da3ff !important;
 }
 
-/* إزالة اللون الأخضر الافتراضي */
 body.dark-theme .swagger-ui .info .link:hover {
     color: #66b3ff !important;
 }
-
-

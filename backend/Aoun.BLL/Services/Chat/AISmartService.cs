@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -8,125 +9,173 @@ namespace Aoun.BLL.Services.Chat
     public class AISmartService
     {
         private readonly HttpClient _http;
-        private readonly string _apiKey;
-
-        // متغير سحري سيحفظ اسم الموديل الشغال أياً كان اسمه!
+        private readonly string _geminiKey;
+        private readonly string _openAiKey;
+        private readonly string _deepSeekKey;
+        private readonly string _groqKey;
         private string _workingModelName = string.Empty;
+
 
         public AISmartService(HttpClient http, IConfiguration config)
         {
             _http = http;
-            _apiKey = "REDACTED_GEMINI_KEY_2";
+
+            _geminiKey = "REDACTED_GEMINI_KEY";
+            _openAiKey = "REDACTED_OPENAI_KEY";
+            _deepSeekKey = "REDACTED_DEEPSEEK_KEY";
+            _groqKey = "REDACTED_GROQ_KEY";
+        }
+
+        private async Task<string> AskAIWithFallbackAsync(string systemPrompt, string userPrompt)
+        {
+            string fullPrompt = $"{systemPrompt}\n\n{userPrompt}";
+            List<string> errors = new List<string>();
+
+            // 1. Groq
+            if (!string.IsNullOrEmpty(_groqKey))
+            {
+                try
+                {
+                    Console.WriteLine("🤖 [Routing] Trying Groq (Llama 70B)...");
+                    return await AskOpenAICompatibleAsync(_groqKey, "https://api.groq.com/openai/v1/chat/completions", "llama-3.3-70b-versatile", systemPrompt, userPrompt);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"⚠️ Groq Failed: {ex.Message}");
+                    errors.Add($"Groq: {ex.Message}");
+                }
+            }
+
+            // 2. Gemini
+            if (string.IsNullOrEmpty(_workingModelName))
+            {
+                try
+                {
+                    string listModelsUrl = $"https://generativelanguage.googleapis.com/v1beta/models?key={_geminiKey}";
+                    var listResponse = await _http.GetAsync(listModelsUrl);
+
+                    if (!listResponse.IsSuccessStatusCode)
+                        throw new Exception("فشل الاتصال بجوجل لجلب النماذج!");
+
+                    var listJson = await listResponse.Content.ReadFromJsonAsync<JsonElement>();
+
+                    foreach (var model in listJson.GetProperty("models").EnumerateArray())
+                    {
+                        var name = model.GetProperty("name").GetString();
+                        var methods = model.GetProperty("supportedGenerationMethods").EnumerateArray().Select(m => m.GetString()).ToList();
+
+                        if (methods.Contains("generateContent") && name != null && name.StartsWith("models/gemini"))
+                        {
+                            _workingModelName = name;
+                            Console.WriteLine($"✅ Auto-Discovered Working Model: {_workingModelName}");
+                            break;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (string.IsNullOrEmpty(_workingModelName))
+                        throw new Exception("مفتاحك لا يملك صلاحية لأي نموذج من نماذج جيميناي!");
+                }
+
+                // 3. OpenAI
+                if (!string.IsNullOrEmpty(_openAiKey))
+                {
+                    try
+                    {
+                        Console.WriteLine("🤖 [Routing] Trying OpenAI (ChatGPT)...");
+                        return await AskOpenAICompatibleAsync(_openAiKey, "https://api.openai.com/v1/chat/completions", "gpt-4o-mini", systemPrompt, userPrompt);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"⚠️ OpenAI Failed: {ex.Message}");
+                        errors.Add($"OpenAI: {ex.Message}");
+                    }
+                }
+
+                // 4. DeepSeek
+                if (!string.IsNullOrEmpty(_deepSeekKey))
+                {
+                    try
+                    {
+                        Console.WriteLine("🤖 [Routing] Trying DeepSeek...");
+                        return await AskOpenAICompatibleAsync(_deepSeekKey, "https://api.deepseek.com/chat/completions", "deepseek-chat", systemPrompt, userPrompt);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"⚠️ DeepSeek Failed: {ex.Message}");
+                        errors.Add($"DeepSeek: {ex.Message}");
+                    }
+                }
+
+                throw new Exception($"❌ All AI providers failed! Errors log: {string.Join(" | ", errors)}");
+            }
+
+            // ✅ الحل الوحيد للمشكلة
+            throw new Exception("Unexpected error: no AI provider executed.");
         }
 
         private async Task<string> AskGeminiAsync(string prompt)
         {
-            // =================================================================
-            // 1. السحر الهندسي: الاستكشاف التلقائي (Auto-Discovery)
-            // =================================================================
-            if (string.IsNullOrEmpty(_workingModelName))
+            string requestUrl = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={_geminiKey}";
+            var requestBody = new { contents = new[] { new { parts = new[] { new { text = prompt } } } } };
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
             {
-                string listModelsUrl = $"https://generativelanguage.googleapis.com/v1beta/models?key={_apiKey}";
-                var listResponse = await _http.GetAsync(listModelsUrl);
+                Content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json")
+            };
 
-                if (!listResponse.IsSuccessStatusCode)
-                    throw new Exception("فشل الاتصال بجوجل لجلب النماذج!");
+            var response = await _http.SendAsync(request);
+            if (!response.IsSuccessStatusCode) throw new Exception(await response.Content.ReadAsStringAsync());
 
-                var listJson = await listResponse.Content.ReadFromJsonAsync<JsonElement>();
+            var jsonResponse = await response.Content.ReadFromJsonAsync<JsonElement>();
+            return jsonResponse.GetProperty("candidates")[0].GetProperty("content").GetProperty("parts")[0].GetProperty("text").GetString() ?? "";
+        }
 
-                // البحث في قائمة جوجل عن أول موديل جيميناي صالح للمحادثة
-                foreach (var model in listJson.GetProperty("models").EnumerateArray())
-                {
-                    var name = model.GetProperty("name").GetString();
-                    var methods = model.GetProperty("supportedGenerationMethods").EnumerateArray().Select(m => m.GetString()).ToList();
-
-                    if (methods.Contains("generateContent") && name != null && name.StartsWith("models/gemini"))
-                    {
-                        _workingModelName = name; // التقطنا الموديل الشغال (مثلاً: models/gemini-1.0-pro)
-                        Console.WriteLine($"✅ Auto-Discovered Working Model: {_workingModelName}");
-                        break;
-                    }
-                }
-
-                if (string.IsNullOrEmpty(_workingModelName))
-                    throw new Exception("مفتاحك لا يملك صلاحية لأي نموذج من نماذج جيميناي!");
-            }
-
-            // =================================================================
-            // 2. إرسال الطلب للموديل الذي اكتشفناه تلقائياً
-            // =================================================================
-            string requestUrl = $"https://generativelanguage.googleapis.com/v1beta/{_workingModelName}:generateContent?key={_apiKey}";
+        private async Task<string> AskOpenAICompatibleAsync(string apiKey, string url, string modelName, string sysPrompt, string usrPrompt)
+        {
+            string strictSystemPrompt = sysPrompt + "\nتعليمات صارمة: لا تذكر أبداً أنك ذكاء اصطناعي أو روبوت أو نموذج لغوي...";
 
             var requestBody = new
             {
-                contents = new[] { new { parts = new[] { new { text = prompt } } } }
+                model = modelName,
+                messages = new[] {
+                    new { role = "system", content = strictSystemPrompt },
+                    new { role = "user", content = usrPrompt }
+                },
+                temperature = 0.3,
+                max_tokens = 500
             };
 
-            string jsonBody = JsonSerializer.Serialize(requestBody);
-            var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            request.Content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
 
-            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl) { Content = content };
             var response = await _http.SendAsync(request);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorDetails = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Google API Error: {errorDetails}");
-            }
+            if (!response.IsSuccessStatusCode) throw new Exception(await response.Content.ReadAsStringAsync());
 
             var jsonResponse = await response.Content.ReadFromJsonAsync<JsonElement>();
-            return jsonResponse.GetProperty("candidates")[0]
-                               .GetProperty("content")
-                               .GetProperty("parts")[0]
-                               .GetProperty("text").GetString() ?? "";
+            return jsonResponse.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString() ?? "";
         }
 
-        // ==========================================
-        // 1. Recommendation System 
-        // ==========================================
         public async Task<string> GetRecommendationsAsync(string userHistory, string availableCases)
         {
-            string prompt = $@"
-                أنت خبير في التوصيات الخيرية في منصة 'عون'. 
-                إليك تاريخ تبرعات المستخدم وتفضيلاته: {userHistory}
-                وإليك قائمة الحالات المتاحة حالياً للتبرع: {availableCases}
-                بناءً على هذه البيانات، اختر أفضل 3 حالات تناسب هذا المستخدم، واذكر اسم الحالة ولماذا رشحتها له في رد قصير ومحفز باللغة العربية.
-            ";
-            return await AskGeminiAsync(prompt);
+            string sysPrompt = "أنت موظف بشري ودود في خدمة عملاء منصة 'عون'...";
+            string usrPrompt = $"تاريخ المتبرع: {userHistory}\nالحالات المتاحة حالياً: {availableCases}";
+            return await AskAIWithFallbackAsync(sysPrompt, usrPrompt);
         }
 
-        // ==========================================
-        // 2. RAG Chatbot 
-        // ==========================================
         public async Task<string> ChatWithRAGAsync(string userQuestion, string dbContext)
         {
-            string prompt = $@"
-                أنت مساعد ذكي ولطيف اسمك 'عون' تعمل في منصة خيرية مصرية.
-                مهمتك هي الإجابة على أسئلة المستخدمين بخصوص الزكاة، الصدقات، وحالات المنصة.
-                
-                التعليمات:
-                - لا تخترع معلومات غير موجودة.
-                - استخدم المعلومات التالية المستخرجة من قاعدة البيانات للإجابة:
-                {dbContext}
-                - كن إيجابياً ومحفزاً للخير.
-                
-                سؤال المستخدم: {userQuestion}
-            ";
-            return await AskGeminiAsync(prompt);
+            string sysPrompt = $"أنت إنسان طبيعي تعمل في منصة (عون)... {dbContext}";
+            string usrPrompt = $"السؤال: {userQuestion}";
+            return await AskAIWithFallbackAsync(sysPrompt, usrPrompt);
         }
 
-        // ==========================================
-        // 3. AI Description Generator 
-        // ==========================================
         public async Task<string> GenerateCaseDescriptionAsync(string title, string category, decimal requiredAmount)
         {
-            string prompt = $@"
-                أنت كاتب محتوى إنساني محترف تعمل في مؤسسة خيرية.
-                اكتب وصفاً مؤثراً، احترافياً، وغير مبالغ فيه لحالة خيرية تحتاج للتبرع باللغة العربية.
-                بيانات الحالة: العنوان: {title} | التصنيف: {category} | المبلغ المطلوب: {requiredAmount} جنيه مصري
-                اجعل الوصف في حدود 3 إلى 4 أسطر، واختمه بدعوة لطيفة للتبرع.
-            ";
-            return await AskGeminiAsync(prompt);
+            string sysPrompt = "اكتب وصفاً تسويقياً...";
+            string usrPrompt = $"العنوان: {title} | التصنيف: {category} | المبلغ: {requiredAmount}";
+            return await AskAIWithFallbackAsync(sysPrompt, usrPrompt);
         }
     }
 }

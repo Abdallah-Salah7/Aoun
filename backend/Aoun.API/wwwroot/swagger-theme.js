@@ -17,26 +17,33 @@ window.addEventListener('load', function() {
     });
     document.body.appendChild(btn);
 
+    // 🚀 السحر هنا: مراقبة ظهور نافذة الـ Authorize لإخفاء الزر
+    var observer = new MutationObserver(function(mutations) {
+        var authModal = document.querySelector('.dialog-ux');
+        if (authModal) {
+            btn.style.display = 'none'; // إخفاء الزر
+        } else {
+            btn.style.display = 'flex'; // إظهار الزر
+        }
+    });
+    // مراقبة التغييرات في الـ body
+    observer.observe(document.body, { childList: true, subtree: true });
+
     // ----------------------------------------------------
     // 2. Professional Payment Success/Fail Modal
     // ----------------------------------------------------
     var urlParams = new URLSearchParams(window.location.search);
     var successParam = urlParams.get('success');
 
-    // إذا كان الرابط يحتوي على كلمة success (سواء true أو false)
     if (successParam !== null) {
-        // تحويل القيمة لنص صغير للتأكد من قراءتها بشكل صحيح دائماً
         var isSuccess = String(successParam).trim().toLowerCase() === 'true';
 
-        // إنشاء الخلفية الضبابية (Overlay)
         var overlay = document.createElement('div');
         overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10000;display:flex;align-items:center;justify-content:center;font-family:"Segoe UI",Tahoma,sans-serif;backdrop-filter:blur(5px);';
 
-        // إنشاء مربع الرسالة (Modal)
         var modal = document.createElement('div');
         modal.style.cssText = 'background:#fff;padding:40px 30px;border-radius:16px;text-align:center;width:90%;max-width:400px;box-shadow:0 15px 30px rgba(0,0,0,0.3);animation:popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);';
 
-        // إنشاء الأيقونة (صح أو خطأ)
         var icon = document.createElement('div');
         icon.style.cssText = 'width:80px;height:80px;border-radius:50%;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 4px 10px rgba(0,0,0,0.1);';
         
@@ -50,12 +57,10 @@ window.addEventListener('load', function() {
             icon.innerHTML = '❌';
         }
 
-        // إنشاء العنوان
         var title = document.createElement('h2');
         title.style.cssText = 'margin:0 0 10px;color:#333;font-size:24px;font-weight:bold;';
         title.innerText = isSuccess ? 'تم الدفع بنجاح!' : 'فشلت عملية الدفع';
 
-        // إنشاء النص التفصيلي
         var text = document.createElement('p');
         text.style.cssText = 'margin:0 0 30px;color:#666;font-size:16px;line-height:1.6;';
         if (isSuccess) {
@@ -65,7 +70,6 @@ window.addEventListener('load', function() {
             text.innerText = 'عذراً، تم رفض البطاقة أو حدث خطأ أثناء المعالجة من قبل بوابة الدفع. يرجى المحاولة ببطاقة أخرى.';
         }
 
-        // إنشاء زر العودة
         var closeBtn = document.createElement('button');
         closeBtn.style.cssText = 'background:' + (isSuccess ? '#4caf50' : '#f44336') + ';color:#fff;border:none;padding:14px 24px;border-radius:30px;font-size:16px;cursor:pointer;font-weight:bold;width:100%;transition:transform 0.2s,box-shadow 0.2s;';
         closeBtn.innerText = 'العودة للمنصة';
@@ -74,11 +78,9 @@ window.addEventListener('load', function() {
         
         closeBtn.onclick = function() {
             document.body.removeChild(overlay);
-            // تنظيف الرابط من بيانات Paymob ليعود نظيفاً
             window.history.replaceState({}, document.title, window.location.pathname);
         };
 
-        // إضافة العناصر لبعضها
         modal.appendChild(icon);
         modal.appendChild(title);
         modal.appendChild(text);
@@ -86,7 +88,6 @@ window.addEventListener('load', function() {
         overlay.appendChild(modal);
         document.body.appendChild(overlay);
 
-        // إضافة الأنيميشن للصفحة
         var style = document.createElement('style');
         style.innerHTML = '@keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }';
         document.head.appendChild(style);

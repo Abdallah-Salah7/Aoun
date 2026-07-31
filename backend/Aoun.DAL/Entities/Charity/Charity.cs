@@ -1,5 +1,6 @@
-﻿using UserEntity = Aoun.DAL.Entities.User;
-using Aoun.DAL.Entities;
+﻿using Aoun.DAL.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
+using UserEntity = Aoun.DAL.Entities.User;
 
 namespace Aoun.DAL.Entities.Charity
 {
@@ -16,6 +17,8 @@ namespace Aoun.DAL.Entities.Charity
         public string Address { get; set; }
 
         public string Description { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
         public decimal EmergencyFund { get; set; } // خزنة الطوارئ
 
         public bool IsApproved { get; set; } // علشان الأدمن

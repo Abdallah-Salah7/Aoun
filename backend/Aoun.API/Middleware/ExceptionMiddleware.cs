@@ -16,8 +16,9 @@ public class ExceptionMiddleware
             _logger.LogError(ex, "❌ حدث خطأ غير متوقع");
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            await context.Response.WriteAsync(JsonSerializer.Serialize(new { StatusCode = context.Response.StatusCode, Message = "حدث خطأ داخلي", DetailedError = ex.Message }));
+            await context.Response.WriteAsync(JsonSerializer.Serialize(new { StatusCode = context.Response.StatusCode, Message = "حدث خطأ داخلي", DetailedError = ex.InnerException != null ? ex.InnerException.Message : ex.Message }));
         }
     }
 }
+
 

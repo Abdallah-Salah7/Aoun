@@ -12,6 +12,7 @@ public static class DbInitializer
         UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager)
     {
+        // 1. إنشاء الصلاحيات (Roles)
         string[] roles = { "Admin", "Donor", "Charity" };
         foreach (var role in roles)
         {
@@ -19,57 +20,29 @@ public static class DbInitializer
                 await roleManager.CreateAsync(new IdentityRole(role));
         }
 
+        // 2. إنشاء حساب الأدمن أولاً عشان ناخد الـ Id بتاعه
         var adminEmail = "admin@test.com";
         var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
-        //if (adminUser != null)
-        //{
-        //    await userManager.DeleteAsync(adminUser);
-        //}
-        if (!await context.Cases.AnyAsync())
+        if (adminUser == null)
         {
-            var sampleCases = new List<Case>
-    {
-        new Case {
-            Title = "إجراء عملية قلب مفتوح لطفل",
-            Description = "الطفل سيف يحتاج لعملية قلب عاجلة في مركز أسوان للقلب، الحالة حرجة جداً.",
-            RequiredAmount = 50000, CollectedAmount = 15000,
-            IsCompleted = false, IsUrgent = false,
-            CategoryId = 1, CharityId = 1, CreatedAt = DateTime.UtcNow
-        },
-        new Case {
-            Title = "تجهيز 50 شنطة مدرسية",
-            Description = "توفير المستلزمات الدراسية للأيتام في قرى صعيد مصر قبل بدء العام الدراسي.",
-            RequiredAmount = 5000, CollectedAmount = 4800,
-            IsCompleted = false, IsUrgent = false,
-            CategoryId = 2, CharityId = 1, CreatedAt = DateTime.UtcNow
-        },
-        new Case {
-            Title = "سداد ديون أرملة (غارمة)",
-            Description = "السيدة مريم مهددة بالحبس بسبب ديون متبقية من تجهيز ابنتها اليتيمة.",
-            RequiredAmount = 12000, CollectedAmount = 2000,
-            IsCompleted = false, IsUrgent = false,
-            CategoryId = 3, CharityId = 1, CreatedAt = DateTime.UtcNow
-        },
-        new Case {
-            Title = "حفر بئر مياه في قرية نائية",
-            Description = "توفير مياه شرب نظيفة لأكثر من 200 أسرة في منطقة تفتقر للمرافق الأساسية.",
-            RequiredAmount = 30000, CollectedAmount = 0,
-            IsCompleted = false, IsUrgent = false,
-            CategoryId = 4, CharityId = 1, CreatedAt = DateTime.UtcNow
-        },
-        new Case {
-            Title = "كفالة إطعام شهرية لـ 100 أسرة",
-            Description = "توزيع كراتين المواد الغذائية الأساسية على الأسر الأكثر احتياجاً خلال شهر رمضان.",
-            RequiredAmount = 20000, CollectedAmount = 18500,
-            IsCompleted = false, IsUrgent = false,
-            CategoryId = 5, CharityId = 1, CreatedAt = DateTime.UtcNow
-        }
-    };
+            adminUser = new ApplicationUser
+            {
+                Email = adminEmail,
+                UserName = adminEmail,
+                FirstName = "System",
+                UserType = UserType.Admin,
+                EmailConfirmed = true
+            };
 
-            context.Cases.AddRange(sampleCases);
-            await context.SaveChangesAsync();
+            var createResult = await userManager.CreateAsync(adminUser, "Admin123!");
+            if (createResult.Succeeded)
+            {
+                await userManager.AddToRoleAsync(adminUser, "Admin");
+            }
         }
+
+        // 3. إنشاء الجمعيات وربطها بـ Id حقيقي (عشان الـ Foreign Key ميضربش)
         if (!await context.CharityProfiles.AnyAsync())
         {
             context.CharityProfiles.AddRange(
@@ -77,48 +50,45 @@ public static class DbInitializer
                 {
                     CharityName = "جمعية الأورمان",
                     LicenseNumber = "123-ABC",
-                    Status = ProfileStatus.Pending, 
-                    UserId = "أي-Id-لمستخدم-عندك"
+                    Status = ProfileStatus.Approved, // خليناها Approved عشان تظهر
+                    UserId = adminUser.Id // 🔥 استخدمنا الـ Id الحقيقي هنا
                 },
                 new CharityProfile
                 {
                     CharityName = "مؤسسة مصر الخير",
                     LicenseNumber = "456-XYZ",
-                    Status = ProfileStatus.Pending,
-                    UserId = "أي-Id-تاني"
+                    Status = ProfileStatus.Approved,
+                    UserId = adminUser.Id // 🔥 وهنا كمان
                 }
             );
             await context.SaveChangesAsync();
         }
-        adminUser = new ApplicationUser
-        {
-            Email = adminEmail,
-            UserName = adminEmail,
-            FirstName = "System",
-            UserType = UserType.Admin,
-            EmailConfirmed = true
-        };
 
-        var createResult = await userManager.CreateAsync(adminUser, "Admin123!");
-        if (createResult.Succeeded)
-        {
-            await userManager.AddToRoleAsync(adminUser, "Admin");
-        }
-
+        // 4. إنشاء الحالات وربطها بأول جمعية موجودة
         if (!await context.Cases.AnyAsync())
         {
-            context.Cases.Add(new Case
+            var firstCharity = await context.CharityProfiles.FirstOrDefaultAsync();
+            int charityId = firstCharity?.Id ?? 1;
+
+            var sampleCases = new List<Case>
             {
-                Title = "توفير أجهزة طبية",
-                Description = "مساعدة المحتاجين لتوفير أجهزة تنفس",
-                RequiredAmount = 10000,
-                CollectedAmount = 0,
-                IsCompleted = false,
-                IsUrgent = false,
-                CategoryId = 1,
-                CharityId = 1,
-                CreatedAt = DateTime.UtcNow
-            });
+                new Case {
+                    Title = "إجراء عملية قلب مفتوح لطفل",
+                    Description = "الطفل سيف يحتاج لعملية قلب عاجلة في مركز أسوان للقلب، الحالة حرجة جداً.",
+                    RequiredAmount = 50000, CollectedAmount = 15000,
+                    IsCompleted = false, IsUrgent = false,
+                    CategoryId = 1, CharityId = charityId, CreatedAt = DateTime.UtcNow
+                },
+                new Case {
+                    Title = "تجهيز 50 شنطة مدرسية",
+                    Description = "توفير المستلزمات الدراسية للأيتام في قرى صعيد مصر قبل بدء العام الدراسي.",
+                    RequiredAmount = 5000, CollectedAmount = 4800,
+                    IsCompleted = false, IsUrgent = false,
+                    CategoryId = 2, CharityId = charityId, CreatedAt = DateTime.UtcNow
+                }
+            };
+
+            context.Cases.AddRange(sampleCases);
             await context.SaveChangesAsync();
         }
     }

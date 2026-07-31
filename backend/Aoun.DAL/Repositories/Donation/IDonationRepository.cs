@@ -1,8 +1,8 @@
 ﻿using Aoun.DAL.Entities;
+using System.Linq;
+using System.Threading.Tasks;
 using DonationEntity = Aoun.DAL.Entities.Donation;
-using CharityEntity = Aoun.DAL.Entities.Charity.Charity;
 using CaseEntity = Aoun.DAL.Entities.Case;
-
 
 namespace Aoun.DAL.Repositories.Donation
 {
@@ -14,13 +14,11 @@ namespace Aoun.DAL.Repositories.Donation
         void Update(DonationEntity donation);
         Task SaveAsync();
 
-        //Task<Case?> GetCaseById(int id);
-        //Task<Campaign?> GetCampaignById(int id);
-        //Task<Charity?> GetCharityById(int id);
-
         Task<User?> GetUserByIdAsync(int id);
         Task<CaseEntity?> GetCaseByIdAsync(int id);
         Task<Campaign?> GetCampaignByIdAsync(int id);
-        Task<CharityEntity?> GetCharityByIdAsync(int id);
+
+        // 🔥 تم تحديث النوع هنا ليتطابق مع الـ Repository
+        Task<CharityProfile?> GetCharityByIdAsync(int id);
     }
 }

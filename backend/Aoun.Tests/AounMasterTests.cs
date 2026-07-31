@@ -34,8 +34,8 @@ public class AounMasterTests
     {
         // Arrange
         _context.Cases.AddRange(
-            new Case { Id = 10, Title = "حالة مكتملة", Description = "...", RequiredAmount = 1000, CollectedAmount = 1000, Status = CaseStatus.Completed },
-            new Case { Id = 11, Title = "حالة نشطة", Description = "...", RequiredAmount = 2000, CollectedAmount = 500, Status = CaseStatus.Active }
+            new Case { ImageUrl = "test.jpg", CategoryId = 1, CharityId = 1,  Id = 10, Title = "حالة مكتملة", Description = "...", RequiredAmount = 1000, CollectedAmount = 1000, Status = CaseStatus.Completed },
+            new Case { ImageUrl = "test.jpg", CategoryId = 1, CharityId = 1,  Id = 11, Title = "حالة نشطة", Description = "...", RequiredAmount = 2000, CollectedAmount = 500, Status = CaseStatus.Active }
         );
         await _context.SaveChangesAsync();
 
@@ -48,6 +48,7 @@ public class AounMasterTests
         //result[0].RemainingAmount.Should().Be(1500);
     }
 }
+
 
 
 

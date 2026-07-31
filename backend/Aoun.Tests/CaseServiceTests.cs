@@ -35,7 +35,7 @@ public class CaseServiceTests
     {
         // Arrange
         var fakeUrgentCases = new List<Case> {
-            new Case { Id = 1, Title = "عملية قلب", Description = "Test", Status = CaseStatus.Urgent, RequiredAmount = 1000, CollectedAmount = 500 }
+            new Case { ImageUrl = "test.jpg", CategoryId = 1, CharityId = 1,  Id = 1, Title = "عملية قلب", Description = "Test", Status = CaseStatus.Urgent, RequiredAmount = 1000, CollectedAmount = 500 }
         };
         _context.Cases.AddRange(fakeUrgentCases);
         await _context.SaveChangesAsync();
@@ -50,6 +50,7 @@ public class CaseServiceTests
         //Assert.Equal(500, result.First().RemainingAmount);
     }
 }
+
 
 
 
