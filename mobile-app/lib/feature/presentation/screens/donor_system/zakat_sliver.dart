@@ -1,0 +1,429 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../core/resources/assets_manager.dart';
+import '../../../../core/routes_manager/routes.dart';
+import '../../../data/data_sources/api_services.dart';
+import '../../../data/models/zakat_model.dart';
+
+class ZakatSliver extends StatefulWidget {
+  final VoidCallback onSeeMorePressed;
+  ZakatSliver({super.key, required this.onSeeMorePressed});
+
+  @override
+  State<ZakatSliver> createState() => _ZakatSliverState();
+}
+
+class _ZakatSliverState extends State<ZakatSliver> {
+  final TextEditingController weightController = TextEditingController();
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: const Color(0xffE5EBE9),
+
+        appBar: AppBar(
+          backgroundColor: const Color(0xff2F674D),
+          toolbarHeight: 168,
+          shape: const OutlineInputBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(35),
+              bottomRight: Radius.circular(35),
+            ),
+            borderSide: BorderSide(color: Color(0xff2F674D)),
+          ),
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+              size: 30,
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
+          title: Padding(
+            padding: const EdgeInsets.only(top: 38.0),
+            child: Row(
+              children: [
+                Image.asset(ImageAssets.sliver, height: 29, width: 29),
+                const SizedBox(width: 8),
+                Text(
+                  "زكاة الفضة",
+                  style: GoogleFonts.manrope(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        body: Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 80),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 5,
+                        height: 23,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF2E7D5B),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      SizedBox(width: 8),
+
+                      Text(
+                        "وزن الفضة بالجرام",
+                        style: GoogleFonts.saira(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+
+                Padding(
+                  padding: const EdgeInsets.only(right: 20.0),
+                  child: TextField(
+                    controller: weightController,
+                    textAlign: TextAlign.right,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          "جرام",
+                          style: TextStyle(color: Colors.grey, fontSize: 20),
+                        ),
+                      ),
+
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
+
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade400,
+                          width: 1.5,
+                        ),
+                      ),
+
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade400,
+                          width: 1.5,
+                        ),
+                      ),
+
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade400,
+                          width: 1.5,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 25),
+
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 36,
+                    bottom: 36,
+                    right: 16,
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xffE0E2DA),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Color(0xffDCD79E), width: 1.5),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 25, horizontal: 12),
+                    child: Row(
+                      children: [
+                        Image(
+                          image: AssetImage(ImageAssets.hint),
+                          height: 29,
+                          width: 29,
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "تنبيه",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 22,
+                                  ),
+                                ),
+                                Text(
+                                  " : تجب زكاة الفضة إذا بلغ       ",
+                                  style: TextStyle(
+                                    color: Color(0xff4B4B4B),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              " وزنها 595 جرامًا فأكثر، ومضى عليها\n عام هجري كامل.",
+                              style: TextStyle(
+                                color: Color(0xff4B4B4B),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 90),
+
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        final weight =
+                            double.tryParse(weightController.text.trim()) ?? 0;
+
+                        final response = await ApiServices().calculateZakat(
+                          ZakatModel(
+                            cash: 0,
+                            bank: 0,
+                            gold24: 0,
+                            gold21: 0,
+                            gold18: 0,
+                            silverGrams: weight,
+                            investments: 0,
+                            debts: 0,
+                          ),
+                        );
+
+                        print("SILVER RESPONSE = $response");
+
+                        if (response['isEligible'] == false) {
+                          showErrorDialog(
+                            context,
+                           "حدث خطأ ما !\n قيمة الفضة أقل من النصاب الشرعي،\nوهو ما يعادل 595 جرام من الفضة."
+                          );
+                          return;
+                        }
+
+                        showZakatSheet(
+                          context,
+                          response['zakat'],
+                        );
+                      } catch (e) {
+                        print("SILVER ERROR = $e");
+
+                        showErrorDialog(
+                          context,
+                          "حدث خطأ أثناء حساب الزكاة",
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff2F674D),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    child: Text(
+                      "احسب قيمة الزكاة",
+                      style: GoogleFonts.manrope(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  void showZakatSheet(
+      BuildContext context,
+      dynamic zakatAmount,
+      ){
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Color(0xffE8EBE9),
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: Color(0xff83A695), width: 1.2),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          "إجمالى الزكاة",
+                          style: GoogleFonts.saira(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          "${(zakatAmount as num).toStringAsFixed(2)} ج.م",
+                          style: GoogleFonts.saira(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: widget.onSeeMorePressed ?? () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF2F6B4F),
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      child: Text(
+                        "تبرع الآن",
+                        style: TextStyle(
+                          fontSize: 26,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void showErrorDialog(BuildContext context, String message) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: "error",
+      barrierColor: Colors.black.withOpacity(0.4),
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (context, anim1, anim2) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: kToolbarHeight + 110),
+                    padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      children: [
+                        Image(image: AssetImage(ImageAssets.error),
+                          width: 39,
+                          height: 39,),
+
+
+                        const SizedBox(width: 10),
+
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                message,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.close, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
