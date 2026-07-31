@@ -1,0 +1,35 @@
+# ==== General ====
+.DS_Store
+*.log
+.env
+.env.*
+
+# ==== .NET (backend) ====
+backend/**/bin/
+backend/**/obj/
+backend/**/*.user
+backend/Aoun.API/wwwroot/images/campaigns/*
+!backend/Aoun.API/wwwroot/images/campaigns/.gitkeep
+backend/Aoun.API/Uploads/*
+!backend/Aoun.API/Uploads/.gitkeep
+
+# ==== Node (admin-panel) ====
+admin-panel/node_modules/
+admin-panel/dist/
+admin-panel/dist-ssr/
+admin-panel/*.local
+
+# ==== Flutter (mobile-app) ====
+mobile-app/.dart_tool/
+mobile-app/.flutter-plugins
+mobile-app/.flutter-plugins-dependencies
+mobile-app/.packages
+mobile-app/build/
+mobile-app/.pub-cache/
+mobile-app/.pub/
+mobile-app/**/generated_plugin_registrant.dart
+
+# IDE
+.vscode/
+.idea/
+*.iml
