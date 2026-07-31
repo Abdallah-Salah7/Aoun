@@ -9,7 +9,7 @@
   <img alt="Forks" src="https://img.shields.io/github/forks/Abdallah-Salah7/Aoun">
 </p>
 <p align="center">
-  <img src="./docs/assets/banner.png" alt="Aoun UI showcase" width="100%">
+  <img src="E:\Aoun\docs\assets\Banner.png" alt="Aoun UI showcase" width="100%">
 </p>
 
 ## 1. Project Overview
