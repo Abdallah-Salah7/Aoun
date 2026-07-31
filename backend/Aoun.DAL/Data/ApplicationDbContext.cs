@@ -1,4 +1,5 @@
 using Aoun.DAL.Entities;
+using Aoun.DAL.Entities.Auth;
 using Aoun.DAL.Entities.Cases;
 using Aoun.DAL.Entities.Category;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -10,19 +11,20 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-    public DbSet<UserFavorite> UserFavorites { get; set; }
+   
     public DbSet<DonorProfile> DonorProfiles { get; set; }
     public DbSet<CharityProfile> CharityProfiles { get; set; } // ✅ الجدول الأساسي المعتمد للجمعيات
     public DbSet<Case> Cases { get; set; }
     public DbSet<Campaign> Campaigns { get; set; }
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<Donation> Donations { get; set; }
+    // public DbSet<CharityDocument> CharityDocuments { get; set; }   
     public DbSet<CharityDocument> CharityDocuments { get; set; }
     public DbSet<Zakat> ZakatCalculations { get; set; }
     public DbSet<TrustScore> TrustScores { get; set; }
     public DbSet<Report> Reports { get; set; }
     public DbSet<Category> Categories { get; set; }
-    public DbSet<User> Users { get; set; }
+    
     public DbSet<Favorite> Favorites { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -111,6 +113,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<DonorProfile>().HasOne(d => d.User).WithOne(u => u.DonorProfile).HasForeignKey<DonorProfile>(d => d.UserId);
         builder.Entity<Report>().HasOne(r => r.Case).WithMany(c => c.Reports).OnDelete(DeleteBehavior.NoAction);
 
-        builder.Entity<UserFavorite>().HasIndex(f => new { f.UserId, f.CaseId }).IsUnique();
+        builder.Entity<Favorite>().HasIndex(f => new { f.UserId, f.CaseId, f.CampaignId }).IsUnique();
     }
 }

@@ -1,4 +1,4 @@
-using Aoun.BLL.DTOs.Profile;
+﻿using Aoun.BLL.DTOs.Profile;
 using Aoun.BLL.Interfaces.Profile;
 using Aoun.DAL.Data; 
 using Aoun.DAL.Entities;
@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; 
 using System.Security.Claims;
+
+
 
 namespace Aoun.API.Controllers;
 
@@ -38,7 +40,7 @@ public class ProfileController : ControllerBase
     [HttpPost("upload-picture")]
     public async Task<IActionResult> Picture([FromForm] IFormFile file)
     {
-        if (file == null || file.Length == 0) return BadRequest("No file uploaded.");
+        if (file == null || file.Length == 0) return BadRequest("لم يتم تحميل اى ملفات.");
         var userId = GetUserId();
         var result = await _profile.UploadProfilePictureAsync(userId, file);
         return Ok(new { imageUrl = result });
@@ -57,24 +59,24 @@ public class ProfileController : ControllerBase
         if (!caseExists) return NotFound($"Case with ID {caseId} not found.");
 
         // 3. Check if already favorited to prevent duplicate key error
-        var alreadyExists = await _db.UserFavorites
+        var alreadyExists = await _db.Favorites
             .AnyAsync(f => f.UserId == userId && f.CaseId == caseId);
 
-        if (alreadyExists) return BadRequest("Already in favorites.");
+        if (alreadyExists) return BadRequest("موجودة بالفعل فى المفضلة.");
 
         // 4. Create the object manually to ensure no navigation property issues
-        var favorite = new UserFavorite
+        var favorite = new Aoun.DAL.Entities.Favorite
         {
             UserId = userId,
             CaseId = caseId,
-            AddedAt = DateTime.UtcNow
+           // AddedAt = DateTime.UtcNow
         };
 
         try
         {
-            _db.UserFavorites.Add(favorite);
+            _db.Favorites.Add(favorite);
             await _db.SaveChangesAsync();
-            return Ok(new { message = "Added to favorites successfully." });
+            return Ok(new { message = "تم الاضافة الى المفضلة بنجاح ." });
         }
         catch (Exception ex)
         {
@@ -87,7 +89,7 @@ public class ProfileController : ControllerBase
     public async Task<IActionResult> GetFavorites()
     {
         var userId = GetUserId();
-        var favs = await _db.UserFavorites
+        var favs = await _db.Favorites
             .Where(f => f.UserId == userId)
             .Include(f => f.Case)
             .Select(f => new {
@@ -102,4 +104,7 @@ public class ProfileController : ControllerBase
     [HttpGet("activity")]
     public async Task<IActionResult> Activity()
         => Ok(await _profile.GetActivityAsync(GetUserId()));
+
+    
+   
 }

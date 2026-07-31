@@ -20,10 +20,10 @@ namespace Aoun.BLL.Services.Chat
         {
             _http = http;
 
-            _geminiKey = "REDACTED_GEMINI_KEY";
-            _openAiKey = "REDACTED_OPENAI_KEY";
-            _deepSeekKey = "REDACTED_DEEPSEEK_KEY";
-            _groqKey = "REDACTED_GROQ_KEY";
+            _geminiKey = "";
+            _openAiKey = "";
+            _deepSeekKey = "";
+            _groqKey = "";
         }
 
         private async Task<string> AskAIWithFallbackAsync(string systemPrompt, string userPrompt)

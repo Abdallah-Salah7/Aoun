@@ -45,7 +45,7 @@ namespace Aoun.DAL.Repositories.Donation
             await _context.SaveChangesAsync();
         }
 
-        public async Task<User?> GetUserByIdAsync(int id)
+        public async Task<ApplicationUser?> GetUserByIdAsync(string id)
             => await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
         public async Task<CaseEntity?> GetCaseByIdAsync(int id)

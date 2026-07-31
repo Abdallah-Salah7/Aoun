@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Entities\User\" />
     <Folder Include="Models\Favorite\" />
   </ItemGroup>
 

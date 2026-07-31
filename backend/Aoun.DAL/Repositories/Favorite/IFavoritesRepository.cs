@@ -13,8 +13,8 @@ namespace Aoun.DAL.Repositories.Favorite
         Task AddAsync(FavoriteEntity favorite);
         void Remove(FavoriteEntity favorite);
 
-        Task<FavoriteEntity?> GetCampaignFavorite(int userId, int campaignId);
-        Task<FavoriteEntity?> GetCaseFavorite(int userId, int caseId);
+        Task<FavoriteEntity?> GetCampaignFavorite(string userId, int campaignId);
+        Task<FavoriteEntity?> GetCaseFavorite(string userId, int caseId);
 
         Task SaveAsync();
     }

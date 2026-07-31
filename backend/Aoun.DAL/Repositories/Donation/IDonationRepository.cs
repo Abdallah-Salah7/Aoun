@@ -8,17 +8,17 @@ namespace Aoun.DAL.Repositories.Donation
 {
     public interface IDonationRepository
     {
-        Task AddAsync(DonationEntity donation);
-        Task<DonationEntity?> GetByIdAsync(int id);
-        IQueryable<DonationEntity> Query();
-        void Update(DonationEntity donation);
+        Task AddAsync(DonationEntity donation);     // ده المفروض يتغير ل Donation مش DonationEntity
+        Task<DonationEntity?> GetByIdAsync(int id);            // ده المفروض يتغير ل Donation مش DonationEntity
+        IQueryable<DonationEntity> Query();             // ده المفروض يتغير ل IQueryable<Donation> مش DonationEntity
+        void Update(DonationEntity donation);    // ده المفروض يتغير ل Donation مش DonationEntity
         Task SaveAsync();
 
-        Task<User?> GetUserByIdAsync(int id);
-        Task<CaseEntity?> GetCaseByIdAsync(int id);
+        Task<ApplicationUser?> GetUserByIdAsync(string id);
+        Task<CaseEntity?> GetCaseByIdAsync(int id);       //ايه  CaseEntity  مصدرها جاى منين والمفروض تكون Case مش CaseEntity
         Task<Campaign?> GetCampaignByIdAsync(int id);
 
         // 🔥 تم تحديث النوع هنا ليتطابق مع الـ Repository
-        Task<CharityProfile?> GetCharityByIdAsync(int id);
+        Task<CharityProfile?> GetCharityByIdAsync(int id);         //ده المفروض يتغير ل charity
     }
 }

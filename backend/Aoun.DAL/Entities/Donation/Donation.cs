@@ -9,21 +9,22 @@ namespace Aoun.DAL.Entities
 
         public decimal Amount { get; set; }
 
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
+        public ApplicationUser? User { get; set; }
 
         public string DonorName { get; set; }
 
         public string DonationTargetType { get; set; }
-
+        [ForeignKey("CaseId")]
         public int? CaseId { get; set; }
 
-        [ForeignKey("CaseId")]
+        
         public virtual Case? Case { get; set; }
 
         // 🔥 التعديل هنا: واحدة بس لـ CharityProfile
         public int CharityId { get; set; }
 
-        public CharityProfile Charity { get; set; }
+        public CharityProfile Charity { get; set; }        //ايه السطر ده  تقريبا معمول على اساس ان البروفايل هو الجمعيه مش برضوا نفس الغلطه 
 
         public int? CampaignId { get; set; }
         public Campaign? Campaign { get; set; }
@@ -40,7 +41,7 @@ namespace Aoun.DAL.Entities
 
         public bool IsDeleted { get; set; } = false;
 
-        public User User { get; set; }
+        
         public int? CategoryId { get; set; }
     }
 }

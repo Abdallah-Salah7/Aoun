@@ -3,7 +3,9 @@ using Aoun.BLL.DTOs.Donations;
 using Aoun.BLL.DTOs.Payment;
 using Aoun.BLL.Interfaces;
 using Aoun.BLL.Interfaces.Donation;
+using Aoun.DAL.Data;
 using Aoun.DAL.Repositories.Donation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aoun.BLL.Services
@@ -12,14 +14,16 @@ namespace Aoun.BLL.Services
     public class DonationService : IDonationService
     {
         private readonly IDonationRepository _repo;
+        private readonly ApplicationDbContext _context;
 
-        public DonationService(IDonationRepository repo)
+        public DonationService(IDonationRepository repo , ApplicationDbContext context)
         {
             _repo = repo;
+            _context = context;
         }
 
         // ================= CREATE =================
-        public async Task<object> CreateDonation(DonationCreateDto dto)
+        public async Task<object> CreateDonation(DonationCreateDto dto, string? userId)
         {
             if (dto.Amount <= 0)
                 return new { message = "المبلغ لازم يكون أكبر من صفر" };
@@ -38,7 +42,7 @@ namespace Aoun.BLL.Services
 
 
                 if (caseEntity == null)
-                    return new { message = "Case not found" };
+                    return new { message = "الحالة غير موجودة" };
 
                 charityId = caseEntity.CharityId;
             }
@@ -49,7 +53,7 @@ namespace Aoun.BLL.Services
                 var campaign = await _repo.GetCampaignByIdAsync(dto.TargetId);
 
                 if (campaign == null)
-                    return new { message = "Campaign not found" };
+                    return new { message = "الحملة غير موجودة" };
 
                 charityId = campaign.CharityId;
             }
@@ -60,17 +64,17 @@ namespace Aoun.BLL.Services
                 var charity = await _repo.GetCharityByIdAsync(dto.TargetId);
 
                 if (charity == null)
-                    return new { message = "Charity not found" };
+                    return new { message = "الجمعية غير موجودة" };
 
                 charityId = dto.TargetId;
             }
-            string donorName = "فاعل خير";
-            if (dto.UserId.HasValue)   // ⭐ بدل dto.UserId != null
-            {
-                var user = await _repo.GetUserByIdAsync(dto.UserId.Value);
+            string donorName = dto.DonorName ?? "فاعل خير";
 
+            if (!string.IsNullOrEmpty(userId))
+            {
+                var user = await _repo.GetUserByIdAsync(userId);
                 if (user != null)
-                    donorName = user.UserName;
+                    donorName = user.FirstName;
             }
 
             /*
@@ -81,8 +85,8 @@ namespace Aoun.BLL.Services
             var donation = new Donation
             {
                 Amount = dto.Amount,
-                UserId = dto.UserId,
-                DonorName = dto.DonorName,
+                UserId = userId,
+                DonorName = donorName,
                 DonationTargetType = dto.TargetType,
 
                 CaseId = dto.TargetType == "Case" ? dto.TargetId : null,
@@ -106,23 +110,23 @@ namespace Aoun.BLL.Services
             return new
             {
                 donationId = donation.Id,
-                message = "Donation created"
+                message = "تم انشاء التبرع"
             };
         }
 
         // ================= PAY =================
-        public async Task<object> Pay(PaymentDto dto)
+        public async Task<object> Pay(PaymentDto dto, string? userId)
         {
             var donation = await _repo.GetByIdAsync(dto.DonationId);
 
             if (donation == null)
-                return new { message = "Donation not found" };
+                return new { message = "التبرع غير موجود" };
 
             if (donation.PaymentStatus == "Paid")
-                return new { message = "Already paid" };
+                return new { message = "مدفوع بالفعل" };
 
-            if (donation.UserId != dto.UserId)
-                return new { message = "Not allowed" };
+            if (donation.UserId != userId)
+                return new { message = "غير مسموح" };
 
             donation.PaymentStatus = "Paid";
             donation.PaymentMethod = dto.PaymentMethod;
@@ -132,15 +136,54 @@ namespace Aoun.BLL.Services
 
             await _repo.SaveAsync();
 
-            return new { message = "Payment successful" };
+            return new { message = "تم الدفع بنجاح" };
         }
 
-        // ================= GET CASE DONATIONS =================
-        public async Task<object> GetCaseDonations(int caseId, int page, int pageSize)
+        //// ================= GET CASE DONATIONS =================
+
+        //[Authorize(Roles = "Charity,Admin")]
+        //public async Task<object> GetCaseDonations(int caseId, int page, int pageSize)
+        //{
+        //    //var query = _repo.Query()
+        //    //    .Include(d => d.User)
+        //    //    .Where(d => d.CaseId == caseId && d.PaymentStatus == "Paid");
+
+        //    var query = _repo.Query()
+        //.Include(d => d.User)
+        //.Where(d => d.CaseId == caseId && d.PaymentStatus == "Paid");
+
+        //    var total = await query.CountAsync();
+
+        //    var data = await query
+        //        .Skip((page - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .Select(d => new DonationListItemDto
+        //        {
+        //            Id = d.Id,
+        //            DonorName = d.User != null ? d.User.FirstName : "فاعل خير",
+        //            Amount = d.Amount,
+        //            IsGift = d.IsGift,
+        //            Date = d.CreatedAt
+        //        })
+        //        .ToListAsync();
+
+        //    return new { total, data };
+        //}
+
+
+        public async Task<object> GetCaseDonations(int caseId, int page, int pageSize, string userId)
         {
-            //var query = _repo.Query()
-            //    .Include(d => d.User)
-            //    .Where(d => d.CaseId == caseId && d.PaymentStatus == "Paid");
+            var charity = await _context.CharityProfiles
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+
+            if (charity == null)
+                return null;
+
+            var caseEntity = await _context.Cases
+                .FirstOrDefaultAsync(c => c.Id == caseId && c.CharityId == charity.Id);
+
+            if (caseEntity == null)
+                return null;
 
             var query = _repo.Query()
         .Include(d => d.User)
@@ -154,7 +197,7 @@ namespace Aoun.BLL.Services
                 .Select(d => new DonationListItemDto
                 {
                     Id = d.Id,
-                    DonorName = d.User != null ? d.User.UserName : "فاعل خير",
+                    DonorName = d.User != null ? d.User.FirstName : "فاعل خير",
                     Amount = d.Amount,
                     IsGift = d.IsGift,
                     Date = d.CreatedAt
@@ -164,9 +207,52 @@ namespace Aoun.BLL.Services
             return new { total, data };
         }
 
+
+
+
+
         // ================= GET CAMPAIGN DONATIONS =================
-        public async Task<object> GetCampaignDonations(int campaignId, int page, int pageSize)
+
+        //[Authorize(Roles = "Charity,Admin")]
+        //public async Task<object> GetCampaignDonations(int campaignId, int page, int pageSize)
+        //{
+        //    var query = _repo.Query()
+        //        .Include(d => d.User)
+        //        .Where(d => d.CampaignId == campaignId && d.PaymentStatus == "Paid");
+
+        //    var total = await query.CountAsync();
+
+        //    var data = await query
+        //        .Skip((page - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .Select(d => new DonationListItemDto
+        //        {
+        //            Id = d.Id,
+        //            DonorName = d.User != null ? d.User.FirstName : "فاعل خير",
+        //            Amount = d.Amount,
+        //            IsGift = d.IsGift,
+        //            Date = d.CreatedAt
+        //        })
+        //        .ToListAsync();
+
+        //    return new { total, data };
+        //}
+
+
+        public async Task<object> GetCampaignDonations(int campaignId, int page, int pageSize, string userId)
         {
+            var charity = await _context.CharityProfiles
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+
+            if (charity == null)
+                return null;
+
+            var campaign = await _context.Campaigns
+                .FirstOrDefaultAsync(c => c.Id == campaignId && c.CharityId == charity.Id);
+
+            if (campaign == null)
+                return null;
+
             var query = _repo.Query()
                 .Include(d => d.User)
                 .Where(d => d.CampaignId == campaignId && d.PaymentStatus == "Paid");
@@ -179,7 +265,7 @@ namespace Aoun.BLL.Services
                 .Select(d => new DonationListItemDto
                 {
                     Id = d.Id,
-                    DonorName = d.User != null ? d.User.UserName : "فاعل خير",
+                    DonorName = d.User != null ? d.User.FirstName : "فاعل خير",
                     Amount = d.Amount,
                     IsGift = d.IsGift,
                     Date = d.CreatedAt
@@ -188,6 +274,9 @@ namespace Aoun.BLL.Services
 
             return new { total, data };
         }
+
+
+
 
         // ================= HELPERS =================
         private async Task UpdateTarget(Donation donation)

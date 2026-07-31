@@ -7,14 +7,14 @@ namespace Aoun.DAL.Entities
         public int Id { get; set; }
 
         // المستخدم صاحب المفضلة
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public int? CampaignId { get; set; }
         public Campaign? Campaign { get; set; }
 
         public int? CaseId { get; set; }
         public Case? Case { get; set; }
-        public User? User { get; set; }    // Navigation مؤقته
+        public ApplicationUser User { get; set; }    
 
         // public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }

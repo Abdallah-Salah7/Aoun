@@ -1,15 +1,18 @@
-﻿using Aoun.BLL.DTOs.Favorite;
-using Aoun.BLL.DTOs;
-using Microsoft.EntityFrameworkCore;
+﻿using Aoun.BLL.DTOs;
+using Aoun.BLL.DTOs.Favorite;
 using Aoun.BLL.Interfaces.Favorite;
-using Aoun.DAL.Repositories.Favorite;
+using Aoun.DAL.Data;
 using Aoun.DAL.Entities;
+using Aoun.DAL.Repositories.Favorite;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Aoun.BLL.Services
 {
     public class FavoritesService : IFavoritesService
     {
         private readonly IFavoritesRepository _repo;
+   
 
         public FavoritesService(IFavoritesRepository repo)
         {
@@ -18,7 +21,7 @@ namespace Aoun.BLL.Services
 
         // ================= CAMPAIGNS =================
 
-        public async Task<object> AddCampaign(int campaignId, int userId)
+        public async Task<object> AddCampaign(int campaignId, string userId)
         {
             if (!await _repo.CampaignExists(campaignId))
                 return new { success = false, message = "الحملة غير موجودة" };
@@ -37,7 +40,7 @@ namespace Aoun.BLL.Services
             return new { success = true, message = "تم الاضافة الى المفضلة" };
         }
 
-        public async Task<object> GetFavoriteCampaigns(int userId)
+        public async Task<object> GetFavoriteCampaigns(string userId)
         {
             var data = await _repo.Query()
                 .Where(f => f.UserId == userId && f.CampaignId.HasValue)
@@ -54,7 +57,7 @@ namespace Aoun.BLL.Services
             return data;
         }
 
-        public async Task<object> RemoveCampaign(int campaignId, int userId)
+        public async Task<object> RemoveCampaign(int campaignId, string userId)
         {
             var fav = await _repo.GetCampaignFavorite(userId, campaignId);
             if (fav == null)
@@ -68,7 +71,7 @@ namespace Aoun.BLL.Services
 
         // ================= CASES =================
 
-        public async Task<object> AddCase(int caseId, int userId)
+        public async Task<object> AddCase(int caseId, string userId)
         {
             if (!await _repo.CaseExists(caseId))
                 return new { success = false, message = "الحالة غير موجودة" };
@@ -87,7 +90,7 @@ namespace Aoun.BLL.Services
             return new { success = true, message = "تم الاضافة الى المفضلة" };
         }
 
-        public async Task<object> GetFavoriteCases(int userId)
+        public async Task<object> GetFavoriteCases(string userId)
         {
             var data = await _repo.Query()
                 .Where(f => f.UserId == userId && f.CaseId.HasValue)
@@ -104,7 +107,7 @@ namespace Aoun.BLL.Services
             return data;
         }
 
-        public async Task<object> RemoveCase(int caseId, int userId)
+        public async Task<object> RemoveCase(int caseId, string userId)
         {
             var fav = await _repo.GetCaseFavorite(userId, caseId);
             if (fav == null)
@@ -115,5 +118,7 @@ namespace Aoun.BLL.Services
 
             return new { success = true, message = "تم حذف الحاله " };
         }
+
+        
     }
 }

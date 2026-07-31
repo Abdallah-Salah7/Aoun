@@ -29,15 +29,17 @@ namespace Aoun.DAL.Repositories.Favorite
         public void Remove(FavoriteEntity favorite)
             => _context.Favorites.Remove(favorite);
 
-        public async Task<FavoriteEntity?> GetCampaignFavorite(int userId, int campaignId)
+        public async Task<FavoriteEntity?> GetCampaignFavorite(string userId, int campaignId)
             => await _context.Favorites
                 .FirstOrDefaultAsync(f => f.UserId == userId && f.CampaignId == campaignId);
 
-        public async Task<FavoriteEntity?> GetCaseFavorite(int userId, int caseId)
+        public async Task<FavoriteEntity?> GetCaseFavorite(string userId, int caseId)
             => await _context.Favorites
                 .FirstOrDefaultAsync(f => f.UserId == userId && f.CaseId == caseId);
 
         public async Task SaveAsync()
             => await _context.SaveChangesAsync();
+
+
     }
 }
